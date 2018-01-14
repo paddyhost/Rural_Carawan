@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_margin="2dp">
+
+    <ImageView
+        android:layout_below="@id/l1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/receipt_image"
+        android:layout_gravity="center"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/ic_payment"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="25dp"
+        android:orientation="vertical"
+        android:layout_gravity="center"
+        android:id="@+id/l1">
+
+
+    <TextView
+        android:id="@+id/cost_of_chullha"
+        android:layout_width="wrap_content"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="Total Cost Of Chullha"
+        android:textColor="#040404"
+        android:padding="2dp"
+        android:textStyle="bold"
+        android:textSize="15dip" />
+
+        <TextView
+            android:id="@+id/cost_of_chullha_"
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Rs. 1500/-"
+            android:textColor="#040404"
+            android:paddingTop="2dp"
+            android:textStyle="bold"
+            android:textSize="15dip" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="7dp">
+
+
+    <TextView
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:id="@+id/total_paid"
+        android:text="Paid : "
+        android:layout_gravity="center|start"
+        android:gravity="center|start"
+        android:textStyle="bold"
+        android:layout_below="@id/l1"/>
+
+
+       <TextView
+           android:id="@+id/remaining_amount"
+           android:layout_width="0dp"
+           android:layout_weight="1"
+           android:layout_height="wrap_content"
+           android:textColor="#343434"
+           android:textSize="13dip"
+           android:textStyle="bold"
+           android:text="Balance : " />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    </LinearLayout>
+
+  </LinearLayout>

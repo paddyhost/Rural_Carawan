@@ -1,0 +1,76 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorWhite"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.hatchers.ruralcaravane.construction_team.ConstructionTeamListFragment">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@color/colorAccent"
+        app:titleTextColor="@color/colorWhite"
+        app:title="Construction Team List"
+        app:contentInsetStart="0dp"
+        android:id="@+id/constructionTeamListToolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:id="@+id/const_team_back"
+                android:src="@drawable/ic_arrow_back_black_24dp"/>
+
+            <TextView
+                android:singleLine="true"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignTop="@+id/thumbnail"
+                android:layout_toRightOf="@+id/thumbnail"
+                android:layout_weight="1"
+                android:padding="2dp"
+                android:gravity="center|start"
+                android:layout_gravity="center|start"
+                android:text="Construction Team List"
+                android:textColor="#ffffff"
+                android:textSize="20dip" />
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <FrameLayout
+        android:layout_below="@id/constructionTeamListToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/constructionRecyclerView"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/add_construction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginBottom="20dp"
+            android:layout_marginRight="20dp"
+            app:fabSize="normal"
+            android:layout_gravity="bottom|end"
+            android:src="@drawable/add_kitchen_list" />
+
+    </FrameLayout>
+
+</RelativeLayout>
