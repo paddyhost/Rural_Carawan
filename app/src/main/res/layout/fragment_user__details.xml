@@ -1,0 +1,184 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_centerVertical="true"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context="com.hatchers.ruralcaravane.user_login.UserDetailsFragment">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        app:contentInsetStart="4dp"
+        android:background="@color/colorAccent"
+        android:id="@+id/userDetailsToolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_arrow_back_white_24dp"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:id="@+id/userDetails_btnBack"/>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/toolbar_title"
+                android:textColor="@color/white"
+                android:layout_gravity="center|start"
+                android:text="User Registration Details"
+                android:layout_marginLeft="15dp"
+                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_below="@id/userDetailsToolbar"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:src="@drawable/user_profile"
+                android:id="@+id/userPhoto"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="20dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_vertical">
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:text="Customer Name"
+                    android:textColor="@color/black"
+                    android:textSize="16dp"/>
+
+                <TextView
+                    android:id="@+id/mobile_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="Mobile Number  "
+                    android:textSize="16dp"
+                    android:textColor="@color/black"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorDarkgray"/>
+        <TextView
+            android:id="@+id/village_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/village_name"
+            android:text="Village Name  "
+            android:textSize="16dp"
+            android:drawablePadding="30dp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorDarkgray"/>
+        <TextView
+            android:id="@+id/age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/customer_age"
+            android:drawablePadding="30dp"
+            android:text="Age"
+            android:textSize="16dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorDarkgray"/>
+        <TextView
+            android:id="@+id/gender"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/user"
+            android:drawablePadding="30dp"
+            android:text="Male"
+            android:textSize="16dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorDarkgray"/>
+        <TextView
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_mail_black_24dp"
+            android:drawablePadding="30dp"
+            android:text="prasad.gote@gmail.com"
+            android:textSize="16dp" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorDarkgray"/>
+        <TextView
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/customer_address"
+            android:drawablePadding="30dp"
+            android:text="Plot No. 12, New swami vivekanand hsg. society, N8, Cidco, Aurangabad"
+            android:textSize="16dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@color/colorDarkgray"/>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="map address"
+            android:drawableLeft="@drawable/customer_address"
+            android:textAlignment="viewStart"
+            android:drawablePadding="16dp"
+            android:paddingLeft="60dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:background="@color/colorPrimary"
+            android:textColor="@color/white"/>
+    </LinearLayout>
+
+</LinearLayout>

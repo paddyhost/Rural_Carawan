@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">RuralCaravane</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="construction_team_member">Construction Team Member\nDetails</string>
+
+    <string-array name="House_Type">
+        <item>Please Select House Type</item>
+        <item>Karvy</item>
+        <item>Brick Stacked</item>
+        <item>Brick and Concrete</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="Roof_Type">
+        <item>Please Enter Roof Type</item>
+        <item>Plastic and Agriculture Barn</item>
+        <item>Brick Roof(Non-Cimental)</item>
+        <item>Asbestos Sheet</item>
+        <item>Concrete</item>
+        <item>Other</item>
+    </string-array>
+
+    <string name="Rs">\u20B9</string>
+
+
+</resources>

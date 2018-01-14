@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#096534</color>
+    <color name="colorPrimaryDark">#094625</color>
+    <color name="colorAccent">#096534</color>
+
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+  <color name="DarkBrown">#544420</color>
+    <color name="Brown">#816830</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorGray">#F4F4F4</color>
+    <color name="colorDarkgray">#dddddd</color>
+    <color name="DarkGrey">#939393</color>
+    <color name="diaonal_color">#7b068b55</color>
+</resources>
+
+
