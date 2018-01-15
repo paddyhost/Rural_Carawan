@@ -49,9 +49,9 @@ public class KitchenListAdapter extends RecyclerView.Adapter<KitchenListAdapter.
     public void onBindViewHolder(final KitchenListAdapter.ViewHolder holder, int position) {
         final KitchenTable kitchenTable = kitchenTableArrayList.get(position);
 
-        holder.houseType.setText("House Tpye: " +String.valueOf(kitchenTable.getHouse_typeValue() + ""));
-        holder.roofType.setText("Roof Tpye: " +String.valueOf(kitchenTable.getRoof_typeValue() + ""));
-
+        holder.houseType.setText(String.valueOf("House Tpye: " +String.valueOf(kitchenTable.getHouse_typeValue() + "")));
+        holder.roofType.setText((String.valueOf("Roof Tpye: " +String.valueOf(kitchenTable.getRoof_typeValue() + ""))));
+        holder.kitchenName.setText(String.valueOf(kitchenTable.getKitchenName()));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,10 +64,12 @@ public class KitchenListAdapter extends RecyclerView.Adapter<KitchenListAdapter.
         });
 
         File image = FileHelper.createfile(Folders.CHULHAFOLDER, kitchenTable.getPlaceImageValue(), FileType.PNG);
-        Glide.with(context)
-                .load(image.getAbsoluteFile())
-                .error(R.drawable.kitchen_image)
-                .into(holder.captureKitchenImage);
+        if (image != null) {
+            Glide.with(context)
+                    .load(image.getAbsolutePath())
+                    .error(R.drawable.kitchen_image)
+                    .into(holder.captureKitchenImage);
+        }
 
 
     }
@@ -82,14 +84,14 @@ public class KitchenListAdapter extends RecyclerView.Adapter<KitchenListAdapter.
     }
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView houseType,roofType;
+        TextView houseType,roofType, kitchenName;
         ImageView captureKitchenImage;
 
         View itemView;
-        RecyclerView constructionRecyclerView;
         ViewHolder(View itemView)
         {
             super(itemView);
+            kitchenName = (TextView)itemView.findViewById(R.id.kitchname);
             houseType = (TextView) itemView.findViewById(R.id.houseType);
             roofType = (TextView) itemView.findViewById(R.id.roofType);
             captureKitchenImage=(ImageView)itemView.findViewById(R.id.captureKitchenImage);

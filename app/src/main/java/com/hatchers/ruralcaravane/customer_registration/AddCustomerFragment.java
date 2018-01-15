@@ -38,13 +38,16 @@ import com.hatchers.ruralcaravane.customer_registration.model.City;
 import com.hatchers.ruralcaravane.customer_registration.model.CityVillageList;
 import com.hatchers.ruralcaravane.customer_registration.model.Village;
 import com.hatchers.ruralcaravane.file.FileHelper;
+import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
+import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.scaner.AdharScanner;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
@@ -298,13 +301,24 @@ public class AddCustomerFragment extends Fragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 setCustomerData();
-                if(checkValidation()) {
+
+                FileHelper.savePNGImage(Folders.CUSTOMERFOLDER,custBitmap,customer_table.getImagePathValue());
+
+                File image = FileHelper.createfile(Folders.CUSTOMERFOLDER, "CU_"+customer_table.getUniqueIdValue(), FileType.PNG);
+                if(image!=null)
+                {
+                    Uri uri = Uri.fromFile(image);
+                    customer_table.setImagePathValue(uri.toString());
+                    customer_table.setProfileBitmap(custBitmap);
+                }
+
+                if(checkValidation())
+                {
                     SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
                             .setTitleText("Please wait");
                     sweetAlertDialog.show();
-
-                    FileHelper.savePNGImage(Folders.CUSTOMERFOLDER,custBitmap,customer_table.getImagePathValue());
 
                     if(CustomerTableHelper.insertCustomerData(getContext(), customer_table))
                     {
@@ -333,6 +347,8 @@ public class AddCustomerFragment extends Fragment {
 
                             }
                         });
+
+                        WebCustomer_ApiHelper.addNewCustomer(getActivity(),customer_table);
 
                     }
                     else
@@ -569,19 +585,19 @@ public class AddCustomerFragment extends Fragment {
         customer_table = new CustomerTable();
 
         customer_table.setCustomerNameValue(customer_name.getText().toString());
-        //customer_table.setVillageNameValue(villageSpinner.getSelectedItem().toString());
+        //customer_table.setCustomerIdValue("");
         customer_table.setCustomerAddressValue(customer_address.getText().toString());
         customer_table.setCustomerMobilenoValue(customer_mobileno.getText().toString());
         customer_table.setCustomerAgeValue(customer_age.getText().toString());
         customer_table.setCustomerGenderValue(selected_gender);
         customer_table.setUniqueIdValue(uniqueIdTxt.getText().toString());
         customer_table.setAadharIdValue(aadhar_id.getText().toString());
-        customer_table.setImagePathValue("CU_"+customer_table.getUniqueIdValue());
         customer_table.setCityId(cityid);
         customer_table.setVillageIdValue(villageId);
+        customer_table.setVillageNameValue(villageSpinner.getSelectedItem().toString());
         customer_table.setAddedDateValue(getCurrentDateTime());
         customer_table.setUpload_statusValue("0");
-
+        customer_table.setAddedByIdValue(new PrefManager(getActivity()).getUserId());
     }
 
     public void setGender()

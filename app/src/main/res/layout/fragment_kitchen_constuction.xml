@@ -52,6 +52,23 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_below="@+id/kitchen_const_Toolbar">
+
+        <TextView
+            android:id="@+id/kitchenname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/thumbnail"
+            android:layout_toRightOf="@+id/thumbnail"
+            android:text="Kitchen Name"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="17dp"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:textColor="@color/black"
+            android:typeface="sans"
+            android:textStyle="bold"/>
+
         <LinearLayout
             android:id="@+id/thumbnail"
             android:layout_alignParentLeft="true"

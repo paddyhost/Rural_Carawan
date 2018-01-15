@@ -58,6 +58,7 @@ public class KitchenConstuctionFragment extends Fragment {
     private int HALF_IMAGE = 1, FULL_IMAGE = 2;
     Bitmap conBitmap,conBitmap1;
     ImageView backImg;
+    private TextView kitchenName;
 
     public KitchenConstuctionFragment()
     {
@@ -97,6 +98,7 @@ public class KitchenConstuctionFragment extends Fragment {
 
     private void initializations(View view)
     {
+        kitchenName = (TextView)view.findViewById(R.id.kitchenname);
         backImg = (ImageView)view.findViewById(R.id.kitchn_detail_back);
         add_construction=(FloatingActionButton)view.findViewById(R.id.add_const);
         constructionRecyclerView=(RecyclerView)view.findViewById(R.id.const_list);
@@ -137,7 +139,7 @@ public class KitchenConstuctionFragment extends Fragment {
         houseTypeTxt.setText(String.valueOf("House Type : "+kitchenTable.getHouse_typeValue()));
         roofTypeTxt.setText(String.valueOf("Roof Type : "+kitchenTable.getRoof_typeValue()));
         heightTxt.setText(String.valueOf("Height : "+kitchenTable.getKitchen_heightValue()));
-
+        kitchenName.setText(String.valueOf(kitchenTable.getKitchenName()));
         File image = FileHelper.createfile(Folders.CHULHAFOLDER, kitchenTable.getStep1_imageValue(), FileType.PNG);
         if (image != null) {
             Glide.with(getActivity())

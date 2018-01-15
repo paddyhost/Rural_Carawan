@@ -33,6 +33,7 @@ import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentDetailsHelper;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
+import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -57,6 +58,7 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
     private String paymentUniqueId;
     private Spinner kitchenSpinner;
     private ArrayList<KitchenTable> kitchenTableArrayList;
+    private KitchenTable kitchenTable;
 
     PaymentTable paymentTable;
 
@@ -123,7 +125,6 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
                 R.layout.support_simple_spinner_dropdown_item, kitchenTableArrayList);
 
         kitchenSpinner.setAdapter(adapter);
-
 
     }
 
@@ -249,11 +250,13 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
         paymentTable.setRemaining_amountValue(remaining_amount.getText().toString());
         paymentTable.setReceiptImageValue("");
         paymentTable.setCustomerIdValue(customertable.getUniqueIdValue());
-        paymentTable.setKitchenIdValue("");
+        paymentTable.setKitchenIdValue(kitchenTable.getKitchenUniqueIdValue());
         paymentTable.setDateOfPaymentValue(getCurrentDateTime());
         paymentTable.setUpdateDateValue(getCurrentDateTime());
         paymentTable.setUpload_statusValue("0");
         paymentTable.setPaymentUniqueIdValue(generateUniqueId());
+        paymentTable.setReceiptNoValue("");
+        paymentTable.setIssuedByIdValue(new PrefManager(getActivity()).getUserId());
 
     }
 
@@ -355,8 +358,7 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
 
-       KitchenTable kitchenTable = kitchenTableArrayList.get(position);
-
+        kitchenTable = kitchenTableArrayList.get(position);
     }
 
     @Override

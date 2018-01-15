@@ -32,11 +32,11 @@
 
 
     <TextView
-        android:id="@+id/cost_of_chullha"
+        android:id="@+id/kitche_name"
         android:layout_width="wrap_content"
         android:layout_weight="1"
         android:layout_height="wrap_content"
-        android:text="Total Cost Of Chullha"
+        android:text="Kitche Name"
         android:textColor="#040404"
         android:padding="2dp"
         android:textStyle="bold"
@@ -47,7 +47,7 @@
             android:layout_width="wrap_content"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Rs. 1500/-"
+            android:text="Total Cost : Rs. 1500/-"
             android:textColor="#040404"
             android:paddingTop="2dp"
             android:textStyle="bold"
