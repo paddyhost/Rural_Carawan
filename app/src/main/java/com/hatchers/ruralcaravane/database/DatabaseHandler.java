@@ -6,6 +6,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTable;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
+import com.hatchers.ruralcaravane.customer_registration.model.CityTable;
+import com.hatchers.ruralcaravane.customer_registration.model.StateTable;
+import com.hatchers.ruralcaravane.customer_registration.model.VillageTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
 
@@ -35,6 +38,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL(CustomerTable.CREATE_CUSTOMER_TABLE);
         db.execSQL(ConstructionTable.CREATE_CONSTRUCTION_TEAM_TABLE);
         db.execSQL(PaymentTable.CREATE_PAYMENT_TABLE);
+        db.execSQL(CityTable.CREATE_CITY_TABLE);
+        db.execSQL(VillageTable.CREATE_VILLAGE__TABLE);
+        db.execSQL(StateTable.CREATE_STATE__TABLE);
     }
 
     // Upgrading database
@@ -46,6 +52,9 @@ public class DatabaseHandler extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ KitchenTable.KITCHEN_TABLE);
         db.execSQL("DROP TABLE IF EXISTS "+ ConstructionTable.CONSTRUCTION_TEAM_TABLE);
         db.execSQL("DROP TABLE IF EXISTS "+ PaymentTable.PAYMENT_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS "+ CityTable.CITY_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS "+ VillageTable.VILLAGE_TABLE);
+        db.execSQL("DROP TABLE IF EXISTS "+ StateTable.STATE_TABLE);
 
         onCreate(db);
     }

@@ -58,7 +58,6 @@ public class KitchenSuitabilityFragment extends Fragment implements
     FrameLayout layout;
     private GoogleApiClient client;
     private TextView kitchenUniqueIdText;
-    ImageView backImg;
     private static final String KITCHEN_SIZE="kitchen_size";
     private int kitchenSize;
 
@@ -115,7 +114,7 @@ public class KitchenSuitabilityFragment extends Fragment implements
 
     private void initializations(View view)
     {
-        backImg =(ImageView)view.findViewById(R.id.kitch_back);
+
         kitchen_toolbar = (Toolbar) view.findViewById(R.id.kitchen_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(kitchen_toolbar);
         house_type = (Spinner) view.findViewById(R.id.house_type_survey);
@@ -157,7 +156,7 @@ public class KitchenSuitabilityFragment extends Fragment implements
 
     private void onclicklisteners()
     {
-        backImg.setOnClickListener(new View.OnClickListener() {
+        kitchen_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();

@@ -16,7 +16,7 @@ public class KitchenTable implements Parcelable{
                                CUSTOMER_NAME="customer_name",STEP1_IMAGE="step1_image",STEP2_IMAGE="step2_image",
                                ADDED_DATE="added_date",USER_UNIQUE_ID="user_unique_id",ADDED_BY_ID="added_by_id",
                                UPDATE_DATE="update_date";
-
+//c_starttime, c_completetime,
     public static final String CREATE_KITCHEN_TABLE="CREATE TABLE " + KITCHEN_TABLE +
             "("+KITCHEN_ID+" int PRIMARY KEY ,"+KITCHE_NAME+" TEXT,"+HOUSE_TYPE+" TEXT,"+ROOF_TYPE+" TEXT,"
             +KITCHEN_HEIGHT+" TEXT, "+UPLOAD_STATUS+" TEXT, "+CUSTOMER_ID+" TEXT, "+CUSTOMER_NAME+" TEXT, "

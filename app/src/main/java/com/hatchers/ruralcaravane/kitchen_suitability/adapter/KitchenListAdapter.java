@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.content.Context;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +12,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.hatchers.ruralcaravane.construction_team.adapter.ConstructionListAdapter;
-import com.hatchers.ruralcaravane.construction_team.database.ConstructionTable;
-import com.hatchers.ruralcaravane.construction_team.database.ConstructionTableHelper;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
-import com.hatchers.ruralcaravane.kitchen_suitability.KitchenConstuctionFragment;
-import com.hatchers.ruralcaravane.kitchen_suitability.KitchenSuitabilityFragment;
+import com.hatchers.ruralcaravane.kitchen_suitability.KitchenConstructionFragment;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.R;
 
@@ -58,7 +53,7 @@ public class KitchenListAdapter extends RecyclerView.Adapter<KitchenListAdapter.
             public void onClick(View v)
             {
                 FragmentTransaction fragmentTransaction =((AppCompatActivity)context).getSupportFragmentManager().beginTransaction();
-                KitchenConstuctionFragment kitchenConstuctionFragment=KitchenConstuctionFragment.newInstance(kitchenTable);
+                KitchenConstructionFragment kitchenConstuctionFragment= KitchenConstructionFragment.newInstance(kitchenTable);
                 fragmentTransaction.replace(R.id.frame_layout,kitchenConstuctionFragment).addToBackStack(null).commit();
             }
         });

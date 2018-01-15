@@ -1,35 +1,42 @@
 package com.hatchers.ruralcaravane.customer_registration.model;
 
-import com.hatchers.ruralcaravane.customer_registration.listener.CityListner;
+import com.hatchers.ruralcaravane.customer_registration.listener.CityListener;
+import com.hatchers.ruralcaravane.customer_registration.listener.StateListener;
 import com.hatchers.ruralcaravane.customer_registration.listener.VillageListner;
 
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Ashwin on 07-Jan-18.
- */
+
 
 public class CityVillageList
 {
-    private ArrayList<City> cityListArrayList;
-    private ArrayList<Village> villageArrayList;
+    private ArrayList<CityTable> cityListArrayList;
+    private ArrayList<VillageTable> villageArrayList;
+    private ArrayList<StateTable> stateArrayList;
 
-    public ArrayList<City> getCityListArrayList() {
+    public ArrayList<CityTable> getCityListArrayList() {
         return cityListArrayList;
     }
 
-    public void setCityListArrayList(ArrayList<City> cityListArrayList) {
+    public void setCityListArrayList(ArrayList<CityTable> cityListArrayList) {
         this.cityListArrayList = cityListArrayList;
     }
-    public ArrayList<Village> getVillageArrayList() {
+    public ArrayList<VillageTable> getVillageArrayList() {
         return villageArrayList;
     }
 
-    public void setVillageArrayList(ArrayList<Village> villageArrayList) {
+    public void setVillageArrayList(ArrayList<VillageTable> villageArrayList) {
         this.villageArrayList = villageArrayList;
     }
 
+    public ArrayList<StateTable> getStateArrayList() {
+        return stateArrayList;
+    }
+
+    public void setStateArrayList(ArrayList<StateTable> stateArrayList) {
+        this.stateArrayList = stateArrayList;
+    }
 
     ///events
     static final public int CITY_ADD_SUCCESS=0,CITY_ADD_FAILED=1,CITY_ADD_RESPONSE_FAILED=2,
@@ -37,15 +44,16 @@ public class CityVillageList
             CITY_ADD_NEWORK_ERROR=6,CITY_ADD_PARSE_ERROR=7, CITY_ADD_UNKNOWN_ERROR=8;
 
 
-    private List<CityListner> cityEvents = new ArrayList<CityListner>();
+    private List<CityListener> cityEvents = new ArrayList<CityListener>();
 
-    public void setOnCityEvent(CityListner toAdd) {
+    public void setOnCityEvent(CityListener toAdd) {
 
         cityEvents.add(toAdd);
     }
+
     public void fireOnCityEvent(int event) {
 
-        for (CityListner hl : cityEvents) {
+        for (CityListener hl : cityEvents) {
 
             if(event==CITY_ADD_SUCCESS)
             {
@@ -100,6 +108,7 @@ public class CityVillageList
 
         villageEvents.add(toAdd);
     }
+
     public void fireOnVillageEvent(int event) {
 
         for (VillageListner hl : villageEvents) {
@@ -139,6 +148,64 @@ public class CityVillageList
             else if(event==VILLAGE_ADD_UNKNOWN_ERROR)
             {
                 hl.onVillage_Add_Unknown_Error();
+            }
+
+
+        }
+    }
+
+    ///events
+    static final public int STATE_ADD_SUCCESS=0,STATE_ADD_FAILED=1,STATE_ADD_RESPONSE_FAILED=2,
+            STATE_ADD_JSON_ERROR=3,STATE_ADD_NO_CONNECTION_ERROR=4,STATE_ADD_SERVER_ERROR=5,
+            STATE_ADD_NEWORK_ERROR=6,STATE_ADD_PARSE_ERROR=7, STATE_ADD_UNKNOWN_ERROR=8;
+
+
+    private List<StateListener> stateEvents = new ArrayList<StateListener>();
+
+    public void setOnStateEvent(StateListener toAdd) {
+
+        stateEvents.add(toAdd);
+    }
+
+    public void fireOnStateEvent(int event) {
+
+        for (StateListener h2 : stateEvents) {
+
+            if(event==STATE_ADD_SUCCESS)
+            {
+                h2.onState_Add_Success();
+            }
+            else if(event==STATE_ADD_FAILED)
+            {
+                h2.onState_Add_Failed();
+            }
+            else if(event==STATE_ADD_RESPONSE_FAILED)
+            {
+                h2.onState_Add_Response_Failed();
+            }
+            else if(event==STATE_ADD_JSON_ERROR)
+            {
+                h2.onState_Add_Json_Error();
+            }
+            else if(event==STATE_ADD_NO_CONNECTION_ERROR)
+            {
+                h2.onState_Add_No_Connection_Error();
+            }
+            else if(event==STATE_ADD_SERVER_ERROR)
+            {
+                h2.onState_Add_Server_Error();
+            }
+            else if(event==STATE_ADD_NEWORK_ERROR)
+            {
+                h2.onState_Add_Network_Error();
+            }
+            else if(event==STATE_ADD_PARSE_ERROR)
+            {
+                h2.onState_Add_Parse_Error();
+            }
+            else if(event==STATE_ADD_UNKNOWN_ERROR)
+            {
+                h2.onState_Add_Unknown_Error();
             }
 
 

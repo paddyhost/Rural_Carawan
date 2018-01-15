@@ -11,6 +11,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,10 +21,9 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
@@ -51,7 +51,6 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
     private int RESULT_CANCELED;
     Bitmap payBitmap;
     private Toolbar payment_toolbar;
-    private ImageView payment_btnBack;
     private TextInputEditText payment_amount,paid_amount,remaining_amount;
     private ImageView takePhoto;
     private Button savePayment;
@@ -97,6 +96,7 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
         initializations(view);
         onClickListeners();
         addTextListner();
+
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             Window window =getActivity().getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -110,7 +110,6 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
     private void initializations(View view) {
         kitchenSpinner = (Spinner)view.findViewById(R.id.kitchen_spinner);
         payment_toolbar = (Toolbar) view.findViewById(R.id.payment_toolbar);
-        payment_btnBack = (ImageView) view.findViewById(R.id.payment_btnBack);
         payment_amount = (TextInputEditText) view.findViewById(R.id.payment_amount);
         paid_amount = (TextInputEditText) view.findViewById(R.id.paid_amount);
         remaining_amount = (TextInputEditText) view.findViewById(R.id.remaining_amount);
@@ -130,7 +129,7 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
 
     private void onClickListeners()
     {
-        payment_btnBack.setOnClickListener(new View.OnClickListener() {
+        payment_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
@@ -236,7 +235,7 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
             takePhoto.setImageBitmap(thumbnail);
             payBitmap=thumbnail;
-            //Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -260,20 +259,30 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
 
     }
 
+
+    private void setPayment()
+    {
+        int cost=payment_amount.getText().toString().length();
+        InputFilter[] fArray = new InputFilter[1];
+        fArray[0] = new InputFilter.LengthFilter(cost);
+        remaining_amount.setFilters(fArray);
+    }
+
     private void calculateRemainingAmount()
     {
         int remainingAmount;
-        if(payment_amount.getText().toString().equalsIgnoreCase("") ||
-                paid_amount.getText().toString().equalsIgnoreCase(""))
+
+            if (payment_amount.getText().toString().equalsIgnoreCase("") ||
+                    paid_amount.getText().toString().equalsIgnoreCase(""))
         {
-            remainingAmount= 0;
-            remaining_amount.setText(String.valueOf(remainingAmount));
-        }
-        else
-        {
-            remainingAmount= Integer.parseInt(payment_amount.getText().toString())- Integer.parseInt(paid_amount.getText().toString());
-            remaining_amount.setText(String.valueOf(remainingAmount));
-        }
+                remainingAmount = 0;
+                remaining_amount.setText(String.valueOf(remainingAmount));
+            } else
+                {
+                    remainingAmount = Integer.parseInt(payment_amount.getText().toString()) - Integer.parseInt(paid_amount.getText().toString());
+                    remaining_amount.setText(String.valueOf(remainingAmount));
+
+            }
 
     }
 
@@ -288,23 +297,62 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 calculateRemainingAmount();
+
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
                 calculateRemainingAmount();
+
             }
         });
 
         paid_amount.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int before) {
+                int totalcost=0;
+                if (payment_amount.getText().toString().equalsIgnoreCase(""))
+                {
+                    totalcost = 0;
+                }
+                else
+                {
+                    totalcost = Integer.parseInt(payment_amount.getText().toString());
+                }
+
+                if(count>totalcost)
+                {
+                  paid_amount.setError("Amount must be less than total cost.");
+                }
+                else
+                {
+                    paid_amount.setError(null);
+                }
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
                 calculateRemainingAmount();
+                int totalcost=0;
+                if (payment_amount.getText().toString().equalsIgnoreCase(""))
+                {
+                    totalcost = 0;
+                }
+                else
+                {
+                    totalcost = Integer.parseInt(payment_amount.getText().toString());
+                }
+
+                if(count>totalcost)
+                {
+                    paid_amount.setError("Amount must be less than total cost.");
+                }
+                else
+                {
+                    paid_amount.setError(null);
+                }
+
 
             }
 
@@ -315,7 +363,6 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
             }
         });
     }
-
 
     private String generateUniqueId()
     {

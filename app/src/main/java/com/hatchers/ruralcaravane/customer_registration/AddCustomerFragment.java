@@ -32,11 +32,13 @@ import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.customer_registration.apihelper.WebCustomer_ApiHelper;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
-import com.hatchers.ruralcaravane.customer_registration.listener.CityListner;
+import com.hatchers.ruralcaravane.customer_registration.listener.CityListener;
+import com.hatchers.ruralcaravane.customer_registration.listener.StateListener;
 import com.hatchers.ruralcaravane.customer_registration.listener.VillageListner;
-import com.hatchers.ruralcaravane.customer_registration.model.City;
+import com.hatchers.ruralcaravane.customer_registration.model.CityTable;
 import com.hatchers.ruralcaravane.customer_registration.model.CityVillageList;
-import com.hatchers.ruralcaravane.customer_registration.model.Village;
+import com.hatchers.ruralcaravane.customer_registration.model.StateTable;
+import com.hatchers.ruralcaravane.customer_registration.model.VillageTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
@@ -54,8 +56,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-
-import javax.xml.transform.sax.SAXResult;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -76,10 +76,11 @@ public class AddCustomerFragment extends Fragment {
     private TextView uniqueIdTxt;
     private CircleImageView profileImage;
     private TextInputEditText customer_name, customer_address, customer_mobileno, customer_age,aadhar_id;
-    private Spinner citySpinner, villageSpinner;
-    private ArrayList<City> cityArrayList;
-    private ArrayList<Village> villageArrayList;
-    private String villageId,cityid;
+    private Spinner citySpinner, villageSpinner ,stateSpinner;
+    private ArrayList<CityTable> cityArrayList;
+    private ArrayList<VillageTable> villageArrayList;
+    private ArrayList<StateTable> stateArrayList;
+    private String villageId,cityid,stateId;
     private int RESULT_CANCELED;
 
 
@@ -104,7 +105,10 @@ public class AddCustomerFragment extends Fragment {
         setCitySpinnerList();
         citySelectedListner();
         setVillageSpinnerList();
-        villageSelectedListner();
+        villageSelectedListener();
+        //setStateSpinnerList();
+        //stateSelectedListener();
+
         setGender();
 
         return view;
@@ -118,8 +122,8 @@ public class AddCustomerFragment extends Fragment {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
         }
-        cityArrayList =new ArrayList<City>();
-        villageArrayList = new ArrayList<Village>();
+        cityArrayList =new ArrayList<CityTable>();
+        villageArrayList = new ArrayList<VillageTable>();
         save = (Button) view.findViewById(R.id.saveBtn);
         customer_name = (TextInputEditText) view.findViewById(R.id.customer_name);
         customer_address = (TextInputEditText) view.findViewById(R.id.customer_address);
@@ -134,16 +138,33 @@ public class AddCustomerFragment extends Fragment {
         ScanByAadhar=(Button)view.findViewById(R.id.ScanByAadhar);
         citySpinner = (Spinner)view.findViewById(R.id.city_spinner);
         villageSpinner = (Spinner)view.findViewById(R.id.village_spinner);
+        stateSpinner=(Spinner)view.findViewById(R.id.state_spinner);
         aadhar_id=(TextInputEditText)view.findViewById(R.id.aadhar_id);
     }
 
     private void setCitySpinnerList()
     {
-        ArrayAdapter<City> adapter =
-                new ArrayAdapter<City>(getActivity(), R.layout.spinner_item2, cityArrayList);
+        ArrayAdapter<CityTable> adapter =
+                new ArrayAdapter<CityTable>(getActivity(), R.layout.spinner_item2, cityArrayList);
         adapter.setDropDownViewResource(R.layout.spinner_item2);
         citySpinner.setAdapter(adapter);
 
+    }
+
+    private void setVillageSpinnerList()
+    {
+        ArrayAdapter<VillageTable> adapter =
+                new ArrayAdapter<VillageTable>(getActivity(), R.layout.spinner_item2, villageArrayList);
+        adapter.setDropDownViewResource(R.layout.spinner_item2);
+        villageSpinner.setAdapter(adapter);
+    }
+
+    private void setStateSpinnerList()
+    {
+        ArrayAdapter<StateTable> adapter =
+                new ArrayAdapter<StateTable>(getActivity(), R.layout.spinner_item2, stateArrayList);
+        adapter.setDropDownViewResource(R.layout.spinner_item2);
+        stateSpinner.setAdapter(adapter);
     }
 
     private void citySelectedListner()
@@ -151,7 +172,7 @@ public class AddCustomerFragment extends Fragment {
         citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                City city = cityArrayList.get(position);
+                CityTable city = cityArrayList.get(position);
                 //call village list api
                 CityVillageList cityVillageList=new CityVillageList();
                 WebCustomer_ApiHelper.getVillageList(getActivity(),cityVillageList,city.getId());
@@ -168,12 +189,12 @@ public class AddCustomerFragment extends Fragment {
         });
     }
 
-    private void villageSelectedListner()
+    private void villageSelectedListener()
     {
         villageSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                Village village=villageArrayList.get(i);
+                VillageTable village=villageArrayList.get(i);
                 villageId=village.getId();
                 villageSpinner.setSelection(i);
             }
@@ -185,17 +206,29 @@ public class AddCustomerFragment extends Fragment {
         });
     }
 
-    private void setVillageSpinnerList()
+
+    private void stateSelectedListener()
     {
-        ArrayAdapter<Village> adapter =
-                new ArrayAdapter<Village>(getActivity(), R.layout.spinner_item2, villageArrayList);
-        adapter.setDropDownViewResource(R.layout.spinner_item2);
-        villageSpinner.setAdapter(adapter);
+        stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                StateTable state=stateArrayList.get(i);
+
+                stateId=state.getStateId();
+                stateSpinner.setSelection(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
+
 
     private void setCityEvent(final CityVillageList cityList)
     {
-        cityList.setOnCityEvent(new CityListner() {
+        cityList.setOnCityEvent(new CityListener() {
             @Override
             public void onCity_Add_Success()
             {
@@ -295,6 +328,59 @@ public class AddCustomerFragment extends Fragment {
             }
         });
     }
+
+    private void setStateEvent(final CityVillageList stateList)
+    {
+        stateList.setOnStateEvent(new StateListener() {
+            @Override
+            public void onState_Add_Success() {
+                stateArrayList = stateList.getStateArrayList();
+                setStateSpinnerList();
+            }
+
+            @Override
+            public void onState_Add_Failed() {
+                Toast.makeText(getActivity(),"Failed",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onState_Add_Response_Failed() {
+                Toast.makeText(getActivity(),"Response Failed",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onState_Add_Json_Error() {
+                Toast.makeText(getActivity(),"JSON Error",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onState_Add_No_Connection_Error() {
+                Toast.makeText(getActivity(),"No Connection Error",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onState_Add_Server_Error() {
+                Toast.makeText(getActivity(),"Server Error",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onState_Add_Network_Error() {
+                Toast.makeText(getActivity(),"Network Error",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onState_Add_Parse_Error() {
+                Toast.makeText(getActivity(),"Parse Error",Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onState_Add_Unknown_Error() {
+                Toast.makeText(getActivity(),"Unknown Error",Toast.LENGTH_SHORT).show();
+            }
+
+        });
+    }
+
 
     private void onclicklisteners()
     {
@@ -664,13 +750,13 @@ public class AddCustomerFragment extends Fragment {
         }
 
 /*
-        if (citySpinner.getSelectedItem().toString().trim().equalsIgnoreCase("City")) {
+        if (citySpinner.getSelectedItem().toString().trim().equalsIgnoreCase("CityTable")) {
 
             View selectedView = citySpinner.getSelectedView();
             if (selectedView != null && selectedView instanceof TextView) {
                 TextView selectedTextView = (TextView) selectedView;
                 if (citySpinner.getSelectedItemPosition() == 0) {
-                    String errorString = "Please Select City";
+                    String errorString = "Please Select CityTable";
                     selectedTextView.setError(errorString);
 
                 } else {
@@ -681,13 +767,13 @@ public class AddCustomerFragment extends Fragment {
         }
 
 
-        if (villageSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("Village")) {
+        if (villageSpinner.getSelectedItem().toString().trim().equalsIgnoreCase("VillageTable")) {
 
             View selectedView = villageSpinner.getSelectedView();
             if (selectedView != null && selectedView instanceof TextView) {
                 TextView selectedTextView = (TextView) selectedView;
                 if (villageSpinner.getSelectedItemPosition() == 0) {
-                    String errorString = "Please Select Village";
+                    String errorString = "Please Select VillageTable";
                     selectedTextView.setError(errorString);
 
                 } else {

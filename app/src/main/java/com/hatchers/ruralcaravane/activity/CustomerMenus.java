@@ -27,10 +27,10 @@ public class CustomerMenus extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout,menuFragment).commit();
     }
 
-    @Override
+   /* @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-    }
+    }*/
 
 }
 

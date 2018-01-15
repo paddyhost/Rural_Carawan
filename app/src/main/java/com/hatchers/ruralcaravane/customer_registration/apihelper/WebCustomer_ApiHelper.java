@@ -2,8 +2,6 @@ package com.hatchers.ruralcaravane.customer_registration.apihelper;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,9 +17,10 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
-import com.hatchers.ruralcaravane.customer_registration.model.City;
+import com.hatchers.ruralcaravane.customer_registration.model.CityTable;
 import com.hatchers.ruralcaravane.customer_registration.model.CityVillageList;
-import com.hatchers.ruralcaravane.customer_registration.model.Village;
+import com.hatchers.ruralcaravane.customer_registration.model.StateTable;
+import com.hatchers.ruralcaravane.customer_registration.model.VillageTable;
 import com.hatchers.ruralcaravane.app.MyApplication;
 import com.hatchers.ruralcaravane.constants.WebServiceUrls;
 import com.hatchers.ruralcaravane.utils.VolleyMultipartRequest;
@@ -31,7 +30,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -55,10 +53,10 @@ public class WebCustomer_ApiHelper
                     {
                         if(responce.getString("message").equalsIgnoreCase("Result foud")) {
                             JSONArray result = responce.getJSONArray("result");
-                            ArrayList<City> cities =new ArrayList<City>();
+                            ArrayList<CityTable> cities =new ArrayList<CityTable>();
                             for (int i =0;i<result.length();i++)
                             {
-                                City city = new City();
+                                CityTable city = new CityTable();
                                 JSONObject jsonObject = result.getJSONObject(i);
                                 String id = jsonObject.getString("id");
                                 String cityname = jsonObject.getString("name");
@@ -155,10 +153,10 @@ public class WebCustomer_ApiHelper
                     {
                         if(responce.getString("message").equalsIgnoreCase("Result foud")) {
                             JSONArray result = responce.getJSONArray("result");
-                            ArrayList<Village> villages =new ArrayList<Village>();
+                            ArrayList<VillageTable> villages =new ArrayList<VillageTable>();
                             for (int i =0;i<result.length();i++)
                             {
-                                Village village = new Village();
+                                VillageTable village = new VillageTable();
                                 JSONObject jsonObject = result.getJSONObject(i);
                                 String id = jsonObject.getString("id");
                                 String villagename = jsonObject.getString("name");
@@ -234,6 +232,107 @@ public class WebCustomer_ApiHelper
 
                 params.put("format","json");
                 params.put("city_id",cityId);
+                //returning parameters
+                return params;
+            }
+
+        };
+
+        MyApplication.getInstance().addToRequestQueue(strReq);
+
+    }
+
+    public static void getStateList(final Activity activity, final CityVillageList cityVillageList, final String stateId)
+    {
+        StringRequest strReq = new StringRequest(Request.Method.POST, WebServiceUrls.urlGetVillageList,new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response)
+            {
+                try {
+                    JSONObject responce = new JSONObject(response);
+                    if (responce.getString("status").equalsIgnoreCase("Success"))
+                    {
+                        if(responce.getString("message").equalsIgnoreCase("Result foud")) {
+                            JSONArray result = responce.getJSONArray("result");
+                            ArrayList<StateTable> stateTables =new ArrayList<StateTable>();
+                            for (int i =0;i<result.length();i++)
+                            {
+                                StateTable stateTable = new StateTable();
+                                JSONObject jsonObject = result.getJSONObject(i);
+                                String id = jsonObject.getString("id");
+                                String statename = jsonObject.getString("name");
+                                String longitude = jsonObject.getString("lang");
+                                String lattitude = jsonObject.getString("lat");
+
+                                stateTable.setStateName(statename);
+                                stateTable.setCityId(jsonObject.getString("city_id"));
+                                stateTable.setStateId(id);
+                                stateTable.setLatitude(lattitude);
+                                stateTable.setLongitude(longitude);
+
+                                stateTables.add(stateTable);
+
+                                if (i + 1 == result.length())
+                                {
+                                    // end of loop
+                                    cityVillageList.setStateArrayList(stateTables);
+                                    cityVillageList.fireOnStateEvent(CityVillageList.STATE_ADD_SUCCESS);
+                                }
+
+                            }
+
+                        }
+                        else
+                        {
+                            cityVillageList.fireOnStateEvent(CityVillageList.STATE_ADD_FAILED);
+                        }
+
+                    }
+                    else
+                    {
+                        cityVillageList.fireOnStateEvent(CityVillageList.STATE_ADD_RESPONSE_FAILED);
+                    }
+                } catch (JSONException e) {
+                    cityVillageList.fireOnStateEvent(CityVillageList.STATE_ADD_JSON_ERROR);
+                    e.printStackTrace();
+                }
+            }
+        }
+                , new Response.ErrorListener() {
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    cityVillageList.fireOnStateEvent(CityVillageList.STATE_ADD_NO_CONNECTION_ERROR);
+                }
+                else if (error instanceof ServerError)
+                {
+                    cityVillageList.fireOnStateEvent(CityVillageList.STATE_ADD_SERVER_ERROR);
+                }
+                else if (error instanceof NetworkError)
+                {
+                    cityVillageList.fireOnStateEvent(CityVillageList.STATE_ADD_NEWORK_ERROR);
+                }
+                else if (error instanceof ParseError)
+                {
+                    cityVillageList.fireOnStateEvent(CityVillageList.STATE_ADD_PARSE_ERROR);
+                }
+                else
+                {
+                    cityVillageList.fireOnStateEvent(CityVillageList.STATE_ADD_UNKNOWN_ERROR);
+                }
+
+            }
+        }) {
+
+
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new Hashtable<String, String>();
+
+                params.put("format","json");
+                params.put("state_id",stateId);
                 //returning parameters
                 return params;
             }

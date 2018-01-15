@@ -5,42 +5,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.hatchers.ruralcaravane.kitchen_suitability.KitchenConstuctionFragment">
+    tools:context="com.hatchers.ruralcaravane.kitchen_suitability.KitchenConstructionFragment">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:background="@color/colorAccent"
         app:titleTextColor="@color/white"
+        app:title="Kitchen Details "
+        app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
         android:id="@+id/kitchen_const_Toolbar">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageButton
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_arrow_back_white_24dp"
-                android:paddingBottom="10dp"
-                android:paddingTop="10dp"
-                android:layout_marginLeft="5dp"
-                android:id="@+id/kitchn_detail_back"/>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/toolbar_title"
-                android:textColor="@color/white"
-                android:layout_gravity="start|center"
-                android:text="Kitchen Details "
-                android:layout_marginLeft="15dp"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"/>
-
-        </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
 

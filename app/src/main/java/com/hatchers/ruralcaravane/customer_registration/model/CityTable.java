@@ -1,14 +1,25 @@
 package com.hatchers.ruralcaravane.customer_registration.model;
 
-/**
- * Created by Ashwin on 07-Jan-18.
- */
 
-public class City
+
+public class CityTable
 {
+
+
+    public static final String CITY_TABLE = "CityTable";
+
+    public static final String CITY_ID = "city_id",CITYNAME="city_name",LATITUDE="latitude",LONGITUDE="longitude";
+
+    public static final String CREATE_CITY_TABLE="CREATE TABLE " + CITY_TABLE+
+            "("+CITY_ID+" int PRIMARY KEY , "+CITYNAME+" TEXT, "+LATITUDE+" TEXT, "+LONGITUDE+" TEXT)";
+
     private String id, cityname, latitude, longitude;
 
-    public City(String id, String cityname, String latitude, String longitude)
+    public CityTable() {
+    }
+
+
+    public CityTable(String id, String cityname, String latitude, String longitude)
     {
         this.id = id;
         this.cityname = cityname;
@@ -16,8 +27,6 @@ public class City
         this.longitude = longitude;
     }
 
-    public City() {
-    }
 
     @Override
     public String toString() {
@@ -56,5 +65,4 @@ public class City
         this.longitude = longitude;
     }
 
-
-}
+    }

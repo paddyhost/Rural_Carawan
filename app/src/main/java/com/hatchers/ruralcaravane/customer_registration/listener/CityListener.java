@@ -4,7 +4,7 @@ package com.hatchers.ruralcaravane.customer_registration.listener;
  * Created by Ashwin on 07-Jan-18.
  */
 
-public interface CityListner
+public interface CityListener
 {
     void onCity_Add_Success();
 

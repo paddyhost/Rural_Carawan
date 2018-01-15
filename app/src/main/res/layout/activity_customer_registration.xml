@@ -26,7 +26,9 @@
         android:layout_height="54dp"
         android:background="@color/colorAccent"
         app:title="Customer Information"
-        android:id="@+id/customer_toolbar">
+        android:id="@+id/customer_toolbar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
     </android.support.v7.widget.Toolbar>

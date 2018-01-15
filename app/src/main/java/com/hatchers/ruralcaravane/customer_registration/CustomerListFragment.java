@@ -83,6 +83,7 @@ public class CustomerListFragment extends Fragment {
             customerListAdapter = new CustomerListAdapter(getContext(), customerTables);
             customerRecyclerView.setAdapter(customerListAdapter);
             customerListAdapter.notifyDataSetChanged();
+
         }
         catch (Exception e)
         {

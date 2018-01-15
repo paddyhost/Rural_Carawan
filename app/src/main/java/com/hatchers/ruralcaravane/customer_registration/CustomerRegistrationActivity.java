@@ -33,6 +33,7 @@ public class CustomerRegistrationActivity extends AppCompatActivity
     PrefManager prefManager;
     FragmentTransaction fragmentTransaction;
     CustomerListFragment customerListFragment;
+
     private int[] tabIcons = {
             R.drawable.customer_list,
             R.drawable.add_customer
@@ -48,8 +49,6 @@ public class CustomerRegistrationActivity extends AppCompatActivity
         setupTabIcons();
         tabListener();
         viewPagerListener();
-        clickListener();
-
 
         RuntimePermissions.checkCameraPermission(CustomerRegistrationActivity.this);
         RuntimePermissions.checkReadExternalStoragePermission(CustomerRegistrationActivity.this);
@@ -143,15 +142,6 @@ public class CustomerRegistrationActivity extends AppCompatActivity
 
     }
 
-    private void clickListener()
-    {
-        /*customer_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });*/
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

@@ -14,11 +14,9 @@ import android.widget.TextView;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 
-
 public class UserDetailsFragment extends Fragment
 {
     PrefManager prefManager;
-    private ImageView userDetails_btnBack;
     private TextView name/*,city_name*/,mobile_number,village_name,gender;
     private Toolbar userDetailsToolbar;
     public UserDetailsFragment() {
@@ -44,7 +42,6 @@ public class UserDetailsFragment extends Fragment
         prefManager=new PrefManager(getActivity());
         ((AppCompatActivity)getActivity()).setSupportActionBar(userDetailsToolbar);
         userDetailsToolbar=(Toolbar) view.findViewById(R.id.userDetailsToolbar);
-        userDetails_btnBack = (ImageView)view.findViewById(R.id.userDetails_btnBack);
         name=(TextView)view.findViewById(R.id.name);
         //city_name=(TextView)view.findViewById(R.id.city_name);
         mobile_number=(TextView)view.findViewById(R.id.mobile_number);
@@ -55,7 +52,7 @@ public class UserDetailsFragment extends Fragment
 
     private void clickListeners()
     {
-        userDetails_btnBack.setOnClickListener(new View.OnClickListener() {
+        userDetailsToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();

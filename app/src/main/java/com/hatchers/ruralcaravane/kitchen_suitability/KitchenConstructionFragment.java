@@ -1,6 +1,5 @@
 package com.hatchers.ruralcaravane.kitchen_suitability;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,15 +35,12 @@ import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.util.ArrayList;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
-public class KitchenConstuctionFragment extends Fragment {
+public class KitchenConstructionFragment extends Fragment {
 
     private KitchenTable kitchenTable;
     ArrayList<ConstructionTable> constructionTables;
@@ -57,16 +53,16 @@ public class KitchenConstuctionFragment extends Fragment {
     private ImageView half_constructed_image,complete_constructed_image;
     private int HALF_IMAGE = 1, FULL_IMAGE = 2;
     Bitmap conBitmap,conBitmap1;
-    ImageView backImg;
+
     private TextView kitchenName;
 
-    public KitchenConstuctionFragment()
+    public KitchenConstructionFragment()
     {
         // Required empty public constructor
     }
 
-    public static KitchenConstuctionFragment newInstance(KitchenTable kitchenTable) {
-        KitchenConstuctionFragment fragment = new KitchenConstuctionFragment();
+    public static KitchenConstructionFragment newInstance(KitchenTable kitchenTable) {
+        KitchenConstructionFragment fragment = new KitchenConstructionFragment();
         Bundle args = new Bundle();
         args.putParcelable(KitchenTable.KITCHEN_TABLE, kitchenTable);
         fragment.setArguments(args);
@@ -99,7 +95,6 @@ public class KitchenConstuctionFragment extends Fragment {
     private void initializations(View view)
     {
         kitchenName = (TextView)view.findViewById(R.id.kitchenname);
-        backImg = (ImageView)view.findViewById(R.id.kitchn_detail_back);
         add_construction=(FloatingActionButton)view.findViewById(R.id.add_const);
         constructionRecyclerView=(RecyclerView)view.findViewById(R.id.const_list);
         houseTypeTxt = (TextView)view.findViewById(R.id.housetype_txt);
@@ -140,13 +135,17 @@ public class KitchenConstuctionFragment extends Fragment {
         roofTypeTxt.setText(String.valueOf("Roof Type : "+kitchenTable.getRoof_typeValue()));
         heightTxt.setText(String.valueOf("Height : "+kitchenTable.getKitchen_heightValue()));
         kitchenName.setText(String.valueOf(kitchenTable.getKitchenName()));
+
+
         File image = FileHelper.createfile(Folders.CHULHAFOLDER, kitchenTable.getStep1_imageValue(), FileType.PNG);
         if (image != null) {
             Glide.with(getActivity())
                     .load(image.getAbsolutePath())
                     .error(R.drawable.ic_add_image)
                     .into(half_constructed_image);
+
         }
+
 
         File image1 = FileHelper.createfile(Folders.CHULHAFOLDER, kitchenTable.getStep2_imageValue(), FileType.PNG);
         if (image1 != null) {
@@ -190,7 +189,7 @@ public class KitchenConstuctionFragment extends Fragment {
             }
         });
 
-        backImg.setOnClickListener(new View.OnClickListener() {
+        kitchen_const_Toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
@@ -270,7 +269,6 @@ public class KitchenConstuctionFragment extends Fragment {
             kitchenTable.setStep1_imageValue("KIT_Step1_"+kitchenTable.getKitchenUniqueIdValue());
             SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
                     .setTitleText("Please wait");
-
             sweetAlertDialog.show();
 
             if(KitchenTableHelper.updateKitchenData(getActivity(),kitchenTable))
@@ -302,6 +300,7 @@ public class KitchenConstuctionFragment extends Fragment {
         else if (requestCode == FULL_IMAGE) {
              conBitmap1 = (Bitmap) data.getExtras().get("data");
 
+             complete_constructed_image.setImageBitmap(conBitmap1);
 
             FileHelper.savePNGImage(Folders.CHULHAFOLDER,conBitmap1,"KIT_Step2_image"+kitchenTable.getKitchenUniqueIdValue());
             kitchenTable.setStep2_imageValue("KIT_Step2_"+kitchenTable.getKitchenUniqueIdValue());

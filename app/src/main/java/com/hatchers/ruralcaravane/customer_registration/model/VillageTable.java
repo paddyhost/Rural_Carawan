@@ -4,19 +4,30 @@ package com.hatchers.ruralcaravane.customer_registration.model;
  * Created by Ashwin on 07-Jan-18.
  */
 
-public class Village
+public class VillageTable
 {
-    private String id,cityId,  villageName, latitude, longitude;
 
-    public Village(String id, String villageName, String latitude, String longitude)
+
+    public static final String VILLAGE_TABLE = "VillageTable";
+
+    public static final String CITY_ID = "city_id",ID="id",LATITUDE="latitude",LONGITUDE="longitude",VILLAGENAME="villagename";
+
+    public static final String CREATE_VILLAGE__TABLE="CREATE TABLE " + VILLAGE_TABLE+
+            "("+CITY_ID+" TEXT, "+ID+" int PRIMARY KEY, "+LATITUDE+" TEXT, "+LONGITUDE+" TEXT, "+VILLAGENAME+" TEXT)";
+
+
+    private String id, cityId, villageName, latitude, longitude;
+
+    public VillageTable(String id, String cityId,String villageName, String latitude, String longitude)
     {
         this.id = id;
+        this.cityId = cityId;
         this.villageName = villageName;
         this.latitude = latitude;
         this.longitude = longitude;
     }
 
-    public Village() {
+    public VillageTable() {
     }
 
     @Override
@@ -48,7 +59,6 @@ public class Village
         this.longitude = longitude;
     }
 
-
     public String getCityId() {
         return cityId;
     }
@@ -64,4 +74,6 @@ public class Village
     public void setVillageName(String villageName) {
         this.villageName = villageName;
     }
+
+
 }
