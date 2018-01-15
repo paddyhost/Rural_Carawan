@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hatchers.ruralcaravane.R;
+import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
+import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
 
 import java.util.ArrayList;
@@ -37,11 +39,13 @@ public class PaymentListAdapter  extends RecyclerView.Adapter<PaymentListAdapter
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final PaymentTable paymentTable = paymentTableArrayList.get(position);
-
+        KitchenTable kitchenTable = KitchenTableHelper.getKitchenDetalBuUniqId(context,paymentTable.getKitchenIdValue());
         holder.totalCost.setText(String.valueOf(context.getResources().getString(R.string.Rs)+" "+paymentTable.getPayment_amountValue()+"/-"));
         holder.paitAmount.setText(String.valueOf("Paid : "+context.getResources().getString(R.string.Rs)+" "+paymentTable.getTotalPaidValue()+"/-"));
         holder.remainAmunt.setText(String.valueOf("Balance : "+context.getResources().getString(R.string.Rs)+" "+paymentTable.getRemaining_amountValue()+"/-"));
-
+        if (kitchenTable != null) {
+            holder.kitchenName.setText(kitchenTable.getKitchenName());
+        }
     }
 
     @Override
@@ -57,13 +61,13 @@ public class PaymentListAdapter  extends RecyclerView.Adapter<PaymentListAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView totalCost, remainAmunt, paitAmount;
+        TextView totalCost, remainAmunt, paitAmount, kitchenName;
 
         View itemView;
 
         ViewHolder(View itemView) {
             super(itemView);
-
+            kitchenName = (TextView)itemView.findViewById(R.id.kitche_name);
             totalCost = (TextView)itemView.findViewById(R.id.cost_of_chullha_);
             paitAmount= (TextView)itemView.findViewById(R.id.total_paid);
             remainAmunt=(TextView)itemView.findViewById(R.id.remaining_amount);

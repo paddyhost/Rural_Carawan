@@ -59,6 +59,8 @@ public class KitchenSuitabilityFragment extends Fragment implements
     private GoogleApiClient client;
     private TextView kitchenUniqueIdText;
     ImageView backImg;
+    private static final String KITCHEN_SIZE="kitchen_size";
+    private int kitchenSize;
 
     public KitchenSuitabilityFragment() {
         // Required empty public constructor
@@ -66,11 +68,12 @@ public class KitchenSuitabilityFragment extends Fragment implements
 
 
     private CustomerTable customertable;
-    public static KitchenSuitabilityFragment getInstance(CustomerTable customertable)
+    public static KitchenSuitabilityFragment getInstance(CustomerTable customertable,int kitchenSize)
     {
         KitchenSuitabilityFragment fragment = new KitchenSuitabilityFragment();
         Bundle args = new Bundle();
         args.putParcelable(CustomerTable.CUSTOMER_TABLE, customertable);
+        args.putInt(KITCHEN_SIZE,kitchenSize);
         fragment.setArguments(args);
         return fragment;
 
@@ -83,6 +86,7 @@ public class KitchenSuitabilityFragment extends Fragment implements
         if (getArguments() != null)
         {
             customertable = getArguments().getParcelable(CustomerTable.CUSTOMER_TABLE);
+            kitchenSize= getArguments().getInt(KITCHEN_SIZE);
         }
     }
 
@@ -237,6 +241,8 @@ public class KitchenSuitabilityFragment extends Fragment implements
         Date date=new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         kitchen_table.setUploadDateValue(formatter.format(date));
+        kitchenSize=kitchenSize +1;
+        kitchen_table.setKitchenName(String.valueOf("Kitchen "+kitchenSize));
     }
 
     private void showPictureDialog()

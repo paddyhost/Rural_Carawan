@@ -42,6 +42,7 @@ public class KitchenTableHelper {
                 values.put(KitchenTable.ADDED_BY_ID,kitchenTable.getAddedByIdValue());
                 values.put(KitchenTable.USER_UNIQUE_ID,kitchenTable.getUserUniqueIdValue());
                 values.put(KitchenTable.UPDATE_DATE,kitchenTable.getUpdateDateValue());
+                values.put(KitchenTable.KITCHE_NAME,kitchenTable.getKitchenName());
 
             long i=   db.insert(KitchenTable.KITCHEN_TABLE, null, values);
             if ( i> 0)
@@ -91,7 +92,7 @@ public class KitchenTableHelper {
             values.put(KitchenTable.USER_UNIQUE_ID,kitchen_table.getUserUniqueIdValue());
             values.put(KitchenTable.UPDATE_DATE,getCurrentDateTime());
             values.put(KitchenTable.UPLOAD_STATUS,"1");
-
+            values.put(KitchenTable.KITCHE_NAME,kitchen_table.getKitchenName());
 
             // upadating Row
             if(db.update(KitchenTable.KITCHEN_TABLE, values, KitchenTable.KITCHEN_UNIQUE_ID+"='"+kitchen_table.getKitchenUniqueIdValue()+"'", null)>0)
@@ -117,7 +118,7 @@ public class KitchenTableHelper {
         ArrayList<KitchenTable> customerTableArrayList = new ArrayList<KitchenTable>();
         SQLiteDatabase db = new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ KitchenTable.KITCHEN_TABLE+" WHERE "+KitchenTable.USER_UNIQUE_ID+"='"+customerTable.getUniqueIdValue()+"'",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ KitchenTable.KITCHEN_TABLE+" WHERE "+KitchenTable.CUSTOMER_ID+"='"+customerTable.getUniqueIdValue()+"'",null);
         try
         {
             cursor.moveToFirst();
@@ -145,6 +146,7 @@ public class KitchenTableHelper {
                 kitchen_table.setAddedDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.ADDED_DATE)));
                 kitchen_table.setUserUniqueIdValue(cursor.getString(cursor.getColumnIndex(KitchenTable.USER_UNIQUE_ID)));
                 kitchen_table.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPDATE_DATE)));
+                kitchen_table.setKitchenName(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHE_NAME)));
 
                 customerTableArrayList.add(kitchen_table);
                 cursor.moveToNext();
@@ -255,6 +257,50 @@ public class KitchenTableHelper {
             kitchenTable.setAddedDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.ADDED_DATE)));
             kitchenTable.setUserUniqueIdValue(cursor.getString(cursor.getColumnIndex(KitchenTable.USER_UNIQUE_ID)));
             kitchenTable.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPDATE_DATE)));
+            kitchenTable.setKitchenName(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHE_NAME)));
+
+            return kitchenTable;
+
+
+        }
+        catch (Exception e)
+
+        {
+            return null;
+        }
+    }
+
+    public static KitchenTable getKitchenDetalBuUniqId(Context context, String uninqId)
+    {
+        SQLiteDatabase db = new DatabaseHandler(context).getWritableDatabase();
+        // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ KitchenTable.KITCHEN_TABLE+" WHERE  "+ KitchenTable.KITCHEN_UNIQUE_ID+"='"+uninqId+"'",null);
+        try
+        {
+
+            cursor.moveToFirst();
+            KitchenTable kitchenTable = new KitchenTable();
+            kitchenTable.setKitchen_idValue(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_ID)));
+            kitchenTable.setHouse_typeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.HOUSE_TYPE)));
+            kitchenTable.setRoof_typeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.ROOF_TYPE)));
+            kitchenTable.setKitchen_heightValue(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_HEIGHT)));
+            kitchenTable.setUpload_statusValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPLOAD_STATUS)));
+            kitchenTable.setCustomer_idValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CUSTOMER_ID)));
+            kitchenTable.setCustomer_nameValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CUSTOMER_NAME)));
+            kitchenTable.setPlaceImageValue(cursor.getString(cursor.getColumnIndex(KitchenTable.PLACE_IMAGE)));
+            kitchenTable.setKitchenUniqueIdValue(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_UNIQUE_ID)));
+            kitchenTable.setLatitudeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.LATITUDE)));
+            kitchenTable.setLongitudeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.LONGITUDE)));
+            kitchenTable.setUploadDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPLOAD_DATE)));
+            kitchenTable.setGeoAddressValue(cursor.getString(cursor.getColumnIndex(KitchenTable.GEO_ADDRESS)));
+            kitchenTable.setCostOfChullhaValue(cursor.getString(cursor.getColumnIndex(KitchenTable.COST_OF_CHULLHA)));
+            kitchenTable.setStep1_imageValue(cursor.getString(cursor.getColumnIndex(KitchenTable.STEP1_IMAGE)));
+            kitchenTable.setStep2_imageValue(cursor.getString(cursor.getColumnIndex(KitchenTable.STEP2_IMAGE)));
+            kitchenTable.setAddedByIdValue(cursor.getString(cursor.getColumnIndex(KitchenTable.ADDED_BY_ID)));
+            kitchenTable.setAddedDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.ADDED_DATE)));
+            kitchenTable.setUserUniqueIdValue(cursor.getString(cursor.getColumnIndex(KitchenTable.USER_UNIQUE_ID)));
+            kitchenTable.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPDATE_DATE)));
+            kitchenTable.setKitchenName(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHE_NAME)));
 
             return kitchenTable;
 

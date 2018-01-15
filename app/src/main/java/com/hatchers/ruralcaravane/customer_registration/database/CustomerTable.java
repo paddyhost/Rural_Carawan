@@ -1,8 +1,14 @@
 package com.hatchers.ruralcaravane.customer_registration.database;
 
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
+
+import com.hatchers.ruralcaravane.customer_registration.listener.Customer_Listener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomerTable implements Parcelable {
 
@@ -27,6 +33,7 @@ public class CustomerTable implements Parcelable {
             uniqueIdValue,imagePathValue,aadharIdValue,villageIdValue,addedDateValue,cityId,
             addedByIdValue,uploadDateValue,updateDateValue;
 
+    private Bitmap profileBitmap;
 
     public CustomerTable() {
     }
@@ -249,5 +256,70 @@ public class CustomerTable implements Parcelable {
 
     public void setUpdateDateValue(String updateDateValue) {
         this.updateDateValue = updateDateValue;
+    }
+
+    ///events
+    static final public int CUSTOMER_ADD_SUCCESS=0,CUSTOMER_ADD_FAILED=1,CUSTOMER_ADD_RESPONSE_FAILED=2,
+            CUSTOMER_ADD_JSON_ERROR=3,CUSTOMER_ADD_NO_CONNECTION_ERROR=4,CUSTOMER_ADD_SERVER_ERROR=5,
+            CUSTOMER_ADD_NEWORK_ERROR=6,CUSTOMER_ADD_PARSE_ERROR=7, CUSTOMER_ADD_UNKNOWN_ERROR=8;
+
+
+    private List<Customer_Listener> customerEvents = new ArrayList<Customer_Listener>();
+
+    public void setOnCustomerEvent(Customer_Listener toAdd) {
+
+        customerEvents.add(toAdd);
+    }
+    public void fireOnCustomerEvent(int event) {
+
+        for (Customer_Listener hl : customerEvents) {
+
+            if(event==CUSTOMER_ADD_SUCCESS)
+            {
+                hl.onCustomer_Add_Success();
+            }
+            else if(event==CUSTOMER_ADD_FAILED)
+            {
+                hl.onCustomer_Add_Failed();
+            }
+            else if(event==CUSTOMER_ADD_RESPONSE_FAILED)
+            {
+                hl.onCustomer_Add_Response_Failed();
+            }
+            else if(event==CUSTOMER_ADD_JSON_ERROR)
+            {
+                hl.onCustomer_Add_Json_Error();
+            }
+            else if(event==CUSTOMER_ADD_NO_CONNECTION_ERROR)
+            {
+                hl.onCustomer_Add_No_Connection_Error();
+            }
+            else if(event==CUSTOMER_ADD_SERVER_ERROR)
+            {
+                hl.onCustomer_Add_Server_Error();
+            }
+            else if(event==CUSTOMER_ADD_NEWORK_ERROR)
+            {
+                hl.onCustomer_Add_Network_Error();
+            }
+            else if(event==CUSTOMER_ADD_PARSE_ERROR)
+            {
+                hl.onCustomer_Add_Parse_Error();
+            }
+            else if(event==CUSTOMER_ADD_UNKNOWN_ERROR)
+            {
+                hl.onCustomer_Add_Unknown_Error();
+            }
+
+
+        }
+    }
+
+    public Bitmap getProfileBitmap() {
+        return profileBitmap;
+    }
+
+    public void setProfileBitmap(Bitmap profileBitmap) {
+        this.profileBitmap = profileBitmap;
     }
 }

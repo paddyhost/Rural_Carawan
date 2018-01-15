@@ -81,9 +81,6 @@ public class KitchenTable implements Parcelable{
         kitchenName = in.readString();
     }
 
-    public static String getKitcheName() {
-        return KITCHE_NAME;
-    }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
@@ -290,6 +287,14 @@ public class KitchenTable implements Parcelable{
 
     public void setUpdateDateValue(String updateDateValue) {
         this.updateDateValue = updateDateValue;
+    }
+
+    public String getKitchenName() {
+        return kitchenName;
+    }
+
+    public void setKitchenName(String kitchenName) {
+        this.kitchenName = kitchenName;
     }
 }
 

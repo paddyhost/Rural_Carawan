@@ -113,7 +113,7 @@ public class KitchenSuitabilityList extends Fragment {
             public void onClick(View v)
             {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                KitchenSuitabilityFragment kitchenSuitabilityFragment=KitchenSuitabilityFragment.getInstance(customertable);
+                KitchenSuitabilityFragment kitchenSuitabilityFragment=KitchenSuitabilityFragment.getInstance(customertable,kitchenTables.size());
                 fragmentTransaction.replace(R.id.frame_layout,kitchenSuitabilityFragment).addToBackStack(null).commit();
 
             }
