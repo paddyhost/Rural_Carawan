@@ -258,7 +258,6 @@ public class WebCustomer_ApiHelper
                     JSONObject responce = new JSONObject(resultResponse);
                     if(responce.getString("status").equalsIgnoreCase("success"))
                     {
-
                         //{"status":"error","count":0,"type":"addNewCustomerInquery","result":[],"message":"autontication failed"}
 
                         if(responce.getString("message").equalsIgnoreCase("Customer added successfully")) {
