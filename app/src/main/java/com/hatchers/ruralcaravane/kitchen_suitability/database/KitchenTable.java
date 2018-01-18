@@ -4,6 +4,11 @@ package com.hatchers.ruralcaravane.kitchen_suitability.database;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.hatchers.ruralcaravane.kitchen_suitability.listner.KitchenListener;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class KitchenTable implements Parcelable{
 
 
@@ -13,8 +18,10 @@ public class KitchenTable implements Parcelable{
                                ROOF_TYPE="roof_type",KITCHEN_HEIGHT="kitchen_height",UPLOAD_STATUS="upload_status",
                                PLACE_IMAGE="place_image",LATITUDE="latitude",LONGITUDE="longitude",GEO_ADDRESS="geo_address",
                                UPLOAD_DATE="upload_date",COST_OF_CHULLHA="cost_of_chullha",CUSTOMER_ID = "customer_id",
-                               STEP1_IMAGE="step1_image",STEP2_IMAGE="step2_image",ADDED_DATE="added_date",USER_UNIQUE_ID="user_unique_id",ADDED_BY_ID="added_by_id",
-                               UPDATE_DATE="update_date",CONSTRUCTION_START_DATETIME="construction_start_datetime",CONSTRUCTION_END_DATETIME="construction_end_datetime";
+                               STEP1_IMAGE="step1_image",STEP2_IMAGE="step2_image",ADDED_DATE="added_date",
+                               USER_UNIQUE_ID="user_unique_id",ADDED_BY_ID="added_by_id", UPDATE_DATE="update_date",
+                               CONSTRUCTION_START_DATETIME="construction_start_datetime",
+                               CONSTRUCTION_END_DATETIME="construction_end_datetime", KITCHEN_STATE ="kitchen_state";
 
     public static final String CREATE_KITCHEN_TABLE="CREATE TABLE " + KITCHEN_TABLE +
             "("+KITCHEN_ID+" int PRIMARY KEY ,"+HOUSE_TYPE+" TEXT,"+ROOF_TYPE+" TEXT,"
@@ -22,18 +29,28 @@ public class KitchenTable implements Parcelable{
             +PLACE_IMAGE+" TEXT, "+KITCHEN_UNIQUE_ID+" TEXT, "+LATITUDE+" TEXT, "
             +LONGITUDE+" TEXT, "+GEO_ADDRESS+" TEXT, "+UPLOAD_DATE+" TEXT, "+STEP1_IMAGE+" TEXT, "
             +STEP2_IMAGE+" TEXT, " +COST_OF_CHULLHA+" TEXT, "+ADDED_DATE+" TEXT, "+USER_UNIQUE_ID+" TEXT, "
-            +ADDED_BY_ID+" TEXT, "+UPDATE_DATE+" TEXT, "+CONSTRUCTION_START_DATETIME+" TEXT, "+CONSTRUCTION_END_DATETIME+" TEXT)";
+            +ADDED_BY_ID+" TEXT, "+UPDATE_DATE+" TEXT, "+CONSTRUCTION_START_DATETIME+" TEXT, "
+            +KITCHEN_STATE+" TEXT, "+CONSTRUCTION_END_DATETIME+" TEXT)";
 
     private String kitchen_idValue,house_typeValue,roof_typeValue,kitchen_heightValue,
             upload_statusValue,customer_idValue,placeImageValue,kitchenUniqueIdValue,
             latitudeValue,longitudeValue,uploadDateValue,geoAddressValue,costOfChullhaValue,
             step1_imageValue,step2_imageValue,addedDateValue,userUniqueIdValue,addedByIdValue,
-            updateDateValue,constructionStartDateTimeValue,constructionEndDateTimeValue;
+            updateDateValue,constructionStartDateTimeValue,constructionEndDateTimeValue,kitchenState;
+
+    public static final String STATE_A="A", STATE_C="C", STATE_N="N", STATE_P="P";
 
     public KitchenTable() {
     }
 
-    public KitchenTable(String kitchen_idValue, String house_typeValue, String roof_typeValue, String kitchen_heightValue, String upload_statusValue,String customer_idValue,String placeImageValue,String geoAddressValue,String costOfChullhaValue,String kitchenUniqueIdValue,String latitudeValue,String longitudeValue,String uploadDateValue,String step1_imageValue,String step2_imageValue,String addedDateValue,String userUniqueIdValue,String addedByIdValue,String updateDateValue,String constructionStartDateTimeValue,String constructionEndDateTimeValue) {
+    public KitchenTable(String kitchen_idValue, String house_typeValue, String roof_typeValue,
+                        String kitchen_heightValue, String upload_statusValue,String customer_idValue,
+                        String placeImageValue,String geoAddressValue,String costOfChullhaValue,String kitchenUniqueIdValue,
+                        String latitudeValue,String longitudeValue,String uploadDateValue,String step1_imageValue,
+                        String step2_imageValue,String addedDateValue,String userUniqueIdValue,String addedByIdValue,
+                        String updateDateValue,String constructionStartDateTimeValue,String constructionEndDateTimeValue,
+                        String kitchenState)
+    {
         this.kitchen_idValue = kitchen_idValue;
         this.house_typeValue = house_typeValue;
         this.roof_typeValue = roof_typeValue;
@@ -55,6 +72,7 @@ public class KitchenTable implements Parcelable{
         this.updateDateValue=updateDateValue;
         this.constructionStartDateTimeValue=constructionStartDateTimeValue;
         this.constructionEndDateTimeValue=constructionEndDateTimeValue;
+        this.kitchenState=kitchenState;
     }
 
     protected KitchenTable(Parcel in) {
@@ -291,6 +309,71 @@ public class KitchenTable implements Parcelable{
 
     public void setConstructionEndDateTimeValue(String constructionEndDateTimeValue) {
         this.constructionEndDateTimeValue = constructionEndDateTimeValue;
+    }
+
+    ///events
+    static final public int KITCHEN_ADD_SUCCESS=0,KITCHEN_ADD_FAILED=1,KITCHEN_ADD_RESPONSE_FAILED=2,
+            KITCHEN_ADD_JSON_ERROR=3,KITCHEN_ADD_NO_CONNECTION_ERROR=4,KITCHEN_ADD_SERVER_ERROR=5,
+            KITCHEN_ADD_NEWORK_ERROR=6,KITCHEN_ADD_PARSE_ERROR=7, KITCHEN_ADD_UNKNOWN_ERROR=8;
+
+
+    private List<KitchenListener> kitchenEvent = new ArrayList<KitchenListener>();
+
+    public void setOnKitchenEvent(KitchenListener toAdd) {
+
+        kitchenEvent.add(toAdd);
+    }
+    public void fireOnKitchenEvent(int event) {
+
+        for (KitchenListener hl : kitchenEvent) {
+
+            if(event==KITCHEN_ADD_SUCCESS)
+            {
+                hl.onKitchen_Add_Success();
+            }
+            else if(event==KITCHEN_ADD_FAILED)
+            {
+                hl.onKitchen_Add_Failed();
+            }
+            else if(event==KITCHEN_ADD_RESPONSE_FAILED)
+            {
+                hl.onKitchen_Add_Response_Failed();
+            }
+            else if(event==KITCHEN_ADD_JSON_ERROR)
+            {
+                hl.onKitchen_Add_Json_Error();
+            }
+            else if(event==KITCHEN_ADD_NO_CONNECTION_ERROR)
+            {
+                hl.onKitchen_Add_No_Connection_Error();
+            }
+            else if(event==KITCHEN_ADD_SERVER_ERROR)
+            {
+                hl.onKitchen_Add_Server_Error();
+            }
+            else if(event==KITCHEN_ADD_NEWORK_ERROR)
+            {
+                hl.onKitchen_Add_Network_Error();
+            }
+            else if(event==KITCHEN_ADD_PARSE_ERROR)
+            {
+                hl.onKitchen_Add_Parse_Error();
+            }
+            else if(event==KITCHEN_ADD_UNKNOWN_ERROR)
+            {
+                hl.onKitchen_Add_Unknown_Error();
+            }
+
+
+        }
+    }
+
+    public String getKitchenState() {
+        return kitchenState;
+    }
+
+    public void setKitchenState(String kitchenState) {
+        this.kitchenState = kitchenState;
     }
 }
 

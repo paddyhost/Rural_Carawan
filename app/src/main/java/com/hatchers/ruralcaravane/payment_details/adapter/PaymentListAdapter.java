@@ -42,20 +42,10 @@ public class PaymentListAdapter  extends RecyclerView.Adapter<PaymentListAdapter
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final PaymentTable paymentTable = paymentTableArrayList.get(position);
-        KitchenTable kitchenTable = KitchenTableHelper.getKitchenDetalBuUniqId(context,paymentTable.getKitchenIdValue());
         holder.totalCost.setText(String.valueOf(context.getResources().getString(R.string.Rs)+" "+paymentTable.getPayment_amountValue()+"/-"));
         holder.paitAmount.setText(String.valueOf("Paid : "+context.getResources().getString(R.string.Rs)+" "+paymentTable.getTotalPaidValue()+"/-"));
         holder.remainAmunt.setText(String.valueOf("Balance : "+context.getResources().getString(R.string.Rs)+" "+paymentTable.getRemaining_amountValue()+"/-"));
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction();
-                PaymentDetailsFragment paymentDetailsFragment=PaymentDetailsFragment.getPaymentInstance(paymentTable);
-                fragmentTransaction.replace(R.id.frame_layout,paymentDetailsFragment).addToBackStack(null).commit();
-
-            }
-        });
     }
 
     @Override

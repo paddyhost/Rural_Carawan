@@ -43,6 +43,7 @@ public class KitchenTableHelper {
                 values.put(KitchenTable.UPDATE_DATE,kitchenTable.getUpdateDateValue());
                 values.put(KitchenTable.CONSTRUCTION_START_DATETIME,kitchenTable.getConstructionStartDateTimeValue());
                 values.put(KitchenTable.CONSTRUCTION_END_DATETIME,kitchenTable.getConstructionEndDateTimeValue());
+                values.put(KitchenTable.KITCHEN_STATE,kitchenTable.getKitchenState());
 
             long i=   db.insert(KitchenTable.KITCHEN_TABLE, null, values);
             if ( i> 0)
@@ -89,9 +90,10 @@ public class KitchenTableHelper {
             values.put(KitchenTable.ADDED_BY_ID,kitchen_table.getAddedByIdValue());
             values.put(KitchenTable.USER_UNIQUE_ID,kitchen_table.getUserUniqueIdValue());
             values.put(KitchenTable.UPDATE_DATE,getCurrentDateTime());
-            values.put(KitchenTable.UPLOAD_STATUS,"1");
+            values.put(KitchenTable.UPLOAD_STATUS,kitchen_table.getUpload_statusValue());
             values.put(KitchenTable.CONSTRUCTION_START_DATETIME,kitchen_table.getConstructionStartDateTimeValue());
             values.put(KitchenTable.CONSTRUCTION_END_DATETIME,kitchen_table.getConstructionEndDateTimeValue());
+            values.put(KitchenTable.KITCHEN_STATE,kitchen_table.getKitchenState());
 
 
             // upadating Row
@@ -193,6 +195,7 @@ public class KitchenTableHelper {
                 kitchen_table.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPDATE_DATE)));
                 kitchen_table.setConstructionStartDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_START_DATETIME)));
                 kitchen_table.setConstructionEndDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_END_DATETIME)));
+                kitchen_table.setKitchenState(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_STATE)));
 
                 cursor.moveToNext();
                 return  kitchen_table;
@@ -277,7 +280,7 @@ public class KitchenTableHelper {
     {
         SQLiteDatabase db = new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ KitchenTable.KITCHEN_TABLE+" WHERE  "+ KitchenTable.UPLOAD_STATUS+"='1'",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ KitchenTable.KITCHEN_TABLE+" WHERE  "+ KitchenTable.UPLOAD_STATUS+"='0'",null);
         try
         {
 
@@ -304,6 +307,7 @@ public class KitchenTableHelper {
             kitchenTable.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPDATE_DATE)));
             kitchenTable.setConstructionStartDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_START_DATETIME)));
             kitchenTable.setConstructionEndDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_END_DATETIME)));
+            kitchenTable.setKitchenState(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_STATE)));
 
 
             return kitchenTable;
@@ -348,6 +352,7 @@ public class KitchenTableHelper {
             kitchenTable.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPDATE_DATE)));
             kitchenTable.setConstructionStartDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_START_DATETIME)));
             kitchenTable.setConstructionEndDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_END_DATETIME)));
+            kitchenTable.setKitchenState(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_STATE)));
 
 
             return kitchenTable;

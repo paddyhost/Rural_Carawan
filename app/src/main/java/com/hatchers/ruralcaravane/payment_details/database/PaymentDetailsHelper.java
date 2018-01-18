@@ -153,7 +153,7 @@ public class PaymentDetailsHelper {
         ArrayList<PaymentTable> paymentTableArrayList = new ArrayList<PaymentTable>();
         SQLiteDatabase db = new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ PaymentTable.PAYMENT_TABLE+" WHERE "+PaymentTable.CUSTOMER_ID+" = '"+customeruniq_id+"'",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ PaymentTable.PAYMENT_TABLE+" WHERE "+PaymentTable.CUSTOMER_ID+" = '"+customeruniq_id+"' ORDER BY "+PaymentTable.DATE_OF_PAYMENT+ " DESC ",null);
         try
         {
             cursor.moveToFirst();

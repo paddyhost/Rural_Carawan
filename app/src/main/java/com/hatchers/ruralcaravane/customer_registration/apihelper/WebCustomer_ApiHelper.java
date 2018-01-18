@@ -25,6 +25,7 @@ import com.hatchers.ruralcaravane.constants.WebServiceUrls;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
+import com.hatchers.ruralcaravane.kitchen_suitability.apihelper.WebKitchen_ApiHelper;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.utils.VolleyMultipartRequest;
 
@@ -50,6 +51,7 @@ public class WebCustomer_ApiHelper
         final CustomerTable customerTable =CustomerTableHelper.getUnUploadCustomerData(activity);
         if(customerTable==null)
         {
+            WebKitchen_ApiHelper.addKitchenServer(activity);
             return false;
         }
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, WebServiceUrls.urlAddCustomer, new Response.Listener<NetworkResponse>() {

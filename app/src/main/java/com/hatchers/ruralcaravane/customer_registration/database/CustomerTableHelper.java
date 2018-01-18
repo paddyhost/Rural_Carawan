@@ -141,7 +141,7 @@ public class CustomerTableHelper {
         ArrayList<CustomerTable> customerTableArrayList = new ArrayList<CustomerTable>();
         SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE,null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE+" ORDER BY "+CustomerTable.ADDED_DATE + " DESC",null);
         try
         {
             cursor.moveToFirst();

@@ -32,6 +32,7 @@ import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
+import com.hatchers.ruralcaravane.kitchen_suitability.apihelper.WebKitchen_ApiHelper;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 import com.hatchers.ruralcaravane.runtime_permissions.RuntimePermissions;
@@ -229,6 +230,9 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
                                     android.support.v7.app.AlertDialog alertDialog = builder.create();
                                     alertDialog.show();
                                 }
+
+                                WebKitchen_ApiHelper.addKitchenServer(getActivity());
+
                             }
                         });
                     }
@@ -388,4 +392,6 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         String datetime = ft.format(dNow);
         kitchenUniqueIdText.setText("KIT"+datetime);
     }
+
+
 }

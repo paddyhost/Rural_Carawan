@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -58,16 +59,15 @@ public class PaymentDetailsFragment extends Fragment {
     private ImageView receiptImageView;
     private Button savePayment;
     private String paymentUniqueId;
-    private PaymentTable paymentDetailsObj;
 
     PaymentTable paymentTable;
+    private CustomerTable customertable;
 
 
     public PaymentDetailsFragment() {
         // Required empty public constructor
     }
 
-    private CustomerTable customertable;
     public static PaymentDetailsFragment getInstance(CustomerTable customertable)
     {
         PaymentDetailsFragment fragment = new PaymentDetailsFragment();
@@ -89,35 +89,31 @@ public class PaymentDetailsFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
         {
             customertable = getArguments().getParcelable(CustomerTable.CUSTOMER_TABLE);
-            paymentDetailsObj =getArguments().getParcelable(PaymentTable.PAYMENT_TABLE);
         }
     }
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_payment_details, container, false);
         ((AppCompatActivity)getActivity()).setSupportActionBar(payment_toolbar);
         initializations(view);
         onClickListeners();
         addTextListner();
-        setPaymentDetailsFromList();
 
         return view;
     }
 
-
-
     private void initializations(View view)
     {
-
         payment_toolbar = (Toolbar) view.findViewById(R.id.payment_toolbar);
         payment_amount = (TextInputEditText) view.findViewById(R.id.payment_amount);
         paid_amount = (TextInputEditText) view.findViewById(R.id.paid_amount);
@@ -132,7 +128,6 @@ public class PaymentDetailsFragment extends Fragment {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
         }
-
     }
 
     private void onClickListeners()
@@ -146,64 +141,65 @@ public class PaymentDetailsFragment extends Fragment {
 
         receiptImageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 showPictureDialog();
+
             }
         });
         savePayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                setPaymentDetailsData();
-                if(checkValidation()) {
+                    setPaymentDetailsData();
+                    if (checkValidation()) {
+                        FileHelper.savePNGImage(Folders.PAYMENTFOLDER, payBitmap, PAYMENT_PREFIX + paymentTable.getPaymentUniqueIdValue());
+                        File image = FileHelper.createfile(Folders.PAYMENTFOLDER, PAYMENT_PREFIX + paymentTable.getPaymentUniqueIdValue(), FileType.PNG);
+                        if (image != null) {
+                            if (image.exists()) {
+                                paymentTable.setReceiptImageValue(image.getAbsolutePath());
+                            }
 
-                    SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
-                            .setTitleText("Please wait");
-
-                    sweetAlertDialog.show();
-                    FileHelper.savePNGImage(Folders.PAYMENTFOLDER,payBitmap,PAYMENT_PREFIX+paymentTable.getPaymentUniqueIdValue());
-                    File image = FileHelper.createfile(Folders.PAYMENTFOLDER,PAYMENT_PREFIX+paymentTable.getPaymentUniqueIdValue(), FileType.PNG);
-                    if(image!=null)
-                    {
-                        if(image.exists())
-                        {
-                            paymentTable.setReceiptImageValue(image.getAbsolutePath());
                         }
-                    }
-                    if(PaymentDetailsHelper.insertPaymentDetailsData(getContext(), paymentTable))
-                    {
-                        sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                        sweetAlertDialog.setTitleText("Payment Details Added Successfully");
-                        sweetAlertDialog.setConfirmText("Ok");
-                        sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                sweetAlertDialog.dismissWithAnimation();
 
-                                payment_amount.setText("");
-                                paid_amount.setText("");
-                                remaining_amount.setText("");
-                                receiptImageView.setImageResource(R.mipmap.receipt);
-                                payBitmap=null;
-                                getActivity().onBackPressed();
-                            }
-                        });
-                    }
-                    else
-                    {
+                        SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
+                                    .setTitleText("Please wait");
 
-                        sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        sweetAlertDialog.setTitleText("Payment Details Add Failed");
-                        sweetAlertDialog.setConfirmText("Ok");
-                        sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                sweetAlertDialog.dismissWithAnimation();
+                            sweetAlertDialog.show();
+
+
+                            if (PaymentDetailsHelper.insertPaymentDetailsData(getContext(), paymentTable)) {
+                                sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                sweetAlertDialog.setTitleText("Payment Details Added Successfully");
+                                sweetAlertDialog.setConfirmText("Ok");
+                                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismissWithAnimation();
+
+                                        payment_amount.setText("");
+                                        paid_amount.setText("");
+                                        remaining_amount.setText("");
+                                        receiptImageView.setImageResource(R.mipmap.receipt);
+                                        payBitmap = null;
+                                        getActivity().onBackPressed();
+                                    }
+                                });
+                            } else {
+
+                                sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                sweetAlertDialog.setTitleText("Payment Details Add Failed");
+                                sweetAlertDialog.setConfirmText("Ok");
+                                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismissWithAnimation();
+                                    }
+                                });
                             }
-                        });
-                    }
+                        }
+
                 }
-            }
         });
     }
 
@@ -382,7 +378,7 @@ public class PaymentDetailsFragment extends Fragment {
         String datetime = ft.format(dNow);
         paymentUniqueId="PAY"+datetime;
 
-        return "" ;
+        return paymentUniqueId;
     }
 
     private boolean checkValidation()
@@ -411,33 +407,6 @@ public class PaymentDetailsFragment extends Fragment {
         }
 
         return response;
-    }
-
-    private void setPaymentDetailsFromList()
-    {
-        if(paymentDetailsObj!=null)
-        {
-            payment_amount.setText(paymentDetailsObj.getPayment_amountValue());
-            paid_amount.setText(paymentDetailsObj.getTotalPaidValue());
-            remaining_amount.setText(paymentDetailsObj.getRemaining_amountValue());
-            payment_amount.setFocusable(false);
-            paid_amount.setFocusable(false);
-            receipt_number.setText(paymentDetailsObj.getReceiptNoValue());
-            receipt_number.setFocusable(false);
-
-            File image = FileHelper.createfile(Folders.PAYMENTFOLDER,PAYMENT_PREFIX+paymentTable.getPaymentUniqueIdValue(), FileType.PNG);
-            if(image!=null)
-            {
-                if(image.exists())
-                {
-                    Glide.with(getActivity())
-                            .load(image.getAbsolutePath())
-                            .error(R.drawable.user_profile)
-                            .into(receiptImageView);
-                }
-            }
-
-        }
     }
 
 }
