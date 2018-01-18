@@ -117,7 +117,6 @@ public class CustomerRegistrationActivity extends AppCompatActivity
                 }
             }
         });
-
     }
 
     private void viewPagerListener()
