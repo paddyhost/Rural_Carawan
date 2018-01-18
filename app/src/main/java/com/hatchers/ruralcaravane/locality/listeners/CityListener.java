@@ -1,4 +1,4 @@
-package com.hatchers.ruralcaravane.customer_registration.listener;
+package com.hatchers.ruralcaravane.locality.listeners;
 
 /**
  * Created by Ashwin on 07-Jan-18.

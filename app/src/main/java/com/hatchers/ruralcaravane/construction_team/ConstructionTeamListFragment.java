@@ -91,7 +91,7 @@ public class ConstructionTeamListFragment extends Fragment {
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         constructionRecyclerView.setLayoutManager(layoutManager);
 
-        constructionTables= ConstructionTableHelper.getConstructionTeamList(getContext());
+        constructionTables= ConstructionTableHelper.getConstructionTeamList(getContext(),customertable);
         constructionListAdapter=new ConstructionListAdapter(getContext(),constructionTables);
 
         constructionRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));

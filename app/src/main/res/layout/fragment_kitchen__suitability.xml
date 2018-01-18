@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/colorWhite"
-    tools:context=".kitchen_suitability.KitchenSuitabilityFragment">
+    tools:context=".kitchen_suitability.AddKitchenSuitabilityFragment">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
@@ -12,6 +12,7 @@
         android:background="@color/colorAccent"
         android:id="@+id/kitchen_toolbar"
         app:title="Kitchen Suitability"
+        app:titleTextColor="@color/colorWhite"
         app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
         app:contentInsetStart="0dp">
 
@@ -190,7 +191,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
-            android:scaleType="fitXY"
+            android:scaleType="centerCrop"
             android:id="@+id/takePicture"
             android:src="@drawable/capture_area"/>
 

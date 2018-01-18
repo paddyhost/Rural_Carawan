@@ -20,7 +20,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -42,7 +41,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
 
 
-public class KitchenSuitabilityFragment extends Fragment implements
+public class AddKitchenSuitabilityFragment extends Fragment implements
         AdapterView.OnItemSelectedListener {
 
     private int CAMERA = 1;
@@ -58,21 +57,20 @@ public class KitchenSuitabilityFragment extends Fragment implements
     FrameLayout layout;
     private GoogleApiClient client;
     private TextView kitchenUniqueIdText;
-    private static final String KITCHEN_SIZE="kitchen_size";
-    private int kitchenSize;
 
-    public KitchenSuitabilityFragment() {
+
+
+    public AddKitchenSuitabilityFragment() {
         // Required empty public constructor
     }
 
 
     private CustomerTable customertable;
-    public static KitchenSuitabilityFragment getInstance(CustomerTable customertable,int kitchenSize)
+    public static AddKitchenSuitabilityFragment getInstance(CustomerTable customertable)
     {
-        KitchenSuitabilityFragment fragment = new KitchenSuitabilityFragment();
+        AddKitchenSuitabilityFragment fragment = new AddKitchenSuitabilityFragment();
         Bundle args = new Bundle();
         args.putParcelable(CustomerTable.CUSTOMER_TABLE, customertable);
-        args.putInt(KITCHEN_SIZE,kitchenSize);
         fragment.setArguments(args);
         return fragment;
 
@@ -85,7 +83,7 @@ public class KitchenSuitabilityFragment extends Fragment implements
         if (getArguments() != null)
         {
             customertable = getArguments().getParcelable(CustomerTable.CUSTOMER_TABLE);
-            kitchenSize= getArguments().getInt(KITCHEN_SIZE);
+
         }
     }
 
@@ -240,8 +238,7 @@ public class KitchenSuitabilityFragment extends Fragment implements
         Date date=new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         kitchen_table.setUploadDateValue(formatter.format(date));
-        kitchenSize=kitchenSize +1;
-        kitchen_table.setKitchenName(String.valueOf("Kitchen "+kitchenSize));
+
     }
 
     private void showPictureDialog()

@@ -20,8 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hatchers.ruralcaravane.R;
@@ -29,6 +31,7 @@ import com.hatchers.ruralcaravane.construction_team.ConstructionTeamRegistration
 import com.hatchers.ruralcaravane.construction_team.adapter.ConstructionListAdapter;
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTable;
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTableHelper;
+import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
@@ -46,22 +49,22 @@ public class KitchenConstructionFragment extends Fragment {
     ArrayList<ConstructionTable> constructionTables;
     private RecyclerView constructionRecyclerView;
     private ConstructionListAdapter constructionListAdapter;
-    private FloatingActionButton add_construction;
+    private Button add_construction;
     private TextView houseTypeTxt, roofTypeTxt, heightTxt;
-    private ImageView kitchenConstructionImage;
+    private ImageView place_image;
     private Toolbar kitchen_const_Toolbar;
     private ImageView half_constructed_image,complete_constructed_image;
     private int HALF_IMAGE = 1, FULL_IMAGE = 2;
     Bitmap conBitmap,conBitmap1;
+    private CustomerTable customerTable;
 
-    private TextView kitchenName;
 
     public KitchenConstructionFragment()
     {
         // Required empty public constructor
     }
 
-    public static KitchenConstructionFragment newInstance(KitchenTable kitchenTable) {
+    public static KitchenConstructionFragment getInstance(KitchenTable kitchenTable) {
         KitchenConstructionFragment fragment = new KitchenConstructionFragment();
         Bundle args = new Bundle();
         args.putParcelable(KitchenTable.KITCHEN_TABLE, kitchenTable);
@@ -94,22 +97,23 @@ public class KitchenConstructionFragment extends Fragment {
 
     private void initializations(View view)
     {
-        kitchenName = (TextView)view.findViewById(R.id.kitchenname);
-        add_construction=(FloatingActionButton)view.findViewById(R.id.add_const);
+
+        add_construction=(Button)view.findViewById(R.id.add_construction);
         constructionRecyclerView=(RecyclerView)view.findViewById(R.id.const_list);
         houseTypeTxt = (TextView)view.findViewById(R.id.housetype_txt);
         roofTypeTxt = (TextView)view.findViewById(R.id.roogtype_txt);
         heightTxt = (TextView)view.findViewById(R.id.height_txt);
         kitchen_const_Toolbar=(Toolbar)view.findViewById(R.id.kitchen_const_Toolbar);
+        place_image=(ImageView)view.findViewById(R.id.place_image);
 
         constructionRecyclerView = (RecyclerView) view.findViewById(R.id.const_list);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL, false);
         constructionRecyclerView.setLayoutManager(layoutManager);
 
         constructionTables= ConstructionTableHelper.getConstructionTeamListByKitchen(getContext(),kitchenTable.getKitchenUniqueIdValue());
         constructionListAdapter=new ConstructionListAdapter(getContext(),constructionTables);
 
-        constructionRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         constructionRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         constructionRecyclerView.setAdapter(constructionListAdapter);
@@ -128,20 +132,28 @@ public class KitchenConstructionFragment extends Fragment {
 
     }
 
-
     private void setKitchenData()
     {
         houseTypeTxt.setText(String.valueOf("House Type : "+kitchenTable.getHouse_typeValue()));
         roofTypeTxt.setText(String.valueOf("Roof Type : "+kitchenTable.getRoof_typeValue()));
         heightTxt.setText(String.valueOf("Height : "+kitchenTable.getKitchen_heightValue()));
-        kitchenName.setText(String.valueOf(kitchenTable.getKitchenName()));
+
+
+        File image3 = FileHelper.createfile(Folders.CHULHAFOLDER, kitchenTable.getPlaceImageValue(), FileType.PNG);
+        if (image3 != null) {
+            Glide.with(getActivity())
+                    .load(image3.getAbsolutePath())
+                    .error(R.drawable.ic_add_image)
+                    .into(place_image);
+
+        }
 
 
         File image = FileHelper.createfile(Folders.CHULHAFOLDER, kitchenTable.getStep1_imageValue(), FileType.PNG);
         if (image != null) {
             Glide.with(getActivity())
                     .load(image.getAbsolutePath())
-                    .error(R.drawable.ic_add_image)
+                    .error(R.drawable.capture_area)
                     .into(half_constructed_image);
 
         }
@@ -149,16 +161,16 @@ public class KitchenConstructionFragment extends Fragment {
 
         File image1 = FileHelper.createfile(Folders.CHULHAFOLDER, kitchenTable.getStep2_imageValue(), FileType.PNG);
         if (image1 != null) {
-            Glide.with(getActivity())
-                    .load(image1.getAbsolutePath())
-                    .error(R.drawable.ic_add_image)
+            Glide.with(getActivity()).load(image1.getAbsolutePath())
+                    .error(R.drawable.capture_area)
                     .into(complete_constructed_image);
         }
 
     }
 
     @Override
-    public void onResume() {
+    public void onResume()
+    {
         super.onResume();
         File image = FileHelper.createfile(Folders.CHULHAFOLDER, kitchenTable.getStep1_imageValue(), FileType.PNG);
         if (image != null) {
@@ -183,9 +195,25 @@ public class KitchenConstructionFragment extends Fragment {
         add_construction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment= ConstructionTeamRegistrationFragment.newInstance(kitchenTable);
-                fragmentTransaction.replace(R.id.frame_layout,constructionTeamRegistrationFragment).addToBackStack(null).commit();
+
+                File image = FileHelper.createfile(Folders.CHULHAFOLDER, kitchenTable.getStep1_imageValue(), FileType.PNG);
+                if(image!=null) {
+                    if(!image.exists()){
+                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment= ConstructionTeamRegistrationFragment.newInstance(kitchenTable);
+                        fragmentTransaction.replace(R.id.frame_layout,constructionTeamRegistrationFragment).addToBackStack(null).commit();
+                    }
+
+                    else
+                    {
+                        add_construction.setClickable(false);
+                        //Toast.makeText(getActivity(),"You can't add team member ",Toast.LENGTH_SHORT).show();
+                        add_construction.setBackgroundColor(getActivity().getResources().getColor(R.color.colorDarkgray));
+                    }
+                }
+
+
+
             }
         });
 
@@ -197,16 +225,37 @@ public class KitchenConstructionFragment extends Fragment {
         });
 
         half_constructed_image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showPictureDialog(half_constructed_image);
-            }
-        });
+                    @Override
+                    public void onClick(View v) {
+                        if(constructionTables.size()>0) {
+                            showPictureDialog(half_constructed_image);
+                        }
+
+                        else
+                        {
+                            Toast.makeText(getActivity(),"Please add atleast 1 team member",Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
 
         complete_constructed_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPictureDialog(complete_constructed_image);
+                File image = FileHelper.createfile(Folders.CHULHAFOLDER, kitchenTable.getStep1_imageValue(), FileType.PNG);
+                if(image!=null) {
+                    if(image.exists()){
+                        showPictureDialog(complete_constructed_image);
+                    }
+                        else
+                    {
+                        Toast.makeText(getActivity(),"Please upload step 1 image first",Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                else
+                {
+                    Toast.makeText(getActivity(),"Please upload step 1 image first",Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

@@ -19,6 +19,7 @@ import android.view.WindowManager;
 
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.customer_registration.adapter.CustomerTabAdapter;
+import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.runtime_permissions.RuntimePermissions;
 import com.hatchers.ruralcaravane.user_login.LoginActivity;
@@ -27,6 +28,7 @@ import com.hatchers.ruralcaravane.user_login.UserDetailsFragment;
 
 public class CustomerRegistrationActivity extends AppCompatActivity
 {
+
     private Toolbar customer_toolbar;
     private TabLayout tabLayout;
     public static ViewPager viewPager;
@@ -141,7 +143,6 @@ public class CustomerRegistrationActivity extends AppCompatActivity
         });
 
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu)

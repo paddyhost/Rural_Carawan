@@ -30,36 +30,41 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="30dp"
-                android:text="Select Kitchen"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:layout_marginBottom="10dp"/>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp">
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="16dp">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/kitchen_image"
-                    android:layout_marginRight="10dp"/>
-                <Spinner
-                    android:id="@+id/kitchen_spinner"
+                    android:src="@drawable/amount"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"/>
+
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:spinnerMode="dropdown"
-                    style="@android:style/Widget.Holo.Light.Spinner" />
-            </LinearLayout>
+                    android:id="@+id/receipt_layout">
 
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter Receipt Number"
+                        android:imeOptions="actionNext"
+                        android:id="@+id/receipt_number"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textSize="14dp"
+                        android:maxLength="4"
+                        android:paddingBottom="15dp"/>
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"

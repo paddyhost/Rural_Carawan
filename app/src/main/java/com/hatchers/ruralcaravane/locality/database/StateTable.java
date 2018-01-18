@@ -1,4 +1,4 @@
-package com.hatchers.ruralcaravane.customer_registration.model;
+package com.hatchers.ruralcaravane.locality.database;
 
 /**
  * Created by Nikam on 15/01/2018.

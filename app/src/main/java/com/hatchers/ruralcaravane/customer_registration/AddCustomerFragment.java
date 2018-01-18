@@ -32,16 +32,17 @@ import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.customer_registration.apihelper.WebCustomer_ApiHelper;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
-import com.hatchers.ruralcaravane.customer_registration.listener.CityListener;
-import com.hatchers.ruralcaravane.customer_registration.listener.StateListener;
-import com.hatchers.ruralcaravane.customer_registration.listener.VillageListner;
-import com.hatchers.ruralcaravane.customer_registration.model.CityTable;
-import com.hatchers.ruralcaravane.customer_registration.model.CityVillageList;
-import com.hatchers.ruralcaravane.customer_registration.model.StateTable;
-import com.hatchers.ruralcaravane.customer_registration.model.VillageTable;
+import com.hatchers.ruralcaravane.locality.apihelper.Locality_Web_ApiHelper;
+import com.hatchers.ruralcaravane.locality.database.CityTable;
+import com.hatchers.ruralcaravane.locality.database.StateTable;
+import com.hatchers.ruralcaravane.locality.database.VillageTable;
+import com.hatchers.ruralcaravane.locality.listeners.CityListener;
+import com.hatchers.ruralcaravane.locality.listeners.StateListener;
+import com.hatchers.ruralcaravane.locality.listeners.VillageListner;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
+import com.hatchers.ruralcaravane.locality.model.CityVillageList;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.scaner.AdharScanner;
 
@@ -97,7 +98,7 @@ public class AddCustomerFragment extends Fragment {
 
         //call city list api
         CityVillageList cityList=new CityVillageList();
-        WebCustomer_ApiHelper.getCityList(getActivity(),cityList);
+        Locality_Web_ApiHelper.getCityList(getActivity(),cityList);
         setCityEvent(cityList);
         initializations(view);
         generateUniqueId();
@@ -175,7 +176,7 @@ public class AddCustomerFragment extends Fragment {
                 CityTable city = cityArrayList.get(position);
                 //call village list api
                 CityVillageList cityVillageList=new CityVillageList();
-                WebCustomer_ApiHelper.getVillageList(getActivity(),cityVillageList,city.getId());
+                Locality_Web_ApiHelper.getVillageList(getActivity(),cityVillageList,city.getId());
                 setVillageEvent(cityVillageList);
                 citySpinner.setSelection(position);
                 cityid=city.getId();

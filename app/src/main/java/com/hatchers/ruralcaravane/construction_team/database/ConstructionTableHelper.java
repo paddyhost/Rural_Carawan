@@ -6,7 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.database.DatabaseHandler;
+import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 
 import java.util.ArrayList;
 
@@ -100,13 +102,12 @@ public class ConstructionTableHelper {
     }
 
 
-
-    public static ArrayList<ConstructionTable> getConstructionTeamList(Context context)
+    public static ArrayList<ConstructionTable> getConstructionTeamList(Context context, CustomerTable customerTable)
     {
         ArrayList<ConstructionTable> constructionTableArrayList = new ArrayList<ConstructionTable>();
         SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ ConstructionTable.CONSTRUCTION_TEAM_TABLE,null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ ConstructionTable.CONSTRUCTION_TEAM_TABLE+" WHERE "+ KitchenTable.CUSTOMER_ID+"='"+customerTable.getUniqueIdValue()+"'",null);
         try
         {
             cursor.moveToFirst();

@@ -5,6 +5,6 @@ public class Folders {
     public  final static String APPROOTFOLDER="ruralcaravan";
     public final static String  CHULHAFOLDER="chulhaImage";
     public final static String  CUSTOMERFOLDER="customerImage";
-    public final static String  PAYMENTFOLDER="customerImage";
+    public final static String  PAYMENTFOLDER="Payment";
 
 }

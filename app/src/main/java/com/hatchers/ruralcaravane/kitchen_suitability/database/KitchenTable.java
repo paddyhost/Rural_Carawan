@@ -9,38 +9,37 @@ public class KitchenTable implements Parcelable{
 
     public static final String KITCHEN_TABLE="KitchenTable";
 
-    public static final String KITCHEN_ID="kitchen_id",KITCHE_NAME="kitchen_name",KITCHEN_UNIQUE_ID="unique_id",HOUSE_TYPE="house_type",
+    public static final String KITCHEN_ID="kitchen_id",KITCHEN_UNIQUE_ID="unique_id",HOUSE_TYPE="house_type",
                                ROOF_TYPE="roof_type",KITCHEN_HEIGHT="kitchen_height",UPLOAD_STATUS="upload_status",
                                PLACE_IMAGE="place_image",LATITUDE="latitude",LONGITUDE="longitude",GEO_ADDRESS="geo_address",
                                UPLOAD_DATE="upload_date",COST_OF_CHULLHA="cost_of_chullha",CUSTOMER_ID = "customer_id",
-                               CUSTOMER_NAME="customer_name",STEP1_IMAGE="step1_image",STEP2_IMAGE="step2_image",
-                               ADDED_DATE="added_date",USER_UNIQUE_ID="user_unique_id",ADDED_BY_ID="added_by_id",
-                               UPDATE_DATE="update_date";
-//c_starttime, c_completetime,
+                               STEP1_IMAGE="step1_image",STEP2_IMAGE="step2_image",ADDED_DATE="added_date",USER_UNIQUE_ID="user_unique_id",ADDED_BY_ID="added_by_id",
+                               UPDATE_DATE="update_date",CONSTRUCTION_START_DATETIME="construction_start_datetime",CONSTRUCTION_END_DATETIME="construction_end_datetime";
+
     public static final String CREATE_KITCHEN_TABLE="CREATE TABLE " + KITCHEN_TABLE +
-            "("+KITCHEN_ID+" int PRIMARY KEY ,"+KITCHE_NAME+" TEXT,"+HOUSE_TYPE+" TEXT,"+ROOF_TYPE+" TEXT,"
-            +KITCHEN_HEIGHT+" TEXT, "+UPLOAD_STATUS+" TEXT, "+CUSTOMER_ID+" TEXT, "+CUSTOMER_NAME+" TEXT, "
-            +PLACE_IMAGE+" TEXT, "+KITCHEN_UNIQUE_ID+" TEXT, "+LATITUDE+" TEXT, "+LONGITUDE+" TEXT, "
-            +GEO_ADDRESS+" TEXT, "+UPLOAD_DATE+" TEXT, "+STEP1_IMAGE+" TEXT, "+STEP2_IMAGE+" TEXT, "
-            +COST_OF_CHULLHA+" TEXT, "+ADDED_DATE+" TEXT, "+USER_UNIQUE_ID+" TEXT, "+ADDED_BY_ID+" TEXT, "+UPDATE_DATE+" TEXT)";
+            "("+KITCHEN_ID+" int PRIMARY KEY ,"+HOUSE_TYPE+" TEXT,"+ROOF_TYPE+" TEXT,"
+            +KITCHEN_HEIGHT+" TEXT, "+UPLOAD_STATUS+" TEXT, "+CUSTOMER_ID+" TEXT, "
+            +PLACE_IMAGE+" TEXT, "+KITCHEN_UNIQUE_ID+" TEXT, "+LATITUDE+" TEXT, "
+            +LONGITUDE+" TEXT, "+GEO_ADDRESS+" TEXT, "+UPLOAD_DATE+" TEXT, "+STEP1_IMAGE+" TEXT, "
+            +STEP2_IMAGE+" TEXT, " +COST_OF_CHULLHA+" TEXT, "+ADDED_DATE+" TEXT, "+USER_UNIQUE_ID+" TEXT, "
+            +ADDED_BY_ID+" TEXT, "+UPDATE_DATE+" TEXT, "+CONSTRUCTION_START_DATETIME+" TEXT, "+CONSTRUCTION_END_DATETIME+" TEXT)";
 
     private String kitchen_idValue,house_typeValue,roof_typeValue,kitchen_heightValue,
-            upload_statusValue,customer_idValue,customer_nameValue,placeImageValue,
-            kitchenUniqueIdValue,latitudeValue,longitudeValue,uploadDateValue,geoAddressValue,
-            costOfChullhaValue,step1_imageValue,step2_imageValue,addedDateValue,userUniqueIdValue,
-            addedByIdValue,updateDateValue,kitchenName;
+            upload_statusValue,customer_idValue,placeImageValue,kitchenUniqueIdValue,
+            latitudeValue,longitudeValue,uploadDateValue,geoAddressValue,costOfChullhaValue,
+            step1_imageValue,step2_imageValue,addedDateValue,userUniqueIdValue,addedByIdValue,
+            updateDateValue,constructionStartDateTimeValue,constructionEndDateTimeValue;
 
     public KitchenTable() {
     }
 
-    public KitchenTable(String kitchen_idValue,String kichenName, String house_typeValue, String roof_typeValue, String kitchen_heightValue, String upload_statusValue,String customer_idValue,String customer_nameValue,String placeImageValue,String geoAddressValue,String costOfChullhaValue,String kitchenUniqueIdValue,String latitudeValue,String longitudeValue,String uploadDateValue,String step1_imageValue,String step2_imageValue,String addedDateValue,String userUniqueIdValue,String addedByIdValue,String updateDateValue) {
+    public KitchenTable(String kitchen_idValue, String house_typeValue, String roof_typeValue, String kitchen_heightValue, String upload_statusValue,String customer_idValue,String placeImageValue,String geoAddressValue,String costOfChullhaValue,String kitchenUniqueIdValue,String latitudeValue,String longitudeValue,String uploadDateValue,String step1_imageValue,String step2_imageValue,String addedDateValue,String userUniqueIdValue,String addedByIdValue,String updateDateValue,String constructionStartDateTimeValue,String constructionEndDateTimeValue) {
         this.kitchen_idValue = kitchen_idValue;
         this.house_typeValue = house_typeValue;
         this.roof_typeValue = roof_typeValue;
         this.kitchen_heightValue = kitchen_heightValue;
         this.upload_statusValue=upload_statusValue;
         this.customer_idValue=customer_idValue;
-        this.customer_nameValue=customer_nameValue;
         this.placeImageValue=placeImageValue;
         this.geoAddressValue=geoAddressValue;
         this.kitchenUniqueIdValue=kitchenUniqueIdValue;
@@ -54,7 +53,8 @@ public class KitchenTable implements Parcelable{
         this.userUniqueIdValue=userUniqueIdValue;
         this.addedByIdValue=addedByIdValue;
         this.updateDateValue=updateDateValue;
-        this.kitchenName = kichenName;
+        this.constructionStartDateTimeValue=constructionStartDateTimeValue;
+        this.constructionEndDateTimeValue=constructionEndDateTimeValue;
     }
 
     protected KitchenTable(Parcel in) {
@@ -64,7 +64,6 @@ public class KitchenTable implements Parcelable{
         kitchen_heightValue = in.readString();
         upload_statusValue = in.readString();
         customer_idValue = in.readString();
-        customer_nameValue = in.readString();
         placeImageValue = in.readString();
         kitchenUniqueIdValue = in.readString();
         latitudeValue = in.readString();
@@ -78,7 +77,8 @@ public class KitchenTable implements Parcelable{
         userUniqueIdValue=in.readString();
         addedByIdValue=in.readString();
         updateDateValue=in.readString();
-        kitchenName = in.readString();
+        constructionStartDateTimeValue=in.readString();
+        constructionEndDateTimeValue=in.readString();
     }
 
 
@@ -90,7 +90,6 @@ public class KitchenTable implements Parcelable{
         dest.writeString(kitchen_heightValue);
         dest.writeString(upload_statusValue);
         dest.writeString(customer_idValue);
-        dest.writeString(customer_nameValue);
         dest.writeString(placeImageValue);
         dest.writeString(kitchenUniqueIdValue);
         dest.writeString(latitudeValue);
@@ -104,12 +103,9 @@ public class KitchenTable implements Parcelable{
         dest.writeString(userUniqueIdValue);
         dest.writeString(addedByIdValue);
         dest.writeString(updateDateValue);
-        dest.writeString(kitchenName);
-    }
+        dest.writeString(constructionStartDateTimeValue);
+        dest.writeString(constructionEndDateTimeValue);
 
-    @Override
-    public String toString() {
-        return kitchenName;
     }
 
     @Override
@@ -175,14 +171,6 @@ public class KitchenTable implements Parcelable{
 
     public void setCustomer_idValue(String customer_idValue) {
         this.customer_idValue = customer_idValue;
-    }
-
-    public String getCustomer_nameValue() {
-        return customer_nameValue;
-    }
-
-    public void setCustomer_nameValue(String customer_nameValue) {
-        this.customer_nameValue = customer_nameValue;
     }
 
     public String getPlaceImageValue() {
@@ -289,12 +277,20 @@ public class KitchenTable implements Parcelable{
         this.updateDateValue = updateDateValue;
     }
 
-    public String getKitchenName() {
-        return kitchenName;
+    public String getConstructionStartDateTimeValue() {
+        return constructionStartDateTimeValue;
     }
 
-    public void setKitchenName(String kitchenName) {
-        this.kitchenName = kitchenName;
+    public void setConstructionStartDateTimeValue(String constructionStartDateTimeValue) {
+        this.constructionStartDateTimeValue = constructionStartDateTimeValue;
+    }
+
+    public String getConstructionEndDateTimeValue() {
+        return constructionEndDateTimeValue;
+    }
+
+    public void setConstructionEndDateTimeValue(String constructionEndDateTimeValue) {
+        this.constructionEndDateTimeValue = constructionEndDateTimeValue;
     }
 }
 

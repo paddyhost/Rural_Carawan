@@ -22,12 +22,13 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
+import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
@@ -35,6 +36,7 @@ import com.hatchers.ruralcaravane.payment_details.database.PaymentDetailsHelper;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -43,7 +45,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
 
-public class PaymentDetailsFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class PaymentDetailsFragment extends Fragment {
 
 
 
@@ -51,13 +53,11 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
     private int RESULT_CANCELED;
     Bitmap payBitmap;
     private Toolbar payment_toolbar;
-    private TextInputEditText payment_amount,paid_amount,remaining_amount;
-    private ImageView takePhoto;
+    private TextInputEditText payment_amount,paid_amount,remaining_amount,receipt_number;
+    private ImageView receiptImageView;
     private Button savePayment;
     private String paymentUniqueId;
-    private Spinner kitchenSpinner;
-    private ArrayList<KitchenTable> kitchenTableArrayList;
-    private KitchenTable kitchenTable;
+    private PaymentTable paymentDetailsObj;
 
     PaymentTable paymentTable;
 
@@ -77,12 +77,23 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
 
     }
 
+    public static PaymentDetailsFragment getPaymentInstance(PaymentTable paymentTable)
+    {
+        PaymentDetailsFragment fragment = new PaymentDetailsFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(PaymentTable.PAYMENT_TABLE, paymentTable);
+        fragment.setArguments(args);
+        return fragment;
+
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
         {
             customertable = getArguments().getParcelable(CustomerTable.CUSTOMER_TABLE);
+            paymentDetailsObj =getArguments().getParcelable(PaymentTable.PAYMENT_TABLE);
         }
     }
 
@@ -96,6 +107,21 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
         initializations(view);
         onClickListeners();
         addTextListner();
+        setPaymentDetailsFromList();
+
+        return view;
+    }
+
+    private void initializations(View view)
+    {
+
+        payment_toolbar = (Toolbar) view.findViewById(R.id.payment_toolbar);
+        payment_amount = (TextInputEditText) view.findViewById(R.id.payment_amount);
+        paid_amount = (TextInputEditText) view.findViewById(R.id.paid_amount);
+        remaining_amount = (TextInputEditText) view.findViewById(R.id.remaining_amount);
+        receipt_number=(TextInputEditText)view.findViewById(R.id.receipt_number);
+        receiptImageView = (ImageView) view.findViewById(R.id.takePhoto);
+        savePayment = (Button) view.findViewById(R.id.savePayment);
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             Window window =getActivity().getWindow();
@@ -103,27 +129,6 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
         }
-
-        return view;
-    }
-
-    private void initializations(View view) {
-        kitchenSpinner = (Spinner)view.findViewById(R.id.kitchen_spinner);
-        payment_toolbar = (Toolbar) view.findViewById(R.id.payment_toolbar);
-        payment_amount = (TextInputEditText) view.findViewById(R.id.payment_amount);
-        paid_amount = (TextInputEditText) view.findViewById(R.id.paid_amount);
-        remaining_amount = (TextInputEditText) view.findViewById(R.id.remaining_amount);
-        takePhoto = (ImageView) view.findViewById(R.id.takePhoto);
-        savePayment = (Button) view.findViewById(R.id.savePayment);
-
-        kitchenTableArrayList = KitchenTableHelper.getKitchenDataList(getContext(),customertable);
-
-        kitchenSpinner.setOnItemSelectedListener(this);
-
-        ArrayAdapter<KitchenTable> adapter =new ArrayAdapter<KitchenTable>(getActivity(),
-                R.layout.support_simple_spinner_dropdown_item, kitchenTableArrayList);
-
-        kitchenSpinner.setAdapter(adapter);
 
     }
 
@@ -136,7 +141,7 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
             }
         });
 
-        takePhoto.setOnClickListener(new View.OnClickListener() {
+        receiptImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPictureDialog();
@@ -153,7 +158,15 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
                             .setTitleText("Please wait");
 
                     sweetAlertDialog.show();
-                    FileHelper.savePNGImage(Folders.CHULHAFOLDER,payBitmap,"PAY_"+paymentTable.getPaymentUniqueIdValue());
+                    FileHelper.savePNGImage(Folders.PAYMENTFOLDER,payBitmap,"PAY_"+paymentTable.getPaymentUniqueIdValue());
+                    File image = FileHelper.createfile(Folders.PAYMENTFOLDER,"PAY_"+paymentTable.getPaymentUniqueIdValue(), FileType.PNG);
+                    if(image!=null)
+                    {
+                        if(image.exists())
+                        {
+                            paymentTable.setReceiptImageValue(image.getAbsolutePath());
+                        }
+                    }
                     if(PaymentDetailsHelper.insertPaymentDetailsData(getContext(), paymentTable))
                     {
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
@@ -167,7 +180,7 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
                                 payment_amount.setText("");
                                 paid_amount.setText("");
                                 remaining_amount.setText("");
-                                takePhoto.setImageResource(R.mipmap.receipt);
+                                receiptImageView.setImageResource(R.mipmap.receipt);
                                 payBitmap=null;
                                 getActivity().onBackPressed();
                             }
@@ -233,7 +246,7 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
         }
         if (requestCode == CAMERA) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            takePhoto.setImageBitmap(thumbnail);
+            receiptImageView.setImageBitmap(thumbnail);
             payBitmap=thumbnail;
 
         }
@@ -249,23 +262,14 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
         paymentTable.setRemaining_amountValue(remaining_amount.getText().toString());
         paymentTable.setReceiptImageValue("");
         paymentTable.setCustomerIdValue(customertable.getUniqueIdValue());
-        paymentTable.setKitchenIdValue(kitchenTable.getKitchenUniqueIdValue());
+        //paymentTable.setKitchenIdValue(kitchenTable.getKitchenUniqueIdValue());
         paymentTable.setDateOfPaymentValue(getCurrentDateTime());
         paymentTable.setUpdateDateValue(getCurrentDateTime());
         paymentTable.setUpload_statusValue("0");
         paymentTable.setPaymentUniqueIdValue(generateUniqueId());
-        paymentTable.setReceiptNoValue("");
+        paymentTable.setReceiptNoValue(receipt_number.getText().toString());
         paymentTable.setIssuedByIdValue(new PrefManager(getActivity()).getUserId());
 
-    }
-
-
-    private void setPayment()
-    {
-        int cost=payment_amount.getText().toString().length();
-        InputFilter[] fArray = new InputFilter[1];
-        fArray[0] = new InputFilter.LengthFilter(cost);
-        remaining_amount.setFilters(fArray);
     }
 
     private void calculateRemainingAmount()
@@ -280,8 +284,14 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
             } else
                 {
                     remainingAmount = Integer.parseInt(payment_amount.getText().toString()) - Integer.parseInt(paid_amount.getText().toString());
-                    remaining_amount.setText(String.valueOf(remainingAmount));
-
+                    if(remainingAmount<0)
+                    {
+                        paid_amount.setError("Amount must be less than total amount.");
+                    }
+                    else
+                    {
+                        remaining_amount.setText(String.valueOf(remainingAmount));
+                    }
             }
 
     }
@@ -402,14 +412,31 @@ public class PaymentDetailsFragment extends Fragment implements AdapterView.OnIt
         return response;
     }
 
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+    private void setPaymentDetailsFromList()
+    {
+        if(paymentDetailsObj!=null)
+        {
+            payment_amount.setText(paymentDetailsObj.getPayment_amountValue());
+            paid_amount.setText(paymentDetailsObj.getTotalPaidValue());
+            remaining_amount.setText(paymentDetailsObj.getRemaining_amountValue());
+            payment_amount.setFocusable(false);
+            paid_amount.setFocusable(false);
+            receipt_number.setText(paymentDetailsObj.getReceiptNoValue());
+            receipt_number.setFocusable(false);
 
-        kitchenTable = kitchenTableArrayList.get(position);
+            File image = FileHelper.createfile(Folders.PAYMENTFOLDER,"PAY_"+paymentTable.getPaymentUniqueIdValue(), FileType.PNG);
+            if(image!=null)
+            {
+                if(image.exists())
+                {
+                    Glide.with(getActivity())
+                            .load(image.getAbsolutePath())
+                            .error(R.drawable.user_profile)
+                            .into(receiptImageView);
+                }
+            }
+
+        }
     }
 
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
-
-    }
 }

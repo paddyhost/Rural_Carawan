@@ -31,17 +31,6 @@
         android:id="@+id/l1">
 
 
-    <TextView
-        android:id="@+id/kitche_name"
-        android:layout_width="wrap_content"
-        android:layout_weight="1"
-        android:layout_height="wrap_content"
-        android:text="Kitche Name"
-        android:textColor="#040404"
-        android:padding="2dp"
-        android:textStyle="bold"
-        android:textSize="15dip" />
-
         <TextView
             android:id="@+id/cost_of_chullha_"
             android:layout_width="wrap_content"

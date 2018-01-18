@@ -29,7 +29,6 @@ public class KitchenTableHelper {
                 values.put(KitchenTable.KITCHEN_HEIGHT,kitchenTable.getKitchen_heightValue());
                 values.put(KitchenTable.UPLOAD_STATUS,"0");
                 values.put(KitchenTable.CUSTOMER_ID,kitchenTable.getCustomer_idValue());
-                values.put(KitchenTable.CUSTOMER_NAME,kitchenTable.getCustomer_nameValue());
                 values.put(KitchenTable.PLACE_IMAGE,kitchenTable.getPlaceImageValue());
                 values.put(KitchenTable.KITCHEN_UNIQUE_ID,kitchenTable.getKitchenUniqueIdValue());
                 values.put(KitchenTable.LATITUDE,kitchenTable.getLatitudeValue());
@@ -42,7 +41,8 @@ public class KitchenTableHelper {
                 values.put(KitchenTable.ADDED_BY_ID,kitchenTable.getAddedByIdValue());
                 values.put(KitchenTable.USER_UNIQUE_ID,kitchenTable.getUserUniqueIdValue());
                 values.put(KitchenTable.UPDATE_DATE,kitchenTable.getUpdateDateValue());
-                values.put(KitchenTable.KITCHE_NAME,kitchenTable.getKitchenName());
+                values.put(KitchenTable.CONSTRUCTION_START_DATETIME,kitchenTable.getConstructionStartDateTimeValue());
+                values.put(KitchenTable.CONSTRUCTION_END_DATETIME,kitchenTable.getConstructionEndDateTimeValue());
 
             long i=   db.insert(KitchenTable.KITCHEN_TABLE, null, values);
             if ( i> 0)
@@ -65,7 +65,6 @@ public class KitchenTableHelper {
         }
     }
 
-
     public static boolean updateKitchenData(Context context, KitchenTable kitchen_table)
     {
         try {
@@ -77,7 +76,6 @@ public class KitchenTableHelper {
             values.put(KitchenTable.HOUSE_TYPE,kitchen_table.getHouse_typeValue());
             values.put(KitchenTable.ROOF_TYPE,kitchen_table.getRoof_typeValue());
             values.put(KitchenTable.CUSTOMER_ID,kitchen_table.getCustomer_idValue());
-            values.put(KitchenTable.CUSTOMER_NAME,kitchen_table.getCustomer_nameValue());
             values.put(KitchenTable.PLACE_IMAGE,kitchen_table.getPlaceImageValue());
             values.put(KitchenTable.KITCHEN_UNIQUE_ID,kitchen_table.getKitchenUniqueIdValue());
             values.put(KitchenTable.LATITUDE,kitchen_table.getLatitudeValue());
@@ -92,7 +90,9 @@ public class KitchenTableHelper {
             values.put(KitchenTable.USER_UNIQUE_ID,kitchen_table.getUserUniqueIdValue());
             values.put(KitchenTable.UPDATE_DATE,getCurrentDateTime());
             values.put(KitchenTable.UPLOAD_STATUS,"1");
-            values.put(KitchenTable.KITCHE_NAME,kitchen_table.getKitchenName());
+            values.put(KitchenTable.CONSTRUCTION_START_DATETIME,kitchen_table.getConstructionStartDateTimeValue());
+            values.put(KitchenTable.CONSTRUCTION_END_DATETIME,kitchen_table.getConstructionEndDateTimeValue());
+
 
             // upadating Row
             if(db.update(KitchenTable.KITCHEN_TABLE, values, KitchenTable.KITCHEN_UNIQUE_ID+"='"+kitchen_table.getKitchenUniqueIdValue()+"'", null)>0)
@@ -132,7 +132,6 @@ public class KitchenTableHelper {
                 kitchen_table.setKitchen_heightValue(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_HEIGHT)));
                 kitchen_table.setUpload_statusValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPLOAD_STATUS)));
                 kitchen_table.setCustomer_idValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CUSTOMER_ID)));
-                kitchen_table.setCustomer_nameValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CUSTOMER_NAME)));
                 kitchen_table.setPlaceImageValue(cursor.getString(cursor.getColumnIndex(KitchenTable.PLACE_IMAGE)));
                 kitchen_table.setKitchenUniqueIdValue(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_UNIQUE_ID)));
                 kitchen_table.setLatitudeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.LATITUDE)));
@@ -146,12 +145,59 @@ public class KitchenTableHelper {
                 kitchen_table.setAddedDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.ADDED_DATE)));
                 kitchen_table.setUserUniqueIdValue(cursor.getString(cursor.getColumnIndex(KitchenTable.USER_UNIQUE_ID)));
                 kitchen_table.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPDATE_DATE)));
-                kitchen_table.setKitchenName(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHE_NAME)));
+                kitchen_table.setConstructionStartDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_START_DATETIME)));
+                kitchen_table.setConstructionEndDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_END_DATETIME)));
+
 
                 customerTableArrayList.add(kitchen_table);
                 cursor.moveToNext();
             }
             return customerTableArrayList;
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+
+    public static KitchenTable getKitchenDetailsData(Context context, String custUniqueId)
+    {
+        SQLiteDatabase db = new DatabaseHandler(context).getWritableDatabase();
+        // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ KitchenTable.KITCHEN_TABLE+" WHERE "+ KitchenTable.CUSTOMER_ID+"='"+custUniqueId+"'",null);
+        try
+        {
+            cursor.moveToFirst();
+            while (cursor.isAfterLast() == false)
+            {
+                KitchenTable kitchen_table = new KitchenTable();
+
+                kitchen_table.setKitchen_idValue(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_ID)));
+                kitchen_table.setHouse_typeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.HOUSE_TYPE)));
+                kitchen_table.setRoof_typeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.ROOF_TYPE)));
+                kitchen_table.setKitchen_heightValue(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_HEIGHT)));
+                kitchen_table.setUpload_statusValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPLOAD_STATUS)));
+                kitchen_table.setCustomer_idValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CUSTOMER_ID)));
+                kitchen_table.setPlaceImageValue(cursor.getString(cursor.getColumnIndex(KitchenTable.PLACE_IMAGE)));
+                kitchen_table.setKitchenUniqueIdValue(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_UNIQUE_ID)));
+                kitchen_table.setLatitudeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.LATITUDE)));
+                kitchen_table.setLongitudeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.LONGITUDE)));
+                kitchen_table.setUploadDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPLOAD_DATE)));
+                kitchen_table.setGeoAddressValue(cursor.getString(cursor.getColumnIndex(KitchenTable.GEO_ADDRESS)));
+                kitchen_table.setCostOfChullhaValue(cursor.getString(cursor.getColumnIndex(KitchenTable.COST_OF_CHULLHA)));
+                kitchen_table.setStep1_imageValue(cursor.getString(cursor.getColumnIndex(KitchenTable.STEP1_IMAGE)));
+                kitchen_table.setStep2_imageValue(cursor.getString(cursor.getColumnIndex(KitchenTable.STEP2_IMAGE)));
+                kitchen_table.setAddedByIdValue(cursor.getString(cursor.getColumnIndex(KitchenTable.ADDED_BY_ID)));
+                kitchen_table.setAddedDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.ADDED_DATE)));
+                kitchen_table.setUserUniqueIdValue(cursor.getString(cursor.getColumnIndex(KitchenTable.USER_UNIQUE_ID)));
+                kitchen_table.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPDATE_DATE)));
+                kitchen_table.setConstructionStartDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_START_DATETIME)));
+                kitchen_table.setConstructionEndDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_END_DATETIME)));
+
+                cursor.moveToNext();
+                return  kitchen_table;
+            }
+            return null;
         }
         catch (Exception e)
         {
@@ -243,7 +289,6 @@ public class KitchenTableHelper {
             kitchenTable.setKitchen_heightValue(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_HEIGHT)));
             kitchenTable.setUpload_statusValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPLOAD_STATUS)));
             kitchenTable.setCustomer_idValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CUSTOMER_ID)));
-            kitchenTable.setCustomer_nameValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CUSTOMER_NAME)));
             kitchenTable.setPlaceImageValue(cursor.getString(cursor.getColumnIndex(KitchenTable.PLACE_IMAGE)));
             kitchenTable.setKitchenUniqueIdValue(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_UNIQUE_ID)));
             kitchenTable.setLatitudeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.LATITUDE)));
@@ -257,7 +302,9 @@ public class KitchenTableHelper {
             kitchenTable.setAddedDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.ADDED_DATE)));
             kitchenTable.setUserUniqueIdValue(cursor.getString(cursor.getColumnIndex(KitchenTable.USER_UNIQUE_ID)));
             kitchenTable.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPDATE_DATE)));
-            kitchenTable.setKitchenName(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHE_NAME)));
+            kitchenTable.setConstructionStartDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_START_DATETIME)));
+            kitchenTable.setConstructionEndDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_END_DATETIME)));
+
 
             return kitchenTable;
 
@@ -286,7 +333,6 @@ public class KitchenTableHelper {
             kitchenTable.setKitchen_heightValue(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_HEIGHT)));
             kitchenTable.setUpload_statusValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPLOAD_STATUS)));
             kitchenTable.setCustomer_idValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CUSTOMER_ID)));
-            kitchenTable.setCustomer_nameValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CUSTOMER_NAME)));
             kitchenTable.setPlaceImageValue(cursor.getString(cursor.getColumnIndex(KitchenTable.PLACE_IMAGE)));
             kitchenTable.setKitchenUniqueIdValue(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_UNIQUE_ID)));
             kitchenTable.setLatitudeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.LATITUDE)));
@@ -300,7 +346,9 @@ public class KitchenTableHelper {
             kitchenTable.setAddedDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.ADDED_DATE)));
             kitchenTable.setUserUniqueIdValue(cursor.getString(cursor.getColumnIndex(KitchenTable.USER_UNIQUE_ID)));
             kitchenTable.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(KitchenTable.UPDATE_DATE)));
-            kitchenTable.setKitchenName(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHE_NAME)));
+            kitchenTable.setConstructionStartDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_START_DATETIME)));
+            kitchenTable.setConstructionEndDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_END_DATETIME)));
+
 
             return kitchenTable;
 

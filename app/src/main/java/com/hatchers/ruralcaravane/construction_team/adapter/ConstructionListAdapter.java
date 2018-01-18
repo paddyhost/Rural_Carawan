@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTable;
 import com.hatchers.ruralcaravane.R;
+import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
@@ -21,6 +22,7 @@ import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import java.io.File;
 import java.util.ArrayList;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class ConstructionListAdapter extends RecyclerView.Adapter<ConstructionListAdapter.ViewHolder>
@@ -50,15 +52,15 @@ public class ConstructionListAdapter extends RecyclerView.Adapter<ConstructionLi
         holder.member_name.setText(String.valueOf(constructionTable.getTechnicianNameValue() + ""));
         holder.construction_mobile_number.setText(String.valueOf(constructionTable.getTechnicianMobileNoValue() + ""));
         holder.member_address.setText(String.valueOf(constructionTable.getTechnicianAddressValue() + ""));
-        holder.age.setText("Age : "+String.valueOf(constructionTable.getTechnicianAgeValue() + ""));
+        holder.age.setText(String.valueOf(constructionTable.getTechnicianAgeValue() + ""));
         if(constructionTable.getTechnicianGenderValue().equalsIgnoreCase("F"))
         {
-            holder.member_gender.setText(String.valueOf("Gender : Female"));
+            holder.member_gender.setText(String.valueOf("Female"));
 
         }
         else
         {
-            holder.member_gender.setText(String.valueOf("Gender : Male"));
+            holder.member_gender.setText(String.valueOf("Male"));
         }
 
 
@@ -85,6 +87,7 @@ public class ConstructionListAdapter extends RecyclerView.Adapter<ConstructionLi
     class ViewHolder extends RecyclerView.ViewHolder {
 
         TextView member_name,construction_mobile_number,age,member_address,member_gender;
+        CircleImageView customer_image;
         View itemView;
 
         ViewHolder(View itemView)
@@ -96,6 +99,8 @@ public class ConstructionListAdapter extends RecyclerView.Adapter<ConstructionLi
             age=(TextView)itemView.findViewById(R.id.age);
             member_address=(TextView)itemView.findViewById(R.id.member_address);
             member_gender=(TextView)itemView.findViewById(R.id.member_gender);
+            customer_image=(CircleImageView)itemView.findViewById(R.id.customer_image);
+
             this.itemView = itemView;
         }
     }

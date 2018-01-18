@@ -1,42 +1,51 @@
 package com.hatchers.ruralcaravane.activity;
 
-import android.content.Intent;
+
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
-
-import com.hatchers.ruralcaravane.construction_team.ConstructionTeamListFragment;
+import com.bumptech.glide.Glide;
+import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
-import com.hatchers.ruralcaravane.kitchen_suitability.KitchenSuitabilityList;
-import com.hatchers.ruralcaravane.payment_details.PaymentDetailsFragment;
+import com.hatchers.ruralcaravane.file.FileHelper;
+import com.hatchers.ruralcaravane.file.FileType;
+import com.hatchers.ruralcaravane.file.Folders;
+import com.hatchers.ruralcaravane.kitchen_suitability.KitchenConstructionFragment;
+import com.hatchers.ruralcaravane.kitchen_suitability.AddKitchenSuitabilityFragment;
+import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
+import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 import com.hatchers.ruralcaravane.payment_details.PaymentDetailsListFragment;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
-import com.hatchers.ruralcaravane.R;
-import com.hatchers.ruralcaravane.user_login.LoginActivity;
-import com.hatchers.ruralcaravane.user_login.UserDetailsFragment;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class MenuFragment extends Fragment implements View.OnClickListener{
 
-    private Toolbar menu_toolbar;
+    private Toolbar menuToolbar;
     PrefManager prefManager;
     private  FragmentTransaction fragmentTransaction;
     private Button kitchen_linear,payment_linear;
     private CustomerTable customertable;
+    private KitchenTable kitchenTable;
+    private TextView customername_txt, customeraddress_txt, mobile_txt,age_txt;
+    private CircleImageView profImageView;
 
+    private ArrayList<KitchenTable> kitchenTableArrayList;
     public MenuFragment()
     {
         // Required empty public constructor
@@ -64,9 +73,13 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-       View view= inflater.inflate(R.layout.fragment_menu, container, false);
+        View view= inflater.inflate(R.layout.fragment_menu, container, false);
+
 
         initialization(view);
+        onClickListeners();
+        setCustomerData();
+
 
         return view;
     }
@@ -74,17 +87,22 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
 
     private void initialization(View view)
     {
-        menu_toolbar = (Toolbar)view.findViewById(R.id.menu_toolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(menu_toolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(menuToolbar);
+        menuToolbar = (Toolbar)view.findViewById(R.id.menuToolbar);
         prefManager=new PrefManager(getActivity());
+        fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+        customername_txt = (TextView)view.findViewById(R.id.customername_txt);
+        customeraddress_txt = (TextView)view.findViewById(R.id.customeraddress_txt);
+        mobile_txt = (TextView)view.findViewById(R.id.mobile_txt);
+        age_txt=(TextView)view.findViewById(R.id.age_txt);
+        profImageView = (CircleImageView)view.findViewById(R.id.customerImage);
 
         kitchen_linear=(Button)view.findViewById(R.id.kitchen_linear);
         payment_linear=(Button)view.findViewById(R.id.payment_linear);
-        fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-
 
         kitchen_linear.setOnClickListener(this);
         payment_linear.setOnClickListener(this);
+
 
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
@@ -95,16 +113,41 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         }
 
     }
+
+    private  void onClickListeners()
+    {
+        menuToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+
+    }
     @Override
     public void onClick(View view)
     {
 
         switch (view.getId())
         {
-
             case R.id.kitchen_linear:
-                KitchenSuitabilityList kitchenSuitabilityList= KitchenSuitabilityList.getInstance(customertable);
-                fragmentTransaction.replace(R.id.frame_layout,kitchenSuitabilityList).addToBackStack(null).commit();
+
+                    ArrayList<KitchenTable> kitchenTableArrayList=KitchenTableHelper.getKitchenDataList(getContext(),customertable);
+
+                if (kitchenTableArrayList != null)
+                {
+                    if(kitchenTableArrayList.size()<=0)
+                    {
+                        AddKitchenSuitabilityFragment addKitchenSuitabilityFragment = AddKitchenSuitabilityFragment.getInstance(customertable);
+                        fragmentTransaction.replace(R.id.frame_layout, addKitchenSuitabilityFragment).addToBackStack(null).commit();
+                    }
+                    else
+                    {
+                        kitchenTable = KitchenTableHelper.getKitchenDetailsData(getActivity(), customertable.getUniqueIdValue());
+                        KitchenConstructionFragment kitchenConstructionFragment = KitchenConstructionFragment.getInstance(kitchenTable);
+                        fragmentTransaction.replace(R.id.frame_layout, kitchenConstructionFragment).addToBackStack(null).commit();
+                    }
+                }
                 break;
 
 
@@ -116,6 +159,23 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
             default:
                 break;
         }
+    }
+
+    private void setCustomerData()
+    {
+        customername_txt.setText(String.valueOf(customertable.getCustomerNameValue()));
+        customeraddress_txt.setText(String.valueOf(customertable.getCustomerAddressValue()));
+        mobile_txt.setText(String.valueOf(customertable.getCustomerMobilenoValue()));
+        age_txt.setText(String.valueOf(customertable.getCustomerAgeValue()));
+
+        File image = FileHelper.createfile(Folders.CUSTOMERFOLDER, customertable.getImagePathValue(), FileType.PNG);
+        if (image != null) {
+            Glide.with(getActivity())
+                    .load(image.getAbsolutePath())
+                    .error(R.drawable.user_profile)
+                    .into(profImageView);
+        }
+
     }
 
 }

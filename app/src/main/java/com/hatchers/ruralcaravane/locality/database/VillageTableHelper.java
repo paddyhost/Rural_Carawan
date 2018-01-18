@@ -1,4 +1,4 @@
-package com.hatchers.ruralcaravane.customer_registration.model;
+package com.hatchers.ruralcaravane.locality.database;
 
 import android.content.ContentValues;
 import android.content.Context;

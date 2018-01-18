@@ -2,6 +2,8 @@ package com.hatchers.ruralcaravane.payment_details.adapter;
 
 
 import android.content.Context;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +13,7 @@ import android.widget.TextView;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
+import com.hatchers.ruralcaravane.payment_details.PaymentDetailsFragment;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
 
 import java.util.ArrayList;
@@ -43,9 +46,16 @@ public class PaymentListAdapter  extends RecyclerView.Adapter<PaymentListAdapter
         holder.totalCost.setText(String.valueOf(context.getResources().getString(R.string.Rs)+" "+paymentTable.getPayment_amountValue()+"/-"));
         holder.paitAmount.setText(String.valueOf("Paid : "+context.getResources().getString(R.string.Rs)+" "+paymentTable.getTotalPaidValue()+"/-"));
         holder.remainAmunt.setText(String.valueOf("Balance : "+context.getResources().getString(R.string.Rs)+" "+paymentTable.getRemaining_amountValue()+"/-"));
-        if (kitchenTable != null) {
-            holder.kitchenName.setText(kitchenTable.getKitchenName());
-        }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction = ((AppCompatActivity)context).getSupportFragmentManager().beginTransaction();
+                PaymentDetailsFragment paymentDetailsFragment=PaymentDetailsFragment.getPaymentInstance(paymentTable);
+                fragmentTransaction.replace(R.id.frame_layout,paymentDetailsFragment).addToBackStack(null).commit();
+
+            }
+        });
     }
 
     @Override
@@ -61,13 +71,13 @@ public class PaymentListAdapter  extends RecyclerView.Adapter<PaymentListAdapter
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView totalCost, remainAmunt, paitAmount, kitchenName;
+        TextView totalCost, remainAmunt, paitAmount;
 
         View itemView;
 
         ViewHolder(View itemView) {
             super(itemView);
-            kitchenName = (TextView)itemView.findViewById(R.id.kitche_name);
+
             totalCost = (TextView)itemView.findViewById(R.id.cost_of_chullha_);
             paitAmount= (TextView)itemView.findViewById(R.id.total_paid);
             remainAmunt=(TextView)itemView.findViewById(R.id.remaining_amount);

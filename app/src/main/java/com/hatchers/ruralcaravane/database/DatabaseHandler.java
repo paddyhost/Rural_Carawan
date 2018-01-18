@@ -6,10 +6,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTable;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
-import com.hatchers.ruralcaravane.customer_registration.model.CityTable;
-import com.hatchers.ruralcaravane.customer_registration.model.StateTable;
-import com.hatchers.ruralcaravane.customer_registration.model.VillageTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
+import com.hatchers.ruralcaravane.locality.database.CityTable;
+import com.hatchers.ruralcaravane.locality.database.StateTable;
+import com.hatchers.ruralcaravane.locality.database.VillageTable;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
 
 public class DatabaseHandler extends SQLiteOpenHelper {

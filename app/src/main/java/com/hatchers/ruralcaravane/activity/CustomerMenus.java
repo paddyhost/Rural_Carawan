@@ -15,7 +15,7 @@ public class CustomerMenus extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customer);
-       customer=  getIntent().getParcelableExtra(CustomerTable.CUSTOMER_TABLE);
+        customer=  getIntent().getParcelableExtra(CustomerTable.CUSTOMER_TABLE);
         callMenuFragment();
     }
 
@@ -27,10 +27,6 @@ public class CustomerMenus extends AppCompatActivity {
         fragmentTransaction.replace(R.id.frame_layout,menuFragment).commit();
     }
 
-   /* @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-    }*/
 
 }
 

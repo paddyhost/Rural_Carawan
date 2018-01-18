@@ -1,12 +1,14 @@
-package com.hatchers.ruralcaravane.customer_registration.model;
+package com.hatchers.ruralcaravane.locality.model;
 
-import com.hatchers.ruralcaravane.customer_registration.listener.CityListener;
-import com.hatchers.ruralcaravane.customer_registration.listener.StateListener;
-import com.hatchers.ruralcaravane.customer_registration.listener.VillageListner;
+import com.hatchers.ruralcaravane.locality.database.CityTable;
+import com.hatchers.ruralcaravane.locality.database.StateTable;
+import com.hatchers.ruralcaravane.locality.database.VillageTable;
+import com.hatchers.ruralcaravane.locality.listeners.CityListener;
+import com.hatchers.ruralcaravane.locality.listeners.StateListener;
+import com.hatchers.ruralcaravane.locality.listeners.VillageListner;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 public class CityVillageList
@@ -209,7 +211,7 @@ public class CityVillageList
             }
 
 
-            
+
         }
     }
 
