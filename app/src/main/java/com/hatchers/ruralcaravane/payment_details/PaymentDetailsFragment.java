@@ -112,6 +112,8 @@ public class PaymentDetailsFragment extends Fragment {
         return view;
     }
 
+
+    
     private void initializations(View view)
     {
 
