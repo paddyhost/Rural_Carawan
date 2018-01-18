@@ -106,14 +106,15 @@ public   class FileHelper {
     }
 
 
-    public static void savePNGImage(String folder,Bitmap myBitmap,String name)
+    public static File savePNGImage(String folder,Bitmap myBitmap,String name)
     {
+        File image=null;
         try {
 
             FileOutputStream fo = null;
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
-            File image = FileHelper.createfile(folder, name, FileType.PNG);
+            image = FileHelper.createfile(folder, name, FileType.PNG);
             try {
                 fo = new FileOutputStream(image);
 
@@ -134,8 +135,6 @@ public   class FileHelper {
 
                     }
                 }
-
-
             }
 
         }catch (Exception e)
@@ -143,7 +142,7 @@ public   class FileHelper {
 //            return false;
 
         }
-
+        return image;
     }
 
 }

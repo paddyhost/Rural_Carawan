@@ -67,16 +67,18 @@ public class CustomerTableHelper {
             SQLiteDatabase db = new DatabaseHandler(context).getWritableDatabase();
             ContentValues values = new ContentValues();
 
-            values.put(CustomerTable.UPLOAD_STATUS,"1");
-            values.put(CustomerTable.CITY_ID,customer_table.getCityId());
+            values.put(CustomerTable.CUSTOMER_ID,customer_table.getCustomerIdValue());
+            values.put(CustomerTable.UPLOAD_STATUS,customer_table.getUpload_statusValue());
+
             values.put(CustomerTable.UPLOAD_DATE,getCurrentDateTime());
             values.put(CustomerTable.UPDATE_DATE,getCurrentDateTime());
 
 
             // upadating Row
-            if(db.update(CustomerTable.CUSTOMER_TABLE, values, CustomerTable.CUSTOMER_ID+"="+customer_table.getCustomerIdValue(), null)>0)
+            int i =db.update(CustomerTable.CUSTOMER_TABLE, values, CustomerTable.UNIQUE_ID+"='"+customer_table.getUniqueIdValue()+"'", null);
+            if(i>0)
             {
-                Toast.makeText(context,"Customer data updated",Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"Customer data updated"+i,Toast.LENGTH_LONG).show();
                 db.close();
                 return true;
             }
@@ -97,7 +99,7 @@ public class CustomerTableHelper {
     {
         SQLiteDatabase db = new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE+" WHERE  "+ CustomerTable.UPLOAD_STATUS+"='1'",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE+" WHERE "+CustomerTable.UPLOAD_STATUS+"='0' LIMIT 1",null);
         try
         {
 

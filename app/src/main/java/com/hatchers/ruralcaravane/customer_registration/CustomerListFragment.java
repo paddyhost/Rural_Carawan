@@ -91,5 +91,9 @@ public class CustomerListFragment extends Fragment {
         }
     }
 
-
+    @Override
+    public void onResume() {
+        setData();
+        super.onResume();
+    }
 }

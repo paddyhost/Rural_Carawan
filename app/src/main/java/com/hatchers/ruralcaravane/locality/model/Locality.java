@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CityVillageList
+public class Locality
 {
     private ArrayList<CityTable> cityListArrayList;
     private ArrayList<VillageTable> villageArrayList;

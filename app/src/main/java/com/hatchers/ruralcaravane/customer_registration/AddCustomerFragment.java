@@ -32,17 +32,14 @@ import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.customer_registration.apihelper.WebCustomer_ApiHelper;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
-import com.hatchers.ruralcaravane.locality.apihelper.Locality_Web_ApiHelper;
 import com.hatchers.ruralcaravane.locality.database.CityTable;
+import com.hatchers.ruralcaravane.locality.database.CityTableHelper;
 import com.hatchers.ruralcaravane.locality.database.StateTable;
+import com.hatchers.ruralcaravane.locality.database.StateTableHelper;
 import com.hatchers.ruralcaravane.locality.database.VillageTable;
-import com.hatchers.ruralcaravane.locality.listeners.CityListener;
-import com.hatchers.ruralcaravane.locality.listeners.StateListener;
-import com.hatchers.ruralcaravane.locality.listeners.VillageListner;
 import com.hatchers.ruralcaravane.file.FileHelper;
-import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
-import com.hatchers.ruralcaravane.locality.model.CityVillageList;
+import com.hatchers.ruralcaravane.locality.database.VillageTableHelper;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.scaner.AdharScanner;
 
@@ -96,19 +93,12 @@ public class AddCustomerFragment extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_add__customer, container, false);
 
-        //call city list api
-        CityVillageList cityList=new CityVillageList();
-        Locality_Web_ApiHelper.getCityList(getActivity(),cityList);
-        setCityEvent(cityList);
         initializations(view);
         generateUniqueId();
         onclicklisteners();
-        setCitySpinnerList();
-        citySelectedListner();
-        setVillageSpinnerList();
-        villageSelectedListener();
-        //setStateSpinnerList();
-        //stateSelectedListener();
+
+        setStateSpinnerList();
+        stateSelectedListener();
 
         setGender();
 
@@ -125,6 +115,7 @@ public class AddCustomerFragment extends Fragment {
         }
         cityArrayList =new ArrayList<CityTable>();
         villageArrayList = new ArrayList<VillageTable>();
+        stateArrayList=new ArrayList<StateTable>();
         save = (Button) view.findViewById(R.id.saveBtn);
         customer_name = (TextInputEditText) view.findViewById(R.id.customer_name);
         customer_address = (TextInputEditText) view.findViewById(R.id.customer_address);
@@ -143,43 +134,27 @@ public class AddCustomerFragment extends Fragment {
         aadhar_id=(TextInputEditText)view.findViewById(R.id.aadhar_id);
     }
 
-    private void setCitySpinnerList()
-    {
-        ArrayAdapter<CityTable> adapter =
-                new ArrayAdapter<CityTable>(getActivity(), R.layout.spinner_item2, cityArrayList);
-        adapter.setDropDownViewResource(R.layout.spinner_item2);
-        citySpinner.setAdapter(adapter);
-
-    }
-
-    private void setVillageSpinnerList()
-    {
-        ArrayAdapter<VillageTable> adapter =
-                new ArrayAdapter<VillageTable>(getActivity(), R.layout.spinner_item2, villageArrayList);
-        adapter.setDropDownViewResource(R.layout.spinner_item2);
-        villageSpinner.setAdapter(adapter);
-    }
-
     private void setStateSpinnerList()
     {
+        stateArrayList = StateTableHelper.getStateDataList(getContext());
         ArrayAdapter<StateTable> adapter =
                 new ArrayAdapter<StateTable>(getActivity(), R.layout.spinner_item2, stateArrayList);
         adapter.setDropDownViewResource(R.layout.spinner_item2);
         stateSpinner.setAdapter(adapter);
     }
 
-    private void citySelectedListner()
+    private void stateSelectedListener()
     {
-        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                CityTable city = cityArrayList.get(position);
-                //call village list api
-                CityVillageList cityVillageList=new CityVillageList();
-                Locality_Web_ApiHelper.getVillageList(getActivity(),cityVillageList,city.getId());
-                setVillageEvent(cityVillageList);
-                citySpinner.setSelection(position);
-                cityid=city.getId();
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                StateTable state=stateArrayList.get(i);
+
+                stateId=state.getStateId();
+                stateSpinner.setSelection(i);
+
+                setCitySpinnerList();
+                citySelectedListner();
 
             }
 
@@ -188,6 +163,45 @@ public class AddCustomerFragment extends Fragment {
 
             }
         });
+    }
+
+    private void setCitySpinnerList()
+    {
+        cityArrayList = CityTableHelper.getCityDataList(getContext(),stateId);
+        ArrayAdapter<CityTable> adapter =
+                new ArrayAdapter<CityTable>(getActivity(), R.layout.spinner_item2, cityArrayList);
+        adapter.setDropDownViewResource(R.layout.spinner_item2);
+        citySpinner.setAdapter(adapter);
+
+    }
+
+    private void citySelectedListner()
+    {
+        citySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                CityTable city = cityArrayList.get(position);
+                citySpinner.setSelection(position);
+                cityid=city.getId();
+
+                setVillageSpinnerList();
+                villageSelectedListener();
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private void setVillageSpinnerList()
+    {
+        villageArrayList = VillageTableHelper.getVillageDataList(getContext(),cityid);
+        ArrayAdapter<VillageTable> adapter = new ArrayAdapter<VillageTable>(getActivity(), R.layout.spinner_item2, villageArrayList);
+        adapter.setDropDownViewResource(R.layout.spinner_item2);
+        villageSpinner.setAdapter(adapter);
     }
 
     private void villageSelectedListener()
@@ -207,182 +221,6 @@ public class AddCustomerFragment extends Fragment {
         });
     }
 
-
-    private void stateSelectedListener()
-    {
-        stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                StateTable state=stateArrayList.get(i);
-
-                stateId=state.getStateId();
-                stateSpinner.setSelection(i);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-    }
-
-
-    private void setCityEvent(final CityVillageList cityList)
-    {
-        cityList.setOnCityEvent(new CityListener() {
-            @Override
-            public void onCity_Add_Success()
-            {
-                cityArrayList = cityList.getCityListArrayList();
-                setCitySpinnerList();
-            }
-
-            @Override
-            public void onCity_Add_Failed() {
-                Toast.makeText(getActivity(),"Failed",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCity_Add_Response_Failed() {
-                Toast.makeText(getActivity(),"Response Failed",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCity_Add_Json_Error() {
-                Toast.makeText(getActivity(),"Json Error",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCity_Add_No_Connection_Error() {
-                Toast.makeText(getActivity(),"Check net connection",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCity_Add_Server_Error() {
-                Toast.makeText(getActivity(),"Server Error",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCity_Add_Network_Error() {
-                Toast.makeText(getActivity(),"Network error",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCity_Add_Parse_Error() {
-                Toast.makeText(getActivity(),"Parse error",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onCity_Add_Unknown_Error() {
-                Toast.makeText(getActivity(),"Unknown Error",Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void setVillageEvent(final CityVillageList villageList)
-    {
-        villageList.setOnVillageEvent(new VillageListner() {
-            @Override
-            public void onVillage_Add_Success() {
-                villageArrayList = villageList.getVillageArrayList();
-                setVillageSpinnerList();
-            }
-
-            @Override
-            public void onVillage_Add_Failed() {
-                Toast.makeText(getActivity(),"Failed",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onVillage_Add_Response_Failed() {
-                Toast.makeText(getActivity(),"Response Failed",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onVillage_Add_Json_Error() {
-                Toast.makeText(getActivity(),"Json Error",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onVillage_Add_No_Connection_Error() {
-                Toast.makeText(getActivity(),"Check net Connection",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onVillage_Add_Server_Error() {
-                Toast.makeText(getActivity(),"Server Error",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onVillage_Add_Network_Error() {
-                Toast.makeText(getActivity(),"Network Error",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onVillage_Add_Parse_Error() {
-                Toast.makeText(getActivity(),"Parse Error",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onVillage_Add_Unknown_Error() {
-                Toast.makeText(getActivity(),"Unknown Error",Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
-    private void setStateEvent(final CityVillageList stateList)
-    {
-        stateList.setOnStateEvent(new StateListener() {
-            @Override
-            public void onState_Add_Success() {
-                stateArrayList = stateList.getStateArrayList();
-                setStateSpinnerList();
-            }
-
-            @Override
-            public void onState_Add_Failed() {
-                Toast.makeText(getActivity(),"Failed",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onState_Add_Response_Failed() {
-                Toast.makeText(getActivity(),"Response Failed",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onState_Add_Json_Error() {
-                Toast.makeText(getActivity(),"JSON Error",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onState_Add_No_Connection_Error() {
-                Toast.makeText(getActivity(),"No Connection Error",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onState_Add_Server_Error() {
-                Toast.makeText(getActivity(),"Server Error",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onState_Add_Network_Error() {
-                Toast.makeText(getActivity(),"Network Error",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onState_Add_Parse_Error() {
-                Toast.makeText(getActivity(),"Parse Error",Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onState_Add_Unknown_Error() {
-                Toast.makeText(getActivity(),"Unknown Error",Toast.LENGTH_SHORT).show();
-            }
-
-        });
-    }
-
-
     private void onclicklisteners()
     {
         save.setOnClickListener(new View.OnClickListener() {
@@ -391,14 +229,12 @@ public class AddCustomerFragment extends Fragment {
 
                 setCustomerData();
 
-                FileHelper.savePNGImage(Folders.CUSTOMERFOLDER,custBitmap,customer_table.getImagePathValue());
+                File image =FileHelper.savePNGImage(Folders.CUSTOMERFOLDER,custBitmap,"CU_"+customer_table.getUniqueIdValue());
 
-                File image = FileHelper.createfile(Folders.CUSTOMERFOLDER, "CU_"+customer_table.getUniqueIdValue(), FileType.PNG);
+               // FileHelper.createfile(Folders.CUSTOMERFOLDER, "CU_"+customer_table.getUniqueIdValue(), FileType.PNG);
                 if(image!=null)
                 {
-                    Uri uri = Uri.fromFile(image);
-                    customer_table.setImagePathValue(uri.toString());
-                    customer_table.setProfileBitmap(custBitmap);
+                    customer_table.setImagePathValue(image.getAbsolutePath());
                 }
 
                 if(checkValidation())
@@ -429,13 +265,13 @@ public class AddCustomerFragment extends Fragment {
                                 female.setChecked(false);
                                 generateUniqueId();
                                 if( getActivity() instanceof CustomerRegistrationActivity) {
-                                    ((CustomerRegistrationActivity) getActivity()).viewPager.setCurrentItem(0);
+                                    CustomerRegistrationActivity.viewPager.setCurrentItem(0);
                                 }
 
                             }
                         });
 
-                        WebCustomer_ApiHelper.addNewCustomer(getActivity(),customer_table);
+                       WebCustomer_ApiHelper.addNewCustomerToServer(getActivity());
 
                     }
                     else

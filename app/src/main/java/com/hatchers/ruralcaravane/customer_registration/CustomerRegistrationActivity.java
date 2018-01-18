@@ -111,7 +111,10 @@ public class CustomerRegistrationActivity extends AppCompatActivity
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
+                if(tab.getPosition()==0)
+                {
+                    customerListFragment.setData();
+                }
             }
         });
 
@@ -122,7 +125,11 @@ public class CustomerRegistrationActivity extends AppCompatActivity
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                if(position==0)
+                {
+                    customerListFragment.setData();
 
+                }
             }
 
             @Override
@@ -137,8 +144,13 @@ public class CustomerRegistrationActivity extends AppCompatActivity
             }
 
             @Override
-            public void onPageScrollStateChanged(int state) {
+            public void onPageScrollStateChanged(int state)
+            {
+                if(state==0)
+                {
+                    customerListFragment.setData();
 
+                }
             }
         });
 

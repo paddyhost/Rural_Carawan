@@ -84,12 +84,12 @@ public class VillageTableHelper {
         }
     }
 
-    public static ArrayList<VillageTable> getVillageDataList(Context context)
+    public static ArrayList<VillageTable> getVillageDataList(Context context,String cityid)
     {
         ArrayList<VillageTable> villageTableArrayList = new ArrayList<VillageTable>();
         SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ VillageTable.VILLAGE_TABLE,null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ VillageTable.VILLAGE_TABLE+" WHERE "+ VillageTable.CITY_ID +"='"+cityid+"'",null);
         try
         {
             cursor.moveToFirst();

@@ -2,6 +2,8 @@ package com.hatchers.ruralcaravane.customer_registration.apihelper;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -17,8 +19,13 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
+import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
 import com.hatchers.ruralcaravane.app.MyApplication;
 import com.hatchers.ruralcaravane.constants.WebServiceUrls;
+import com.hatchers.ruralcaravane.file.FileHelper;
+import com.hatchers.ruralcaravane.file.FileType;
+import com.hatchers.ruralcaravane.file.Folders;
+import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.utils.VolleyMultipartRequest;
 
 import org.json.JSONArray;
@@ -26,6 +33,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -37,10 +45,13 @@ import java.util.Map;
 
 public class WebCustomer_ApiHelper
 {
-
-    public static boolean addNewCustomer (final Activity activity, final CustomerTable customerTable)
+    public static boolean addNewCustomerToServer(final Activity activity)
     {
-
+        final CustomerTable customerTable =CustomerTableHelper.getUnUploadCustomerData(activity);
+        if(customerTable==null)
+        {
+            return false;
+        }
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, WebServiceUrls.urlAddCustomer, new Response.Listener<NetworkResponse>() {
             @Override
             public void onResponse(NetworkResponse response) {
@@ -56,8 +67,25 @@ public class WebCustomer_ApiHelper
 
                         if(responce.getString("message").equalsIgnoreCase("Customer added successfully")) {
                            // JSONArray resultArray = responce.getJSONArray("result");
-                            //JSONObject result = resultArray.getJSONObject((0));
-                            Toast.makeText(activity,"Succefully uploaded",Toast.LENGTH_SHORT).show();
+                            JSONObject result = responce.getJSONObject("result");
+
+                            customerTable.setCustomerIdValue(result.getString("id"));
+                            customerTable.setUploadDateValue(result.getString("uploaddate"));
+                            customerTable.setUpdateDateValue(result.getString("updateDate"));
+                            customerTable.setUpload_statusValue("1");
+                            if(CustomerTableHelper.updateCustomerData(activity,customerTable))
+                            {
+                                Toast.makeText(activity,"Succefully uploaded",Toast.LENGTH_SHORT).show();
+                                customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_SUCCESS);
+                                addNewCustomerToServer(activity);
+                            }
+                            else
+                            {
+                                customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_FAILED);
+                            }
+                           // customerTable.setImagePathValue(result.getString("imagepath"));
+
+
 
 
 
@@ -66,23 +94,51 @@ public class WebCustomer_ApiHelper
                         {
                             //group.setCreatestatus(group.BROADCASTERROR);
                           //  EventBus.getDefault().post(group);
-                            Toast.makeText(activity,"failed",Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(activity,"upload failed",Toast.LENGTH_SHORT).show();
+                            customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_FAILED);
                         }
                     }
                     else
                     {
-                        Toast.makeText(activity,"failed",Toast.LENGTH_SHORT).show();}
+                        Toast.makeText(activity," response failed",Toast.LENGTH_SHORT).show();
+                        customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_RESPONSE_FAILED);
+                    }
                 }
                 catch (Exception e)
                 {
                     Toast.makeText(activity,"Json error",Toast.LENGTH_SHORT).show();
+                    customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_JSON_ERROR);
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(activity,"Volley error",Toast.LENGTH_SHORT).show();
+             //   Toast.makeText(activity,"Volley error",Toast.LENGTH_SHORT).show();
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(activity,"No connection error",Toast.LENGTH_SHORT).show();
+                    customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_NO_CONNECTION_ERROR);
+                }
+                else if (error instanceof ServerError)
+                {
+                    Toast.makeText(activity,"Server error",Toast.LENGTH_SHORT).show();
+                    customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_SERVER_ERROR);
+                }
+                else if (error instanceof NetworkError)
+                {
+                    Toast.makeText(activity,"Network error",Toast.LENGTH_SHORT).show();
+                    customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_NEWORK_ERROR);
+                }
+                else if (error instanceof ParseError)
+                {
+                    Toast.makeText(activity,"Parse error",Toast.LENGTH_SHORT).show();
+                    customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_PARSE_ERROR);
+                }
+                else
+                {
+                    Toast.makeText(activity,"Unknown error",Toast.LENGTH_SHORT).show();
+                    customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_UNKNOWN_ERROR);
+                }
+
             }
         }) {
             @Override
@@ -100,12 +156,13 @@ public class WebCustomer_ApiHelper
                 params.put("address", customerTable.getCustomerAddressValue());
                 params.put("age", customerTable.getCustomerAgeValue());
                 params.put("gender", customerTable.getCustomerGenderValue());
-                params.put("mobile", customerTable.getCustomerMobilenoValue());
+                params.put("cmobile", customerTable.getCustomerMobilenoValue());
                 params.put("villageid", customerTable.getVillageIdValue());
                 params.put("citi_id", customerTable.getCityId());
                 params.put("added_date", customerTable.getAddedDateValue());
-                params.put("addedby_id", customerTable.getAddedByIdValue());
-
+                params.put("addedby_id", new PrefManager(activity).getUserId());
+                params.put("mobile",new PrefManager(activity).getMobile());
+                params.put("password",new PrefManager(activity).getPassword());
                 return params;
             }
 
@@ -120,8 +177,9 @@ public class WebCustomer_ApiHelper
 
                     byte[] byteArray=null;
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                    //Bitmap mBitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), Uri.parse(customerTable.getImagePathValue()));
-                    Bitmap mBitmap = customerTable.getProfileBitmap();
+                   File image = new File(customerTable.getImagePathValue());
+                    Bitmap mBitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), Uri.fromFile(image));
+                  // Bitmap mBitmap = customerTable.getProfileBitmap();
                     mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                     byteArray = stream.toByteArray();
 
@@ -145,9 +203,6 @@ public class WebCustomer_ApiHelper
         MyApplication.getInstance().addToRequestQueue(multipartRequest);
         return  true;
 
-
     }
-
-
 }
 

@@ -23,7 +23,6 @@ public class StateTableHelper {
             ContentValues values = new ContentValues();
 
             values.put(StateTable.STATE_ID, stateTable.getStateId());
-            values.put(StateTable.CITY_ID, stateTable.getCityId());
             values.put(StateTable.LATITUDE, stateTable.getLatitude());
             values.put(StateTable.LONGITUDE,stateTable.getLongitude());
             values.put(StateTable.STATENAME,stateTable.getStateName());
@@ -59,11 +58,9 @@ public class StateTableHelper {
             ContentValues values = new ContentValues();
 
             values.put(StateTable.STATE_ID,stateTable.getStateId());
-            values.put(StateTable.CITY_ID,stateTable.getCityId());
             values.put(StateTable.STATENAME,stateTable.getStateName());
             values.put(StateTable.LATITUDE,stateTable.getLatitude());
-            values.put(StateTable.LONGITUDE,stateTable.getLongitude()
-            );
+            values.put(StateTable.LONGITUDE,stateTable.getLongitude());
 
 
             // upadating Row
@@ -100,7 +97,6 @@ public class StateTableHelper {
                 StateTable stateTable = new StateTable();
 
                 stateTable.setStateId(cursor.getString(cursor.getColumnIndex(StateTable.STATE_ID)));
-                stateTable.setCityId(cursor.getString(cursor.getColumnIndex(StateTable.CITY_ID)));
                 stateTable.setStateName(cursor.getString(cursor.getColumnIndex(StateTable.STATENAME)));
                 stateTable.setLatitude(cursor.getString(cursor.getColumnIndex(StateTable.LATITUDE)));
                 stateTable.setLongitude(cursor.getString(cursor.getColumnIndex(StateTable.LONGITUDE)));

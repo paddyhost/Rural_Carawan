@@ -23,6 +23,7 @@ public class CityTableHelper {
             values.put(CityTable.CITYNAME, cityTable.getCityname());
             values.put(CityTable.LATITUDE, cityTable.getLatitude());
             values.put(CityTable.LONGITUDE,cityTable.getLongitude());
+            values.put(CityTable.STATE_ID,cityTable.getStateId());
 
 
             if (db.insert(CityTable.CITY_TABLE, null, values) > 0)
@@ -56,8 +57,8 @@ public class CityTableHelper {
             values.put(CityTable.CITY_ID,cityTable.getId());
             values.put(CityTable.CITYNAME,cityTable.getCityname());
             values.put(CityTable.LATITUDE,cityTable.getLatitude());
-            values.put(CityTable.LONGITUDE,cityTable.getLongitude()
-            );
+            values.put(CityTable.LONGITUDE,cityTable.getLongitude());
+            values.put(CityTable.STATE_ID,cityTable.getStateId());
 
 
             // upadating Row
@@ -79,12 +80,12 @@ public class CityTableHelper {
         }
     }
 
-    public static ArrayList<CityTable> getCityDataList(Context context)
+    public static ArrayList<CityTable> getCityDataList(Context context,String stateId)
     {
         ArrayList<CityTable> cityTableArrayList = new ArrayList<CityTable>();
         SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
-        // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ CityTable.CITY_TABLE,null);
+         Cursor cursor = db.rawQuery("SELECT * FROM " + CityTable.CITY_TABLE, null);
+       // Cursor cursor = db.rawQuery("SELECT * FROM "+ CityTable.CITY_TABLE + " WHERE "+CityTable.STATE_ID+"='"+stateId+"'",null);
         try
         {
             cursor.moveToFirst();
@@ -96,6 +97,7 @@ public class CityTableHelper {
                 cityTable.setCityname(cursor.getString(cursor.getColumnIndex(CityTable.CITYNAME)));
                 cityTable.setLatitude(cursor.getString(cursor.getColumnIndex(CityTable.LATITUDE)));
                 cityTable.setLongitude(cursor.getString(cursor.getColumnIndex(CityTable.LONGITUDE)));
+                cityTable.setStateId(cursor.getString(cursor.getColumnIndex(CityTable.STATE_ID)));
 
                 cityTableArrayList.add(cityTable);
                 cursor.moveToNext();

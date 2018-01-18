@@ -33,7 +33,6 @@ public class CustomerTable implements Parcelable {
             uniqueIdValue,imagePathValue,aadharIdValue,villageIdValue,addedDateValue,cityId,
             addedByIdValue,uploadDateValue,updateDateValue;
 
-    private Bitmap profileBitmap;
 
     public CustomerTable() {
     }
@@ -315,11 +314,4 @@ public class CustomerTable implements Parcelable {
         }
     }
 
-    public Bitmap getProfileBitmap() {
-        return profileBitmap;
-    }
-
-    public void setProfileBitmap(Bitmap profileBitmap) {
-        this.profileBitmap = profileBitmap;
-    }
 }
