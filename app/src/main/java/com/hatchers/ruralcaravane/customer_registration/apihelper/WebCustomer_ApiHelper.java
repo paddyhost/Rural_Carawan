@@ -51,7 +51,7 @@ public class WebCustomer_ApiHelper
         final CustomerTable customerTable =CustomerTableHelper.getUnUploadCustomerData(activity);
         if(customerTable==null)
         {
-            WebKitchen_ApiHelper.addKitchenServer(activity);
+           // WebKitchen_ApiHelper.addKitchenServer(activity);
             return false;
         }
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, WebServiceUrls.urlAddCustomer, new Response.Listener<NetworkResponse>() {

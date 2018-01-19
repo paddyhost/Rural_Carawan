@@ -231,7 +231,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
                                     alertDialog.show();
                                 }
 
-                                WebKitchen_ApiHelper.addKitchenServer(getActivity());
+                               // WebKitchen_ApiHelper.addKitchenServer(getActivity());
 
                             }
                         });

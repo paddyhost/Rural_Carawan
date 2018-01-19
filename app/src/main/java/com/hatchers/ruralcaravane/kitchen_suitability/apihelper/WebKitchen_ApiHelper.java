@@ -36,7 +36,7 @@ import java.util.Map;
 
 public class WebKitchen_ApiHelper
 {
-    public static boolean addKitchenServer(final Activity activity)
+    public static boolean addKitchenToServer(final Activity activity)
     {
         final KitchenTable kitchenTable = KitchenTableHelper.getUnUploadKitchenData(activity);
         if(kitchenTable==null)
@@ -186,18 +186,197 @@ public class WebKitchen_ApiHelper
 
                     byte[] byteArray=null;
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    if(kitchenTable.getPlaceImageValue()!=null) {
                     File image = new File(kitchenTable.getPlaceImageValue());
-                    Bitmap mBitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), Uri.fromFile(image));
-                    // Bitmap mBitmap = customerTable.getProfileBitmap();
-                    mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byteArray = stream.toByteArray();
 
-                    String name=  kitchenTable.getPlaceImageValue().substring(kitchenTable.getPlaceImageValue().lastIndexOf("/")+1);
-                    if (name.indexOf(".") > 0)
-                        name = name.substring(0, name.lastIndexOf("."));
-                    //not added kitchen image api
-                 //   params.put("ufile", new DataPart(name+".jpg",byteArray,"image/jpeg"));
+                        Bitmap mBitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), Uri.fromFile(image));
+                        mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        byteArray = stream.toByteArray();
 
+                        String name = kitchenTable.getPlaceImageValue().substring(kitchenTable.getPlaceImageValue().lastIndexOf("/") + 1);
+                        if (name.indexOf(".") > 0)
+                            name = name.substring(0, name.lastIndexOf("."));
+                        //not added kitchen image api
+                           params.put("ufile", new DataPart(name+".jpg",byteArray,"image/jpeg"));
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(activity,"Error", Toast.LENGTH_SHORT).show();
+                }
+
+                return params;
+            }
+        };
+
+        MyApplication.getInstance().addToRequestQueue(multipartRequest);
+        return  true;
+
+    }
+
+    public static boolean updateKitchenToServer(final Activity activity)
+    {
+        final KitchenTable kitchenTable = KitchenTableHelper.getUnUploadKitchenData(activity);
+        if(kitchenTable==null)
+        {
+            return false;
+        }
+        VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, WebServiceUrls.urlUploadKitchen, new Response.Listener<NetworkResponse>() {
+            @Override
+            public void onResponse(NetworkResponse response) {
+                String resultResponse = new String(response.data);
+                Log.d("Result",resultResponse);
+
+                try
+                {
+                    JSONObject responce = new JSONObject(resultResponse);
+                    if(responce.getString("status").equalsIgnoreCase("success"))
+                    {
+                        //{"status":"success","count":1,"type":"addKitchenSuitability","result":{"id":"7","kitchen_id":"3","roofType":"hhdhd","housetype":"sgdhgd","hieght":"1","longitude":"445445","latitude":"9975294782","geoaddress":"1","place_image":"","addeddate":"0000-00-00 00:00:00","costofculha":"33","customer_id":null,"state":"A","step1image":"","step2image":"","updatedate":"2018-01-18 14:52:16","addedbyid":"9975294782","stime":"0000-00-00 00:00:00","endtime":"0000-00-00 00:00:00","adminactiondate":"0000-00-00 00:00:00","comment":null},"message":"Kitchen Suitability added successfully"}
+
+                        if(responce.getString("message").equalsIgnoreCase("Kitchen Suitability added successfully")) {
+                            // JSONArray resultArray = responce.getJSONArray("result");
+                            JSONObject result = responce.getJSONObject("result");
+
+                            kitchenTable.setKitchen_idValue(result.getString("id"));
+                            kitchenTable.setKitchenState(result.getString("state"));
+                            kitchenTable.setUpdateDateValue(result.getString("updatedate"));
+                            kitchenTable.setUpload_statusValue("1");
+
+                            if(KitchenTableHelper.updateKitchenData(activity,kitchenTable))
+                            {
+                                Toast.makeText(activity,"Kitchen Succefully uploaded",Toast.LENGTH_SHORT).show();
+                                kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_SUCCESS);
+                            }
+                            else
+                            {
+                                Toast.makeText(activity,"update failed",Toast.LENGTH_SHORT).show();
+                                kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_FAILED);
+                            }
+                            // customerTable.setImagePathValue(result.getString("imagepath"));
+
+                        }
+                        else
+                        {
+                            //group.setCreatestatus(group.BROADCASTERROR);
+                            //  EventBus.getDefault().post(group);
+                            Toast.makeText(activity,"upload failed",Toast.LENGTH_SHORT).show();
+                            kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_FAILED);
+                        }
+                    }
+                    else
+                    {
+                        Toast.makeText(activity," response failed",Toast.LENGTH_SHORT).show();
+                        kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_RESPONSE_FAILED);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(activity,"Json error",Toast.LENGTH_SHORT).show();
+                    kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_JSON_ERROR);
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //   Toast.makeText(activity,"Volley error",Toast.LENGTH_SHORT).show();
+                if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                    Toast.makeText(activity,"No connection error",Toast.LENGTH_SHORT).show();
+                    kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_NO_CONNECTION_ERROR);
+                }
+                else if (error instanceof ServerError)
+                {
+                    Toast.makeText(activity,"Server error",Toast.LENGTH_SHORT).show();
+                    kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_SERVER_ERROR);
+                }
+                else if (error instanceof NetworkError)
+                {
+                    Toast.makeText(activity,"Network error",Toast.LENGTH_SHORT).show();
+                    kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_NEWORK_ERROR);
+                }
+                else if (error instanceof ParseError)
+                {
+                    Toast.makeText(activity,"Parse error",Toast.LENGTH_SHORT).show();
+                    kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_PARSE_ERROR);
+                }
+                else
+                {
+                    Toast.makeText(activity,"Unknown error",Toast.LENGTH_SHORT).show();
+                    kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_UNKNOWN_ERROR);
+                }
+
+            }
+        }) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<>();
+
+                //http://www.hatchers.in/caravan/index.php/api/V1/addKitchenSuitability?
+                // kitchen_id=3&roofType=hhdhd&housetype=sgdhgd&hieght=1&longitude=445445
+                // &latitude=9975294782&geoaddress=1&addeddate=12-12-2018&costofculha=33
+                // &state=A&format=json&mobile=9975294782&password=user@123
+
+                params.put("format", "json");
+                params.put("kitchen_id",kitchenTable.getKitchenUniqueIdValue());
+                params.put("roofType", kitchenTable.getRoof_typeValue());
+                params.put("housetype", kitchenTable.getHouse_typeValue());
+                params.put("hieght", kitchenTable.getKitchen_heightValue());
+                if(kitchenTable.getLatitudeValue()==null)
+                {
+                    params.put("latitude", "");
+                }
+                else
+                {
+                    params.put("latitude", kitchenTable.getLatitudeValue());
+                }
+                if(kitchenTable.getLongitudeValue()==null)
+                {
+                    params.put("longitude", "");
+                }
+                else
+                {
+                    params.put("longitude", kitchenTable.getLongitudeValue());
+                }
+                if(kitchenTable.getGeoAddressValue()==null)
+                {
+                    params.put("geoaddress", "");
+                }
+                else
+                {
+                    params.put("geoaddress", kitchenTable.getGeoAddressValue());
+                }
+                params.put("addeddate", kitchenTable.getAddedDateValue());
+                params.put("costofculha","");
+                params.put("state", KitchenTable.STATE_N);
+                params.put("mobile",new PrefManager(activity).getMobile());
+                params.put("password",new PrefManager(activity).getPassword());
+                return params;
+            }
+
+            @Override
+            protected Map<String, DataPart> getByteData() {
+                Map<String, DataPart> params = new HashMap<>();
+                // file name could found file base or direct access from real path
+                // for now just get bitmap data from ImageView
+
+
+                try {
+
+                    byte[] byteArray=null;
+                    ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                    if(kitchenTable.getPlaceImageValue()!=null) {
+                        File image = new File(kitchenTable.getPlaceImageValue());
+
+                        Bitmap mBitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), Uri.fromFile(image));
+                        mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        byteArray = stream.toByteArray();
+
+                        String name = kitchenTable.getPlaceImageValue().substring(kitchenTable.getPlaceImageValue().lastIndexOf("/") + 1);
+                        if (name.indexOf(".") > 0)
+                            name = name.substring(0, name.lastIndexOf("."));
+                        //not added kitchen image api
+                        params.put("ufile", new DataPart(name+".jpg",byteArray,"image/jpeg"));
+                    }
 
                 } catch (Exception e) {
                     e.printStackTrace();
