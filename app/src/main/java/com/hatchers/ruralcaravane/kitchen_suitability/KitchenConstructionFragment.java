@@ -508,4 +508,7 @@ public class KitchenConstructionFragment extends Fragment {
         }
 
     }
+
+
+    
 }
