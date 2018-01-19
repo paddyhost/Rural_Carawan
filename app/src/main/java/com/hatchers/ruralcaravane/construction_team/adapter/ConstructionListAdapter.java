@@ -51,8 +51,6 @@ public class ConstructionListAdapter extends RecyclerView.Adapter<ConstructionLi
 
         holder.member_name.setText(String.valueOf(constructionTable.getTechnicianNameValue() + ""));
         holder.construction_mobile_number.setText(String.valueOf(constructionTable.getTechnicianMobileNoValue() + ""));
-        holder.member_address.setText(String.valueOf(constructionTable.getTechnicianAddressValue() + ""));
-        holder.age.setText(String.valueOf(constructionTable.getTechnicianAgeValue() + ""));
         if(constructionTable.getTechnicianGenderValue().equalsIgnoreCase("F"))
         {
             holder.member_gender.setText(String.valueOf("Female"));
@@ -96,8 +94,6 @@ public class ConstructionListAdapter extends RecyclerView.Adapter<ConstructionLi
 
             member_name = (TextView) itemView.findViewById(R.id.member_name);
             construction_mobile_number = (TextView) itemView.findViewById(R.id.construction_mobile_number);
-            age=(TextView)itemView.findViewById(R.id.age);
-            member_address=(TextView)itemView.findViewById(R.id.member_address);
             member_gender=(TextView)itemView.findViewById(R.id.member_gender);
             customer_image=(CircleImageView)itemView.findViewById(R.id.customer_image);
 

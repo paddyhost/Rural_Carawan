@@ -86,6 +86,7 @@
             android:layout_gravity="center_horizontal"/>
 
         <ImageView
+            android:layout_marginTop="10dp"
             android:id="@+id/place_image"
             android:layout_width="match_parent"
             android:layout_height="195dp"
@@ -164,12 +165,15 @@
 
 
                 <ImageView
+                    android:layout_marginTop="10dp"
                     android:id="@+id/half_constructed_image1"
-                    android:src="@drawable/ic_add_image"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="195dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:scaleType="centerCrop"
-                    android:layout_marginTop="15dp"/>
+                    android:src="@drawable/capture_area"/>
 
             </LinearLayout>
 
@@ -190,23 +194,20 @@
                     android:text="Complete Constructed Image"/>
 
                 <ImageView
+                    android:layout_marginTop="10dp"
                     android:id="@+id/complete_constructed_image1"
-                    android:src="@drawable/ic_add_image"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="195dp"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
                     android:scaleType="centerCrop"
-                    android:layout_marginTop="15dp"/>
+                    android:src="@drawable/capture_area"/>
 
             </LinearLayout>
 
 
-        <Button
-            android:background="@color/colorPrimary"
-            android:layout_marginTop="20dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Update"
-            android:id="@+id/update"/>
+
         </LinearLayout>
     </ScrollView>
 </RelativeLayout>

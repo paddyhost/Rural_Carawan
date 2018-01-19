@@ -29,15 +29,18 @@ import com.google.android.gms.location.LocationServices;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
+import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.hatchers.ruralcaravane.constants.AppConstants.KITCHEN_PREFIX;
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
 
 
@@ -177,7 +180,14 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
                             .setTitleText("Please wait");
                     sweetAlertDialog.show();
 
-                    FileHelper.savePNGImage(Folders.CHULHAFOLDER,kitBitmap,"KIT_"+kitchen_table.getKitchenUniqueIdValue());
+                    FileHelper.savePNGImage(Folders.CHULHAFOLDER,kitBitmap,KITCHEN_PREFIX+kitchen_table.getKitchenUniqueIdValue());
+                    File image = FileHelper.createfile(Folders.CHULHAFOLDER, KITCHEN_PREFIX+kitchen_table.getKitchenUniqueIdValue(), FileType.PNG);
+
+                    if(image!=null)
+                    {
+                        kitchen_table.setPlaceImageValue(image.getAbsolutePath());
+
+                    }
 
                     if(KitchenTableHelper.insertKitchenData(getContext(), kitchen_table))
                     {
@@ -232,7 +242,6 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         kitchen_table.setKitchen_heightValue(kitchen_height.getText().toString());
         kitchen_table.setKitchenUniqueIdValue(kitchenUniqueIdText.getText().toString());
         kitchen_table.setCustomer_idValue(customertable.getUniqueIdValue());
-        kitchen_table.setPlaceImageValue("KIT_"+kitchen_table.getKitchenUniqueIdValue());
         kitchen_table.setAddedDateValue(getCurrentDateTime());
         kitchen_table.setUpload_statusValue("0");
         Date date=new Date();

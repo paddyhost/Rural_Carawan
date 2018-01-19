@@ -43,6 +43,7 @@ import java.util.Date;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.hatchers.ruralcaravane.constants.AppConstants.PAYMENT_PREFIX;
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
 
 public class PaymentDetailsFragment extends Fragment {
@@ -113,7 +114,7 @@ public class PaymentDetailsFragment extends Fragment {
     }
 
 
-    
+
     private void initializations(View view)
     {
 
@@ -160,8 +161,8 @@ public class PaymentDetailsFragment extends Fragment {
                             .setTitleText("Please wait");
 
                     sweetAlertDialog.show();
-                    FileHelper.savePNGImage(Folders.PAYMENTFOLDER,payBitmap,"PAY_"+paymentTable.getPaymentUniqueIdValue());
-                    File image = FileHelper.createfile(Folders.PAYMENTFOLDER,"PAY_"+paymentTable.getPaymentUniqueIdValue(), FileType.PNG);
+                    FileHelper.savePNGImage(Folders.PAYMENTFOLDER,payBitmap,PAYMENT_PREFIX+paymentTable.getPaymentUniqueIdValue());
+                    File image = FileHelper.createfile(Folders.PAYMENTFOLDER,PAYMENT_PREFIX+paymentTable.getPaymentUniqueIdValue(), FileType.PNG);
                     if(image!=null)
                     {
                         if(image.exists())
@@ -262,9 +263,7 @@ public class PaymentDetailsFragment extends Fragment {
         paymentTable.setPayment_amountValue(payment_amount.getText().toString());
         paymentTable.setTotalPaidValue(paid_amount.getText().toString());
         paymentTable.setRemaining_amountValue(remaining_amount.getText().toString());
-        paymentTable.setReceiptImageValue("");
         paymentTable.setCustomerIdValue(customertable.getUniqueIdValue());
-        //paymentTable.setKitchenIdValue(kitchenTable.getKitchenUniqueIdValue());
         paymentTable.setDateOfPaymentValue(getCurrentDateTime());
         paymentTable.setUpdateDateValue(getCurrentDateTime());
         paymentTable.setUpload_statusValue("0");
@@ -426,7 +425,7 @@ public class PaymentDetailsFragment extends Fragment {
             receipt_number.setText(paymentDetailsObj.getReceiptNoValue());
             receipt_number.setFocusable(false);
 
-            File image = FileHelper.createfile(Folders.PAYMENTFOLDER,"PAY_"+paymentTable.getPaymentUniqueIdValue(), FileType.PNG);
+            File image = FileHelper.createfile(Folders.PAYMENTFOLDER,PAYMENT_PREFIX+paymentTable.getPaymentUniqueIdValue(), FileType.PNG);
             if(image!=null)
             {
                 if(image.exists())

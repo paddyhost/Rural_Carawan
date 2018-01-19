@@ -42,7 +42,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     private Button kitchen_linear,payment_linear;
     private CustomerTable customertable;
     private KitchenTable kitchenTable;
-    private TextView customername_txt, customeraddress_txt, mobile_txt,age_txt;
+    private TextView customername_txt, customeraddress_txt, mobile_txt;
     private CircleImageView profImageView;
 
     private ArrayList<KitchenTable> kitchenTableArrayList;
@@ -94,7 +94,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         customername_txt = (TextView)view.findViewById(R.id.customername_txt);
         customeraddress_txt = (TextView)view.findViewById(R.id.customeraddress_txt);
         mobile_txt = (TextView)view.findViewById(R.id.mobile_txt);
-        age_txt=(TextView)view.findViewById(R.id.age_txt);
+
         profImageView = (CircleImageView)view.findViewById(R.id.customerImage);
 
         kitchen_linear=(Button)view.findViewById(R.id.kitchen_linear);
@@ -166,7 +166,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         customername_txt.setText(String.valueOf(customertable.getCustomerNameValue()));
         customeraddress_txt.setText(String.valueOf(customertable.getCustomerAddressValue()));
         mobile_txt.setText(String.valueOf(customertable.getCustomerMobilenoValue()));
-        age_txt.setText(String.valueOf(customertable.getCustomerAgeValue()));
+
 
         File image = FileHelper.createfile(Folders.CUSTOMERFOLDER, customertable.getImagePathValue(), FileType.PNG);
         if (image != null) {
