@@ -124,6 +124,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         });
 
     }
+
     @Override
     public void onClick(View view)
     {
@@ -167,14 +168,10 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         customeraddress_txt.setText(String.valueOf(customertable.getCustomerAddressValue()));
         mobile_txt.setText(String.valueOf(customertable.getCustomerMobilenoValue()));
 
-
-        File image = FileHelper.createfile(Folders.CUSTOMERFOLDER, customertable.getImagePathValue(), FileType.PNG);
-        if (image != null) {
-            Glide.with(getActivity())
-                    .load(image.getAbsolutePath())
+        Glide.with(getActivity())
+                    .load(customertable.getImagePathValue())
                     .error(R.drawable.user_profile)
                     .into(profImageView);
-        }
 
     }
 

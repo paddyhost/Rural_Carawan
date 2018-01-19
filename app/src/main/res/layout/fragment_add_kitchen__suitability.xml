@@ -161,7 +161,7 @@
                 android:hint="Enter Kitchen Height(in feet) "
                 android:textColorHint="@color/DarkBrown"
                 android:maxLength="2"
-                android:imeOptions="actionNext"
+                android:imeOptions="actionDone"
                 android:id="@+id/kitchen_height"
                 android:inputType="number"
                 android:singleLine="true"

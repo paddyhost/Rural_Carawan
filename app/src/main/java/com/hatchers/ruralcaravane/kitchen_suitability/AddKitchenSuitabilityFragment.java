@@ -1,6 +1,6 @@
 package com.hatchers.ruralcaravane.kitchen_suitability;
 
-import android.app.AlertDialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -9,6 +9,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -33,6 +34,7 @@ import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
+import com.hatchers.ruralcaravane.runtime_permissions.RuntimePermissions;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -103,7 +105,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_kitchen__suitability, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_kitchen__suitability, container, false);
 
         initializations(view);
         onclicklisteners();
@@ -205,10 +207,28 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
                                 takePicture.setImageResource(R.mipmap.chullha);
                                 kitBitmap=null;
 
-                                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                                AddKitchenAddress addKitchenAddress=AddKitchenAddress.getInstance(customertable,kitchen_table);
-                                fragmentTransaction.replace(R.id.frame_layout,addKitchenAddress).commit();
+                                if(RuntimePermissions.isNetworkConnectionAvailable(getActivity())) {
 
+                                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                    AddKitchenAddress addKitchenAddress = AddKitchenAddress.getInstance(kitchen_table);
+                                    fragmentTransaction.replace(R.id.frame_layout, addKitchenAddress).commit();
+                                }
+
+                                else
+                                {
+                                    android.support.v7.app.AlertDialog.Builder builder =new android.support.v7.app.AlertDialog.Builder(getActivity());
+                                    builder.setTitle("No internet Connection");
+                                    builder.setMessage("Please turn on internet connection to continue");
+                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                            getActivity().onBackPressed();
+                                        }
+                                    });
+                                    android.support.v7.app.AlertDialog alertDialog = builder.create();
+                                    alertDialog.show();
+                                }
                             }
                         });
                     }
@@ -368,6 +388,4 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         String datetime = ft.format(dNow);
         kitchenUniqueIdText.setText("KIT"+datetime);
     }
-
-
 }

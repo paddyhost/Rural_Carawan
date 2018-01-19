@@ -38,6 +38,7 @@ import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
+import com.hatchers.ruralcaravane.runtime_permissions.RuntimePermissions;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class KitchenConstructionFragment extends Fragment {
     ArrayList<ConstructionTable> constructionTables;
     private RecyclerView constructionRecyclerView;
     private ConstructionListAdapter constructionListAdapter;
-    private Button add_construction;
+    private Button add_construction,add_LocationBtn;
     private TextView houseTypeTxt, roofTypeTxt, heightTxt;
     private ImageView place_image;
     private Toolbar kitchen_const_Toolbar;
@@ -100,6 +101,7 @@ public class KitchenConstructionFragment extends Fragment {
         addPlaceImageClickListener();
 
         setKitchenData();
+        addLocation();
 
         return view;
     }
@@ -114,6 +116,7 @@ public class KitchenConstructionFragment extends Fragment {
         heightTxt = (TextView)view.findViewById(R.id.height_txt);
         kitchen_const_Toolbar=(Toolbar)view.findViewById(R.id.kitchen_const_Toolbar);
         place_image=(ImageView)view.findViewById(R.id.place_image);
+        add_LocationBtn=(Button)view.findViewById(R.id.addLocationBtn);
 
         constructionRecyclerView = (RecyclerView) view.findViewById(R.id.const_list);
 
@@ -147,33 +150,22 @@ public class KitchenConstructionFragment extends Fragment {
         roofTypeTxt.setText(String.valueOf("Roof Type : "+kitchenTable.getRoof_typeValue()));
         heightTxt.setText(String.valueOf("Height : "+kitchenTable.getKitchen_heightValue()));
 
-
-        File image3 = FileHelper.createfile(Folders.CHULHAFOLDER, KITCHEN_PREFIX+kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
-        if (image3 != null) {
             Glide.with(getActivity())
-                    .load(image3.getAbsolutePath())
+                    .load(kitchenTable.getPlaceImageValue())
                     .error(R.drawable.capture_area)
                     .into(place_image);
 
-        }
 
-
-        File image = FileHelper.createfile(Folders.CHULHAFOLDER, STEP1_PREFIX+kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
-        if (image != null) {
             Glide.with(getActivity())
-                    .load(image.getAbsolutePath())
+                    .load(kitchenTable.getStep1_imageValue())
                     .error(R.drawable.capture_area)
                     .into(half_constructed_image);
 
-        }
 
-
-        File image1 = FileHelper.createfile(Folders.CHULHAFOLDER, STEP2_PREFIX+kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
-        if (image1 != null) {
-            Glide.with(getActivity()).load(image1.getAbsolutePath())
+            Glide.with(getActivity()).load(kitchenTable.getStep2_imageValue())
                     .error(R.drawable.capture_area)
                     .into(complete_constructed_image);
-        }
+
 
     }
 
@@ -181,7 +173,7 @@ public class KitchenConstructionFragment extends Fragment {
     public void onResume()
     {
         super.onResume();
-        File image = FileHelper.createfile(Folders.CHULHAFOLDER, kitchenTable.getStep1_imageValue(), FileType.PNG);
+        File image = FileHelper.createfile(Folders.CHULHAFOLDER, STEP1_PREFIX+kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
         if (image != null) {
             Glide.with(getActivity())
                     .load(image.getAbsolutePath())
@@ -189,7 +181,7 @@ public class KitchenConstructionFragment extends Fragment {
                     .into(half_constructed_image);
         }
 
-        File image1 = FileHelper.createfile(Folders.CHULHAFOLDER, kitchenTable.getStep2_imageValue(), FileType.PNG);
+        File image1 = FileHelper.createfile(Folders.CHULHAFOLDER,STEP2_PREFIX+kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
         if (image1 != null) {
             Glide.with(getActivity())
                     .load(image1.getAbsolutePath())
@@ -200,14 +192,14 @@ public class KitchenConstructionFragment extends Fragment {
     }
 
     private void toolbarClickListener()
-        {
+    {
             kitchen_const_Toolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     getActivity().onBackPressed();
                 }
             });
-        }
+    }
 
     private void addTeamClickListener() {
         add_construction.setOnClickListener(new View.OnClickListener() {
@@ -389,11 +381,11 @@ public class KitchenConstructionFragment extends Fragment {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         sweetAlertDialog.dismissWithAnimation();
-
+                        half_constructed_image.setImageBitmap(conBitmap);
                     }
                 });
 
-                half_constructed_image.setImageBitmap(conBitmap);
+
             }
             else
             {
@@ -435,11 +427,11 @@ public class KitchenConstructionFragment extends Fragment {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         sweetAlertDialog.dismissWithAnimation();
-
+                        complete_constructed_image.setImageBitmap(conBitmap1);
+                        add_construction.setBackgroundColor(getActivity().getResources().getColor(R.color.colorDarkgray));
                     }
                 });
-                complete_constructed_image.setImageBitmap(conBitmap1);
-                add_construction.setBackgroundColor(getActivity().getResources().getColor(R.color.colorDarkgray));
+
             }
 
             else
@@ -485,10 +477,10 @@ public class KitchenConstructionFragment extends Fragment {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
                         sweetAlertDialog.dismissWithAnimation();
-
+                        place_image.setImageBitmap(placeBitmap);
                     }
                 });
-                place_image.setImageBitmap(placeBitmap);
+
 
             }
 
@@ -510,5 +502,42 @@ public class KitchenConstructionFragment extends Fragment {
     }
 
 
-    
+    private void addLocation() {
+        add_LocationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(RuntimePermissions.isNetworkConnectionAvailable(getActivity())) {
+
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    AddKitchenAddress addKitchenAddress = AddKitchenAddress.getInstance(kitchenTable);
+                    fragmentTransaction.replace(R.id.frame_layout, addKitchenAddress).commit();
+                }
+
+
+                else
+                {
+                    android.support.v7.app.AlertDialog.Builder builder =new android.support.v7.app.AlertDialog.Builder(getActivity());
+                    builder.setTitle("No internet Connection");
+                    builder.setMessage("Please turn on internet connection to continue");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    android.support.v7.app.AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+
+        }
+
+        });
+    }
 }
+
+
+
+
+
+

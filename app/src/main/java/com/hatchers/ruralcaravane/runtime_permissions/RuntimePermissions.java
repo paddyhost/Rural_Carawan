@@ -2,10 +2,15 @@ package com.hatchers.ruralcaravane.runtime_permissions;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 
 public class RuntimePermissions {
@@ -140,6 +145,25 @@ public class RuntimePermissions {
             return false;
         } else {
             return true;
+        }
+    }
+
+
+
+    public static boolean isNetworkConnectionAvailable(final Activity activity){
+        ConnectivityManager cm =(ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnected();
+        if(isConnected) {
+            Log.d("Network", "Connected");
+            return true;
+        }
+        else{
+            //checkNetworkConnection(activity);
+            Log.d("Network","Not Connected");
+            return false;
         }
     }
 

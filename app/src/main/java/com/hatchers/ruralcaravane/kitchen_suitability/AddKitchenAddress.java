@@ -46,15 +46,14 @@ public class AddKitchenAddress extends Fragment implements View.OnClickListener{
     private Button btnpickAddress,btn_saveaddress;
     static double getlatitude =0, getlongitude = 0;
 
-    private CustomerTable customertable;
+
     private KitchenTable kitchenTable;
     private ImageView backImg;
 
-    public static AddKitchenAddress getInstance(CustomerTable customertable, KitchenTable kitchenTable)
+    public static AddKitchenAddress getInstance(KitchenTable kitchenTable)
     {
         AddKitchenAddress fragment = new AddKitchenAddress();
         Bundle args = new Bundle();
-        args.putParcelable(CustomerTable.CUSTOMER_TABLE, customertable);
         args.putParcelable(KitchenTable.KITCHEN_TABLE, kitchenTable);
         fragment.setArguments(args);
         return fragment;
@@ -67,7 +66,7 @@ public class AddKitchenAddress extends Fragment implements View.OnClickListener{
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
         {
-            customertable = getArguments().getParcelable(CustomerTable.CUSTOMER_TABLE);
+
             kitchenTable = getArguments().getParcelable(KitchenTable.KITCHEN_TABLE);
         }
     }

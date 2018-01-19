@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.hatchers.ruralcaravane.constants.AppConstants.CUSTOMER_PREFIX;
 
 
 public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapter.ViewHolder> {
@@ -57,13 +58,10 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
         holder.mobile.setText(String.valueOf("Mobile :"+customerTable.getCustomerMobilenoValue() + ""));
         holder.age.setText(String.valueOf("Age "+customerTable.getCustomerAgeValue()+ ""));
 
-        File image = FileHelper.createfile(Folders.CUSTOMERFOLDER, customerTable.getImagePathValue(), FileType.PNG);
-        if (image != null) {
-            Glide.with(context)
-                    .load(image.getAbsolutePath())
+            Glide.with(context).load(customerTable.getImagePathValue())
                     .error(R.drawable.user_profile)
                     .into(holder.user_profile);
-        }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -49,6 +49,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:padding="5dp"
+            app:border_color="@color/colorPrimary"
+            app:border_width="1.5dp"
             android:src="@drawable/user_profile"
             android:layout_gravity="center_vertical|center"/>
 

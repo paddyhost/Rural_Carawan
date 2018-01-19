@@ -32,6 +32,7 @@ import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.customer_registration.apihelper.WebCustomer_ApiHelper;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
+import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.locality.database.CityTable;
 import com.hatchers.ruralcaravane.locality.database.CityTableHelper;
 import com.hatchers.ruralcaravane.locality.database.StateTable;
@@ -58,6 +59,7 @@ import java.util.Date;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static com.hatchers.ruralcaravane.constants.AppConstants.CUSTOMER_PREFIX;
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
 
 
@@ -229,9 +231,9 @@ public class AddCustomerFragment extends Fragment {
 
                 setCustomerData();
 
-                File image =FileHelper.savePNGImage(Folders.CUSTOMERFOLDER,custBitmap,"CU_"+customer_table.getUniqueIdValue());
+                File image =FileHelper.savePNGImage(Folders.CUSTOMERFOLDER,custBitmap,CUSTOMER_PREFIX+customer_table.getUniqueIdValue());
+                FileHelper.createfile(Folders.CUSTOMERFOLDER, CUSTOMER_PREFIX+customer_table.getUniqueIdValue(), FileType.PNG);
 
-               // FileHelper.createfile(Folders.CUSTOMERFOLDER, "CU_"+customer_table.getUniqueIdValue(), FileType.PNG);
                 if(image!=null)
                 {
                     customer_table.setImagePathValue(image.getAbsolutePath());
