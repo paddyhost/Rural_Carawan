@@ -24,6 +24,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -56,7 +57,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
     private Toolbar kitchen_toolbar;
     private Spinner house_type, roof_type;
     private TextInputEditText kitchen_height;
-    private ImageView takePicture;
+    private ImageView place_image;
     private int RESULT_CANCELED;
     private Button upload;
     KitchenTable kitchen_table;
@@ -124,7 +125,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         house_type = (Spinner) view.findViewById(R.id.house_type_survey);
         roof_type = (Spinner) view.findViewById(R.id.roof_type);
         kitchen_height = (TextInputEditText) view.findViewById(R.id.kitchen_height);
-        takePicture = (ImageView) view.findViewById(R.id.takePicture);
+        place_image = (ImageView) view.findViewById(R.id.placeImage);
         upload = (Button) view.findViewById(R.id.upload);
         kitchenUniqueIdText=(TextView)view.findViewById(R.id.kitchenUniqueIdText);
 
@@ -167,21 +168,19 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
             }
         });
 
-        takePicture.setOnClickListener(new View.OnClickListener() {
+        place_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPictureDialog();
             }
         });
 
+
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setKitchenData();
                 if(checkValidation()) {
-                    SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
-                            .setTitleText("Please wait");
-                    sweetAlertDialog.show();
 
                     FileHelper.savePNGImage(Folders.CHULHAFOLDER,kitBitmap,KITCHEN_PREFIX+kitchen_table.getKitchenUniqueIdValue());
                     File image = FileHelper.createfile(Folders.CHULHAFOLDER, KITCHEN_PREFIX+kitchen_table.getKitchenUniqueIdValue(), FileType.PNG);
@@ -190,64 +189,75 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
                     {
                         kitchen_table.setPlaceImageValue(image.getAbsolutePath());
 
-                    }
+                        if(image.exists())
+                        {
+                            SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
+                                    .setTitleText("Please wait");
+                            sweetAlertDialog.show();
 
-                    if(KitchenTableHelper.insertKitchenData(getContext(), kitchen_table))
-                    {
-                        sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                        sweetAlertDialog.setTitleText("Kitchen Data Added Successfully");
-                        sweetAlertDialog.setConfirmText("Ok");
-                        sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                sweetAlertDialog.dismissWithAnimation();
+                            if(KitchenTableHelper.insertKitchenData(getContext(), kitchen_table))
+                            {
+                                sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                sweetAlertDialog.setTitleText("Kitchen Data Added Successfully");
+                                sweetAlertDialog.setConfirmText("Ok");
+                                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismissWithAnimation();
 
-                                house_type.setAdapter(null);
-                                roof_type.setAdapter(null);
-                                kitchen_height.setText("");
-                                takePicture.setImageResource(R.mipmap.chullha);
-                                kitBitmap=null;
+                                        house_type.setAdapter(null);
+                                        roof_type.setAdapter(null);
+                                        kitchen_height.setText("");
+                                        place_image.setImageResource(R.mipmap.chullha);
+                                        kitBitmap=null;
 
-                                if(RuntimePermissions.isNetworkConnectionAvailable(getActivity())) {
+                                        if(RuntimePermissions.isNetworkConnectionAvailable(getActivity())) {
 
-                                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                                    AddKitchenAddress addKitchenAddress = AddKitchenAddress.getInstance(kitchen_table);
-                                    fragmentTransaction.replace(R.id.frame_layout, addKitchenAddress).commit();
-                                }
-
-                                else
-                                {
-                                    android.support.v7.app.AlertDialog.Builder builder =new android.support.v7.app.AlertDialog.Builder(getActivity());
-                                    builder.setTitle("No internet Connection");
-                                    builder.setMessage("Please turn on internet connection to continue");
-                                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                            getActivity().onBackPressed();
+                                            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                            AddKitchenAddress addKitchenAddress = AddKitchenAddress.getInstance(kitchen_table);
+                                            fragmentTransaction.replace(R.id.frame_layout, addKitchenAddress).commit();
                                         }
-                                    });
-                                    android.support.v7.app.AlertDialog alertDialog = builder.create();
-                                    alertDialog.show();
-                                }
-
-                               // WebKitchen_ApiHelper.addKitchenServer(getActivity());
-
+                                        else
+                                        {
+                                            android.support.v7.app.AlertDialog.Builder builder =new android.support.v7.app.AlertDialog.Builder(getActivity());
+                                            builder.setTitle("No internet Connection");
+                                            builder.setMessage("Please turn on internet connection to continue");
+                                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                    getActivity().onBackPressed();
+                                                }
+                                            });
+                                            android.support.v7.app.AlertDialog alertDialog = builder.create();
+                                            alertDialog.show();
+                                        }
+                                    }
+                                });
                             }
-                        });
+
+                            else
+                            {
+                                sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                sweetAlertDialog.setTitleText("Kitchen Data Add Failed");
+                                sweetAlertDialog.setConfirmText("Ok");
+                                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismissWithAnimation();
+                                    }
+                                });
+                            }
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), "Please Upload Planned Area Image....!", Toast.LENGTH_SHORT).show();
+
+                        }
                     }
-
-                    else
+                   else
                     {
-                        sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        sweetAlertDialog.setTitleText("Kitchen Data Add Failed");
-                        sweetAlertDialog.setConfirmText("Ok");
-                        sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                sweetAlertDialog.dismissWithAnimation();
-                            }
-                        });
+                        Toast.makeText(getActivity(), "Please Upload Planned Area Image....!", Toast.LENGTH_SHORT).show();
                     }
 
                 }
@@ -316,10 +326,9 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         }
         if (requestCode == CAMERA) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            takePicture.setImageBitmap(thumbnail);
+            place_image.setImageBitmap(thumbnail);
             kitBitmap=thumbnail;
-            //savePNGImage(thumbnail);
-            //Toast.makeText(getContext(), "Image Saved!", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -390,7 +399,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         Date dNow = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyMMddhhmmssMs");
         String datetime = ft.format(dNow);
-        kitchenUniqueIdText.setText("KIT"+datetime);
+        kitchenUniqueIdText.setText(datetime);
     }
 
 

@@ -24,22 +24,16 @@ public class PaymentDetailsHelper {
             ContentValues values = new ContentValues();
 
 
-            values.put(PaymentTable.PAYMENT_AMOUNT,paymentTable.getPayment_amountValue());
+            values.put(PaymentTable.PAYMENT_UNIQUE_ID,paymentTable.getPaymentUniqueIdValue());
+            values.put(PaymentTable.AMOUNT,paymentTable.getAmountValue());
             values.put(PaymentTable.TOTAL_PAID,paymentTable.getTotalPaidValue());
-            values.put(PaymentTable.REMAINING_AMOUNT,paymentTable.getRemaining_amountValue());
+            values.put(PaymentTable.BALANCE,paymentTable.getBalanceValue());
             values.put(PaymentTable.UPLOAD_STATUS,"0");
             values.put(PaymentTable.RECEIPT_IMAGE,paymentTable.getReceiptImageValue());
             values.put(PaymentTable.CUSTOMER_ID,paymentTable.getCustomerIdValue());
-            values.put(PaymentTable.TECHNICIAN_ID,paymentTable.getTechnicianIdValue());
             values.put(PaymentTable.KITCHEN_ID,paymentTable.getKitchenIdValue());
-            values.put(PaymentTable.INSTALLMENT_ID,paymentTable.getInstallmentIdValue());
             values.put(PaymentTable.DATE_OF_PAYMENT,getCurrentDateTime());
-            values.put(PaymentTable.TYPE,paymentTable.getTypeValue());
-            values.put(PaymentTable.PAYMENT_TYPE,paymentTable.getPaymentTypeValue());
             values.put(PaymentTable.RECEIPT_NO,paymentTable.getReceiptNoValue());
-            values.put(PaymentTable.ISSUED_BY_ID,paymentTable.getIssuedByIdValue());
-            values.put(PaymentTable.CHULLHA_ID,paymentTable.getChullhaIdValue());
-            values.put(PaymentTable.UPDATE_DATE,getCurrentDateTime());
 
 
             if (db.insert(PaymentTable.PAYMENT_TABLE, null, values) > 0)
@@ -67,23 +61,16 @@ public class PaymentDetailsHelper {
             SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
             ContentValues values = new ContentValues();
 
-            values.put(PaymentTable.PAYMENT_ID,paymentTable.getPayment_idValue());
-            values.put(PaymentTable.PAYMENT_AMOUNT,paymentTable.getPayment_amountValue());
-            values.put(PaymentTable.TOTAL_PAID,paymentTable.getAdvance_amountValue());
-            values.put(PaymentTable.REMAINING_AMOUNT,paymentTable.getRemaining_amountValue());
+            values.put(PaymentTable.PAYMENT_UNIQUE_ID,paymentTable.getPaymentUniqueIdValue());
+            values.put(PaymentTable.AMOUNT,paymentTable.getAmountValue());
+            values.put(PaymentTable.TOTAL_PAID,paymentTable.getTotalPaidValue());
+            values.put(PaymentTable.BALANCE,paymentTable.getBalanceValue());
             values.put(PaymentTable.UPLOAD_STATUS,"1");
             values.put(PaymentTable.RECEIPT_IMAGE,paymentTable.getReceiptImageValue());
             values.put(PaymentTable.CUSTOMER_ID,paymentTable.getCustomerIdValue());
-            values.put(PaymentTable.TECHNICIAN_ID,paymentTable.getTechnicianIdValue());
             values.put(PaymentTable.KITCHEN_ID,paymentTable.getKitchenIdValue());
-            values.put(PaymentTable.INSTALLMENT_ID,paymentTable.getInstallmentIdValue());
             values.put(PaymentTable.DATE_OF_PAYMENT,getCurrentDateTime());
-            values.put(PaymentTable.TYPE,paymentTable.getTypeValue());
-            values.put(PaymentTable.PAYMENT_TYPE,paymentTable.getPaymentTypeValue());
             values.put(PaymentTable.RECEIPT_NO,paymentTable.getReceiptNoValue());
-            values.put(PaymentTable.ISSUED_BY_ID,paymentTable.getIssuedByIdValue());
-            values.put(PaymentTable.CHULLHA_ID,paymentTable.getChullhaIdValue());
-            values.put(PaymentTable.UPDATE_DATE,getCurrentDateTime());
 
 
             // upadating Row
@@ -105,12 +92,11 @@ public class PaymentDetailsHelper {
         }
     }
 
-
     public static PaymentTable getPaymentDetailsData(Context context)
     {
         SQLiteDatabase db = new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ PaymentTable.PAYMENT_TABLE+" WHERE "+ PaymentTable.TECHNICIAN_ID,null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ PaymentTable.PAYMENT_TABLE+" WHERE "+ PaymentTable.PAYMENT_UNIQUE_ID,null);
         try
         {
             cursor.moveToFirst();
@@ -118,23 +104,16 @@ public class PaymentDetailsHelper {
             {
                 PaymentTable paymentTable = new PaymentTable();
 
-                paymentTable.setPayment_idValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_ID)));
-                paymentTable.setPayment_amountValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_AMOUNT)));
+                paymentTable.setPaymentUniqueIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_UNIQUE_ID)));
+                paymentTable.setAmountValue(cursor.getString(cursor.getColumnIndex(PaymentTable.AMOUNT)));
                 paymentTable.setTotalPaidValue(cursor.getString(cursor.getColumnIndex(PaymentTable.TOTAL_PAID)));
-                paymentTable.setRemaining_amountValue(cursor.getString(cursor.getColumnIndex(PaymentTable.REMAINING_AMOUNT)));
+                paymentTable.setBalanceValue(cursor.getString(cursor.getColumnIndex(PaymentTable.BALANCE)));
                 paymentTable.setUpload_statusValue(cursor.getString(cursor.getColumnIndex(PaymentTable.UPLOAD_STATUS)));
                 paymentTable.setCustomerIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.CUSTOMER_ID)));
                 paymentTable.setReceiptImageValue(cursor.getString(cursor.getColumnIndex(PaymentTable.RECEIPT_IMAGE)));
-                paymentTable.setTechnicianIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.TECHNICIAN_ID)));
                 paymentTable.setKitchenIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.KITCHEN_ID)));
-                paymentTable.setInstallmentIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.INSTALLMENT_ID)));
                 paymentTable.setDateOfPaymentValue(cursor.getString(cursor.getColumnIndex(PaymentTable.DATE_OF_PAYMENT)));
-                paymentTable.setTypeValue(cursor.getString(cursor.getColumnIndex(PaymentTable.TYPE)));
-                paymentTable.setPaymentTypeValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_TYPE)));
                 paymentTable.setReceiptNoValue(cursor.getString(cursor.getColumnIndex(PaymentTable.RECEIPT_NO)));
-                paymentTable.setIssuedByIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.ISSUED_BY_ID)));
-                paymentTable.setChullhaIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.CHULLHA_ID)));
-                paymentTable.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(PaymentTable.UPDATE_DATE)));
 
 
                 cursor.moveToNext();
@@ -153,7 +132,7 @@ public class PaymentDetailsHelper {
         ArrayList<PaymentTable> paymentTableArrayList = new ArrayList<PaymentTable>();
         SQLiteDatabase db = new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ PaymentTable.PAYMENT_TABLE+" WHERE "+PaymentTable.CUSTOMER_ID+" = '"+customeruniq_id+"' ORDER BY "+PaymentTable.DATE_OF_PAYMENT+ " DESC ",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ PaymentTable.PAYMENT_TABLE+" WHERE "+PaymentTable.CUSTOMER_ID+" = '"+customeruniq_id+"'",null);
         try
         {
             cursor.moveToFirst();
@@ -161,23 +140,16 @@ public class PaymentDetailsHelper {
             {
                 PaymentTable paymentTable=new PaymentTable();
 
-                paymentTable.setPayment_idValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_ID)));
-                paymentTable.setPayment_amountValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_AMOUNT)));
+                paymentTable.setPaymentUniqueIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_UNIQUE_ID)));
+                paymentTable.setAmountValue(cursor.getString(cursor.getColumnIndex(PaymentTable.AMOUNT)));
                 paymentTable.setTotalPaidValue(cursor.getString(cursor.getColumnIndex(PaymentTable.TOTAL_PAID)));
-                paymentTable.setRemaining_amountValue(cursor.getString(cursor.getColumnIndex(PaymentTable.REMAINING_AMOUNT)));
+                paymentTable.setBalanceValue(cursor.getString(cursor.getColumnIndex(PaymentTable.BALANCE)));
                 paymentTable.setUpload_statusValue(cursor.getString(cursor.getColumnIndex(PaymentTable.UPLOAD_STATUS)));
                 paymentTable.setCustomerIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.CUSTOMER_ID)));
                 paymentTable.setReceiptImageValue(cursor.getString(cursor.getColumnIndex(PaymentTable.RECEIPT_IMAGE)));
-                paymentTable.setTechnicianIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.TECHNICIAN_ID)));
                 paymentTable.setKitchenIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.KITCHEN_ID)));
-                paymentTable.setInstallmentIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.INSTALLMENT_ID)));
                 paymentTable.setDateOfPaymentValue(cursor.getString(cursor.getColumnIndex(PaymentTable.DATE_OF_PAYMENT)));
-                paymentTable.setTypeValue(cursor.getString(cursor.getColumnIndex(PaymentTable.TYPE)));
-                paymentTable.setPaymentTypeValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_TYPE)));
                 paymentTable.setReceiptNoValue(cursor.getString(cursor.getColumnIndex(PaymentTable.RECEIPT_NO)));
-                paymentTable.setIssuedByIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.ISSUED_BY_ID)));
-                paymentTable.setChullhaIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.CHULLHA_ID)));
-                paymentTable.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(PaymentTable.UPDATE_DATE)));
 
                 paymentTableArrayList.add(paymentTable);
                 cursor.moveToNext();
@@ -189,7 +161,6 @@ public class PaymentDetailsHelper {
             return null;
         }
     }
-
 
     public static boolean deletePaymentDetailsById(Context context, String payment_id)
     {

@@ -6,6 +6,8 @@ public class CityTable
 {
 
 
+    CityTable city=new CityTable();
+
     public static final String CITY_TABLE = "CityTable";
 
     public static final String STATE_ID="state_id",CITY_ID = "city_id",CITYNAME="city_name",LATITUDE="latitude",LONGITUDE="longitude";
@@ -26,6 +28,7 @@ public class CityTable
         this.latitude = latitude;
         this.longitude = longitude;
         this.stateId=stateId;
+        city.getClass().getFields();
     }
 
 

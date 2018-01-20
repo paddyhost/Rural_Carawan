@@ -317,7 +317,7 @@ public class AddCustomerFragment extends Fragment {
         Date dNow = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyMMddhhmmssMs");
         String datetime = ft.format(dNow);
-        uniqueIdTxt.setText("CU"+datetime);
+        uniqueIdTxt.setText(datetime);
     }
 
     private void showPictureDialog()
@@ -510,7 +510,6 @@ public class AddCustomerFragment extends Fragment {
         customer_table = new CustomerTable();
 
         customer_table.setCustomerNameValue(customer_name.getText().toString());
-        //customer_table.setCustomerIdValue("");
         customer_table.setCustomerAddressValue(customer_address.getText().toString());
         customer_table.setCustomerMobilenoValue(customer_mobileno.getText().toString());
         customer_table.setCustomerAgeValue(customer_age.getText().toString());

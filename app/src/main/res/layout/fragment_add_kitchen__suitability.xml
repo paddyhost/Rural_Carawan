@@ -192,11 +192,11 @@
             android:layout_marginRight="30dp"
             android:layout_marginLeft="30dp"
             android:scaleType="centerCrop"
-            android:id="@+id/takePicture"
+            android:id="@+id/placeImage"
             android:src="@drawable/capture_area"/>
 
         <Button
-        android:layout_below="@id/takePicture"
+        android:layout_below="@id/placeImage"
         android:background="@color/colorPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

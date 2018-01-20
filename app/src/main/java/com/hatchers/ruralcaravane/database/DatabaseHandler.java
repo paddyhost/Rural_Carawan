@@ -14,6 +14,7 @@ import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
 
 public class DatabaseHandler extends SQLiteOpenHelper {
 
+Class a;
     // All Static variables
     // Database Version
     private static final int DATABASE_VERSION = 1;
