@@ -273,7 +273,7 @@ public class AddCustomerFragment extends Fragment {
                             }
                         });
 
-                       WebCustomer_ApiHelper.addNewCustomerToServer(getActivity());
+
 
                     }
                     else

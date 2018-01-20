@@ -32,11 +32,12 @@
 
 
             <LinearLayout
-                android:layout_marginLeft="16dp"
+                android:layout_margin="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:id="@+id/l1"
+                android:gravity="center"
                 android:paddingTop="16dp"
                 android:paddingBottom="16dp"
                 android:layout_gravity="center_vertical">
@@ -66,6 +67,16 @@
                     android:gravity="center|start"
                     android:text="Height : "
                     android:layout_marginTop="5dp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/upload_status"
+                    android:textColor="@color/black"
+                    android:gravity="center|start"
+                    android:text="Upload Status : "
+                    android:layout_marginTop="5dp"/>
+
             </LinearLayout>
 
 

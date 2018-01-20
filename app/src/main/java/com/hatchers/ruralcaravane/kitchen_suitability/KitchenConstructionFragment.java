@@ -48,6 +48,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import static com.hatchers.ruralcaravane.constants.AppConstants.KITCHEN_PREFIX;
 import static com.hatchers.ruralcaravane.constants.AppConstants.STEP1_PREFIX;
 import static com.hatchers.ruralcaravane.constants.AppConstants.STEP2_PREFIX;
+import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
 
 public class KitchenConstructionFragment extends Fragment {
 
@@ -63,6 +64,7 @@ public class KitchenConstructionFragment extends Fragment {
     private int HALF_IMAGE = 1, FULL_IMAGE = 2,PLACE_IMAGE=3;
     Bitmap conBitmap,conBitmap1,placeBitmap;
     private CustomerTable customerTable;
+    private TextView statusTxt;
 
 
     public KitchenConstructionFragment()
@@ -108,7 +110,7 @@ public class KitchenConstructionFragment extends Fragment {
 
     private void initializations(View view)
     {
-
+        statusTxt = (TextView)view.findViewById(R.id.upload_status);
         add_construction=(Button)view.findViewById(R.id.add_construction);
         constructionRecyclerView=(RecyclerView)view.findViewById(R.id.const_list);
         houseTypeTxt = (TextView)view.findViewById(R.id.housetype_txt);
@@ -146,6 +148,7 @@ public class KitchenConstructionFragment extends Fragment {
 
     private void setKitchenData()
     {
+        statusTxt.setText(String.valueOf("Upload Status :"+kitchenTable.getUpload_statusValue()));
         houseTypeTxt.setText(String.valueOf("House Type : "+kitchenTable.getHouse_typeValue()));
         roofTypeTxt.setText(String.valueOf("Roof Type : "+kitchenTable.getRoof_typeValue()));
         heightTxt.setText(String.valueOf("Height : "+kitchenTable.getKitchen_heightValue()));
@@ -206,13 +209,21 @@ public class KitchenConstructionFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                File image = FileHelper.createfile(Folders.CHULHAFOLDER, STEP1_PREFIX + kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
+                File image = FileHelper.createfile(Folders.CHULHAFOLDER, STEP2_PREFIX + kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
                 if (image != null) {
                     if (!image.exists()) {
-                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment = ConstructionTeamRegistrationFragment.newInstance(kitchenTable);
-                        fragmentTransaction.replace(R.id.frame_layout, constructionTeamRegistrationFragment).addToBackStack(null).commit();
-                    } else {
+                        if(kitchenTable.getUpload_statusValue().equalsIgnoreCase("1"))
+                        {
+                            FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                            ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment = ConstructionTeamRegistrationFragment.newInstance(kitchenTable);
+                            fragmentTransaction.replace(R.id.frame_layout, constructionTeamRegistrationFragment).addToBackStack(null).commit();
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), "Kitchen Data not uploaded to server.Please Upload data First", Toast.LENGTH_SHORT).show();
+                        }
+                    } else
+                    {
                         Toast.makeText(getActivity(), "Process Completed. Can't add team member ", Toast.LENGTH_SHORT).show();
                         add_construction.setBackgroundColor(getActivity().getResources().getColor(R.color.colorDarkgray));
                     }
@@ -268,7 +279,6 @@ public class KitchenConstructionFragment extends Fragment {
                                 add_construction.setBackgroundColor(getActivity().getResources().getColor(R.color.colorDarkgray));
                             }
                         }
-
                     }
                 } else {
                     Toast.makeText(getActivity(), "Please upload step 1 image first", Toast.LENGTH_SHORT).show();
@@ -366,6 +376,7 @@ public class KitchenConstructionFragment extends Fragment {
             {
                 if(image.exists())
                 kitchenTable.setStep1_imageValue(image.getAbsolutePath());
+                kitchenTable.setConstructionStartDateTimeValue(getCurrentDateTime());
             }
 
             SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
@@ -411,6 +422,9 @@ public class KitchenConstructionFragment extends Fragment {
             if(image!=null) {
                 if(image.exists()) {
                     kitchenTable.setStep2_imageValue(image.getAbsolutePath());
+                    kitchenTable.setUpload_statusValue("2");
+                    kitchenTable.setConstructionEndDateTimeValue(getCurrentDateTime());
+
                 }
             }
             SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)

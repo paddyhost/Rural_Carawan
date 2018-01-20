@@ -15,5 +15,9 @@
         android:id="@+id/logout">
     </item>
 
+    <item
+        android:title="Sync "
+        android:id="@+id/sunc">
+    </item>
 
 </menu>
