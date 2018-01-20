@@ -29,7 +29,6 @@ public class PaymentListAdapter  extends RecyclerView.Adapter<PaymentListAdapter
         this.paymentTableArrayList=paymentTableArrayList;
     }
 
-
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
 
