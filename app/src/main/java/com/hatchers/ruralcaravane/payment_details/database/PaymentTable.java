@@ -11,15 +11,17 @@ public class PaymentTable implements Parcelable{
     public static final String PAYMENT_ID="payment_id",AMOUNT="amount",TOTAL_PAID="total_paid",
                                BALANCE="balance",UPLOAD_STATUS="upload_status",RECEIPT_IMAGE="receipt_image",
                                CUSTOMER_ID="customer_id",KITCHEN_ID="kitchen_id",DATE_OF_PAYMENT="date_of_payment",
-                               RECEIPT_NO="receipt_no",PAYMENT_UNIQUE_ID="payment_unique_id";
+                               RECEIPT_NO="receipt_no",PAYMENT_UNIQUE_ID="payment_unique_id", PAYMENT_TYPE="payment_type",
+                               UPLOAD_DATE="upload_date";
 
     public static final String CREATE_PAYMENT_TABLE="CREATE TABLE " + PAYMENT_TABLE +
             "("+PAYMENT_ID+" int PRIMARY KEY ,"+AMOUNT+" TEXT,"+TOTAL_PAID+" TEXT,"+BALANCE+" TEXT, "+UPLOAD_STATUS+" TEXT, "
-            +RECEIPT_IMAGE+" TEXT, "+CUSTOMER_ID+" TEXT, "+DATE_OF_PAYMENT+" TEXT, "+KITCHEN_ID+" TEXT , "+RECEIPT_NO+" TEXT, "+PAYMENT_UNIQUE_ID+" TEXT)";
+            +RECEIPT_IMAGE+" TEXT, "+CUSTOMER_ID+" TEXT, "+DATE_OF_PAYMENT+" TEXT, "+KITCHEN_ID+" TEXT , "+RECEIPT_NO+" TEXT, "
+            +PAYMENT_UNIQUE_ID+" TEXT, "+PAYMENT_TYPE+" TEXT, "+UPLOAD_DATE+" TEXT)";
 
-    private String payment_idValue,amountValue,totalPaidValue,balanceValue,upload_statusValue,customerIdValue,receiptImageValue,dateOfPaymentValue,kitchenIdValue,receiptNoValue,paymentUniqueIdValue;
+    private String payment_idValue,amountValue,totalPaidValue,balanceValue,upload_statusValue,customerIdValue,receiptImageValue,dateOfPaymentValue,kitchenIdValue,receiptNoValue,paymentUniqueIdValue,paymentTypeValue,uploadDateValue;
 
-    public PaymentTable(String payment_idValue, String amountValue, String totalPaidValue, String balanceValue, String upload_statusValue,String customerIdValue,String receiptImageValue,String dateOfPaymentValue,String kitchenIdValue,String receiptNoValue,String paymentUniqueIdValue) {
+    public PaymentTable(String payment_idValue, String amountValue, String totalPaidValue, String balanceValue, String upload_statusValue,String customerIdValue,String receiptImageValue,String dateOfPaymentValue,String kitchenIdValue,String receiptNoValue,String paymentUniqueIdValue ,String paymentTypeValue,String uploadDateValue) {
         this.payment_idValue = payment_idValue;
         this.amountValue = amountValue;
         this.totalPaidValue = totalPaidValue;
@@ -32,6 +34,8 @@ public class PaymentTable implements Parcelable{
         this.kitchenIdValue=kitchenIdValue;
         this.receiptNoValue=receiptNoValue;
         this.paymentUniqueIdValue=paymentUniqueIdValue;
+        this.paymentTypeValue=paymentTypeValue;
+        this.uploadDateValue=uploadDateValue;
     }
 
     public PaymentTable() {
@@ -50,6 +54,8 @@ public class PaymentTable implements Parcelable{
         kitchenIdValue = in.readString();
         receiptNoValue = in.readString();
         paymentUniqueIdValue = in.readString();
+        paymentTypeValue=in.readString();
+        uploadDateValue=in.readString();
     }
 
     @Override
@@ -65,6 +71,8 @@ public class PaymentTable implements Parcelable{
         dest.writeString(kitchenIdValue);
         dest.writeString(receiptNoValue);
         dest.writeString(paymentUniqueIdValue);
+        dest.writeString(paymentTypeValue);
+        dest.writeString(uploadDateValue);
     }
 
     @Override
@@ -170,5 +178,21 @@ public class PaymentTable implements Parcelable{
 
     public void setPaymentUniqueIdValue(String paymentUniqueIdValue) {
         this.paymentUniqueIdValue = paymentUniqueIdValue;
+    }
+
+    public String getPaymentTypeValue() {
+        return paymentTypeValue;
+    }
+
+    public void setPaymentTypeValue(String paymentTypeValue) {
+        this.paymentTypeValue = paymentTypeValue;
+    }
+
+    public String getUploadDateValue() {
+        return uploadDateValue;
+    }
+
+    public void setUploadDateValue(String uploadDateValue) {
+        this.uploadDateValue = uploadDateValue;
     }
 }

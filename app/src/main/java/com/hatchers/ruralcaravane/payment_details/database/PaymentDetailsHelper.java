@@ -34,6 +34,8 @@ public class PaymentDetailsHelper {
             values.put(PaymentTable.KITCHEN_ID,paymentTable.getKitchenIdValue());
             values.put(PaymentTable.DATE_OF_PAYMENT,getCurrentDateTime());
             values.put(PaymentTable.RECEIPT_NO,paymentTable.getReceiptNoValue());
+            values.put(PaymentTable.PAYMENT_TYPE,paymentTable.getPaymentTypeValue());
+            values.put(PaymentTable.UPLOAD_DATE,paymentTable.getUploadDateValue());
 
 
             if (db.insert(PaymentTable.PAYMENT_TABLE, null, values) > 0)
@@ -71,6 +73,8 @@ public class PaymentDetailsHelper {
             values.put(PaymentTable.KITCHEN_ID,paymentTable.getKitchenIdValue());
             values.put(PaymentTable.DATE_OF_PAYMENT,getCurrentDateTime());
             values.put(PaymentTable.RECEIPT_NO,paymentTable.getReceiptNoValue());
+            values.put(PaymentTable.PAYMENT_TYPE,paymentTable.getPaymentTypeValue());
+            values.put(PaymentTable.UPLOAD_DATE,paymentTable.getUploadDateValue());
 
 
             // upadating Row
@@ -114,6 +118,8 @@ public class PaymentDetailsHelper {
                 paymentTable.setKitchenIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.KITCHEN_ID)));
                 paymentTable.setDateOfPaymentValue(cursor.getString(cursor.getColumnIndex(PaymentTable.DATE_OF_PAYMENT)));
                 paymentTable.setReceiptNoValue(cursor.getString(cursor.getColumnIndex(PaymentTable.RECEIPT_NO)));
+                paymentTable.setPaymentTypeValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_TYPE)));
+                paymentTable.setUploadDateValue(cursor.getString(cursor.getColumnIndex(PaymentTable.UPLOAD_DATE)));
 
 
                 cursor.moveToNext();
@@ -150,6 +156,8 @@ public class PaymentDetailsHelper {
                 paymentTable.setKitchenIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.KITCHEN_ID)));
                 paymentTable.setDateOfPaymentValue(cursor.getString(cursor.getColumnIndex(PaymentTable.DATE_OF_PAYMENT)));
                 paymentTable.setReceiptNoValue(cursor.getString(cursor.getColumnIndex(PaymentTable.RECEIPT_NO)));
+                paymentTable.setPaymentTypeValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_TYPE)));
+                paymentTable.setUploadDateValue(cursor.getString(cursor.getColumnIndex(PaymentTable.UPLOAD_DATE)));
 
                 paymentTableArrayList.add(paymentTable);
                 cursor.moveToNext();
@@ -203,6 +211,36 @@ public class PaymentDetailsHelper {
         }
     }
 
+    public static PaymentTable getUnUploadPaymentData(Context context)
+    {
+        SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
+        // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ PaymentTable.PAYMENT_TABLE+" WHERE "+ PaymentTable.UPLOAD_STATUS+"='0'",null);
+        try
+        {
+            cursor.moveToFirst();
+            PaymentTable paymentTable=new PaymentTable();
 
+            paymentTable.setPaymentUniqueIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_UNIQUE_ID)));
+            paymentTable.setAmountValue(cursor.getString(cursor.getColumnIndex(PaymentTable.AMOUNT)));
+            paymentTable.setTotalPaidValue(cursor.getString(cursor.getColumnIndex(PaymentTable.TOTAL_PAID)));
+            paymentTable.setBalanceValue(cursor.getString(cursor.getColumnIndex(PaymentTable.BALANCE)));
+            paymentTable.setUpload_statusValue(cursor.getString(cursor.getColumnIndex(PaymentTable.UPLOAD_STATUS)));
+            paymentTable.setCustomerIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.CUSTOMER_ID)));
+            paymentTable.setReceiptImageValue(cursor.getString(cursor.getColumnIndex(PaymentTable.RECEIPT_IMAGE)));
+            paymentTable.setKitchenIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.KITCHEN_ID)));
+            paymentTable.setDateOfPaymentValue(cursor.getString(cursor.getColumnIndex(PaymentTable.DATE_OF_PAYMENT)));
+            paymentTable.setReceiptNoValue(cursor.getString(cursor.getColumnIndex(PaymentTable.RECEIPT_NO)));
+            paymentTable.setPaymentTypeValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_TYPE)));
+            paymentTable.setUploadDateValue(cursor.getString(cursor.getColumnIndex(PaymentTable.UPLOAD_DATE)));
+
+            return paymentTable;
+        }
+
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
 
 }

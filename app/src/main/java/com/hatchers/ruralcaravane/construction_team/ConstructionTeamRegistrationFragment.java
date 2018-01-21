@@ -208,6 +208,7 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
         constructionTable.setUpdateDateValue(getCurrentDateTime());
         constructionTable.setKitchentUniqueId(kitchenTable.getKitchenUniqueIdValue());
         constructionTable.setKitchenIdValue(kitchenTable.getKitchen_idValue());
+
     }
 
 

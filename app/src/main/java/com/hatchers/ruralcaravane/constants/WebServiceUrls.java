@@ -13,6 +13,8 @@ public class WebServiceUrls
 
     public static final String urlAddCustomer = "http://www.hatchers.in/caravan/index.php/api/V1/addNewCustomerInquery";
     public static final String urlUploadKitchen = "http://www.hatchers.in/caravan/index.php/api/V1/addKitchenSuitability";
+    public static final String urlUploadConstruction ="http://hatchers.in/caravan/index.php/api/V1/addCuntructionDetails";
+    public static final String urlUploadPayment ="http://hatchers.in/caravan/index.php/api/V1/addPaymentDetails";
 
 
     //http://www.hatchers.in/caravan/index.php/api/v1/getVillageList?city_id=1&format=json

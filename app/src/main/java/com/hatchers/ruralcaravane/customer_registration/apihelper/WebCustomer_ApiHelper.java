@@ -204,7 +204,6 @@ public class WebCustomer_ApiHelper
 
         MyApplication.getInstance().addToRequestQueue(multipartRequest);
         return  true;
-
     }
 }
 

@@ -20,6 +20,9 @@ import android.view.WindowManager;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.customer_registration.adapter.CustomerTabAdapter;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
+import com.hatchers.ruralcaravane.locality.database.CityTableHelper;
+import com.hatchers.ruralcaravane.locality.database.StateTableHelper;
+import com.hatchers.ruralcaravane.locality.database.VillageTableHelper;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.runtime_permissions.RuntimePermissions;
 import com.hatchers.ruralcaravane.user_login.LoginActivity;
@@ -180,6 +183,9 @@ public class CustomerRegistrationActivity extends AppCompatActivity
                 Intent i= new Intent(CustomerRegistrationActivity.this, LoginActivity.class);
                 startActivity(i);
                 finish();
+                StateTableHelper.deleteStateData(this);
+                CityTableHelper.deleteCityData(this);
+                VillageTableHelper.deleteCityData(this);
                 break;
         }
         return super.onOptionsItemSelected(item);

@@ -399,7 +399,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         Date dNow = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyMMddhhmmssMs");
         String datetime = ft.format(dNow);
-        kitchenUniqueIdText.setText(datetime);
+        kitchenUniqueIdText.setText(KITCHEN_PREFIX+datetime);
     }
 
 

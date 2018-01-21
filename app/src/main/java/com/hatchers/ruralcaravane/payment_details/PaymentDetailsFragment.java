@@ -279,6 +279,8 @@ public class PaymentDetailsFragment extends Fragment {
         paymentTable.setUpload_statusValue("0");
         paymentTable.setPaymentUniqueIdValue(PAYMENT_PREFIX+generateUniqueId());
         paymentTable.setReceiptNoValue(receipt_number.getText().toString());
+        paymentTable.setPaymentTypeValue(paymentTable.getPaymentTypeValue());
+        paymentTable.setUploadDateValue(getCurrentDateTime());
 
     }
 
@@ -389,7 +391,7 @@ public class PaymentDetailsFragment extends Fragment {
         Date dNow = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyMMddhhmmssMs");
         String datetime = ft.format(dNow);
-        paymentUniqueIdTxt=datetime;
+        paymentUniqueIdTxt=PAYMENT_PREFIX+datetime;
 
         return paymentUniqueIdTxt;
 
