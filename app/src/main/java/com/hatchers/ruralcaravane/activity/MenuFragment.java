@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hatchers.ruralcaravane.R;
@@ -32,6 +33,8 @@ import java.io.File;
 import java.util.ArrayList;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+import static com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper.getKitchenDetailsData;
 
 
 public class MenuFragment extends Fragment implements View.OnClickListener{
@@ -153,8 +156,16 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
 
 
             case R.id.payment_linear:
-                PaymentDetailsListFragment paymentDetailsListFragment=PaymentDetailsListFragment.getInstance(customertable);
-                fragmentTransaction.replace(R.id.frame_layout,paymentDetailsListFragment).addToBackStack(null).commit();
+               KitchenTable kitchen= getKitchenDetailsData(getActivity(),customertable.getUniqueIdValue());
+                if(kitchen==null)
+                {
+                    Toast.makeText(getActivity(), "Please add kitchen Details", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    PaymentDetailsListFragment paymentDetailsListFragment = PaymentDetailsListFragment.getInstance(customertable);
+                    fragmentTransaction.replace(R.id.frame_layout, paymentDetailsListFragment).addToBackStack(null).commit();
+                }
                 break;
 
             default:

@@ -40,7 +40,7 @@ public class CustomerRegistrationActivity extends AppCompatActivity
     public static ViewPager viewPager;
     PrefManager prefManager;
     FragmentTransaction fragmentTransaction;
-    CustomerListFragment customerListFragment;
+    public CustomerListFragment customerListFragment;
 
     private int[] tabIcons = {
             R.drawable.customer_list,
@@ -111,7 +111,8 @@ public class CustomerRegistrationActivity extends AppCompatActivity
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
+            public void onTabUnselected(TabLayout.Tab tab)
+            {
 
             }
 

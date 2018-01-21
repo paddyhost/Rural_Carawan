@@ -1,0 +1,241 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWhite"
+    tools:context="com.hatchers.ruralcaravane.payment_details.PaymentDetailsFragment">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        app:contentInsetStart="0dp"
+        app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+        app:title="Payment Details"
+        app:titleTextColor="@color/colorWhite"
+        android:background="@color/colorAccent"
+        android:id="@+id/payment_toolbar">
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <ScrollView
+        android:layout_below="@id/payment_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_receipt"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"/>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/receipt_layout">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter Receipt Number"
+                        android:imeOptions="actionNext"
+                        android:id="@+id/receipt_number"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textSize="14dp"
+                        android:maxLength="4"
+                        android:paddingBottom="15dp"/>
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="16dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/amount"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"/>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/payment_layout">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter Cost Of Chullha "
+                        android:imeOptions="actionNext"
+                        android:id="@+id/payment_amount"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textSize="14dp"
+                        android:maxLength="4"
+                        android:paddingBottom="15dp"/>
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/amount"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"/>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/alladvanceAmount_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:id="@+id/allpaid_amount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Paid Amount "
+                        android:imeOptions="actionNext"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:paddingBottom="15dp"
+                        android:singleLine="true"
+                        android:textSize="14dp" />
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/amount"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"/>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/advanceAmount_layout">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Amount "
+                        android:imeOptions="actionNext"
+                        android:id="@+id/paid_amount"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textSize="14dp"
+                        android:maxLength="4"
+                        android:paddingBottom="15dp"/>
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="10dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/amount"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginRight="16dp"/>
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/remainingAmount_layout">
+
+                    <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Enter Remaining Amount "
+                        android:imeOptions="actionNext"
+                        android:id="@+id/remaining_amount"
+                        android:inputType="number"
+                        android:singleLine="true"
+                        android:textSize="14dp"
+                        android:paddingBottom="15dp"/>
+
+                </android.support.design.widget.TextInputLayout>
+            </LinearLayout>
+
+            <TextView
+                android:text="Upload payment receipt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:textStyle="bold"
+                android:id="@+id/text1"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:gravity="center_horizontal"/>
+
+            <ImageView
+                android:src="@drawable/capture_area"
+                android:scaleType="fitXY"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:id="@+id/takePhoto"/>
+
+            <Button
+                android:text="Save"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/colorWhite"
+                android:textAllCaps="false"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@color/colorPrimary"
+                android:id="@+id/savePayment"/>
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

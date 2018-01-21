@@ -23,7 +23,6 @@ public class PaymentDetailsHelper {
             SQLiteDatabase db = new DatabaseHandler(context).getWritableDatabase();
             ContentValues values = new ContentValues();
 
-            values.put(PaymentTable.PAYMENT_ID,paymentTable.getPayment_idValue());
             values.put(PaymentTable.PAYMENT_UNIQUE_ID,paymentTable.getPaymentUniqueIdValue());
             values.put(PaymentTable.AMOUNT,paymentTable.getAmountValue());
             values.put(PaymentTable.TOTAL_PAID,paymentTable.getTotalPaidValue());
@@ -135,38 +134,26 @@ public class PaymentDetailsHelper {
         }
     }
 
-    public static PaymentTable getPaymentAmountByCustomerId(Context context, String customerId)
+    public static int  getPaymentAmountByCustomerId(Context context, String customerId)
     {
         SQLiteDatabase db = new DatabaseHandler(context).getWritableDatabase();
-        Cursor cursor = db.rawQuery("SELECT *,SUM("+PaymentTable.AMOUNT+") as total FROM " + PaymentTable.PAYMENT_TABLE+" WHERE "+ PaymentTable.CUSTOMER_ID +"='"+customerId+"'",null);
+        Cursor cursor = db.rawQuery("SELECT SUM("+PaymentTable.TOTAL_PAID+") as total FROM " + PaymentTable.PAYMENT_TABLE+" WHERE "+ PaymentTable.CUSTOMER_ID +"='"+customerId+"'",null);
         //Cursor cursor = db.rawQuery("SELECT FROM "+ PaymentTable.PAYMENT_TABLE+" WHERE "+ PaymentTable.CUSTOMER_ID +"='"+customerId+"'",null);
         try
         {
             cursor.moveToFirst();
             while (cursor.isAfterLast() == false)
             {
-                PaymentTable paymentTable = new PaymentTable();
-
-                paymentTable.setPaymentUniqueIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_UNIQUE_ID)));
-                paymentTable.setAmountValue(cursor.getString(cursor.getColumnIndex(PaymentTable.AMOUNT)));
-                paymentTable.setTotalPaidValue(cursor.getString(cursor.getColumnIndex("total")));
-                paymentTable.setBalanceValue(cursor.getString(cursor.getColumnIndex(PaymentTable.BALANCE)));
-                paymentTable.setUpload_statusValue(cursor.getString(cursor.getColumnIndex(PaymentTable.UPLOAD_STATUS)));
-                paymentTable.setCustomerIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.CUSTOMER_ID)));
-                paymentTable.setReceiptImageValue(cursor.getString(cursor.getColumnIndex(PaymentTable.RECEIPT_IMAGE)));
-                paymentTable.setKitchenIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.KITCHEN_ID)));
-                paymentTable.setDateOfPaymentValue(cursor.getString(cursor.getColumnIndex(PaymentTable.DATE_OF_PAYMENT)));
-                paymentTable.setReceiptNoValue(cursor.getString(cursor.getColumnIndex(PaymentTable.RECEIPT_NO)));
 
 
-                cursor.moveToNext();
-                return  paymentTable;
+
+                return  cursor.getInt(cursor.getColumnIndex("total"));
             }
-            return null;
+            return 0;
         }
         catch (Exception e)
         {
-            return null;
+            return 0;
         }
     }
 

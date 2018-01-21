@@ -275,7 +275,35 @@ public class KitchenTableHelper {
             return false;
         }
     }
+    public static boolean updateUpdateCost(Context context, String cost,String kitchen_id)
+    {
+        try {
+            SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
+            ContentValues values = new ContentValues();
 
+
+            values.put(KitchenTable.COST_OF_CHULLHA,cost);
+
+
+
+            // upadating Row
+            if(db.update(KitchenTable.KITCHEN_TABLE, values, KitchenTable.KITCHEN_UNIQUE_ID+"='"+kitchen_id+"'", null)>0)
+            {
+                Toast.makeText(context,"Kitchen cost updated",Toast.LENGTH_LONG).show();
+                db.close();
+                return true;
+            }
+            else
+            {
+                db.close();
+                return false;
+            }
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
 
     public static KitchenTable getUnUploadKitchenData0(Context context)
     {

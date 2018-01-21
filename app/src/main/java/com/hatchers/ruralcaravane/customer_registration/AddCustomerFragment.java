@@ -266,8 +266,11 @@ public class AddCustomerFragment extends Fragment {
                                 male.setChecked(false);
                                 female.setChecked(false);
                                 generateUniqueId();
-                                if( getActivity() instanceof CustomerRegistrationActivity) {
+                                if( getActivity() instanceof CustomerRegistrationActivity)
+                                {
                                     CustomerRegistrationActivity.viewPager.setCurrentItem(0);
+                                    ((CustomerRegistrationActivity)getActivity()).customerListFragment.setData();
+
                                 }
 
                             }

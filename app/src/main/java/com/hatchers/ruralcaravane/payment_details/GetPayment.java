@@ -1,14 +1,15 @@
 package com.hatchers.ruralcaravane.payment_details;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,20 +20,16 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
-import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentDetailsHelper;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
-import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -42,77 +39,74 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.hatchers.ruralcaravane.constants.AppConstants.PAYMENT_PREFIX;
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
+import static com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper.getKitchenDetailsData;
+import static com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper.updateUpdateCost;
+import static com.hatchers.ruralcaravane.payment_details.database.PaymentDetailsHelper.getPaymentAmountByCustomerId;
 
-public class PaymentDetailsFragment extends Fragment {
 
-
-
+public class GetPayment extends Fragment {
     private int CAMERA = 1;
     private int RESULT_CANCELED;
     Bitmap payBitmap;
     private Toolbar payment_toolbar;
-    private TextInputEditText payment_amount,paid_amount,remaining_amount,receipt_number;
+    private TextInputEditText payment_amount,paid_amount,remaining_amount,receipt_number,allpaid_amount;
     private ImageView receiptImageView;
     private Button savePayment;
     private String paymentUniqueIdTxt;
     PaymentTable paymentTable;
 
     PaymentTable oldPaymentTable;
-
-
-    public PaymentDetailsFragment() {
-        // Required empty public constructor
-    }
-
-    private CustomerTable customertable;
-    public static PaymentDetailsFragment getInstance(CustomerTable customertable,PaymentTable paymentTable)
-    {
-        PaymentDetailsFragment fragment = new PaymentDetailsFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(CustomerTable.CUSTOMER_TABLE, customertable);
-        args.putParcelable(PaymentTable.PAYMENT_TABLE,paymentTable);
-        fragment.setArguments(args);
-        return fragment;
+    CustomerTable customerTable;
+    KitchenTable kitchen;
+    int totalcost;
+    public GetPayment() {
 
     }
 
-    public static PaymentDetailsFragment getNewPaymentInstance(CustomerTable customertable)
-    {
-        PaymentDetailsFragment fragment = new PaymentDetailsFragment();
+
+    public static GetPayment newInstance(CustomerTable customerTable) {
+        GetPayment fragment = new GetPayment();
         Bundle args = new Bundle();
-        args.putParcelable(CustomerTable.CUSTOMER_TABLE, customertable);
+        args.putParcelable(CustomerTable.CUSTOMER_TABLE,customerTable);
         fragment.setArguments(args);
         return fragment;
-
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null)
-        {
-            customertable = getArguments().getParcelable(CustomerTable.CUSTOMER_TABLE);
-            oldPaymentTable =getArguments().getParcelable(PaymentTable.PAYMENT_TABLE);
+        if (getArguments() != null) {
+            customerTable = getArguments().getParcelable(CustomerTable.CUSTOMER_TABLE);
+
+            totalcost= getPaymentAmountByCustomerId(getActivity(), customerTable.getUniqueIdValue());
+            kitchen= getKitchenDetailsData(getActivity(),customerTable.getUniqueIdValue());
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_payment_details, container, false);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(payment_toolbar);
+
+        View view= inflater.inflate(R.layout.fragment_get_payment, container, false);
         initializations(view);
         onClickListeners();
         addTextListner();
-        setPaymentDetailsFromList();
+        if(kitchen.getCostOfChullhaValue()!=null&&totalcost>=0)
+        {
+            paid_amount.setText("0");
+            allpaid_amount.setText(totalcost+"");
+            payment_amount.setText(kitchen.getCostOfChullhaValue()+"");
+            payment_amount.setFocusable(false);
+            allpaid_amount.setFocusable(false);
 
-
+        }
+        else {
+            allpaid_amount.setText( "0");
+            allpaid_amount.setFocusable(false);
+        }
         return view;
     }
-
-
     private void initializations(View view)
     {
 
@@ -123,7 +117,7 @@ public class PaymentDetailsFragment extends Fragment {
         receipt_number=(TextInputEditText)view.findViewById(R.id.receipt_number);
         receiptImageView = (ImageView) view.findViewById(R.id.takePhoto);
         savePayment = (Button) view.findViewById(R.id.savePayment);
-
+        allpaid_amount= (TextInputEditText) view.findViewById(R.id.allpaid_amount);
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             Window window =getActivity().getWindow();
@@ -155,71 +149,77 @@ public class PaymentDetailsFragment extends Fragment {
 
                 setPaymentDetailsData();
                 if(checkValidation()) {
-
-                    FileHelper.savePNGImage(Folders.PAYMENTFOLDER,payBitmap,PAYMENT_PREFIX+paymentTable.getPaymentUniqueIdValue());
-                    File image = FileHelper.createfile(Folders.PAYMENTFOLDER,PAYMENT_PREFIX+paymentTable.getPaymentUniqueIdValue(), FileType.PNG);
-                    if(image!=null)
+                    if(updateUpdateCost(getActivity(),paymentTable.getAmountValue(),kitchen.getKitchenUniqueIdValue()))
                     {
-                        paymentTable.setReceiptImageValue(image.getAbsolutePath());
-
-                        if(image.exists())
+                        FileHelper.savePNGImage(Folders.PAYMENTFOLDER,payBitmap,PAYMENT_PREFIX+paymentTable.getPaymentUniqueIdValue());
+                        File image = FileHelper.createfile(Folders.PAYMENTFOLDER,PAYMENT_PREFIX+paymentTable.getPaymentUniqueIdValue(), FileType.PNG);
+                        if(image!=null)
                         {
-                            SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
-                                    .setTitleText("Please wait");
+                            paymentTable.setReceiptImageValue(image.getAbsolutePath());
 
-                            sweetAlertDialog.show();
-
-                            if(PaymentDetailsHelper.insertPaymentDetailsData(getContext(), paymentTable))
+                            if(image.exists())
                             {
-                                sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                sweetAlertDialog.setTitleText("Payment Details Added Successfully");
-                                sweetAlertDialog.setConfirmText("Ok");
-                                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        sweetAlertDialog.dismissWithAnimation();
+                                SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
+                                        .setTitleText("Please wait");
 
-                                        payment_amount.setText("");
-                                        paid_amount.setText("");
-                                        remaining_amount.setText("");
-                                        receiptImageView.setImageResource(R.mipmap.receipt);
-                                        payBitmap=null;
-                                        getActivity().onBackPressed();
-                                    }
-                                });
+                                sweetAlertDialog.show();
+
+                                if(PaymentDetailsHelper.insertPaymentDetailsData(getContext(), paymentTable))
+                                {
+                                    sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                    sweetAlertDialog.setTitleText("Payment Details Added Successfully");
+                                    sweetAlertDialog.setConfirmText("Ok");
+                                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            sweetAlertDialog.dismissWithAnimation();
+
+                                            payment_amount.setText("");
+                                            paid_amount.setText("");
+                                            remaining_amount.setText("");
+                                            receiptImageView.setImageResource(R.mipmap.receipt);
+                                            payBitmap=null;
+                                            getActivity().onBackPressed();
+                                        }
+                                    });
+                                }
+                                else
+                                {
+
+                                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                    sweetAlertDialog.setTitleText("Payment Details Add Failed");
+                                    sweetAlertDialog.setConfirmText("Ok");
+                                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            sweetAlertDialog.dismissWithAnimation();
+                                        }
+                                    });
+                                }
+
                             }
+
                             else
                             {
-
-                                sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                sweetAlertDialog.setTitleText("Payment Details Add Failed");
-                                sweetAlertDialog.setConfirmText("Ok");
-                                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        sweetAlertDialog.dismissWithAnimation();
-                                    }
-                                });
+                                Toast.makeText(getActivity(), "Please Upload Receipt Image....!", Toast.LENGTH_SHORT).show();
                             }
-
                         }
 
                         else
                         {
-                            Toast.makeText(getActivity(), "Please Upload Receipt Image....!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), "Please Upload Receipt Area Image....!", Toast.LENGTH_SHORT).show();
                         }
-                    }
 
-                    else
-                    {
-                        Toast.makeText(getActivity(), "Please Upload Receipt Area Image....!", Toast.LENGTH_SHORT).show();
                     }
 
                 }
+
+
+
             }
         });
-    }
 
+    }
     private void showPictureDialog()
     {
         final CharSequence[] options = {"Take Photo", "Cancel"};
@@ -245,13 +245,11 @@ public class PaymentDetailsFragment extends Fragment {
         alert.setCanceledOnTouchOutside(false);
         alert.show();
     }
-
     private void takePhotoFromCamera()
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, CAMERA);
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -267,51 +265,6 @@ public class PaymentDetailsFragment extends Fragment {
 
         }
     }
-
-    private void setPaymentDetailsData()
-    {
-        paymentTable=new PaymentTable();
-
-        paymentTable.setPayment_idValue("");
-        paymentTable.setAmountValue(payment_amount.getText().toString());
-        paymentTable.setTotalPaidValue(paid_amount.getText().toString());
-        paymentTable.setBalanceValue(remaining_amount.getText().toString());
-        paymentTable.setCustomerIdValue(customertable.getUniqueIdValue());
-        paymentTable.setDateOfPaymentValue(getCurrentDateTime());
-        paymentTable.setUpload_statusValue("0");
-        paymentTable.setPaymentUniqueIdValue(PAYMENT_PREFIX+generateUniqueId());
-        paymentTable.setReceiptNoValue(receipt_number.getText().toString());
-        paymentTable.setPaymentTypeValue(paymentTable.getPaymentTypeValue());
-        paymentTable.setUploadDateValue(getCurrentDateTime());
-
-
-
-    }
-
-    private void calculateRemainingAmount()
-    {
-        int remainingAmount;
-
-            if (payment_amount.getText().toString().equalsIgnoreCase("") ||
-                    paid_amount.getText().toString().equalsIgnoreCase(""))
-        {
-                remainingAmount = 0;
-                remaining_amount.setText(String.valueOf(remainingAmount));
-            } else
-                {
-                    remainingAmount = Integer.parseInt(payment_amount.getText().toString()) - Integer.parseInt(paid_amount.getText().toString());
-                    if(remainingAmount<0)
-                    {
-                        paid_amount.setError("Amount must be less than total amount.");
-                    }
-                    else
-                    {
-                        remaining_amount.setText(String.valueOf(remainingAmount));
-                    }
-            }
-
-    }
-
     private void addTextListner()
     {
         payment_amount.addTextChangedListener(new TextWatcher() {
@@ -348,7 +301,7 @@ public class PaymentDetailsFragment extends Fragment {
 
                 if(count>totalcost)
                 {
-                  paid_amount.setError("Amount must be less than total cost.");
+                    paid_amount.setError("Amount must be less than total cost.");
                 }
                 else
                 {
@@ -390,6 +343,40 @@ public class PaymentDetailsFragment extends Fragment {
         });
     }
 
+    private void calculateRemainingAmount()
+    {
+        int remainingAmount;
+        int paidcost=  0;
+        try{
+            paidcost=  Integer.parseInt(allpaid_amount.getText().toString());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+        if (payment_amount.getText().toString().equalsIgnoreCase("") ||
+                paid_amount.getText().toString().equalsIgnoreCase(""))
+        {
+            remainingAmount = 0;
+            remaining_amount.setText(String.valueOf(remainingAmount));
+        } else
+        {
+
+            int cost=(Integer.parseInt(payment_amount.getText().toString()));
+            remainingAmount = (cost-paidcost)- Integer.parseInt(paid_amount.getText().toString());
+
+            if(remainingAmount<0)
+            {
+                paid_amount.setError("Amount must be less than total amount.");
+            }
+            else
+            {
+                remaining_amount.setText(String.valueOf(remainingAmount));
+            }
+        }
+
+    }
+
     private String generateUniqueId()
     {
         Date dNow = new Date();
@@ -401,6 +388,25 @@ public class PaymentDetailsFragment extends Fragment {
 
     }
 
+    private void setPaymentDetailsData()
+    {
+        paymentTable=new PaymentTable();
+
+        paymentTable.setPayment_idValue("");
+        paymentTable.setAmountValue(payment_amount.getText().toString());
+        paymentTable.setTotalPaidValue(paid_amount.getText().toString());
+        paymentTable.setBalanceValue(remaining_amount.getText().toString());
+        paymentTable.setCustomerIdValue(customerTable.getUniqueIdValue());
+        paymentTable.setDateOfPaymentValue(getCurrentDateTime());
+        paymentTable.setUpload_statusValue("0");
+        paymentTable.setPaymentUniqueIdValue(PAYMENT_PREFIX+generateUniqueId());
+        paymentTable.setReceiptNoValue(receipt_number.getText().toString());
+        paymentTable.setPaymentTypeValue(paymentTable.getPaymentTypeValue());
+        paymentTable.setUploadDateValue(getCurrentDateTime());
+        paymentTable.setKitchenIdValue(kitchen.getKitchenUniqueIdValue());
+        paymentTable.setPaymentTypeValue("Cash");
+
+    }
     private boolean checkValidation()
     {
         boolean response = true;
@@ -428,32 +434,4 @@ public class PaymentDetailsFragment extends Fragment {
 
         return response;
     }
-
-    private void setPaymentDetailsFromList()
-    {
-        if(oldPaymentTable!=null)
-        {
-            payment_amount.setText(oldPaymentTable.getAmountValue());
-            paid_amount.setText(oldPaymentTable.getTotalPaidValue());
-            remaining_amount.setText(oldPaymentTable.getBalanceValue());
-            payment_amount.setFocusable(false);
-            paid_amount.setFocusable(false);
-            receipt_number.setText(oldPaymentTable.getReceiptNoValue());
-            receipt_number.setFocusable(false);
-
-            File image = FileHelper.createfile(Folders.PAYMENTFOLDER,PAYMENT_PREFIX+oldPaymentTable.getPaymentUniqueIdValue(), FileType.PNG);
-            if(image!=null)
-            {
-                if(image.exists())
-                {
-                    Glide.with(getActivity())
-                            .load(image.getAbsolutePath())
-                            .error(R.drawable.capture_area)
-                            .into(receiptImageView);
-                }
-            }
-
-        }
-    }
-
 }

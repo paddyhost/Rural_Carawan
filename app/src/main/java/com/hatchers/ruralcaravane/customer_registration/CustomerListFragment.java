@@ -56,16 +56,7 @@ public class CustomerListFragment extends Fragment {
         customerRecyclerView.setItemAnimator(new DefaultItemAnimator());
         setData();
 
-        if(!(customerTables.size() >0))
-        {
-            customerRecyclerView.setVisibility(View.GONE);
-            no_cust_txt.setVisibility(View.VISIBLE);
-        }
-        else
-        {
-            customerRecyclerView.setVisibility(View.VISIBLE);
-            no_cust_txt.setVisibility(View.GONE);
-        }
+
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             Window window = getActivity().getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -75,14 +66,23 @@ public class CustomerListFragment extends Fragment {
 
     }
 
-    public void setData()
+    public  void setData()
     {
         try
         {
             customerTables = CustomerTableHelper.getCustomerdataList(getContext());
             customerListAdapter = new CustomerListAdapter(getContext(), customerTables);
             customerRecyclerView.setAdapter(customerListAdapter);
-            customerListAdapter.notifyDataSetChanged();
+            if(!(customerTables.size() >0))
+            {
+                customerRecyclerView.setVisibility(View.GONE);
+                no_cust_txt.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                customerRecyclerView.setVisibility(View.VISIBLE);
+                no_cust_txt.setVisibility(View.GONE);
+            }
 
         }
         catch (Exception e)
