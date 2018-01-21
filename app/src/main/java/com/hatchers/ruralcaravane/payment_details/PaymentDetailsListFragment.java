@@ -32,7 +32,6 @@ public class PaymentDetailsListFragment extends Fragment {
 
     RecyclerView paymentRecyclerView;
     ImageView backImg;
-    PaymentTable paymentTable;
     PaymentListAdapter paymentListAdapter;
 
     ArrayList<PaymentTable> paymentTableArrayList;
@@ -116,9 +115,19 @@ public class PaymentDetailsListFragment extends Fragment {
             @Override
             public void onClick(View v)
             {
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                PaymentDetailsFragment paymentDetailsFragment=PaymentDetailsFragment.getInstance(customertable);
-                fragmentTransaction.replace(R.id.frame_layout,paymentDetailsFragment).addToBackStack(null).commit();
+                if(paymentTableArrayList.size()>0)
+                {
+                    PaymentTable paymentTable = PaymentDetailsHelper.getPaymentAmountByCustomerId(getActivity(), customertable.getUniqueIdValue());
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    PaymentDetailsFragment paymentDetailsFragment = PaymentDetailsFragment.getInstance(customertable, paymentTable);
+                    fragmentTransaction.replace(R.id.frame_layout, paymentDetailsFragment).addToBackStack(null).commit();
+                }
+                else
+                {
+                    FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                    PaymentDetailsFragment paymentDetailsFragment = PaymentDetailsFragment.getNewPaymentInstance(customertable);
+                    fragmentTransaction.replace(R.id.frame_layout, paymentDetailsFragment).addToBackStack(null).commit();
+                }
 
             }
         });

@@ -54,9 +54,10 @@ public class PaymentDetailsFragment extends Fragment {
     private TextInputEditText payment_amount,paid_amount,remaining_amount,receipt_number;
     private ImageView receiptImageView;
     private Button savePayment;
-    private PaymentTable paymentDetailsObj;
     private String paymentUniqueIdTxt;
     PaymentTable paymentTable;
+
+    PaymentTable oldPaymentTable;
 
 
     public PaymentDetailsFragment() {
@@ -64,21 +65,22 @@ public class PaymentDetailsFragment extends Fragment {
     }
 
     private CustomerTable customertable;
-    public static PaymentDetailsFragment getInstance(CustomerTable customertable)
+    public static PaymentDetailsFragment getInstance(CustomerTable customertable,PaymentTable paymentTable)
     {
         PaymentDetailsFragment fragment = new PaymentDetailsFragment();
         Bundle args = new Bundle();
         args.putParcelable(CustomerTable.CUSTOMER_TABLE, customertable);
+        args.putParcelable(PaymentTable.PAYMENT_TABLE,paymentTable);
         fragment.setArguments(args);
         return fragment;
 
     }
 
-    public static PaymentDetailsFragment getPaymentInstance(PaymentTable paymentTable)
+    public static PaymentDetailsFragment getNewPaymentInstance(CustomerTable customertable)
     {
         PaymentDetailsFragment fragment = new PaymentDetailsFragment();
         Bundle args = new Bundle();
-        args.putParcelable(PaymentTable.PAYMENT_TABLE, paymentTable);
+        args.putParcelable(CustomerTable.CUSTOMER_TABLE, customertable);
         fragment.setArguments(args);
         return fragment;
 
@@ -90,7 +92,7 @@ public class PaymentDetailsFragment extends Fragment {
         if (getArguments() != null)
         {
             customertable = getArguments().getParcelable(CustomerTable.CUSTOMER_TABLE);
-            paymentDetailsObj =getArguments().getParcelable(PaymentTable.PAYMENT_TABLE);
+            oldPaymentTable =getArguments().getParcelable(PaymentTable.PAYMENT_TABLE);
         }
     }
 
@@ -427,24 +429,24 @@ public class PaymentDetailsFragment extends Fragment {
 
     private void setPaymentDetailsFromList()
     {
-        if(paymentDetailsObj!=null)
+        if(oldPaymentTable!=null)
         {
-            payment_amount.setText(paymentDetailsObj.getAmountValue());
-            paid_amount.setText(paymentDetailsObj.getTotalPaidValue());
-            remaining_amount.setText(paymentDetailsObj.getBalanceValue());
+            payment_amount.setText(oldPaymentTable.getAmountValue());
+            paid_amount.setText(oldPaymentTable.getTotalPaidValue());
+            remaining_amount.setText(oldPaymentTable.getBalanceValue());
             payment_amount.setFocusable(false);
             paid_amount.setFocusable(false);
-            receipt_number.setText(paymentDetailsObj.getReceiptNoValue());
+            receipt_number.setText(oldPaymentTable.getReceiptNoValue());
             receipt_number.setFocusable(false);
 
-            File image = FileHelper.createfile(Folders.PAYMENTFOLDER,PAYMENT_PREFIX+paymentTable.getPaymentUniqueIdValue(), FileType.PNG);
+            File image = FileHelper.createfile(Folders.PAYMENTFOLDER,PAYMENT_PREFIX+oldPaymentTable.getPaymentUniqueIdValue(), FileType.PNG);
             if(image!=null)
             {
                 if(image.exists())
                 {
                     Glide.with(getActivity())
                             .load(image.getAbsolutePath())
-                            .error(R.drawable.user_profile)
+                            .error(R.drawable.capture_area)
                             .into(receiptImageView);
                 }
             }

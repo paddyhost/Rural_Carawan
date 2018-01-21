@@ -40,18 +40,31 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by Ashwin on 07-Jan-18.
  */
 
 public class WebCustomer_ApiHelper
 {
-    public static boolean addNewCustomerToServer(final Activity activity)
+    public static boolean addNewCustomerToServer(final Activity activity, final SweetAlertDialog sweetAlertDialog)
     {
         final CustomerTable customerTable =CustomerTableHelper.getUnUploadCustomerData(activity);
         if(customerTable==null)
         {
-           // WebKitchen_ApiHelper.addKitchenServer(activity);
+           /* sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+            sweetAlertDialog.setTitleText("Successfully uploaded");
+            sweetAlertDialog.setConfirmText("Ok");
+            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+                }
+            });
+           */
+
+           WebKitchen_ApiHelper.addKitchenToServer(activity,sweetAlertDialog);
             return false;
         }
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, WebServiceUrls.urlAddCustomer, new Response.Listener<NetworkResponse>() {
@@ -77,39 +90,74 @@ public class WebCustomer_ApiHelper
                             customerTable.setUpload_statusValue("1");
                             if(CustomerTableHelper.updateCustomerData(activity,customerTable))
                             {
-                                Toast.makeText(activity,"Succefully uploaded",Toast.LENGTH_SHORT).show();
-                                customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_SUCCESS);
-                                addNewCustomerToServer(activity);
+                                 Toast.makeText(activity,"Succefully uploaded",Toast.LENGTH_SHORT).show();
+                                //customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_SUCCESS);
+                                addNewCustomerToServer(activity,sweetAlertDialog);
                             }
                             else
                             {
-                                customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_FAILED);
+                                Toast.makeText(activity,"upload failed",Toast.LENGTH_SHORT).show();
+                              //  customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_FAILED);
+                                sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                sweetAlertDialog.setTitleText("update Failed");
+                                sweetAlertDialog.setConfirmText("Ok");
+                                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismissWithAnimation();
+                                    }
+                                });
                             }
                            // customerTable.setImagePathValue(result.getString("imagepath"));
-
-
-
-
-
                         }
                         else
                         {
                             //group.setCreatestatus(group.BROADCASTERROR);
                           //  EventBus.getDefault().post(group);
                             Toast.makeText(activity,"upload failed",Toast.LENGTH_SHORT).show();
-                            customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_FAILED);
+                            //customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_FAILED);
+                            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                            sweetAlertDialog.setTitleText("upload Failed");
+                            sweetAlertDialog.setConfirmText("Ok");
+                            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                }
+                            });
+
                         }
                     }
                     else
                     {
                         Toast.makeText(activity," response failed",Toast.LENGTH_SHORT).show();
-                        customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_RESPONSE_FAILED);
+                      //  customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_RESPONSE_FAILED);
+                        sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                        sweetAlertDialog.setTitleText("upload Failed");
+                        sweetAlertDialog.setConfirmText("Ok");
+                        sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        });
+
                     }
                 }
                 catch (Exception e)
                 {
                     Toast.makeText(activity,"Json error",Toast.LENGTH_SHORT).show();
-                    customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_JSON_ERROR);
+                  //  customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_JSON_ERROR);
+                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    sweetAlertDialog.setTitleText("Json error");
+                    sweetAlertDialog.setConfirmText("Ok");
+                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+
                 }
             }
         }, new Response.ErrorListener() {
@@ -118,27 +166,77 @@ public class WebCustomer_ApiHelper
              //   Toast.makeText(activity,"Volley error",Toast.LENGTH_SHORT).show();
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     Toast.makeText(activity,"No connection error",Toast.LENGTH_SHORT).show();
-                    customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_NO_CONNECTION_ERROR);
+                   // customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_NO_CONNECTION_ERROR);
+                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    sweetAlertDialog.setTitleText("Check interner connection");
+                    sweetAlertDialog.setConfirmText("Ok");
+                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+
                 }
                 else if (error instanceof ServerError)
                 {
                     Toast.makeText(activity,"Server error",Toast.LENGTH_SHORT).show();
-                    customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_SERVER_ERROR);
+                  //  customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_SERVER_ERROR);
+                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    sweetAlertDialog.setTitleText("Server error");
+                    sweetAlertDialog.setConfirmText("Ok");
+                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+
                 }
                 else if (error instanceof NetworkError)
                 {
                     Toast.makeText(activity,"Network error",Toast.LENGTH_SHORT).show();
-                    customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_NEWORK_ERROR);
+                   // customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_NEWORK_ERROR);
+                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    sweetAlertDialog.setTitleText("Network Error");
+                    sweetAlertDialog.setConfirmText("Ok");
+                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+
                 }
                 else if (error instanceof ParseError)
                 {
                     Toast.makeText(activity,"Parse error",Toast.LENGTH_SHORT).show();
-                    customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_PARSE_ERROR);
+                    //customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_PARSE_ERROR);
+                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    sweetAlertDialog.setTitleText("Parse Error");
+                    sweetAlertDialog.setConfirmText("Ok");
+                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+
                 }
                 else
                 {
                     Toast.makeText(activity,"Unknown error",Toast.LENGTH_SHORT).show();
-                    customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_UNKNOWN_ERROR);
+                   // customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_UNKNOWN_ERROR);
+                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    sweetAlertDialog.setTitleText("Unknown Error");
+                    sweetAlertDialog.setConfirmText("Ok");
+                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+
                 }
 
             }
@@ -177,24 +275,26 @@ public class WebCustomer_ApiHelper
 
                 try {
 
-                    byte[] byteArray=null;
+                    byte[] byteArray = null;
                     ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                   File image = new File(customerTable.getImagePathValue());
-                    Bitmap mBitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), Uri.fromFile(image));
-                  // Bitmap mBitmap = customerTable.getProfileBitmap();
-                    mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    byteArray = stream.toByteArray();
+                    if (customerTable.getImagePathValue() != null) {
+                        File image = new File(customerTable.getImagePathValue());
 
-                    String name=  customerTable.getImagePathValue().substring(customerTable.getImagePathValue().lastIndexOf("/")+1);
-                    if (name.indexOf(".") > 0)
-                        name = name.substring(0, name.lastIndexOf("."));
-                    params.put("ufile", new DataPart(name+".jpg",byteArray,"image/jpeg"));
+                        Bitmap mBitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), Uri.fromFile(image));
+                        mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        byteArray = stream.toByteArray();
 
+                        String name = customerTable.getImagePathValue().substring(customerTable.getImagePathValue().lastIndexOf("/") + 1);
+                        if (name.indexOf(".") > 0)
+                            name = name.substring(0, name.lastIndexOf("."));
+                        params.put("ufile", new DataPart(name + ".jpg", byteArray, "image/jpeg"));
+                    }
 
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Toast.makeText(activity,"Error",Toast.LENGTH_SHORT).show();
-                }
+                    }
+                    catch(Exception e){
+                        e.printStackTrace();
+                        Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
+                    }
 
 
 
@@ -204,6 +304,7 @@ public class WebCustomer_ApiHelper
 
         MyApplication.getInstance().addToRequestQueue(multipartRequest);
         return  true;
+
     }
 }
 
