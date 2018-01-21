@@ -61,6 +61,7 @@ public class Construction_WebApiHelper {
                                     constructionTable.setTechnicianIdValue(jsonObject.getString("technitionid"));
                                     constructionTable.setCustomerIdValue(jsonObject.getString("customerid"));
                                     constructionTable.setAddedByIdValue(jsonObject.getString("addedby_id"));
+                                    constructionTable.setUploadStatusValue("1");
 
 
 
