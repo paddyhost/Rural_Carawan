@@ -42,6 +42,7 @@ import java.util.Date;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.hatchers.ruralcaravane.constants.AppConstants.CONSTRUCT_PREFIX;
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
 
 
@@ -208,8 +209,22 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
         constructionTable.setUpdateDateValue(getCurrentDateTime());
         constructionTable.setKitchentUniqueId(kitchenTable.getKitchenUniqueIdValue());
         constructionTable.setKitchenIdValue(kitchenTable.getKitchen_idValue());
-
+        constructionTable.setCustomerIdValue(kitchenTable.getCustomer_idValue());
+        constructionTable.setUploadStatusValue("0");
+        constructionTable.setTechnicianUniqueIdValue(generateUniqueId());
+        constructionTable.setAddedByIdValue(new PrefManager(getActivity()).getUserId());
     }
+
+    private String generateUniqueId()
+    {
+        Date dNow = new Date();
+        SimpleDateFormat ft = new SimpleDateFormat("yyMMddhhmmssMs");
+        String datetime = ft.format(dNow);
+        String uniqueId = CONSTRUCT_PREFIX+datetime;
+
+        return uniqueId;
+    }
+
 
 
     public void setGender()

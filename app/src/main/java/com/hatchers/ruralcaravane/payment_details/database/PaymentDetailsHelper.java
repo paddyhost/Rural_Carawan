@@ -67,7 +67,7 @@ public class PaymentDetailsHelper {
             values.put(PaymentTable.AMOUNT,paymentTable.getAmountValue());
             values.put(PaymentTable.TOTAL_PAID,paymentTable.getTotalPaidValue());
             values.put(PaymentTable.BALANCE,paymentTable.getBalanceValue());
-            values.put(PaymentTable.UPLOAD_STATUS,"1");
+            values.put(PaymentTable.UPLOAD_STATUS,paymentTable.getUpload_statusValue());
             values.put(PaymentTable.RECEIPT_IMAGE,paymentTable.getReceiptImageValue());
             values.put(PaymentTable.CUSTOMER_ID,paymentTable.getCustomerIdValue());
             values.put(PaymentTable.KITCHEN_ID,paymentTable.getKitchenIdValue());
@@ -78,7 +78,7 @@ public class PaymentDetailsHelper {
 
 
             // upadating Row
-            if(db.update(PaymentTable.PAYMENT_TABLE, values, PaymentTable.PAYMENT_ID+"="+paymentTable.getPayment_idValue(), null)>0)
+            if(db.update(PaymentTable.PAYMENT_TABLE, values, PaymentTable.PAYMENT_UNIQUE_ID+"='"+paymentTable.getPaymentUniqueIdValue()+"'", null)>0)
             {
                 Toast.makeText(context,"Payment deatails updated",Toast.LENGTH_LONG).show();
                 db.close();
@@ -100,7 +100,7 @@ public class PaymentDetailsHelper {
     {
         SQLiteDatabase db = new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ PaymentTable.PAYMENT_TABLE+" WHERE "+ PaymentTable.PAYMENT_UNIQUE_ID,null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ PaymentTable.PAYMENT_TABLE,null);
         try
         {
             cursor.moveToFirst();
@@ -242,6 +242,39 @@ public class PaymentDetailsHelper {
         SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
         Cursor cursor = db.rawQuery("SELECT * FROM "+ PaymentTable.PAYMENT_TABLE+" WHERE "+ PaymentTable.UPLOAD_STATUS+"='0'",null);
+        try
+        {
+            cursor.moveToFirst();
+            PaymentTable paymentTable=new PaymentTable();
+
+            paymentTable.setPayment_idValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_ID)));
+            paymentTable.setPaymentUniqueIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_UNIQUE_ID)));
+            paymentTable.setAmountValue(cursor.getString(cursor.getColumnIndex(PaymentTable.AMOUNT)));
+            paymentTable.setTotalPaidValue(cursor.getString(cursor.getColumnIndex(PaymentTable.TOTAL_PAID)));
+            paymentTable.setBalanceValue(cursor.getString(cursor.getColumnIndex(PaymentTable.BALANCE)));
+            paymentTable.setUpload_statusValue(cursor.getString(cursor.getColumnIndex(PaymentTable.UPLOAD_STATUS)));
+            paymentTable.setCustomerIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.CUSTOMER_ID)));
+            paymentTable.setReceiptImageValue(cursor.getString(cursor.getColumnIndex(PaymentTable.RECEIPT_IMAGE)));
+            paymentTable.setKitchenIdValue(cursor.getString(cursor.getColumnIndex(PaymentTable.KITCHEN_ID)));
+            paymentTable.setDateOfPaymentValue(cursor.getString(cursor.getColumnIndex(PaymentTable.DATE_OF_PAYMENT)));
+            paymentTable.setReceiptNoValue(cursor.getString(cursor.getColumnIndex(PaymentTable.RECEIPT_NO)));
+            paymentTable.setPaymentTypeValue(cursor.getString(cursor.getColumnIndex(PaymentTable.PAYMENT_TYPE)));
+            paymentTable.setUploadDateValue(cursor.getString(cursor.getColumnIndex(PaymentTable.UPLOAD_DATE)));
+
+            return paymentTable;
+        }
+
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+
+    public static PaymentTable getUnUploadPaymentData1(Context context)
+    {
+        SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
+        // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ PaymentTable.PAYMENT_TABLE+" WHERE "+ PaymentTable.UPLOAD_STATUS+"='1'",null);
         try
         {
             cursor.moveToFirst();

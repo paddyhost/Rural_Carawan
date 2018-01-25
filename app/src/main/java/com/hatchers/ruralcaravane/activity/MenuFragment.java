@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hatchers.ruralcaravane.R;
+import com.hatchers.ruralcaravane.activity.apihelper.Web_SyncApiHelper;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
@@ -32,6 +33,7 @@ import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import java.io.File;
 import java.util.ArrayList;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper.getKitchenDetailsData;
@@ -42,13 +44,12 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     private Toolbar menuToolbar;
     PrefManager prefManager;
     private  FragmentTransaction fragmentTransaction;
-    private Button kitchen_linear,payment_linear;
+    private Button kitchen_linear,payment_linear,sync_dataBtn;
     private CustomerTable customertable;
     private KitchenTable kitchenTable;
     private TextView customername_txt, customeraddress_txt, mobile_txt;
     private CircleImageView profImageView;
 
-    private ArrayList<KitchenTable> kitchenTableArrayList;
     public MenuFragment()
     {
         // Required empty public constructor
@@ -64,7 +65,8 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         if (getArguments() != null)
         {
@@ -73,11 +75,10 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_menu, container, false);
-
 
         initialization(view);
         onClickListeners();
@@ -102,10 +103,11 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
 
         kitchen_linear=(Button)view.findViewById(R.id.kitchen_linear);
         payment_linear=(Button)view.findViewById(R.id.payment_linear);
+        sync_dataBtn=(Button)view.findViewById(R.id.sync_data);
 
         kitchen_linear.setOnClickListener(this);
         payment_linear.setOnClickListener(this);
-
+        sync_dataBtn.setOnClickListener(this);
 
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
@@ -167,6 +169,16 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
                     fragmentTransaction.replace(R.id.frame_layout, paymentDetailsListFragment).addToBackStack(null).commit();
                 }
                 break;
+
+            case R.id.sync_data:
+               /* SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+                sweetAlertDialog.setTitleText("Please wait");
+                sweetAlertDialog.setCancelable(false);
+                sweetAlertDialog.show();
+                Web_SyncApiHelper.addNewCustomerToServer(getActivity(),sweetAlertDialog,customertable);
+               */
+
+               break;
 
             default:
                 break;

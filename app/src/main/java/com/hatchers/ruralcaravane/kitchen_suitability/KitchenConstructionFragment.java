@@ -212,7 +212,7 @@ public class KitchenConstructionFragment extends Fragment {
                 File image = FileHelper.createfile(Folders.CHULHAFOLDER, STEP2_PREFIX + kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
                 if (image != null) {
                     if (!image.exists()) {
-                        if(kitchenTable.getUpload_statusValue().equalsIgnoreCase("1"))
+                       /* if(kitchenTable.getUpload_statusValue().equalsIgnoreCase("1"))
                         {
                             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                             ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment = ConstructionTeamRegistrationFragment.newInstance(kitchenTable);
@@ -221,7 +221,11 @@ public class KitchenConstructionFragment extends Fragment {
                         else
                         {
                             Toast.makeText(getActivity(), "Kitchen Data not uploaded to server.Please Upload data First", Toast.LENGTH_SHORT).show();
-                        }
+                        }*/
+
+                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                        ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment = ConstructionTeamRegistrationFragment.newInstance(kitchenTable);
+                        fragmentTransaction.replace(R.id.frame_layout, constructionTeamRegistrationFragment).addToBackStack(null).commit();
                     } else
                     {
                         Toast.makeText(getActivity(), "Process Completed. Can't add team member ", Toast.LENGTH_SHORT).show();

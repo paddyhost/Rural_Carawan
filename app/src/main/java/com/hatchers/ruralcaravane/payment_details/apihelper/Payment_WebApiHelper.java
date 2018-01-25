@@ -25,18 +25,30 @@ import org.json.JSONObject;
 import java.util.Hashtable;
 import java.util.Map;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
+
 /**
  * Created by Nikam on 20/01/2018.
  */
 
 public class Payment_WebApiHelper {
 
-    public static boolean getPaymentDataToServer(final Activity activity)
+    public static boolean uploadPaymentDataToServer(final Activity activity, final SweetAlertDialog sweetAlertDialog)
     {
 
         final PaymentTable paymentTable = PaymentDetailsHelper.getUnUploadPaymentData(activity);
         if(paymentTable==null)
         {
+            sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+            sweetAlertDialog.setTitleText("Successfully uploaded");
+            sweetAlertDialog.setConfirmText("Ok");
+            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+                }
+            });
+
             return false;
         }
 
@@ -50,8 +62,6 @@ public class Payment_WebApiHelper {
                     {
                         if(responce.getString("message").equalsIgnoreCase("Payment Details added successfully")) {
 
-
-                            PaymentTable paymentTable = new PaymentTable();
                             JSONObject jsonObject = responce.getJSONObject("result");
 
                             paymentTable.setPayment_idValue(jsonObject.getString("id"));
@@ -66,13 +76,23 @@ public class Payment_WebApiHelper {
                             paymentTable.setUploadDateValue(jsonObject.getString("UploadDate"));
 
 
-
                             if (PaymentDetailsHelper.updatePaymentDetailsData(activity, paymentTable)) {
 
                                 Toast.makeText(activity,"Payment Data Updated Successfully..",Toast.LENGTH_SHORT).show();
+                                uploadPaymentDataToServer(activity,sweetAlertDialog);
                             } else {
 
                                 Toast.makeText(activity,"Payment Data Updation Failed ",Toast.LENGTH_SHORT).show();
+                                sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                sweetAlertDialog.setTitleText("Update failed");
+                                sweetAlertDialog.setConfirmText("Ok");
+                                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismissWithAnimation();
+                                    }
+                                });
+
                             }
 
 
@@ -80,17 +100,47 @@ public class Payment_WebApiHelper {
                         else
                         {
                             Toast.makeText(activity,"Response Failed ",Toast.LENGTH_SHORT).show();
+                            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                            sweetAlertDialog.setTitleText("Response failed");
+                            sweetAlertDialog.setConfirmText("Ok");
+                            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                }
+                            });
+
                         }
 
                     }
                     else
                     {
                         Toast.makeText(activity,"Response Failed ",Toast.LENGTH_SHORT).show();
+                        sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                        sweetAlertDialog.setTitleText("Response failed");
+                        sweetAlertDialog.setConfirmText("Ok");
+                        sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        });
+
                     }
                 } catch (JSONException e)
                 {
                     Toast.makeText(activity,"JSON Error ",Toast.LENGTH_SHORT).show();
                     e.printStackTrace();
+                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    sweetAlertDialog.setTitleText("JSON Error");
+                    sweetAlertDialog.setConfirmText("Ok");
+                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+
                 }
             }
         }
@@ -101,22 +151,71 @@ public class Payment_WebApiHelper {
 
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
                     Toast.makeText(activity,"Timeout Error ",Toast.LENGTH_SHORT).show();
+                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    sweetAlertDialog.setTitleText("Check internet connection");
+                    sweetAlertDialog.setConfirmText("Ok");
+                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+
                 }
                 else if (error instanceof ServerError)
                 {
-                    Toast.makeText(activity,"Server Error ",Toast.LENGTH_SHORT).show();
+                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    sweetAlertDialog.setTitleText("Server Error");
+                    sweetAlertDialog.setConfirmText("Ok");
+                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+
                 }
                 else if (error instanceof NetworkError)
                 {
                     Toast.makeText(activity,"Network Error",Toast.LENGTH_SHORT).show();
+                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    sweetAlertDialog.setTitleText("Network Error");
+                    sweetAlertDialog.setConfirmText("Ok");
+                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+
                 }
                 else if (error instanceof ParseError)
                 {
                     Toast.makeText(activity,"Parse Error",Toast.LENGTH_SHORT).show();
+                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    sweetAlertDialog.setTitleText("Parse Error");
+                    sweetAlertDialog.setConfirmText("Ok");
+                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+
                 }
                 else
                 {
                     Toast.makeText(activity,"Unknown Error",Toast.LENGTH_SHORT).show();
+                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                    sweetAlertDialog.setTitleText("Unkonwn error");
+                    sweetAlertDialog.setConfirmText("Ok");
+                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+
                 }
 
             }
@@ -133,12 +232,11 @@ public class Payment_WebApiHelper {
                 params.put("format","json");
                 params.put("CUSTOMER_ID",paymentTable.getCustomerIdValue());
                 params.put("PAYMENT_ID",paymentTable.getPaymentUniqueIdValue());
-                params.put("AMOUNT",paymentTable.getAmountValue());
+                params.put("AMOUNT",paymentTable.getTotalPaidValue());
                 params.put("DATE_OF_PAYMENT",paymentTable.getDateOfPaymentValue());
                 params.put("KITCHEN_ID",paymentTable.getKitchenIdValue());
                 params.put("PAYMENT_TYPE",paymentTable.getPaymentTypeValue());
                 params.put("RECEIPT_NO",paymentTable.getReceiptNoValue());
-
                 params.put("mobile",new PrefManager(activity).getMobile());
                 params.put("password",new PrefManager(activity).getPassword());
 

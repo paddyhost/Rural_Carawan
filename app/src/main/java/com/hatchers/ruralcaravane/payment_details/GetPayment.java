@@ -392,7 +392,6 @@ public class GetPayment extends Fragment {
     {
         paymentTable=new PaymentTable();
 
-        paymentTable.setPayment_idValue("");
         paymentTable.setAmountValue(payment_amount.getText().toString());
         paymentTable.setTotalPaidValue(paid_amount.getText().toString());
         paymentTable.setBalanceValue(remaining_amount.getText().toString());

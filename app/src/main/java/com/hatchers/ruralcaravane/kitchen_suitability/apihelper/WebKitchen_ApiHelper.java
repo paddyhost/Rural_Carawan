@@ -18,6 +18,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.hatchers.ruralcaravane.app.MyApplication;
 import com.hatchers.ruralcaravane.constants.WebServiceUrls;
+import com.hatchers.ruralcaravane.construction_team.apihelper.Construction_WebApiHelper;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
@@ -44,7 +45,47 @@ public class WebKitchen_ApiHelper
         final KitchenTable kitchenTable = KitchenTableHelper.getUnUploadKitchenData0(activity);
         if(kitchenTable==null)
         {
-            updateKitchenToServer(activity,sweetAlertDialog);
+            KitchenTable kitchenTable1 = KitchenTableHelper.getUnUploadKitchenData2(activity);
+            KitchenTable kitchenTable2 = KitchenTableHelper.getUnUploadKitchenData1(activity);
+            KitchenTable kitchenTable3 = KitchenTableHelper.getUnUploadKitchenData3(activity);
+            if(kitchenTable1!=null)
+            {
+                updateKitchenToServer(activity,sweetAlertDialog);
+            }
+            else if(kitchenTable3!=null)
+            {
+                Construction_WebApiHelper.uploadConstructionDataToServer(activity,sweetAlertDialog);
+            }
+            else if(kitchenTable2!=null)
+            {
+                sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                sweetAlertDialog.setTitleText("Kitchen Construction Not Completed");
+                sweetAlertDialog.setContentText("Please complete kitchen construction.");
+                sweetAlertDialog.setConfirmText("Ok");
+                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+
+            }
+            else
+            {
+                sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                sweetAlertDialog.setTitleText("Kitchen Not Added");
+                sweetAlertDialog.setContentText("Please add kitchen.");
+                sweetAlertDialog.setConfirmText("Ok");
+                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+
+            }
+
+
             return false;
         }
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, WebServiceUrls.urlAddKitchenToServer, new Response.Listener<NetworkResponse>() {
@@ -327,17 +368,25 @@ public class WebKitchen_ApiHelper
         final KitchenTable kitchenTable = KitchenTableHelper.getUnUploadKitchenData2(activity);
         if(kitchenTable==null)
         {
-            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-            sweetAlertDialog.setTitleText("Kitchen Construction not completed");
-            sweetAlertDialog.setContentText("Please complete kichen construction");
-            sweetAlertDialog.setConfirmText("Ok");
-            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    sweetAlertDialog.dismissWithAnimation();
-                }
-            });
+            KitchenTable kitchenTable1 = KitchenTableHelper.getUnUploadKitchenData3(activity);
+            if(kitchenTable1!=null)
+            {
+                Construction_WebApiHelper.uploadConstructionDataToServer(activity,sweetAlertDialog);
+            }
+            else
+            {
+                sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                sweetAlertDialog.setTitleText("Kitchen Construction not completed");
+                sweetAlertDialog.setContentText("Please complete kitchen construction.");
+                sweetAlertDialog.setConfirmText("Ok");
+                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
 
+            }
             return false;
         }
         VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, WebServiceUrls.urlUpdateKitchenToServer, new Response.Listener<NetworkResponse>() {

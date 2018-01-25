@@ -192,12 +192,13 @@ public class CustomerRegistrationActivity extends AppCompatActivity
                 break;
 
             case R.id.sunc:
-                SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(this,SweetAlertDialog.PROGRESS_TYPE);
+             /*   SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(this,SweetAlertDialog.PROGRESS_TYPE);
                 sweetAlertDialog.setTitleText("Please wait");
                 sweetAlertDialog.setCancelable(false);
                 sweetAlertDialog.show();
                 WebCustomer_ApiHelper.addNewCustomerToServer(this,sweetAlertDialog);
-                break;
+             */
+             break;
 
 
         }
