@@ -18,7 +18,9 @@
     </string-array>
     <string name="Rs">\u20B9</string>
 
+
     
+<!--Marathi Strings-->
     <string name="language_selection">भाषा निवडा</string>
     <string name="marathi">मराठी</string>
     <string name="english">इंग्रजी</string>
@@ -73,5 +75,62 @@
     <string name="logout">बाहेर पडा </string>
     <string name="sync">समक्रमित करा</string>
 
-   
+
+    <!--English Strings-->
+
+    <string name="language_selection1">Select Language</string>
+    <string name="marathi1">Marathi</string>
+    <string name="english1">English</string>
+    <string name="login1">Login</string>
+    <string name="username1">Username</string>
+    <string name="password1">Password</string>
+    <string name="new_customer1">New Customer</string>
+    <string name="chullaha_construction1">Kitchen Construction</string>
+    <string name="remaining_payment1">Remaining Payment</string>
+    <string name="save1">Save</string>
+    <string name="house_servery1">House Survey</string>
+    <string name="select_customer1">Select Customer</string>
+    <string name="complete_remaining_construction1">Complete Remaining Construction</string>
+    <string name="kitchen_information1">Chullha Information</string>
+    <string name="make_construction_team1">Add Construction Team</string>
+    <string name="upload_kitchen_photo1">Upload Chullaha Photos</string>
+    <string name="construction_team1">Construction Team</string>
+    <string name="do_payment1">Payment</string>
+    <string name="complete_construction_team1">Complete Add Construction Team</string>
+    <string name="add_new_construction_team_member1">Add New Construction Team Member</string>
+    <string name="construction_team_member1">Construction Team Member</string>
+    <string name="scan1">Scan</string>
+    <string name="kitchen_construction1">Chullaha Construction</string>
+    <string name="half_costructed_chullha_image1">Upload Half Constructed Chullaha Photo</string>
+    <string name="complete_costructed_chullha_image2">Upload Complete Constructed Chullaha Photo</string>
+    <string name="take_payment1">Take Payment</string>
+    <string name="scan_aadhar_card1">Scan Aadhar Card</string>
+    <string name="unique_id1">Unique_id</string>
+    <string name="state1">State</string>
+    <string name="city1">City</string>
+    <string name="village1">Village</string>
+    <string name="enter_aadhar_number1">Enter Aadhar Number</string>
+    <string name="enter_customer_name1">Enter Customer Name</string>
+    <string name="enter_customer_address1">Enter Customer Address</string>
+    <string name="enter_customer_mobile_number1">Enter Customer Mobile Number</string>
+    <string name="enter_customer_age1">Enter Customer Age</string>
+    <string name="male1">Male</string>
+    <string name="female1">Female</string>
+    <string name="please_select_house_type1">Please Select House Type</string>
+    <string name="please_select_roof_type1">Please Select Roof Type</string>
+    <string name="enter_kitchen_height">Please Enter Kitchen Height</string>
+    <string name="get_geo_location1">Get Geo Location</string>
+    <string name="take_image_of_planned_area1">Take Image of Planned Area</string>
+    <string name="receipt_number1">Please Enter Receipt Number</string>
+    <string name="cost_of_chullaha1">Enter Cost of Chullaha</string>
+    <string name="paid_amount1">Paid Amount</string>
+    <string name="enter_amount1">Enter Amount</string>
+    <string name="enter_remaining_amount1">Enter Remaining Amount</string>
+    <string name="upload_payment_receipt1">Upload Payment Receipt</string>
+    <string name="customer_information1">Customer Information</string>
+    <string name="your_profile1">Your Profile</string>
+    <string name="logout1">Logout</string>
+    <string name="sync1">Sync</string>
+
+
 </resources>
