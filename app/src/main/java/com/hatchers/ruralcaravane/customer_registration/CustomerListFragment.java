@@ -25,12 +25,39 @@ public class CustomerListFragment extends Fragment {
     CustomerListAdapter customerListAdapter;
     private RecyclerView customerRecyclerView;
     private TextView no_cust_txt;
+    public static final String OPEN_FROM = "open_from";
+    public static final String FROM_CONSTRUCTION = "from_construction";
+    public static final String FROM_PAYMENT = "from_payment";
+    private String openFrom;
 
     ArrayList<CustomerTable> customerTables;
 
-    public CustomerListFragment() {
+    public CustomerListFragment()
+    {
         // Required empty public constructor
     }
+
+    public static CustomerListFragment getInstance(String openFrom)
+    {
+        CustomerListFragment fragment = new CustomerListFragment();
+        Bundle args = new Bundle();
+        args.putString(OPEN_FROM, openFrom);
+        fragment.setArguments(args);
+        return fragment;
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        if (getArguments() != null)
+        {
+            openFrom = getArguments().getString(OPEN_FROM);
+
+        }
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

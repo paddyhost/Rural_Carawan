@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.support.v4.content.res.ConfigurationHelper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -21,26 +20,22 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.hatchers.ruralcaravane.app.MyApplication;
 import com.hatchers.ruralcaravane.constants.WebServiceUrls;
-import com.hatchers.ruralcaravane.construction_team.apihelper.Construction_WebApiHelper;
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTable;
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTableHelper;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
-import com.hatchers.ruralcaravane.kitchen_suitability.apihelper.WebKitchen_ApiHelper;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
-import com.hatchers.ruralcaravane.payment_details.apihelper.Payment_WebApiHelper;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentDetailsHelper;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
-import com.hatchers.ruralcaravane.utils.VolleyMultipartRequest;
+import com.hatchers.ruralcaravane.utils.image_utils.VolleyMultipartRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;

@@ -22,9 +22,8 @@ import com.hatchers.ruralcaravane.construction_team.apihelper.Construction_WebAp
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
-import com.hatchers.ruralcaravane.utils.VolleyMultipartRequest;
+import com.hatchers.ruralcaravane.utils.image_utils.VolleyMultipartRequest;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
