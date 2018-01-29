@@ -171,8 +171,21 @@
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 
+                <Button
+                    android:background="@color/colorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorWhite"
+                    android:layout_marginTop="16dp"
+                    android:layout_gravity="center"
+                    android:paddingRight="30dp"
+                    android:paddingLeft="30dp"
+                    android:text="Get Location"
+                    android:id="@+id/get_location"/>
 
-        <TextView
+
+
+                <TextView
             android:layout_below="@id/kitchenHeight_layout"
             android:text="Take Image of Planned Area"
             android:layout_width="match_parent"
@@ -204,7 +217,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
-        android:text="Next"
+        android:text="Save"
         android:id="@+id/upload"/>
         </LinearLayout>
 

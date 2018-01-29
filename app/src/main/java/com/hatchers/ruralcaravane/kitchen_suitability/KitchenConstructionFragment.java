@@ -525,13 +525,12 @@ public class KitchenConstructionFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(RuntimePermissions.isNetworkConnectionAvailable(getActivity())) {
+                /*if(RuntimePermissions.isNetworkConnectionAvailable(getActivity())) {
 
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     AddKitchenAddress addKitchenAddress = AddKitchenAddress.getInstance(kitchenTable);
                     fragmentTransaction.replace(R.id.frame_layout, addKitchenAddress).commit();
                 }
-
 
                 else
                 {
@@ -547,7 +546,7 @@ public class KitchenConstructionFragment extends Fragment {
                     android.support.v7.app.AlertDialog alertDialog = builder.create();
                     alertDialog.show();
                 }
-
+*/
         }
 
         });

@@ -28,11 +28,9 @@ public class PrefManager {
     public static final String LNAME="lname";
     public static final String CITYNAME="cityname";
 
-
-
-
-
     private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
+    private static final String LANGUAGE = "language";
+    private static final String LANGUAGE_SELECTED="language_selected";
 
 
     public PrefManager(Context context) {
@@ -217,6 +215,25 @@ public class PrefManager {
     public void setCityname(String cityname) {
         editor.putString(CITYNAME, cityname);
         editor.commit();
+    }
+
+    public void setLanguage(String language) {
+        editor.putString(LANGUAGE, language);
+        editor.commit();
+    }
+
+    public String getLanguage() {
+        return sharedpreferences.getString(LANGUAGE, null);
+    }
+
+    public void setLanguageSelectedTrue() {
+        editor.putBoolean(LANGUAGE_SELECTED, true);
+        editor.commit();
+    }
+
+
+    public boolean isLanguageSelected() {
+        return sharedpreferences.getBoolean(LANGUAGE_SELECTED, false);
     }
 
 }

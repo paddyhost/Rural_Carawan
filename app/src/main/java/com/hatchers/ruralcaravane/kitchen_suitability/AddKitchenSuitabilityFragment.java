@@ -1,17 +1,26 @@
 package com.hatchers.ruralcaravane.kitchen_suitability;
 
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,27 +29,35 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.location.Location;
+import android.location.LocationManager;
 
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
-import com.hatchers.ruralcaravane.kitchen_suitability.apihelper.WebKitchen_ApiHelper;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
-import com.hatchers.ruralcaravane.runtime_permissions.RuntimePermissions;
 
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -49,30 +66,35 @@ import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateT
 
 
 public class AddKitchenSuitabilityFragment extends Fragment implements
-        AdapterView.OnItemSelectedListener {
-
+        AdapterView.OnItemSelectedListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener
+{
     private int CAMERA = 1;
-
     Bitmap kitBitmap;
     private Toolbar kitchen_toolbar;
     private Spinner house_type, roof_type;
     private TextInputEditText kitchen_height;
     private ImageView place_image;
-    private int RESULT_CANCELED;
     private Button upload;
     KitchenTable kitchen_table;
-    FrameLayout layout;
-    private GoogleApiClient client;
     private TextView kitchenUniqueIdText;
+    ArrayAdapter<CharSequence> house_survey_adapter,roof_type_adapter;
+    private Button btnGetLocation;
+    private CustomerTable customertable;
 
+    private double lattitude, longitude;
+    //get current location
+    LocationManager locationManager;
+    private GoogleApiClient mGoogleApiClient;
+    private LocationRequest mLocationRequest;
+    private LocationListener locationListener;
+    public static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 99;
 
-
-    public AddKitchenSuitabilityFragment() {
+    public AddKitchenSuitabilityFragment()
+    {
         // Required empty public constructor
     }
 
-
-    private CustomerTable customertable;
     public static AddKitchenSuitabilityFragment getInstance(CustomerTable customertable)
     {
         AddKitchenSuitabilityFragment fragment = new AddKitchenSuitabilityFragment();
@@ -94,14 +116,6 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();// ATTENTION: This was auto-generated to implement the App Indexing API.
-// See https://g.co/AppIndexing/AndroidStudio for more information.
-        client.connect();
-
-    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
@@ -110,7 +124,12 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_add_kitchen__suitability, container, false);
 
         initializations(view);
-        onclicklisteners();
+        setHouseTypeSpinner();
+        setRoof_typeSpinner();
+        toolbarClickListener();
+        placeImageClickListener();
+        saveKitchenClickListener();
+        getLocationClickListener();
         generateUniqueId();
 
         return view;
@@ -119,6 +138,8 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
 
     private void initializations(View view)
     {
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        kitchen_table = new KitchenTable();
 
         kitchen_toolbar = (Toolbar) view.findViewById(R.id.kitchen_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(kitchen_toolbar);
@@ -128,25 +149,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         place_image = (ImageView) view.findViewById(R.id.placeImage);
         upload = (Button) view.findViewById(R.id.upload);
         kitchenUniqueIdText=(TextView)view.findViewById(R.id.kitchenUniqueIdText);
-
-        // ATTENTION: This was auto-generated to implement the App Indexing API.
-        // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(getActivity()).addApi(LocationServices.API).build();
-
-        house_type.setOnItemSelectedListener(this);
-        roof_type.setOnItemSelectedListener(this);
-        layout = (FrameLayout)view. findViewById(R.id.AddreFramelauout);
-
-        ArrayAdapter<CharSequence> house_survey_adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.House_Type, android.R.layout.simple_spinner_item);
-        house_survey_adapter.setDropDownViewResource(R.layout.spinner_item);
-        house_type.setAdapter(house_survey_adapter);
-
-        ArrayAdapter<CharSequence> roof_type_adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.Roof_Type, android.R.layout.simple_spinner_item);
-        roof_type_adapter.setDropDownViewResource(R.layout.spinner_item);
-        roof_type.setAdapter(roof_type_adapter);
-
+        btnGetLocation = (Button)view.findViewById(R.id.get_location);
 
         if (android.os.Build.VERSION.SDK_INT >= 21)
         {
@@ -155,11 +158,38 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
         }
-
-
     }
 
-    private void onclicklisteners()
+    private void getCurrentLocation()
+    {
+        checkLocationPermission();
+
+        toggleGPSUpdates();
+
+        setLocationListner();
+    }
+
+    private void setHouseTypeSpinner()
+    {
+        house_type.setOnItemSelectedListener(this);
+
+        house_survey_adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.House_Type, android.R.layout.simple_spinner_item);
+        house_survey_adapter.setDropDownViewResource(R.layout.spinner_item);
+        house_type.setAdapter(house_survey_adapter);
+    }
+
+    private void setRoof_typeSpinner()
+    {
+        roof_type.setOnItemSelectedListener(this);
+
+        roof_type_adapter = ArrayAdapter.createFromResource(getContext(),
+                R.array.Roof_Type, android.R.layout.simple_spinner_item);
+        roof_type_adapter.setDropDownViewResource(R.layout.spinner_item);
+        roof_type.setAdapter(roof_type_adapter);
+    }
+
+    private void toolbarClickListener()
     {
         kitchen_toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -167,15 +197,20 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
                 getActivity().onBackPressed();
             }
         });
+    }
 
+    private void placeImageClickListener()
+    {
         place_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showPictureDialog();
             }
         });
+    }
 
-
+    private void saveKitchenClickListener()
+    {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -211,7 +246,9 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
                                         place_image.setImageResource(R.mipmap.chullha);
                                         kitBitmap=null;
 
-                                        if(RuntimePermissions.isNetworkConnectionAvailable(getActivity())) {
+                                        getActivity().onBackPressed();
+
+                                        /*if(RuntimePermissions.isNetworkConnectionAvailable(getActivity())) {
 
                                             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                                             AddKitchenAddress addKitchenAddress = AddKitchenAddress.getInstance(kitchen_table);
@@ -231,7 +268,8 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
                                             });
                                             android.support.v7.app.AlertDialog alertDialog = builder.create();
                                             alertDialog.show();
-                                        }
+                                        }*/
+
                                     }
                                 });
                             }
@@ -267,10 +305,53 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
 
     }
 
+    private void getLocationClickListener()
+    {
+        btnGetLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view)
+            {
+                getCurrentLocation();
+
+                SweetAlertDialog locationDialog;
+                if(lattitude==0.0 || longitude ==0.0)
+                {
+                    locationDialog =new SweetAlertDialog(getActivity(),SweetAlertDialog.ERROR_TYPE)
+                            .setTitleText("Couldn't get Location")
+                            .setContentText("Please try again...!");
+                    locationDialog.setCancelable(false);
+                    locationDialog.show();
+                    locationDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
+                }
+                else
+                {
+                    locationDialog=new SweetAlertDialog(getActivity(),SweetAlertDialog.SUCCESS_TYPE)
+                            .setTitleText("Success")
+                            .setContentText("Got location successfully !");
+                    locationDialog.setCancelable(false);
+                    locationDialog.show();
+                    locationDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                            kitchen_table.setLatitudeValue(String.valueOf(lattitude));
+                            kitchen_table.setLongitudeValue(String.valueOf(longitude));
+                        }
+                    });
+
+                    Toast.makeText(getContext(), "Lattitude : " + String.valueOf(lattitude) + "\nLongitude : " + String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
 
     private void setKitchenData()
     {
-        kitchen_table = new KitchenTable();
         kitchen_table.setHouse_typeValue(house_type.getSelectedItem().toString());
         kitchen_table.setRoof_typeValue(roof_type.getSelectedItem().toString());
         kitchen_table.setKitchen_heightValue(kitchen_height.getText().toString());
@@ -321,7 +402,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
     {
 
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == this.RESULT_CANCELED) {
+        if (resultCode == Activity.RESULT_CANCELED) {
             return;
         }
         if (requestCode == CAMERA) {
@@ -400,6 +481,249 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         SimpleDateFormat ft = new SimpleDateFormat("yyMMddhhmmssMs");
         String datetime = ft.format(dNow);
         kitchenUniqueIdText.setText(KITCHEN_PREFIX+datetime);
+    }
+
+    public void toggleGPSUpdates()
+    {
+        if (checkLocation())
+        {
+            buildGoogleApiClient();
+        }
+    }
+
+    private boolean checkLocation()
+    {
+        if (!isLocationEnabled())
+            showAlert();
+        return isLocationEnabled();
+    }
+
+    private void showAlert()
+    {
+        final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+        dialog.setTitle("Unable to get Location")
+                .setMessage("Your Location is disabled. Please Enable Location Services.")
+                .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                    }
+                });
+
+        dialog.show();
+    }
+
+    private boolean isLocationEnabled()
+    {
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    protected synchronized void buildGoogleApiClient()
+    {
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnected( Bundle bundle)
+    {
+
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(1000);
+        mLocationRequest.setFastestInterval(1000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, locationListener);
+        }
+    }
+
+    @Override
+    public void onConnectionSuspended(int i)
+    {
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,locationListener);
+    }
+
+    @Override
+    public void onConnectionFailed( ConnectionResult connectionResult)
+    {
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient,locationListener);
+    }
+
+    private void setLocationListner()
+    {
+        locationListener =new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                //Place current location marker
+                LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                lattitude = location.getLatitude();
+                longitude = location.getLongitude();
+               // edtAddress.setText(getAddress(lattitude,longitude));
+                kitchen_table.setGeoAddressValue(getAddress(lattitude,longitude));
+            }
+        };
+    }
+
+    /*
+    * onStart : Called when the activity is becoming visible to the user.
+    * */
+    @Override
+    public void onStart()
+    {
+        //EventBus.getDefault().register(this);
+        super.onStart();
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+    }
+
+
+    /* * onStop : Called when the activity is no longer visible to the user
+        * */
+    @Override
+    public void onStop()
+    {
+        // EventBus.getDefault().unregister(this);
+        super.onStop();
+        //Disconnect the google client api connection.
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.disconnect();
+            stopLocationUpdates();
+        }
+    }
+
+    /*
+    * onPause : Called when the system is about to start resuming a previous activity.
+    * */
+    @Override
+    public void onPause()
+    {
+        try {
+
+            super.onPause();
+
+            /*
+            * Stop retrieving locations when we go out of the application.
+            * */
+            if (mGoogleApiClient != null) {
+                stopLocationUpdates();
+            }
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    protected void stopLocationUpdates()
+    {
+        LocationServices.FusedLocationApi.removeLocationUpdates(mGoogleApiClient, locationListener);
+    }
+
+    public boolean checkLocationPermission()
+    {
+        if (ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Asking user if explanation is needed
+            if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an expanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+
+                //Prompt the user once explanation has been shown
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_FINE_LOCATION);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults)
+    {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_FINE_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // Permission was granted.
+                    if (ContextCompat.checkSelfPermission(getActivity(),
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+                        if (mGoogleApiClient == null) {
+                            buildGoogleApiClient();
+                        }
+                        // mMap.setMyLocationEnabled(true);
+                    }
+
+                } else {
+
+                    // Permission denied, Disable the functionality that depends on this permission.
+                    Toast.makeText(getActivity(), "permission denied", Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+
+            // other 'case' lines to check for other permissions this app might request.
+            //You can add here other case statements according to your requirement.
+        }
+    }
+
+    public String getAddress(double lat, double lng)
+    {
+        try {
+            Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
+            List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
+
+            String add = "";
+            if(addresses!=null) {
+
+                if (addresses.size() > 0) {
+                    Address obj = addresses.get(0);
+                    add = obj.getAddressLine(0);
+                    add = add + "\n" + obj.getAdminArea();
+                    add = add + "\n" + obj.getSubAdminArea();
+                    add = add + "\n" + obj.getLocality();
+                    add = add + "\n" + obj.getSubThoroughfare();
+                    Log.d("Area", add);
+                }
+            }
+            return add;
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+            //   Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
     }
 
 

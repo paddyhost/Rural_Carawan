@@ -1,4 +1,4 @@
-package com.hatchers.ruralcaravane.utils;
+package com.hatchers.ruralcaravane.utils.image_utils;
 
 
         import com.android.volley.AuthFailureError;

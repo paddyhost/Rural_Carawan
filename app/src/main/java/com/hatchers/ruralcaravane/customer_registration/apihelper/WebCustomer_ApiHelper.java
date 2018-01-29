@@ -7,7 +7,6 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.NoConnectionError;
@@ -17,27 +16,19 @@ import com.android.volley.Response;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
 import com.hatchers.ruralcaravane.app.MyApplication;
 import com.hatchers.ruralcaravane.constants.WebServiceUrls;
-import com.hatchers.ruralcaravane.file.FileHelper;
-import com.hatchers.ruralcaravane.file.FileType;
-import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.apihelper.WebKitchen_ApiHelper;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
-import com.hatchers.ruralcaravane.utils.VolleyMultipartRequest;
+import com.hatchers.ruralcaravane.utils.image_utils.VolleyMultipartRequest;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;

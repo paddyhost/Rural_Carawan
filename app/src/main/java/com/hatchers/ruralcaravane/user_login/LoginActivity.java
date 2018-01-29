@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.hatchers.ruralcaravane.R;
+import com.hatchers.ruralcaravane.activity.MainMenus;
 import com.hatchers.ruralcaravane.customer_registration.CustomerRegistrationActivity;
 import com.hatchers.ruralcaravane.locality.apihelper.Locality_Web_ApiHelper;
 import com.hatchers.ruralcaravane.locality.listeners.CityListener;
@@ -305,7 +306,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onVillage_Add_Success() {
 
                 localityDialog.dismissWithAnimation();
-                Intent intent = new Intent(LoginActivity.this, CustomerRegistrationActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainMenus.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
                 finish();
