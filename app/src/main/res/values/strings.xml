@@ -1,14 +1,23 @@
 <resources>
     <string name="app_name">RuralCaravan</string>
 
-    <string-array name="House_Type">
+    <string-array name="House_Type_English">
         <item>Please Select House Type</item>
         <item>Karvy</item>
         <item>Brick Stacked</item>
         <item>Brick and Concrete</item>
         <item>Other</item>
     </string-array>
-    <string-array name="Roof_Type">
+
+    <string-array name="House_Type_Marathi">
+        <item>कृपया घराचा प्रकार निवडा </item>
+        <item>कार्वी</item>
+        <item>विटांनी बांधलेले </item>
+        <item>विटा आणि सिमेंटने बांधलेले</item>
+        <item>इतर </item>
+    </string-array>
+
+    <string-array name="Roof_Type_English">
         <item>Please Enter Roof Type</item>
         <item>Plastic and Agriculture Barn</item>
         <item>Brick Roof(Non-Cimental)</item>
@@ -16,13 +25,18 @@
         <item>Concrete</item>
         <item>Other</item>
     </string-array>
+
+    <string-array name="Roof_Type_Marathi">
+        <item>कृपया छताचा प्रकार निवडा</item>
+        <item>प्लास्टिक आणि वखारनी बांधलेले</item>
+        <item>विटांनी बांधलेले </item>
+        <item>Asbestos Sheet</item>
+        <item>सिमेंटने बांधलेले </item>
+        <item>इतर </item>
+    </string-array>
+
     <string name="Rs">\u20B9</string>
 
-
-
-
-
-    
 <!--Marathi Strings-->
     <string name="language_selection">भाषा निवडा</string>
     <string name="marathi">मराठी</string>
@@ -32,9 +46,9 @@
     <string name="password">पासवर्ड</string>
     <string name="new_customer">नवीन ग्राहक</string>
     <string name="chullaha_construction">चूल बांधा</string>
-    <string name="remaining_payment">उर्वरीत पैसे जमा करा</string>
+    <string name="remaining_payment">उर्वरीत पैसे रक्कम टाका</string>
     <string name="save">जतन करा</string>
-    <string name="house_servery">गृह सर्वेक्षण</string>
+    <string name="house_survey">गृह आढावा</string>
     <string name="select_customer">ग्राहक निवडा</string>
     <string name="complete_remaining_construction">उर्वरीत बांधणी पूर्ण करा</string>
     <string name="kitchen_information">चुलीची माहिती</string>
@@ -45,13 +59,18 @@
     <string name="complete_construction_team">बांधणी गट पूर्ण करा</string>
     <string name="add_new_construction_team_member">नवीन बांधणी गट सदस्य जोडा</string>
     <string name="construction_team_member">बांधणी गट सदस्य</string>
+    <string name="construction_team_member_name">बांधणी गट सदस्याचे नाव टाका</string>
+    <string name="construction_team_member_address">बांधणी गट सदस्याचा पत्ता टाका</string>
+    <string name="construction_team_member_mobile">बांधणी गट सदस्याचा मोबाइल नंबर टाका</string>
+    <string name="construction_team_member_age">बांधणी गट सदस्याचे वय टाका</string>
+    <string name="construction_team_information">बांधणी गट माहिती</string>
     <string name="scan">स्कॅन करा</string>
     <string name="kitchen_construction">चूल बांधणी</string>
     <string name="half_costructed_chullha_image">अर्ध्या बांधलेल्या चुलीचा फोटो अपलोड करा</string>
     <string name="complete_costructed_chullha_image">पूर्ण बांधलेल्या चुलीचा फोटो अपलोड करा</string>
     <string name="take_payment">पैसे घ्या</string>
     <string name="scan_aadhar_card">स्कॅन आधार कार्ड</string>
-    <string name="unique_id">विशेष आयडी</string>
+    <string name="unique_id">विशेष आयडी : </string>
     <string name="state">राज्य</string>
     <string name="city">शहर</string>
     <string name="village">गाव</string>
@@ -59,17 +78,17 @@
     <string name="enter_customer_name">ग्राहकाचे नाव टाका </string>
     <string name="enter_customer_address">ग्राहकाचा पत्ता टाका </string>
     <string name="enter_customer_mobile_number">ग्राहकाचा मोबाइल नंबर टाका </string>
-    <string name="enter_customer_age">ग्राहकाचे वय टाका </string>
+    <string name="enter_customer_age">ग्राहकाचे वय टाका</string>
     <string name="male">पुरूष </string>
     <string name="female">महिला</string>
     <string name="please_select_house_type">कृपया घराचा प्रकार निवडा </string>
     <string name="please_select_roof_type">कृपया घराच्या छताचा प्रकार निवडा </string>
-    <string name="kitchen_height">स्वयंपाकघराची उंची  </string>
+    <string name="kitchen_height">स्वयंपाकघराची उंची(फूट)</string>
     <string name="get_geo_location">भौगोलिक स्थान घ्या </string>
     <string name="take_image_of_planned_area">नियोजित चूल क्षेत्राचा फोटो घ्या </string>
-    <string name="receipt_number">पावती नंबर </string>
-    <string name="cost_of_chullaha">चुलीची पूर्ण किंम्मत</string>
-    <string name="paid_amount">जमा केलेली रक्कम </string>
+    <string name="receipt_number">पावती नंबर टाका</string>
+    <string name="cost_of_chullaha">चुलीची पूर्ण रक्कम टाका</string>
+    <string name="paid_amount">जमा केलेली रक्कम टाका</string>
     <string name="enter_amount">रक्कम टाका </string>
     <string name="enter_remaining_amount">उर्वरीत रक्कम टाका </string>
     <string name="upload_payment_receipt">पैशाची पावती अपलोड करा </string>
@@ -77,10 +96,23 @@
     <string name="your_profile">तुमची माहिती</string>
     <string name="logout">बाहेर पडा </string>
     <string name="sync">समक्रमित करा</string>
-
+    <string name="customer_registration">ग्राहकाची नोंदणी </string>
+    <string name="scan_by_id_card">आयडी कार्ड स्कॅन करा </string>
+    <string name="customer_agreement">ग्राहकाच्या पुढील पायऱ्या</string>
+    <string name="no_customer_marathi">एकही ग्राहक उपलब्ध नाही </string>
+    <string name="customer_list_marathi">ग्राहकाची यादी</string>
+    <string name="menu_marathi">मेनू </string>
 
     <!--English Strings-->
 
+    <string name="menu_english">Menus</string>
+    <string name="customer_list_english">Customer List</string>
+    <string name="no_customer_english">No Customer</string>
+    <string name="house_survey1">House type survey</string>
+    <string name="customer_agreement1">Customer Agreement</string>
+    <string name="scan_by_id_card1">Scan By ID Card</string>
+    <string name="construction_team_information1">बांधणी गट माहिती</string>
+    <string name="kitchen_height1">Kitchen Height(in feet)</string>
     <string name="language_selection1">Select Language</string>
     <string name="marathi1">Marathi</string>
     <string name="english1">English</string>
@@ -134,6 +166,9 @@
     <string name="your_profile1">Your Profile</string>
     <string name="logout1">Logout</string>
     <string name="sync1">Sync</string>
-
+    <string name="construction_team_member_name1">Enter member name</string>
+    <string name="construction_team_member_address1">Enter member address</string>
+    <string name="construction_team_member_mobile1">Enter member mobile number</string>
+    <string name="construction_team_member_age1">Enter member age</string>
 
 </resources>

@@ -108,6 +108,8 @@ public class KitchenConstructionFragment extends Fragment {
         return view;
     }
 
+
+
     private void initializations(View view)
     {
         statusTxt = (TextView)view.findViewById(R.id.upload_status);

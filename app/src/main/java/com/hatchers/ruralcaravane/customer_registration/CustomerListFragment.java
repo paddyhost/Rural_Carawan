@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +14,13 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.customer_registration.adapter.CustomerListAdapter;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
 import com.hatchers.ruralcaravane.R;
+import com.hatchers.ruralcaravane.pref_manager.PrefManager;
+import com.hatchers.ruralcaravane.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -29,7 +33,8 @@ public class CustomerListFragment extends Fragment {
     public static final String FROM_CONSTRUCTION = "from_construction";
     public static final String FROM_PAYMENT = "from_payment";
     private String openFrom;
-
+    private PrefManager prefManager;
+    private Toolbar customerListToolbar;
     ArrayList<CustomerTable> customerTables;
 
     public CustomerListFragment()
@@ -66,14 +71,42 @@ public class CustomerListFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_customer__list, container, false);
 
         initializations(view);
-
+        setLanguageToUI();
         setData();
 
+        customerListToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
     return view;
     }
 
+    private void setLanguageToUI()
+
+    {
+        if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
+        {
+            customerListToolbar.setTitle(getResources().getString(R.string.customer_list_marathi));
+
+            no_cust_txt.setText(getResources().getString(R.string.no_customer_marathi));
+            no_cust_txt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+        }
+        else
+        {
+            customerListToolbar.setTitle(getResources().getString(R.string.customer_list_english));
+
+            no_cust_txt.setText(getResources().getString(R.string.no_customer_english));
+            no_cust_txt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+        }
+    }
     private void initializations(View view)
     {
+        prefManager=new PrefManager(getActivity());
+        customerListToolbar=(Toolbar)view.findViewById(R.id.customer_list_toolbar);
         no_cust_txt=(TextView)view.findViewById(R.id.no_cust_txt);
         customerRecyclerView = (RecyclerView) view.findViewById(R.id.customerRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());

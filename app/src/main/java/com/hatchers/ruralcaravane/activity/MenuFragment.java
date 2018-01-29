@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.activity.apihelper.Web_SyncApiHelper;
+import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
@@ -29,6 +30,7 @@ import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 import com.hatchers.ruralcaravane.payment_details.PaymentDetailsListFragment;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
+import com.hatchers.ruralcaravane.utils.Utility;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -81,11 +83,46 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         View view= inflater.inflate(R.layout.fragment_menu, container, false);
 
         initialization(view);
+        setLanguageToUI();
         onClickListeners();
         setCustomerData();
 
-
         return view;
+    }
+
+
+    private void setLanguageToUI()
+    {
+        if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
+        {
+            menuToolbar.setTitle(getResources().getString(R.string.customer_agreement));
+
+            kitchen_linear.setText(getResources().getString(R.string.house_survey));
+            kitchen_linear.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            payment_linear.setText(getResources().getString(R.string.do_payment));
+            payment_linear.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            sync_dataBtn.setText(getResources().getString(R.string.sync));
+            sync_dataBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+
+        }
+        else
+        {
+            menuToolbar.setTitle(getResources().getString(R.string.customer_agreement1));
+
+            kitchen_linear.setText(getResources().getString(R.string.house_survey1));
+            kitchen_linear.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            payment_linear.setText(getResources().getString(R.string.do_payment1));
+            payment_linear.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            sync_dataBtn.setText(getResources().getString(R.string.sync1));
+            sync_dataBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+
+        }
     }
 
 

@@ -25,6 +25,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTable;
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTableHelper;
 import com.hatchers.ruralcaravane.R;
@@ -33,6 +34,7 @@ import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.scaner.AdharScanner;
+import com.hatchers.ruralcaravane.utils.Utility;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,6 +97,7 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_construction_team_details, container, false);
 
         initializations(view);
+        setLanguageToUI();
         onclicklisteners();
         setGender();
 
@@ -102,6 +105,76 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
         return view;
     }
 
+
+    private void setLanguageToUI()
+    {
+        if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
+        {
+            construction_toolbar.setTitle(R.string.construction_team_information);
+
+            register_Byscanid.setText(getResources().getString(R.string.scan_by_id_card));
+            register_Byscanid.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
+
+            construction_member_name.setHint(getResources().getString(R.string.construction_team_member_name));
+            construction_member_name.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+            construction_member_name.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            construction_member_address.setHint(getResources().getString(R.string.construction_team_member_address));
+            construction_member_address.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            construction_member_address.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+            construction_member_age.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+            construction_member_age.setHint(getResources().getString(R.string.construction_team_member_age));
+            construction_member_age.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            construction_member_mobileno.setHint(getResources().getString(R.string.construction_team_member_mobile));
+            construction_member_mobileno.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            construction_member_mobileno.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+            male.setText(getResources().getString(R.string.male));
+            male.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            female.setText(getResources().getString(R.string.female));
+            female.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            saveBtn.setText(getResources().getString(R.string.save));
+            saveBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+        }
+        else
+        {
+            construction_toolbar.setTitle(R.string.construction_team_information1);
+
+            register_Byscanid.setText(getResources().getString(R.string.scan_by_id_card1));
+            register_Byscanid.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
+
+            construction_member_name.setHint(getResources().getString(R.string.construction_team_member_name1));
+            construction_member_name.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+            construction_member_name.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            construction_member_address.setHint(getResources().getString(R.string.construction_team_member_address1));
+            construction_member_address.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            construction_member_address.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+            construction_member_age.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+            construction_member_age.setHint(getResources().getString(R.string.construction_team_member_age1));
+            construction_member_age.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            construction_member_mobileno.setHint(getResources().getString(R.string.construction_team_member_mobile1));
+            construction_member_mobileno.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            construction_member_mobileno.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+            male.setText(getResources().getString(R.string.male1));
+            male.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            female.setText(getResources().getString(R.string.female1));
+            female.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            saveBtn.setText(getResources().getString(R.string.save1));
+            saveBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+        }
+    }
     private void initializations(View view)
     {
         ((AppCompatActivity) getActivity()).setSupportActionBar(construction_toolbar);

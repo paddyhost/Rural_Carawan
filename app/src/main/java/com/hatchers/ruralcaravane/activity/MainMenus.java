@@ -3,6 +3,7 @@ package com.hatchers.ruralcaravane.activity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ public class MainMenus extends AppCompatActivity
 {
     private Button btnNewCustomer, btnConsturctChulha, btnCollectCash;
     private PrefManager prefManager;
+    private Toolbar mainMenusToolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -36,6 +38,7 @@ public class MainMenus extends AppCompatActivity
 
     private void initializations()
     {
+        mainMenusToolbar=(Toolbar)findViewById(R.id.mainMenus_toolbar);
         prefManager = new PrefManager(MainMenus.this);
         btnNewCustomer = (Button)findViewById(R.id.btn_add_new_cust);
         btnConsturctChulha = (Button)findViewById(R.id.btn_const_chulha);
@@ -46,6 +49,8 @@ public class MainMenus extends AppCompatActivity
     {
         if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
         {
+            mainMenusToolbar.setTitle(getResources().getString(R.string.customer_agreement));
+
             btnNewCustomer.setText(getResources().getString(R.string.new_customer));
             btnNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,20));
             btnCollectCash.setText(getResources().getString(R.string.do_payment));
@@ -55,6 +60,8 @@ public class MainMenus extends AppCompatActivity
         }
         else
         {
+            mainMenusToolbar.setTitle(getResources().getString(R.string.menu_english));
+
             btnNewCustomer.setText("New Customer");
             btnNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,20));
             btnCollectCash.setText("Collect Cash");

@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".customer_registration.AddCustomerFragment"
     android:fillViewport="true">
+
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:id="@+id/addCustomer_toolbar"
+        android:background="@color/colorPrimary"
+        app:titleTextColor="@color/colorWhite"
+        app:navigationIcon="@drawable/ic_arrow_back_white_24dp">
+    </android.support.v7.widget.Toolbar>
+
+
+    <ScrollView
+        android:layout_below="@id/addCustomer_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,6 +39,7 @@
             android:text="Customer Registration"
             android:textColor="@color/black"
             android:textSize="16dp"
+            android:visibility="gone"
             android:textStyle="bold" />
 
 
@@ -77,12 +94,12 @@
         android:weightSum="2">
 
             <TextView
-                android:id="@+id/uniqueIdText"
+                android:id="@+id/uniqueId_Text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:drawableLeft="@drawable/unique_id"
-                android:drawablePadding="16dp"
+                android:drawablePadding="12dp"
                 android:gravity="center_vertical"
                 android:text="Unique Id : "
                 android:textColor="@color/black"
@@ -90,16 +107,17 @@
                 android:textStyle="bold" />
 
 
-        <TextView
-            android:id="@+id/uniqueIdTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:singleLine="true"
-            android:text="sdfsdfsdfsdf"
-            android:textColor="@color/black"
-            android:textSize="16dp" />
+            <TextView
+                android:id="@+id/uniqueId_Txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:layout_marginLeft="10dp"
+                android:singleLine="true"
+                android:text="sdfsdfsdfsdf"
+                android:textColor="@color/black"
+                android:textSize="16dp" />
 
     </LinearLayout>
 
@@ -117,6 +135,7 @@
             android:text="State"
             android:textColor="@color/black"
             android:textStyle="bold"
+            android:id="@+id/state_txt"
             android:layout_marginBottom="10dp"/>
 
         <LinearLayout
@@ -152,6 +171,7 @@
         android:text="City"
         android:textColor="@color/black"
         android:textStyle="bold"
+            android:id="@+id/city_txt"
             android:layout_marginBottom="10dp"/>
 
     <LinearLayout
@@ -179,6 +199,7 @@
             android:layout_marginLeft="30dp"
         android:layout_marginTop="16dp"
         android:text="Village"
+            android:id="@+id/village_txt"
         android:textColor="@color/black"
         android:textStyle="bold" />
     <LinearLayout
@@ -219,11 +240,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputEditText
+            <EditText
                 android:id="@+id/aadhar_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Aadhar Number"
                 android:imeOptions="actionNext"
                 android:inputType="number"
                 android:maxEms="12"
@@ -254,11 +274,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputEditText
+            <EditText
                 android:id="@+id/customer_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Customer Name "
                 android:imeOptions="actionNext"
                 android:inputType="textCapWords"
                 android:singleLine="true"
@@ -287,11 +306,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputEditText
+            <EditText
                 android:id="@+id/customer_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Customer Address"
                 android:inputType="textCapWords"
                 android:paddingBottom="16dp"
                 android:textSize="14dp"/>
@@ -318,11 +336,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputEditText
+            <EditText
                 android:id="@+id/customer_mobileno"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Customer Mobile Number "
                 android:imeOptions="actionDone"
                 android:inputType="number"
                 android:maxEms="10"
@@ -353,11 +370,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <android.support.design.widget.TextInputEditText
+            <EditText
                 android:id="@+id/customer_age_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Enter Customer Age"
                 android:inputType="number"
                 android:maxLength="2"
                 android:minEms="2"
@@ -413,4 +429,5 @@
             android:textColor="@color/colorWhite" />
 
 </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</RelativeLayout>

@@ -44,12 +44,17 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.hatchers.ruralcaravane.R;
+import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
+import com.hatchers.ruralcaravane.pref_manager.PrefManager;
+import com.hatchers.ruralcaravane.utils.Utility;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,7 +82,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
     private ImageView place_image;
     private Button upload;
     KitchenTable kitchen_table;
-    private TextView kitchenUniqueIdText;
+    private TextView kitchenUniqueIdText,uniqueId_Txt,text1;
     ArrayAdapter<CharSequence> house_survey_adapter,roof_type_adapter;
     private Button btnGetLocation;
     private CustomerTable customertable;
@@ -89,6 +94,8 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
     private LocationRequest mLocationRequest;
     private LocationListener locationListener;
     public static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 99;
+    private PrefManager prefManager;
+
 
     public AddKitchenSuitabilityFragment()
     {
@@ -124,8 +131,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         View view = inflater.inflate(R.layout.fragment_add_kitchen__suitability, container, false);
 
         initializations(view);
-        setHouseTypeSpinner();
-        setRoof_typeSpinner();
+        setLanguageToUI();
         toolbarClickListener();
         placeImageClickListener();
         saveKitchenClickListener();
@@ -136,11 +142,73 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
     }
 
 
+    private void setLanguageToUI()
+    {
+        if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
+        {
+            kitchen_toolbar.setTitle(getResources().getString(R.string.kitchen_information));
+
+            uniqueId_Txt.setText(getResources().getString(R.string.unique_id));
+            uniqueId_Txt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            kitchenUniqueIdText.setText(getResources().getString(R.string.unique_id));
+            kitchenUniqueIdText.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            kitchen_height.setHint(getResources().getString(R.string.kitchen_height));
+            kitchen_height.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+            kitchen_height.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            btnGetLocation.setText(getResources().getString(R.string.get_geo_location));
+            btnGetLocation.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            text1.setText(getResources().getString(R.string.take_image_of_planned_area));
+            text1.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+
+            setHouseTypeSpinner(R.array.House_Type_Marathi);
+
+            setRoof_typeSpinner(R.array.Roof_Type_Marathi);
+
+            upload.setText(getResources().getString(R.string.save));
+            upload.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+
+        }
+        else
+        {
+            kitchen_toolbar.setTitle(getResources().getString(R.string.kitchen_information1));
+
+            uniqueId_Txt.setText(getResources().getString(R.string.unique_id1));
+            uniqueId_Txt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            kitchenUniqueIdText.setText(getResources().getString(R.string.unique_id1));
+            kitchenUniqueIdText.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            kitchen_height.setHint(getResources().getString(R.string.kitchen_height1));
+            kitchen_height.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+            kitchen_height.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            btnGetLocation.setText(getResources().getString(R.string.get_geo_location1));
+            btnGetLocation.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            text1.setText(getResources().getString(R.string.take_image_of_planned_area1));
+            text1.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            upload.setText(getResources().getString(R.string.save1));
+            upload.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            setHouseTypeSpinner(R.array.House_Type_English);
+
+            setRoof_typeSpinner(R.array.Roof_Type_English);
+        }
+    }
+
     private void initializations(View view)
     {
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         kitchen_table = new KitchenTable();
 
+        prefManager = new PrefManager(getActivity());
         kitchen_toolbar = (Toolbar) view.findViewById(R.id.kitchen_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(kitchen_toolbar);
         house_type = (Spinner) view.findViewById(R.id.house_type_survey);
@@ -150,6 +218,8 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         upload = (Button) view.findViewById(R.id.upload);
         kitchenUniqueIdText=(TextView)view.findViewById(R.id.kitchenUniqueIdText);
         btnGetLocation = (Button)view.findViewById(R.id.get_location);
+        uniqueId_Txt=(TextView)view.findViewById(R.id.uniqueIdTxt);
+        text1=(TextView)view.findViewById(R.id.text1);
 
         if (android.os.Build.VERSION.SDK_INT >= 21)
         {
@@ -169,22 +239,22 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         setLocationListner();
     }
 
-    private void setHouseTypeSpinner()
+    private void setHouseTypeSpinner(int houseTypeArray)
     {
         house_type.setOnItemSelectedListener(this);
 
         house_survey_adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.House_Type, android.R.layout.simple_spinner_item);
+                houseTypeArray, android.R.layout.simple_spinner_item);
         house_survey_adapter.setDropDownViewResource(R.layout.spinner_item);
         house_type.setAdapter(house_survey_adapter);
     }
 
-    private void setRoof_typeSpinner()
+    private void setRoof_typeSpinner(int roofTypeArray)
     {
         roof_type.setOnItemSelectedListener(this);
 
         roof_type_adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.Roof_Type, android.R.layout.simple_spinner_item);
+                roofTypeArray, android.R.layout.simple_spinner_item);
         roof_type_adapter.setDropDownViewResource(R.layout.spinner_item);
         roof_type.setAdapter(roof_type_adapter);
     }
@@ -469,8 +539,6 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
 
                 response = false;
             }
-
-
 
         return response;
     }

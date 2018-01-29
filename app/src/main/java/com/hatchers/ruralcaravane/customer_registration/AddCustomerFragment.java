@@ -1,6 +1,7 @@
 package com.hatchers.ruralcaravane.customer_registration;
 
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -13,8 +14,10 @@ import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.util.Xml;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -22,13 +25,16 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.hatchers.ruralcaravane.R;
+import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.customer_registration.apihelper.WebCustomer_ApiHelper;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
@@ -43,6 +49,7 @@ import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.locality.database.VillageTableHelper;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.scaner.AdharScanner;
+import com.hatchers.ruralcaravane.utils.Utility;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -73,15 +80,17 @@ public class AddCustomerFragment extends Fragment {
     private FloatingActionButton fab;
     private RadioGroup radioGroupGender;
     private RadioButton male, female;
-    private TextView uniqueIdTxt;
+    private TextView uniqueIdTxt,txt_customerRegistration,uniqueIdText,stateTxt,cityTxt,villageTxt;
     private CircleImageView profileImage;
-    private TextInputEditText customer_name, customer_address, customer_mobileno, customer_age,aadhar_id;
+    private EditText customer_name, customer_address, customer_mobileno, customer_age,aadhar_id;
     private Spinner citySpinner, villageSpinner ,stateSpinner;
     private ArrayList<CityTable> cityArrayList;
     private ArrayList<VillageTable> villageArrayList;
     private ArrayList<StateTable> stateArrayList;
     private String villageId,cityid,stateId;
     private int RESULT_CANCELED;
+    private Toolbar addCustomerToolbar;
+    private PrefManager prefManager;
 
 
     public AddCustomerFragment()
@@ -96,16 +105,139 @@ public class AddCustomerFragment extends Fragment {
         View view= inflater.inflate(R.layout.fragment_add__customer, container, false);
 
         initializations(view);
+        setLanguageToUI();
         generateUniqueId();
         onclicklisteners();
-
         setStateSpinnerList();
         stateSelectedListener();
 
         setGender();
 
+
         return view;
     }
+
+    private void setLanguageToUI()
+    {
+        if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
+        {
+            addCustomerToolbar.setTitle(getResources().getString(R.string.new_customer));
+
+            txt_customerRegistration.setText(getResources().getString(R.string.customer_registration));
+            txt_customerRegistration.setTextSize(Utility.getConvertFloatToDP(getActivity(),15));
+
+            ScanByAadhar.setText(getResources().getString(R.string.scan_aadhar_card));
+            ScanByAadhar.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
+
+            uniqueIdText.setText(getResources().getString(R.string.unique_id));
+            uniqueIdText.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            uniqueIdTxt.setText(getResources().getString(R.string.unique_id));
+            uniqueIdTxt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            stateTxt.setText(getResources().getString(R.string.state));
+            stateTxt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            cityTxt.setText(getResources().getString(R.string.city));
+            cityTxt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            villageTxt.setText(getResources().getString(R.string.village));
+            villageTxt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+
+            aadhar_id.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            aadhar_id.setHint(getResources().getString(R.string.enter_aadhar_number));
+            aadhar_id.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+
+            customer_name.setHint(getResources().getString(R.string.enter_customer_name));
+            customer_name.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            customer_name.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+
+            customer_address.setHint(getResources().getString(R.string.enter_customer_address));
+            customer_address.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            customer_address.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+
+            customer_mobileno.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            customer_mobileno.setHint(getResources().getString(R.string.enter_customer_mobile_number));
+            customer_mobileno.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+
+            customer_age.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            customer_age.setHint(getResources().getString(R.string.enter_customer_age));
+            customer_age.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+            male.setText(getResources().getString(R.string.male));
+            male.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            female.setText(getResources().getString(R.string.female));
+            female.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            save.setText(getResources().getString(R.string.save));
+            save.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+        }
+        else
+        {
+            addCustomerToolbar.setTitle(getResources().getString(R.string.customer_information1));
+
+            txt_customerRegistration.setText("Customer Registration");
+            txt_customerRegistration.setTextSize(Utility.getConvertFloatToDP(getActivity(),15));
+
+            ScanByAadhar.setText(getResources().getString(R.string.scan_aadhar_card1));
+            ScanByAadhar.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
+
+            uniqueIdText.setText(getResources().getString(R.string.unique_id1));
+            uniqueIdText.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            uniqueIdTxt.setText(getResources().getString(R.string.unique_id1));
+            uniqueIdTxt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            stateTxt.setText(getResources().getString(R.string.state1));
+            stateTxt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            cityTxt.setText(getResources().getString(R.string.city1));
+            cityTxt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            villageTxt.setText(getResources().getString(R.string.village1));
+            villageTxt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            aadhar_id.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            aadhar_id.setHint(getResources().getString(R.string.enter_aadhar_number1));
+            aadhar_id.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+            customer_name.setHint(getResources().getString(R.string.enter_customer_name1));
+            customer_name.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            customer_name.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+
+            customer_address.setHint(getResources().getString(R.string.enter_customer_address1));
+            customer_address.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            customer_address.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+
+            customer_mobileno.setHint(getResources().getString(R.string.enter_customer_mobile_number1));
+            customer_mobileno.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            customer_mobileno.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+
+            customer_age.setHint(getResources().getString(R.string.enter_customer_age1));
+            customer_age.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            customer_age.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+            male.setText(getResources().getString(R.string.male1));
+            male.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            female.setText(getResources().getString(R.string.female1));
+            female.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            save.setText(getResources().getString(R.string.save1));
+            save.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+        }
+    }
+
 
     private void initializations(View view)
     {
@@ -115,14 +247,16 @@ public class AddCustomerFragment extends Fragment {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
         }
+        prefManager = new PrefManager(getActivity());
+        addCustomerToolbar=(Toolbar)view.findViewById(R.id.addCustomer_toolbar);
         cityArrayList =new ArrayList<CityTable>();
         villageArrayList = new ArrayList<VillageTable>();
         stateArrayList=new ArrayList<StateTable>();
         save = (Button) view.findViewById(R.id.saveBtn);
-        customer_name = (TextInputEditText) view.findViewById(R.id.customer_name);
-        customer_address = (TextInputEditText) view.findViewById(R.id.customer_address);
-        customer_mobileno = (TextInputEditText) view.findViewById(R.id.customer_mobileno);
-        customer_age = (TextInputEditText) view.findViewById(R.id.customer_age_txt);
+        customer_name = (EditText) view.findViewById(R.id.customer_name);
+        customer_address = (EditText) view.findViewById(R.id.customer_address);
+        customer_mobileno = (EditText) view.findViewById(R.id.customer_mobileno);
+        customer_age = (EditText) view.findViewById(R.id.customer_age_txt);
         radioGroupGender = (RadioGroup) view.findViewById(R.id.radio_gender);
         male = (RadioButton) view.findViewById(R.id.male);
         female = (RadioButton) view.findViewById(R.id.female);
@@ -133,7 +267,13 @@ public class AddCustomerFragment extends Fragment {
         citySpinner = (Spinner)view.findViewById(R.id.city_spinner);
         villageSpinner = (Spinner)view.findViewById(R.id.village_spinner);
         stateSpinner=(Spinner)view.findViewById(R.id.state_spinner);
-        aadhar_id=(TextInputEditText)view.findViewById(R.id.aadhar_id);
+        aadhar_id=(EditText)view.findViewById(R.id.aadhar_id);
+        txt_customerRegistration=(TextView)view.findViewById(R.id.customerRegistration_txt);
+        uniqueIdText=(TextView)view.findViewById(R.id.uniqueId_Text);
+        uniqueIdTxt=(TextView)view.findViewById(R.id.uniqueId_Txt);
+        stateTxt=(TextView)view.findViewById(R.id.state_txt);
+        cityTxt=(TextView)view.findViewById(R.id.city_txt);
+        villageTxt=(TextView)view.findViewById(R.id.village_txt);
     }
 
     private void setStateSpinnerList()
@@ -225,6 +365,14 @@ public class AddCustomerFragment extends Fragment {
 
     private void onclicklisteners()
     {
+
+        addCustomerToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

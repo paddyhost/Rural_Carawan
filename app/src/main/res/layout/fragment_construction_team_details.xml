@@ -30,15 +30,6 @@
                 android:id="@+id/const_back"
                 android:src="@drawable/ic_arrow_back_black_24dp"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/toolbar_title"
-                android:layout_gravity="start|center"
-                android:textColor="@color/colorWhite"
-                android:text="Construction Team Details"
-                android:layout_marginLeft="15dp"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"/>
 
         </LinearLayout>
 
@@ -103,7 +94,6 @@
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:hint="Enter Member Name "
                         android:imeOptions="actionNext"
                         android:id="@+id/construction_member_name"
                         android:inputType="textCapWords"
@@ -136,7 +126,6 @@
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:hint="Enter Member Address "
                     android:id="@+id/construction_member_address"
                     android:inputType="textCapWords"
                     android:textSize="14dp"
@@ -168,7 +157,6 @@
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:hint="Enter Member Mobile Number"
                     android:id="@+id/construction_member_mobileno"
                     android:imeOptions="actionDone"
                     android:inputType="number"
@@ -202,7 +190,6 @@
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:hint="Enter Member Age"
                     android:layout_gravity="center"
                     android:id="@+id/construction_member_age"
                     android:inputType="number"

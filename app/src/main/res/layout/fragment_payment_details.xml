@@ -11,7 +11,6 @@
         android:layout_height="54dp"
         app:contentInsetStart="0dp"
         app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-        app:title="Payment Details"
         app:titleTextColor="@color/colorWhite"
         android:background="@color/colorAccent"
         android:id="@+id/payment_toolbar">
@@ -54,7 +53,6 @@
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Enter Receipt Number"
                         android:imeOptions="actionNext"
                         android:id="@+id/receipt_number"
                         android:inputType="number"
@@ -89,7 +87,6 @@
                     <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Enter Cost Of Chullha "
                         android:imeOptions="actionNext"
                         android:id="@+id/payment_amount"
                         android:inputType="number"
@@ -124,7 +121,6 @@
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Enter Total Paid "
                     android:imeOptions="actionNext"
                     android:id="@+id/paid_amount"
                     android:inputType="number"
@@ -158,7 +154,6 @@
                 <android.support.design.widget.TextInputEditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Enter Remaining Amount "
                     android:imeOptions="actionNext"
                     android:id="@+id/remaining_amount"
                     android:inputType="number"
