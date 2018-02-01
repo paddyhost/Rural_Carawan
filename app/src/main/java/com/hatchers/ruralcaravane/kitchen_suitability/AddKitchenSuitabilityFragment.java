@@ -102,7 +102,6 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
     public static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 99;
     private PrefManager prefManager;
     private FragmentTransaction fragmentTransaction;
-    private CustomerTable customerTable;
     private PaymentTable paymentTable;
     private ArrayList<KitchenTable> kitchenTableArrayList;
 
@@ -143,8 +142,8 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         setLanguageToUI();
         toolbarClickListener();
         placeImageClickListener();
-        saveKitchenClickListener();
         getLocationClickListener();
+        saveKitchenClickListener();
         generateUniqueId();
 
         return view;
@@ -341,7 +340,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
 */
 
                                         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                                        PaymentDetailsFragment paymentDetailsFragment = PaymentDetailsFragment.getInstance(customerTable,paymentTable);
+                                        PaymentDetailsFragment paymentDetailsFragment = PaymentDetailsFragment.getInstance(customertable,paymentTable);
                                         fragmentTransaction.replace(R.id.frame_layout,paymentDetailsFragment).addToBackStack(null).commit();
 
                                         //getActivity().onBackPressed();
@@ -696,8 +695,8 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         super.onStop();
         //Disconnect the google client api connection.
         if (mGoogleApiClient != null) {
-            mGoogleApiClient.disconnect();
             stopLocationUpdates();
+            mGoogleApiClient.disconnect();
         }
     }
 
