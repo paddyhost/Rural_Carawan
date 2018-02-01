@@ -24,7 +24,7 @@ public class CustomerMenus extends AppCompatActivity {
     {
         FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
         MenuFragment menuFragment = MenuFragment.getInstance(customer);
-        fragmentTransaction.replace(R.id.frame_layout,menuFragment).commit();
+        fragmentTransaction.replace(R.id.customer_frame_layout,menuFragment).commit();
     }
 
 

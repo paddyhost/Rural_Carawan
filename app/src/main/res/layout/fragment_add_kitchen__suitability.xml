@@ -51,10 +51,11 @@
                     android:drawableLeft="@drawable/unique_id"
                     android:drawablePadding="11dp"
                     android:text="Unique Id:"
-                    android:textSize="20dp"
+                    android:textSize="16dp"
                     android:textStyle="bold"
                     android:layout_weight="1"
                     android:layout_width="0dp"
+                    android:gravity="center|start"
                     android:layout_height="wrap_content"
                     android:id="@+id/uniqueIdTxt"
                     android:textColor="@color/black"/>
@@ -67,6 +68,8 @@
                     android:textSize="16dp"
                     android:id="@+id/kitchenUniqueIdText"
                     android:layout_weight="1"
+                    android:singleLine="true"
+                    android:gravity="center|start"
                     android:textColor="@color/black"/>
 
             </LinearLayout>
@@ -213,8 +216,10 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorWhite"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="30dp"
+            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_marginLeft="30dp"
             android:text="Save"
             android:id="@+id/upload"/>

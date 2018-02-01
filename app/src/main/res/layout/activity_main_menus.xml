@@ -40,7 +40,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginRight="40dp"
         android:layout_marginLeft="40dp"
-        android:text="@string/chullaha_construction"
+        android:text="@string/chullaha_construction_marathi"
         android:textSize="30dp"
         android:id="@+id/btn_const_chulha"
         android:textColor="@color/white"
@@ -52,7 +52,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginRight="40dp"
             android:layout_marginLeft="40dp"
-            android:text="@string/do_payment"
+            android:text="@string/do_payment_marathi"
             android:textSize="30dp"
             android:id="@+id/btn_collect_cash"
             android:textColor="@color/white"
@@ -64,7 +64,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/frame" />
+        android:id="@+id/frame_layout" />
 
 
 </RelativeLayout>

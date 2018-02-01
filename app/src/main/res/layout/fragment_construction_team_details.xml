@@ -4,39 +4,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:nestedScrollingEnabled="true"
-    xmlns:squint="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorWhite"
+    android:background="@color/white"
     tools:context=".construction_team.ConstructionTeamRegistrationFragment">
 
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPrimary"
         app:contentInsetStart="0dp"
-        android:id="@+id/construction_toolbar">
+        app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+        android:id="@+id/construction_team_toolbar"
+        app:titleTextColor="@color/colorWhite">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:id="@+id/const_back"
-                android:src="@drawable/ic_arrow_back_black_24dp"/>
-
-
-        </LinearLayout>
 
     </android.support.v7.widget.Toolbar>
 
     <ScrollView
-        android:layout_below="@id/construction_toolbar"
+        android:layout_below="@id/construction_team_toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:isScrollContainer="false"
@@ -51,8 +36,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/customerRegistration_txt"
-                android:text="@string/construction_team_member"
+                android:id="@+id/constructionRegistration_txt"
+                android:text="@string/construction_team_member_english"
                 android:layout_marginTop="16dp"
                 android:textColor="@color/black"
                 android:textSize="16dp"
@@ -98,8 +83,7 @@
                         android:id="@+id/construction_member_name"
                         android:inputType="textCapWords"
                         android:singleLine="true"
-                        android:textSize="14dp"
-                        android:paddingBottom="15dp"/>
+                        android:textSize="14dp" />
 
                 </android.support.design.widget.TextInputLayout>
             </LinearLayout>
@@ -128,8 +112,7 @@
                     android:layout_height="40dp"
                     android:id="@+id/construction_member_address"
                     android:inputType="textCapWords"
-                    android:textSize="14dp"
-                    android:paddingBottom="15dp"/>
+                    android:textSize="14dp" />
 
             </android.support.design.widget.TextInputLayout>
             </LinearLayout>
@@ -162,8 +145,7 @@
                     android:inputType="number"
                     android:maxLength="10"
                     android:singleLine="true"
-                    android:textSize="14dp"
-                    android:paddingBottom="15dp"/>
+                    android:textSize="14dp" />
 
             </android.support.design.widget.TextInputLayout>
             </LinearLayout>
@@ -195,8 +177,7 @@
                     android:inputType="number"
                     android:maxLength="2"
                     android:singleLine="true"
-                    android:textSize="14dp"
-                    android:paddingBottom="15dp"/>
+                    android:textSize="14dp" />
 
             </android.support.design.widget.TextInputLayout>
 
@@ -222,7 +203,6 @@
                     <RadioButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorAccent"
                         android:id="@+id/male"
                         android:text="Male"/>
 
@@ -231,7 +211,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-                        android:textColor="@color/colorAccent"
                         android:id="@+id/female"
                         android:text="Female" />
                 </RadioGroup>
@@ -246,7 +225,7 @@
                 android:background="@color/colorPrimary"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
                 android:textColor="@color/colorWhite"
                 android:id="@+id/saveBtn"

@@ -100,7 +100,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
             kitchen_linear.setText(getResources().getString(R.string.house_survey));
             kitchen_linear.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
-            payment_linear.setText(getResources().getString(R.string.do_payment));
+            payment_linear.setText(getResources().getString(R.string.do_payment_marathi));
             payment_linear.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
             sync_dataBtn.setText(getResources().getString(R.string.sync));
@@ -115,7 +115,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
             kitchen_linear.setText(getResources().getString(R.string.house_survey1));
             kitchen_linear.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
-            payment_linear.setText(getResources().getString(R.string.do_payment1));
+            payment_linear.setText(getResources().getString(R.string.do_payment_english));
             payment_linear.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
             sync_dataBtn.setText(getResources().getString(R.string.sync1));
@@ -175,14 +175,14 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         {
             case R.id.kitchen_linear:
 
-                    ArrayList<KitchenTable> kitchenTableArrayList=KitchenTableHelper.getKitchenDataList(getContext(),customertable);
+                ArrayList<KitchenTable> kitchenTableArrayList=KitchenTableHelper.getKitchenDataList(getContext(),customertable);
 
                 if (kitchenTableArrayList != null)
                 {
                     if(kitchenTableArrayList.size()<=0)
                     {
-                        AddKitchenSuitabilityFragment addKitchenSuitabilityFragment = AddKitchenSuitabilityFragment.getInstance(customertable);
-                        fragmentTransaction.replace(R.id.frame_layout, addKitchenSuitabilityFragment).addToBackStack(null).commit();
+                        //AddKitchenSuitabilityFragment addKitchenSuitabilityFragment = AddKitchenSuitabilityFragment.getInstance(customertable);
+                        //fragmentTransaction.replace(R.id.frame_layout, addKitchenSuitabilityFragment).addToBackStack(null).commit();
                     }
                     else
                     {

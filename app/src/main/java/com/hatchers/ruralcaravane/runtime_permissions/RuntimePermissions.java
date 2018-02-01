@@ -149,7 +149,6 @@ public class RuntimePermissions {
     }
 
 
-
     public static boolean isNetworkConnectionAvailable(final Activity activity){
         ConnectivityManager cm =(ConnectivityManager)activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 

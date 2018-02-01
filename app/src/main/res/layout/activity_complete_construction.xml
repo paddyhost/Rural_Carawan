@@ -1,60 +1,75 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_centerInParent="true"
-    android:layout_centerVertical="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="com.hatchers.ruralcaravane.kitchen_suitability.KitchenDetailsFragment">
+    android:background="@color/white">
 
     <android.support.v7.widget.Toolbar
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/kitchen_deatils_toolbar"
-        app:title="@string/complete_remaining_construction"
+        android:layout_height="54dp"
+        android:id="@+id/complete_construction_toolbar"
         android:background="@color/colorPrimary"
         app:titleTextColor="@color/colorWhite"
         app:navigationIcon="@drawable/ic_arrow_back_white_24dp">
 
     </android.support.v7.widget.Toolbar>
 
+
+    <LinearLayout
+        android:layout_below="@id/complete_construction_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+
     <Button
         android:id="@+id/make_construction_team"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="80dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginTop="90dp"
         android:background="@color/colorPrimary"
-        android:text="@string/make_construction_team"
+        android:text="@string/make_construction_team_marathi"
         android:textColor="@color/colorWhite"
-        android:textSize="18dp"
+        android:textSize="30dp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/upload_chullaha_photos"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
         android:layout_marginTop="25dp"
+        android:textSize="30dp"
         android:background="@color/colorPrimary"
-        android:text="@string/upload_kitchen_photo"
+        android:text="@string/upload_kitchen_photo_marathi"
         android:textColor="@color/colorWhite"
-        android:textSize="18dp"
         android:textStyle="bold" />
 
     <Button
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:textSize="18dp"
+        android:textSize="30dp"
         android:textStyle="bold"
         android:layout_marginTop="25dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         android:id="@+id/do_payment"
         android:textColor="@color/colorWhite"
         android:background="@color/colorPrimary"
-        android:text="@string/do_payment"/>
-</LinearLayout>
+        android:text="@string/do_payment_marathi"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/complete_construction_frame">
+
+    </FrameLayout>
+</RelativeLayout>
+
+

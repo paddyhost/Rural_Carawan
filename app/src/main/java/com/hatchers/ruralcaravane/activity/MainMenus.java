@@ -7,20 +7,25 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.customer_registration.AddCustomerFragment;
 import com.hatchers.ruralcaravane.customer_registration.CustomerListFragment;
+import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.AddKitchenSuitabilityFragment;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.utils.Utility;
+
+import java.util.ArrayList;
 
 public class MainMenus extends AppCompatActivity
 {
     private Button btnNewCustomer, btnConsturctChulha, btnCollectCash;
     private PrefManager prefManager;
     private Toolbar mainMenusToolbar;
+    private ArrayList<CustomerTable> customerTableArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -53,9 +58,9 @@ public class MainMenus extends AppCompatActivity
 
             btnNewCustomer.setText(getResources().getString(R.string.new_customer));
             btnNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,20));
-            btnCollectCash.setText(getResources().getString(R.string.do_payment));
+            btnCollectCash.setText(getResources().getString(R.string.do_payment_marathi));
             btnCollectCash.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,20));
-            btnConsturctChulha.setText(getResources().getString(R.string.chullaha_construction));
+            btnConsturctChulha.setText(getResources().getString(R.string.chullaha_construction_marathi));
             btnConsturctChulha.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,20));
         }
         else
@@ -63,11 +68,11 @@ public class MainMenus extends AppCompatActivity
             mainMenusToolbar.setTitle(getResources().getString(R.string.menu_english));
 
             btnNewCustomer.setText("New Customer");
-            btnNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,20));
+            btnNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,15));
             btnCollectCash.setText("Collect Cash");
-            btnNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,20));
+            btnNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,15));
             btnConsturctChulha.setText("Construct Chulha");
-            btnNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,20));
+            btnNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,15));
         }
     }
 
@@ -79,7 +84,7 @@ public class MainMenus extends AppCompatActivity
             {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 AddCustomerFragment addKitchenSuitabilityFragment = new AddCustomerFragment();
-                fragmentTransaction.replace(R.id.frame, addKitchenSuitabilityFragment).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.frame_layout, addKitchenSuitabilityFragment).addToBackStack(null).commit();
             }
         });
 
@@ -89,7 +94,8 @@ public class MainMenus extends AppCompatActivity
             {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 CustomerListFragment customerListFragment = CustomerListFragment.getInstance(CustomerListFragment.FROM_CONSTRUCTION);
-                fragmentTransaction.replace(R.id.frame, customerListFragment).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.frame_layout, customerListFragment).addToBackStack(null).commit();
+
             }
         });
 
@@ -99,7 +105,7 @@ public class MainMenus extends AppCompatActivity
             {
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 CustomerListFragment customerListFragment = CustomerListFragment.getInstance(CustomerListFragment.FROM_PAYMENT);
-                fragmentTransaction.replace(R.id.frame, customerListFragment).addToBackStack(null).commit();
+                fragmentTransaction.replace(R.id.frame_layout, customerListFragment).addToBackStack(null).commit();
             }
         });
     }

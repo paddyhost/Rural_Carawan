@@ -2,6 +2,8 @@ package com.hatchers.ruralcaravane.customer_registration.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,9 +11,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.hatchers.ruralcaravane.activity.CustomerMenus;
-import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.R;
+import com.hatchers.ruralcaravane.activity.CompleteConstructionActivity;
+import com.hatchers.ruralcaravane.customer_registration.CustomerListFragment;
+import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
+import com.hatchers.ruralcaravane.payment_details.PaymentDetailsFragment;
+import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
 
 import java.util.ArrayList;
 
@@ -22,10 +27,16 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
 
     private Context context;
     CustomerTable customerTable;
+    PaymentTable paymentTable;
     private ArrayList<CustomerTable> customerTableArrayList;
+    private FragmentTransaction fragmentTransaction;
+    public static final String OPEN_FROM = "open_from";
+    public static final String FROM_CONSTRUCTION = "from_construction";
+    private String openFrom;
 
-    public CustomerListAdapter(Context context, ArrayList<CustomerTable> customerTableArrayList) {
+    public CustomerListAdapter(Context context, ArrayList<CustomerTable> customerTableArrayList,String openFrom) {
         this.context = context;
+        this.openFrom=openFrom;
         this.customerTableArrayList = customerTableArrayList;
     }
 
@@ -56,15 +67,22 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_CONSTRUCTION)) {
+                    Intent intent = new Intent(context, CompleteConstructionActivity.class);
+                    intent.putExtra(CustomerTable.CUSTOMER_TABLE, customerTable);
+                    context.startActivity(intent);
+                }
+                else if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_PAYMENT))
+                {
+                    fragmentTransaction =((AppCompatActivity)context).getSupportFragmentManager().beginTransaction();
+                    PaymentDetailsFragment paymentDetailsFragment = PaymentDetailsFragment.getInstance(customerTable,paymentTable);
+                    fragmentTransaction.replace(R.id.frame_layout, paymentDetailsFragment).addToBackStack(null).commit();
 
-                Intent intent=new Intent(context, CustomerMenus.class);
-                intent.putExtra(CustomerTable.CUSTOMER_TABLE,customerTable);
-                context.startActivity(intent);
+                }
+
 
             }
         });
-
-
 
     }
 

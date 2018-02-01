@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.constants.AppConstants;
+import com.hatchers.ruralcaravane.customer_registration.CustomerListFragment;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
@@ -48,7 +50,6 @@ import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateT
 public class PaymentDetailsFragment extends Fragment {
 
 
-
     private int CAMERA = 1;
     private int RESULT_CANCELED;
     Bitmap payBitmap;
@@ -62,7 +63,6 @@ public class PaymentDetailsFragment extends Fragment {
     PaymentTable oldPaymentTable;
     private PrefManager prefManager;
     private TextView text1;
-
 
     public PaymentDetailsFragment() {
         // Required empty public constructor
@@ -121,13 +121,13 @@ public class PaymentDetailsFragment extends Fragment {
     {
         if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
         {
-            payment_toolbar.setTitle(getResources().getString(R.string.do_payment));
+            payment_toolbar.setTitle(getResources().getString(R.string.do_payment_marathi));
 
             receipt_number.setHint(getResources().getString(R.string.receipt_number));
             receipt_number.setHintTextColor(getResources().getColor(R.color.DarkGrey));
             receipt_number.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
-            payment_amount.setText(getResources().getString(R.string.cost_of_chullaha));
+            payment_amount.setHint(getResources().getString(R.string.cost_of_chullaha));
             payment_amount.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
             payment_amount.setHintTextColor(getResources().getColor(R.color.DarkGrey));
 
@@ -149,7 +149,7 @@ public class PaymentDetailsFragment extends Fragment {
         }
         else
         {
-            payment_toolbar.setTitle(getResources().getString(R.string.do_payment));
+            payment_toolbar.setTitle(getResources().getString(R.string.do_payment_english));
 
             receipt_number.setHint(getResources().getString(R.string.receipt_number1));
             receipt_number.setHintTextColor(getResources().getColor(R.color.DarkGrey));
@@ -178,7 +178,6 @@ public class PaymentDetailsFragment extends Fragment {
 
     private void initializations(View view)
     {
-
         prefManager = new PrefManager(getActivity());
         payment_toolbar = (Toolbar) view.findViewById(R.id.payment_toolbar);
         payment_amount = (TextInputEditText) view.findViewById(R.id.payment_amount);
@@ -214,6 +213,7 @@ public class PaymentDetailsFragment extends Fragment {
                 showPictureDialog();
             }
         });
+
         savePayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -249,7 +249,8 @@ public class PaymentDetailsFragment extends Fragment {
                                         remaining_amount.setText("");
                                         receiptImageView.setImageResource(R.mipmap.receipt);
                                         payBitmap=null;
-                                        getActivity().onBackPressed();
+
+
                                     }
                                 });
                             }

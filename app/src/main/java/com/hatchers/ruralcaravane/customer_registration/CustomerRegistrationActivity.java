@@ -230,6 +230,7 @@ public class CustomerRegistrationActivity extends AppCompatActivity
 
                 } else {
 
+
                     // permission denied, boo! Disable the
                     // functionality that depends on this permission.
 

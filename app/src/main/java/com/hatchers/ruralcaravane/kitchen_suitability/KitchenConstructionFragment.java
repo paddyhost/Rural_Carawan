@@ -38,7 +38,11 @@ import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
+import com.hatchers.ruralcaravane.payment_details.PaymentDetailsFragment;
+import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
+import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.runtime_permissions.RuntimePermissions;
+import com.hatchers.ruralcaravane.utils.Utility;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -53,10 +57,11 @@ import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateT
 public class KitchenConstructionFragment extends Fragment {
 
     private KitchenTable kitchenTable;
+    private PaymentTable paymentTable;
     ArrayList<ConstructionTable> constructionTables;
     private RecyclerView constructionRecyclerView;
     private ConstructionListAdapter constructionListAdapter;
-    private Button add_construction,add_LocationBtn;
+    private Button add_construction,add_LocationBtn,paymentBtn;
     private TextView houseTypeTxt, roofTypeTxt, heightTxt;
     private ImageView place_image;
     private Toolbar kitchen_const_Toolbar;
@@ -64,8 +69,8 @@ public class KitchenConstructionFragment extends Fragment {
     private int HALF_IMAGE = 1, FULL_IMAGE = 2,PLACE_IMAGE=3;
     Bitmap conBitmap,conBitmap1,placeBitmap;
     private CustomerTable customerTable;
-    private TextView statusTxt;
-
+    private TextView statusTxt,completeConstructedImageLabel,halfConstructedImageLabel;
+    private PrefManager prefManager;
 
     public KitchenConstructionFragment()
     {
@@ -95,23 +100,70 @@ public class KitchenConstructionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_kitchen_constuction, container, false);
 
         initializations(view);
-
+        setLanguageToUI();
         toolbarClickListener();
-        addTeamClickListener();
+        //addTeamClickListener();
         addStep1ImageClickListener();
         addStep2ImageClickListener();
-        addPlaceImageClickListener();
+        //addPlaceImageClickListener();
 
         setKitchenData();
-        addLocation();
+        //addLocation();
 
+        onClickListeners();
         return view;
     }
 
 
+    private void onClickListeners()
+    {
+        paymentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                PaymentDetailsFragment paymentDetailsFragment = PaymentDetailsFragment.getInstance(customerTable,paymentTable);
+                fragmentTransaction.replace(R.id.complete_construction_frame,paymentDetailsFragment).addToBackStack(null).commit();
+            }
+        });
+    }
+
+    private void setLanguageToUI()
+    {
+        if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
+        {
+            kitchen_const_Toolbar.setTitle(getResources().getString(R.string.chullaha_construction_marathi));
+
+            completeConstructedImageLabel.setText(getResources().getString(R.string.complete_costructed_chullha_image_marathi));
+            completeConstructedImageLabel.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            halfConstructedImageLabel.setText(getResources().getString(R.string.half_costructed_chullha_image_marathi));
+            halfConstructedImageLabel.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            paymentBtn.setText(getResources().getString(R.string.do_payment_marathi));
+            paymentBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
+
+        }
+        else
+        {
+            kitchen_const_Toolbar.setTitle(getResources().getString(R.string.chullaha_construction_english));
+
+            completeConstructedImageLabel.setText(getResources().getString(R.string.complete_costructed_chullha_image_english));
+            completeConstructedImageLabel.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+            halfConstructedImageLabel.setText(getResources().getString(R.string.half_costructed_chullha_image_english));
+            halfConstructedImageLabel.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
+
+            paymentBtn.setText(getResources().getString(R.string.do_payment_english));
+            paymentBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
+
+
+        }
+    }
 
     private void initializations(View view)
     {
+        prefManager=new PrefManager(getActivity());
         statusTxt = (TextView)view.findViewById(R.id.upload_status);
         add_construction=(Button)view.findViewById(R.id.add_construction);
         constructionRecyclerView=(RecyclerView)view.findViewById(R.id.const_list);
@@ -121,8 +173,13 @@ public class KitchenConstructionFragment extends Fragment {
         kitchen_const_Toolbar=(Toolbar)view.findViewById(R.id.kitchen_const_Toolbar);
         place_image=(ImageView)view.findViewById(R.id.place_image);
         add_LocationBtn=(Button)view.findViewById(R.id.addLocationBtn);
+        completeConstructedImageLabel=(TextView)view.findViewById(R.id.complete_constructed_image_label);
+        halfConstructedImageLabel=(TextView)view.findViewById(R.id.half_constructed_image_label);
+        constructionTables= ConstructionTableHelper.getConstructionTeamListByKitchen(getContext(),kitchenTable.getKitchenUniqueIdValue());
+        paymentBtn=(Button)view.findViewById(R.id.btn_payment);
 
-        constructionRecyclerView = (RecyclerView) view.findViewById(R.id.const_list);
+
+      /*  constructionRecyclerView = (RecyclerView) view.findViewById(R.id.const_list);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.HORIZONTAL, false);
         constructionRecyclerView.setLayoutManager(layoutManager);
@@ -134,7 +191,7 @@ public class KitchenConstructionFragment extends Fragment {
 
         constructionRecyclerView.setAdapter(constructionListAdapter);
         constructionListAdapter.notifyDataSetChanged();
-
+*/
         half_constructed_image=(ImageView)view.findViewById(R.id.half_constructed_image1);
         complete_constructed_image=(ImageView)view.findViewById(R.id.complete_constructed_image1);
 
@@ -150,16 +207,16 @@ public class KitchenConstructionFragment extends Fragment {
 
     private void setKitchenData()
     {
-        statusTxt.setText(String.valueOf("Upload Status :"+kitchenTable.getUpload_statusValue()));
-        houseTypeTxt.setText(String.valueOf("House Type : "+kitchenTable.getHouse_typeValue()));
-        roofTypeTxt.setText(String.valueOf("Roof Type : "+kitchenTable.getRoof_typeValue()));
-        heightTxt.setText(String.valueOf("Height : "+kitchenTable.getKitchen_heightValue()));
+        //statusTxt.setText(String.valueOf("Upload Status :"+kitchenTable.getUpload_statusValue()));
+        //houseTypeTxt.setText(String.valueOf("House Type : "+kitchenTable.getHouse_typeValue()));
+       // roofTypeTxt.setText(String.valueOf("Roof Type : "+kitchenTable.getRoof_typeValue()));
+       // heightTxt.setText(String.valueOf("Height : "+kitchenTable.getKitchen_heightValue()));
 
-            Glide.with(getActivity())
+           /* Glide.with(getActivity())
                     .load(kitchenTable.getPlaceImageValue())
                     .error(R.drawable.capture_area)
                     .into(place_image);
-
+*/
 
             Glide.with(getActivity())
                     .load(kitchenTable.getStep1_imageValue())
@@ -170,8 +227,6 @@ public class KitchenConstructionFragment extends Fragment {
             Glide.with(getActivity()).load(kitchenTable.getStep2_imageValue())
                     .error(R.drawable.capture_area)
                     .into(complete_constructed_image);
-
-
     }
 
     @Override
@@ -214,19 +269,19 @@ public class KitchenConstructionFragment extends Fragment {
                 File image = FileHelper.createfile(Folders.CHULHAFOLDER, STEP2_PREFIX + kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
                 if (image != null) {
                     if (!image.exists()) {
-                       /* if(kitchenTable.getUpload_statusValue().equalsIgnoreCase("1"))
+                        if(kitchenTable.getUpload_statusValue().equalsIgnoreCase("1"))
                         {
                             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                            ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment = ConstructionTeamRegistrationFragment.newInstance(kitchenTable);
+                            ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment = ConstructionTeamRegistrationFragment.getInstance(kitchenTable);
                             fragmentTransaction.replace(R.id.frame_layout, constructionTeamRegistrationFragment).addToBackStack(null).commit();
                         }
                         else
                         {
                             Toast.makeText(getActivity(), "Kitchen Data not uploaded to server.Please Upload data First", Toast.LENGTH_SHORT).show();
-                        }*/
+                        }
 
                         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment = ConstructionTeamRegistrationFragment.newInstance(kitchenTable);
+                        ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment = ConstructionTeamRegistrationFragment.getInstance(kitchenTable);
                         fragmentTransaction.replace(R.id.frame_layout, constructionTeamRegistrationFragment).addToBackStack(null).commit();
                     } else
                     {
@@ -234,8 +289,6 @@ public class KitchenConstructionFragment extends Fragment {
                         add_construction.setBackgroundColor(getActivity().getResources().getColor(R.color.colorDarkgray));
                     }
                 }
-
-
             }
         });
 
@@ -245,7 +298,7 @@ public class KitchenConstructionFragment extends Fragment {
         half_constructed_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (constructionTables.size() > 0) {
+                if (constructionTables!=null && constructionTables.size() > 0) {
                     File image = FileHelper.createfile(Folders.CHULHAFOLDER, STEP1_PREFIX + kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
                     if (image != null) {
                         if (!image.exists()) {
@@ -353,11 +406,11 @@ public class KitchenConstructionFragment extends Fragment {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(intent, FULL_IMAGE);
         }
-        else if(imageView==place_image)
+       /* else if(imageView==place_image)
         {
             Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
             startActivityForResult(intent, PLACE_IMAGE);
-        }
+        }*/
 
     }
 
@@ -469,7 +522,7 @@ public class KitchenConstructionFragment extends Fragment {
         }
 
 
-        else if (requestCode == PLACE_IMAGE)
+        /*else if (requestCode == PLACE_IMAGE)
         {
             placeBitmap = (Bitmap) data.getExtras().get("data");
             place_image.setImageBitmap(placeBitmap);
@@ -518,9 +571,8 @@ public class KitchenConstructionFragment extends Fragment {
             }
 
         }
-
+*/
     }
-
 
     private void addLocation() {
         add_LocationBtn.setOnClickListener(new View.OnClickListener() {

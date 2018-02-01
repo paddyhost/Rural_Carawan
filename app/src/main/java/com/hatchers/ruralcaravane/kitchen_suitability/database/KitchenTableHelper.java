@@ -275,6 +275,7 @@ public class KitchenTableHelper {
             return false;
         }
     }
+
     public static boolean updateUpdateCost(Context context, String cost,String kitchen_id)
     {
         try {

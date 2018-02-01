@@ -1,6 +1,7 @@
 package com.hatchers.ruralcaravane.construction_team;
 
 import android.app.Activity;
+import android.content.ContentUris;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -29,6 +30,7 @@ import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTable;
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTableHelper;
 import com.hatchers.ruralcaravane.R;
+import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
@@ -50,9 +52,10 @@ import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateT
 
 public class ConstructionTeamRegistrationFragment extends Fragment {
 
+    private CustomerTable customerTable;
     private KitchenTable kitchenTable;
     private  FragmentTransaction fragmentTransaction;
-    private Toolbar construction_toolbar;
+    private Toolbar constructionTeamToolbar;
     private ImageButton construction_btnBack;
     private Button saveBtn,register_Byscanid;
     private TextInputEditText construction_member_name, construction_member_address,
@@ -61,12 +64,13 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
     private RadioButton male, female;
     private String selectedGender = "";
     PrefManager prefManager;
-    private TextView constructionUniqueIdText;
+    private TextView constructionUniqueIdText,constructionRegistrationTxt;
     ConstructionTable constructionTable;
     private int SCAN_ID=4;
     ImageView backImg;
 
-    public static ConstructionTeamRegistrationFragment newInstance(KitchenTable kitchenTable)
+
+    public static ConstructionTeamRegistrationFragment getInstance(KitchenTable kitchenTable)
     {
         ConstructionTeamRegistrationFragment fragment = new ConstructionTeamRegistrationFragment();
         Bundle args = new Bundle();
@@ -74,6 +78,7 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -110,7 +115,7 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
     {
         if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
         {
-            construction_toolbar.setTitle(R.string.construction_team_information);
+            constructionTeamToolbar.setTitle(R.string.construction_team_information_marathi);
 
             register_Byscanid.setText(getResources().getString(R.string.scan_by_id_card));
             register_Byscanid.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
@@ -138,12 +143,15 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
             female.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
             saveBtn.setText(getResources().getString(R.string.save));
-            saveBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            saveBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
+
+            constructionRegistrationTxt.setText(getResources().getString(R.string.construction_team_member_marathi));
+            constructionRegistrationTxt.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
 
         }
         else
         {
-            construction_toolbar.setTitle(R.string.construction_team_information1);
+            constructionTeamToolbar.setTitle(R.string.construction_team_information_english);
 
             register_Byscanid.setText(getResources().getString(R.string.scan_by_id_card1));
             register_Byscanid.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
@@ -175,13 +183,15 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
 
         }
     }
+
     private void initializations(View view)
     {
-        ((AppCompatActivity) getActivity()).setSupportActionBar(construction_toolbar);
+        ((AppCompatActivity) getActivity()).setSupportActionBar(constructionTeamToolbar);
 
+        prefManager=new PrefManager(getActivity());
         fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-        construction_toolbar = (Toolbar) view.findViewById(R.id.construction_toolbar);
-        backImg = (ImageView)view.findViewById(R.id.const_back);
+        constructionTeamToolbar = (Toolbar) view.findViewById(R.id.construction_team_toolbar);
+
 
         register_Byscanid=(Button)view.findViewById(R.id.register_Byscanid);
         saveBtn = (Button) view.findViewById(R.id.saveBtn);
@@ -192,6 +202,7 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
         radioGroupGender = (RadioGroup) view.findViewById(R.id.radio_gender);
         male = (RadioButton) view.findViewById(R.id.male);
         female = (RadioButton) view.findViewById(R.id.female);
+        constructionRegistrationTxt=(TextView)view.findViewById(R.id.constructionRegistration_txt);
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             Window window = getActivity().getWindow();
@@ -205,12 +216,13 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
     private void onclicklisteners()
     {
 
-        backImg.setOnClickListener(new View.OnClickListener() {
+        constructionTeamToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
             }
         });
+
 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -298,8 +310,6 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
         return uniqueId;
     }
 
-
-
     public void setGender()
     {
         radioGroupGender.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -314,7 +324,6 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
         });
 
     }
-
 
     private boolean checkValidation()
     {

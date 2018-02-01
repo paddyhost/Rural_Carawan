@@ -1,23 +1,26 @@
 package com.hatchers.ruralcaravane.customer_registration;
 
 
-import android.annotation.SuppressLint;
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Xml;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -32,22 +35,22 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.constants.AppConstants;
-import com.hatchers.ruralcaravane.customer_registration.apihelper.WebCustomer_ApiHelper;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
+import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
+import com.hatchers.ruralcaravane.file.Folders;
+import com.hatchers.ruralcaravane.kitchen_suitability.AddKitchenSuitabilityFragment;
 import com.hatchers.ruralcaravane.locality.database.CityTable;
 import com.hatchers.ruralcaravane.locality.database.CityTableHelper;
 import com.hatchers.ruralcaravane.locality.database.StateTable;
 import com.hatchers.ruralcaravane.locality.database.StateTableHelper;
 import com.hatchers.ruralcaravane.locality.database.VillageTable;
-import com.hatchers.ruralcaravane.file.FileHelper;
-import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.locality.database.VillageTableHelper;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
+import com.hatchers.ruralcaravane.runtime_permissions.RuntimePermissions;
 import com.hatchers.ruralcaravane.scaner.AdharScanner;
 import com.hatchers.ruralcaravane.utils.Utility;
 
@@ -62,12 +65,14 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.hatchers.ruralcaravane.constants.AppConstants.CUSTOMER_PREFIX;
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
+
 
 
 public class AddCustomerFragment extends Fragment {
@@ -91,7 +96,9 @@ public class AddCustomerFragment extends Fragment {
     private int RESULT_CANCELED;
     private Toolbar addCustomerToolbar;
     private PrefManager prefManager;
-
+    private FragmentTransaction fragmentTransaction;
+    public static final int MY_PERMISSIONS_REQUEST_ACCOUNTS=111;
+    public static final int MY_PERMISSIONS_REQUEST_CAMERA=112;
 
     public AddCustomerFragment()
     {
@@ -110,10 +117,13 @@ public class AddCustomerFragment extends Fragment {
         onclicklisteners();
         setStateSpinnerList();
         stateSelectedListener();
-
         setGender();
 
+        //RuntimePermissions.checkCameraPermission(getActivity());
+        //RuntimePermissions.checkReadExternalStoragePermission(getActivity());
+        //RuntimePermissions.checkWriteExternalStoragePermission(getActivity());
 
+        checkAndRequestPermissions();
         return view;
     }
 
@@ -176,7 +186,7 @@ public class AddCustomerFragment extends Fragment {
             female.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
             save.setText(getResources().getString(R.string.save));
-            save.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            save.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
 
         }
         else
@@ -238,7 +248,6 @@ public class AddCustomerFragment extends Fragment {
         }
     }
 
-
     private void initializations(View view)
     {
         if (Build.VERSION.SDK_INT >= 21) {
@@ -247,6 +256,7 @@ public class AddCustomerFragment extends Fragment {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(this.getResources().getColor(R.color.colorPrimaryDark));
         }
+        fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         prefManager = new PrefManager(getActivity());
         addCustomerToolbar=(Toolbar)view.findViewById(R.id.addCustomer_toolbar);
         cityArrayList =new ArrayList<CityTable>();
@@ -420,11 +430,10 @@ public class AddCustomerFragment extends Fragment {
                                     ((CustomerRegistrationActivity)getActivity()).customerListFragment.setData();
 
                                 }
-
+                                AddKitchenSuitabilityFragment addKitchenSuitabilityFragment = AddKitchenSuitabilityFragment.getInstance(customer_table);
+                                fragmentTransaction.replace(R.id.frame_layout, addKitchenSuitabilityFragment).addToBackStack(null).commit();
                             }
                         });
-
-
 
                     }
                     else
@@ -774,5 +783,51 @@ public class AddCustomerFragment extends Fragment {
 */
 
         return response;
+    }
+
+
+    private boolean checkAndRequestPermissions() {
+        int permissionCAMERA = ContextCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.CAMERA);
+
+
+        int storagePermission = ContextCompat.checkSelfPermission(getActivity(),
+
+
+                Manifest.permission.READ_EXTERNAL_STORAGE);
+
+
+
+        List<String> listPermissionsNeeded = new ArrayList<>();
+        if (storagePermission != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        }
+        if (permissionCAMERA != PackageManager.PERMISSION_GRANTED) {
+            listPermissionsNeeded.add(Manifest.permission.CAMERA);
+        }
+        if (!listPermissionsNeeded.isEmpty()) {
+            ActivityCompat.requestPermissions(getActivity(),
+
+
+                    listPermissionsNeeded.toArray(new String[listPermissionsNeeded.size()]), MY_PERMISSIONS_REQUEST_CAMERA);
+            return false;
+        }
+
+        return true;
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_ACCOUNTS:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    //Permission Granted Successfully. Write working code here.
+                } else {
+                    //You did not accept the request can not use the functionality.
+                }
+                break;
+        }
     }
 }

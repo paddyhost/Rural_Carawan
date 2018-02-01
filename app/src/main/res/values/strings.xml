@@ -30,14 +30,15 @@
         <item>कृपया छताचा प्रकार निवडा</item>
         <item>प्लास्टिक आणि वखारनी बांधलेले</item>
         <item>विटांनी बांधलेले </item>
-        <item>Asbestos Sheet</item>
+        <item>पत्रांनी बांधलेले </item>
         <item>सिमेंटने बांधलेले </item>
         <item>इतर </item>
     </string-array>
 
     <string name="Rs">\u20B9</string>
 
-<!--Marathi Strings-->
+    <!--Marathi Strings-->
+
     <string name="language_selection">भाषा निवडा</string>
     <string name="marathi">मराठी</string>
     <string name="english">इंग्रजी</string>
@@ -45,29 +46,29 @@
     <string name="username">युझरनेम</string>
     <string name="password">पासवर्ड</string>
     <string name="new_customer">नवीन ग्राहक</string>
-    <string name="chullaha_construction">चूल बांधा</string>
+    <string name="chullaha_construction_marathi">चूल बांधणी </string>
     <string name="remaining_payment">उर्वरीत पैसे रक्कम टाका</string>
     <string name="save">जतन करा</string>
     <string name="house_survey">गृह आढावा</string>
     <string name="select_customer">ग्राहक निवडा</string>
-    <string name="complete_remaining_construction">उर्वरीत बांधणी पूर्ण करा</string>
+    <string name="complete_remaining_construction_marathi">उर्वरीत बांधणी पूर्ण करा</string>
     <string name="kitchen_information">चुलीची माहिती</string>
-    <string name="make_construction_team">बांधणी गट तयार करा</string>
-    <string name="upload_kitchen_photo">चुलीचे फोटो अपलोड करा</string>
-    <string name="construction_team">बांधणी गट</string>
-    <string name="do_payment">पैसे जमा करा</string>
+    <string name="make_construction_team_marathi">बांधणी गट तयार करा</string>
+    <string name="upload_kitchen_photo_marathi">चुलीचे फोटो अपलोड करा</string>
+    <string name="construction_team_marathi">बांधणी गट</string>
+    <string name="do_payment_marathi">पैसे जमा करा</string>
     <string name="complete_construction_team">बांधणी गट पूर्ण करा</string>
-    <string name="add_new_construction_team_member">नवीन बांधणी गट सदस्य जोडा</string>
-    <string name="construction_team_member">बांधणी गट सदस्य</string>
+    <string name="add_new_construction_team_member_marathi">नवीन बांधणी गट सदस्य जोडा</string>
+    <string name="construction_team_member_marathi">बांधणी गट सदस्य</string>
     <string name="construction_team_member_name">बांधणी गट सदस्याचे नाव टाका</string>
     <string name="construction_team_member_address">बांधणी गट सदस्याचा पत्ता टाका</string>
     <string name="construction_team_member_mobile">बांधणी गट सदस्याचा मोबाइल नंबर टाका</string>
     <string name="construction_team_member_age">बांधणी गट सदस्याचे वय टाका</string>
-    <string name="construction_team_information">बांधणी गट माहिती</string>
+    <string name="construction_team_information_marathi">बांधणी गट माहिती</string>
     <string name="scan">स्कॅन करा</string>
     <string name="kitchen_construction">चूल बांधणी</string>
-    <string name="half_costructed_chullha_image">अर्ध्या बांधलेल्या चुलीचा फोटो अपलोड करा</string>
-    <string name="complete_costructed_chullha_image">पूर्ण बांधलेल्या चुलीचा फोटो अपलोड करा</string>
+    <string name="half_costructed_chullha_image_marathi">अर्ध्या बांधलेल्या चुलीचा फोटो अपलोड करा</string>
+    <string name="complete_costructed_chullha_image_marathi">पूर्ण बांधलेल्या चुलीचा फोटो अपलोड करा</string>
     <string name="take_payment">पैसे घ्या</string>
     <string name="scan_aadhar_card">स्कॅन आधार कार्ड</string>
     <string name="unique_id">विशेष आयडी : </string>
@@ -111,7 +112,7 @@
     <string name="house_survey1">House type survey</string>
     <string name="customer_agreement1">Customer Agreement</string>
     <string name="scan_by_id_card1">Scan By ID Card</string>
-    <string name="construction_team_information1">बांधणी गट माहिती</string>
+    <string name="construction_team_information_english">बांधणी गट माहिती</string>
     <string name="kitchen_height1">Kitchen Height(in feet)</string>
     <string name="language_selection1">Select Language</string>
     <string name="marathi1">Marathi</string>
@@ -120,24 +121,24 @@
     <string name="username1">Username</string>
     <string name="password1">Password</string>
     <string name="new_customer1">New Customer</string>
-    <string name="chullaha_construction1">Kitchen Construction</string>
+    <string name="chullaha_construction_english">Chullaha Construction</string>
     <string name="remaining_payment1">Remaining Payment</string>
     <string name="save1">Save</string>
     <string name="house_servery1">House Survey</string>
     <string name="select_customer1">Select Customer</string>
-    <string name="complete_remaining_construction1">Complete Remaining Construction</string>
+    <string name="complete_remaining_construction_english">Complete Remaining Construction</string>
     <string name="kitchen_information1">Chullha Information</string>
-    <string name="make_construction_team1">Add Construction Team</string>
-    <string name="upload_kitchen_photo1">Upload Chullaha Photos</string>
-    <string name="construction_team1">Construction Team</string>
-    <string name="do_payment1">Payment</string>
+    <string name="make_construction_team_english">Add Construction Team</string>
+    <string name="upload_kitchen_photo_english">Upload Chullaha Photos</string>
+    <string name="construction_team_english">Construction Team</string>
+    <string name="do_payment_english">Payment</string>
     <string name="complete_construction_team1">Complete Add Construction Team</string>
-    <string name="add_new_construction_team_member1">Add New Construction Team Member</string>
-    <string name="construction_team_member1">Construction Team Member</string>
+    <string name="add_new_construction_team_member_english">Add New Construction Team Member</string>
+    <string name="construction_team_member_english">Construction Team Member</string>
     <string name="scan1">Scan</string>
     <string name="kitchen_construction1">Chullaha Construction</string>
-    <string name="half_costructed_chullha_image1">Upload Half Constructed Chullaha Photo</string>
-    <string name="complete_costructed_chullha_image2">Upload Complete Constructed Chullaha Photo</string>
+    <string name="half_costructed_chullha_image_english">Upload Half Constructed Chullaha Photo</string>
+    <string name="complete_costructed_chullha_image_english">Upload Complete Constructed Chullaha Photo</string>
     <string name="take_payment1">Take Payment</string>
     <string name="scan_aadhar_card1">Scan Aadhar Card</string>
     <string name="unique_id1">Unique_id</string>
@@ -170,5 +171,8 @@
     <string name="construction_team_member_address1">Enter member address</string>
     <string name="construction_team_member_mobile1">Enter member mobile number</string>
     <string name="construction_team_member_age1">Enter member age</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

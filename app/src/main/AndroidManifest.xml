@@ -40,11 +40,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".user_login.LoginActivity" />
-        <activity android:name=".activity.LanguageSelectionActivity"></activity>
+        <activity android:name=".activity.LanguageSelectionActivity" />
         <activity android:name=".activity.CustomerMenus" />
         <activity android:name=".customer_registration.CustomerRegistrationActivity" />
         <activity android:name=".scaner.AdharScanner" />
-        <activity android:name=".activity.MainMenus"></activity>
+        <activity android:name=".activity.MainMenus" />
+        <activity android:name=".activity.CompleteConstructionActivity"></activity>
     </application>
 
 </manifest>

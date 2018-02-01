@@ -84,7 +84,6 @@ public class CustomerListFragment extends Fragment {
     }
 
     private void setLanguageToUI()
-
     {
         if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
         {
@@ -103,6 +102,7 @@ public class CustomerListFragment extends Fragment {
 
         }
     }
+
     private void initializations(View view)
     {
         prefManager=new PrefManager(getActivity());
@@ -131,7 +131,7 @@ public class CustomerListFragment extends Fragment {
         try
         {
             customerTables = CustomerTableHelper.getCustomerdataList(getContext());
-            customerListAdapter = new CustomerListAdapter(getContext(), customerTables);
+            customerListAdapter = new CustomerListAdapter(getContext(), customerTables,openFrom);
             customerRecyclerView.setAdapter(customerListAdapter);
             if(!(customerTables.size() >0))
             {

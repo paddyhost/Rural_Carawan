@@ -8,10 +8,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.activity.MainMenus;
+import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.customer_registration.CustomerRegistrationActivity;
 import com.hatchers.ruralcaravane.locality.apihelper.Locality_Web_ApiHelper;
 import com.hatchers.ruralcaravane.locality.listeners.CityListener;
@@ -22,6 +24,7 @@ import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.user_login.apihelper.Login_ApiHelper;
 import com.hatchers.ruralcaravane.user_login.listener.LoginListner;
 import com.hatchers.ruralcaravane.user_login.model.LoginUser;
+import com.hatchers.ruralcaravane.utils.Utility;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
@@ -32,6 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     private PrefManager prefManager;
     private SweetAlertDialog sweetAlertDialog;
     private SweetAlertDialog localityDialog;
+    private TextView txtLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -40,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         initialization();
+        setLanguageToUI();
         clickListners();
 
     }
@@ -50,6 +55,7 @@ public class LoginActivity extends AppCompatActivity {
         edtName = (EditText) findViewById(R.id.username);
         edtPassword = (EditText) findViewById(R.id.password);
         login = (Button) findViewById(R.id.loginBtn);
+        txtLogin=(TextView)findViewById(R.id.txt_login);
 
         if (android.os.Build.VERSION.SDK_INT >= 21)
         {
@@ -59,6 +65,45 @@ public class LoginActivity extends AppCompatActivity {
             window.setStatusBarColor(this.getResources().getColor(R.color.colorAccent));
         }
     }
+
+    private void setLanguageToUI()
+    {
+        if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
+        {
+            txtLogin.setText(getResources().getString(R.string.login));
+            txtLogin.setTextSize(Utility.getConvertFloatToDP(LoginActivity.this,12));
+
+            edtName.setHint(getResources().getString(R.string.username));
+            edtName.setTextSize(Utility.getConvertFloatToDP(LoginActivity.this,8));
+            edtName.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+            edtPassword.setHint(getResources().getString(R.string.password));
+            edtPassword.setTextSize(Utility.getConvertFloatToDP(LoginActivity.this,8));
+            edtPassword.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+            login.setText(getResources().getString(R.string.login));
+            login.setTextSize(Utility.getConvertFloatToDP(LoginActivity.this,12));
+
+        }
+        else
+        {
+            txtLogin.setText(getResources().getString(R.string.login1));
+            txtLogin.setTextSize(Utility.getConvertFloatToDP(LoginActivity.this,12));
+
+            edtName.setHint(getResources().getString(R.string.username1));
+            edtName.setTextSize(Utility.getConvertFloatToDP(LoginActivity.this,8));
+            edtName.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+            edtPassword.setHint(getResources().getString(R.string.password1));
+            edtPassword.setTextSize(Utility.getConvertFloatToDP(LoginActivity.this,8));
+            edtPassword.setHintTextColor(getResources().getColor(R.color.DarkGrey));
+
+            login.setText(getResources().getString(R.string.login1));
+            login.setTextSize(Utility.getConvertFloatToDP(LoginActivity.this,10));
+
+        }
+    }
+
 
     private void clickListners()
     {
@@ -408,6 +453,5 @@ public class LoginActivity extends AppCompatActivity {
 
         });
     }
-
 
 }

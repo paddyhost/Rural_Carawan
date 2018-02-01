@@ -16,6 +16,7 @@ import android.provider.Settings;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -44,13 +45,17 @@ import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.hatchers.ruralcaravane.R;
+import com.hatchers.ruralcaravane.activity.MainMenus;
 import com.hatchers.ruralcaravane.constants.AppConstants;
+import com.hatchers.ruralcaravane.customer_registration.CustomerListFragment;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
+import com.hatchers.ruralcaravane.payment_details.PaymentDetailsFragment;
+import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.utils.Utility;
 
@@ -59,6 +64,7 @@ import org.w3c.dom.Text;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -95,7 +101,10 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
     private LocationListener locationListener;
     public static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 99;
     private PrefManager prefManager;
-
+    private FragmentTransaction fragmentTransaction;
+    private CustomerTable customerTable;
+    private PaymentTable paymentTable;
+    private ArrayList<KitchenTable> kitchenTableArrayList;
 
     public AddKitchenSuitabilityFragment()
     {
@@ -159,7 +168,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
             kitchen_height.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
             btnGetLocation.setText(getResources().getString(R.string.get_geo_location));
-            btnGetLocation.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            btnGetLocation.setTextSize(Utility.getConvertFloatToDP(getActivity(),10));
 
             text1.setText(getResources().getString(R.string.take_image_of_planned_area));
             text1.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
@@ -170,7 +179,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
             setRoof_typeSpinner(R.array.Roof_Type_Marathi);
 
             upload.setText(getResources().getString(R.string.save));
-            upload.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            upload.setTextSize(Utility.getConvertFloatToDP(getActivity(),10));
 
 
         }
@@ -208,6 +217,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         kitchen_table = new KitchenTable();
 
+        fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
         prefManager = new PrefManager(getActivity());
         kitchen_toolbar = (Toolbar) view.findViewById(R.id.kitchen_toolbar);
         ((AppCompatActivity) getActivity()).setSupportActionBar(kitchen_toolbar);
@@ -274,9 +284,19 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         place_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 showPictureDialog();
+                    /*File image = FileHelper.createfile(Folders.CHULHAFOLDER, KITCHEN_PREFIX + kitchen_table.getKitchenUniqueIdValue(), FileType.PNG);
+                    if (image != null) {
+                        if (!image.exists()) {
+                            showPictureDialog();
+                        } else {
+                            Toast.makeText(getActivity(), "Planned Area Image Already Uploaded", Toast.LENGTH_SHORT).show();
+                        }
+                    }*/
             }
         });
+
     }
 
     private void saveKitchenClickListener()
@@ -316,7 +336,15 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
                                         place_image.setImageResource(R.mipmap.chullha);
                                         kitBitmap=null;
 
-                                        getActivity().onBackPressed();
+                                       /*Intent intent=new Intent(getActivity(), MainMenus.class);
+                                       startActivity(intent);
+*/
+
+                                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                                        PaymentDetailsFragment paymentDetailsFragment = PaymentDetailsFragment.getInstance(customerTable,paymentTable);
+                                        fragmentTransaction.replace(R.id.frame_layout,paymentDetailsFragment).addToBackStack(null).commit();
+
+                                        //getActivity().onBackPressed();
 
                                         /*if(RuntimePermissions.isNetworkConnectionAvailable(getActivity())) {
 
@@ -481,6 +509,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
             kitBitmap=thumbnail;
 
         }
+
     }
 
     @Override
@@ -654,6 +683,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
     public void onResume()
     {
         super.onResume();
+
     }
 
 
