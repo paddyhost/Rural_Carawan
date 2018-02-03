@@ -33,6 +33,7 @@ import com.hatchers.ruralcaravane.construction_team.adapter.ConstructionListAdap
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTable;
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTableHelper;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
+import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
@@ -137,7 +138,7 @@ public class KitchenConstructionFragment extends Fragment {
             halfConstructedImageLabel.setText(getResources().getString(R.string.half_costructed_chullha_image_marathi));
             halfConstructedImageLabel.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
-            saveBtn.setText(getResources().getString(R.string.do_payment_marathi));
+            saveBtn.setText(getResources().getString(R.string.save));
             saveBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
 
         }
@@ -152,7 +153,7 @@ public class KitchenConstructionFragment extends Fragment {
             halfConstructedImageLabel.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
 
-            saveBtn.setText(getResources().getString(R.string.do_payment_english));
+            saveBtn.setText(getResources().getString(R.string.save1));
             saveBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
 
 
@@ -500,6 +501,7 @@ public class KitchenConstructionFragment extends Fragment {
                         sweetAlertDialog.dismissWithAnimation();
                         complete_constructed_image.setImageBitmap(conBitmap1);
                         add_construction.setBackgroundColor(getActivity().getResources().getColor(R.color.colorDarkgray));
+                        CustomerTableHelper.updateCustomerState(getActivity(),"1",kitchenTable.getCustomer_idValue());
                     }
                 });
 

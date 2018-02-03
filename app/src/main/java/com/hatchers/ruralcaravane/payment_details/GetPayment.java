@@ -27,6 +27,7 @@ import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.activity.CompleteConstructionActivity;
 import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
+import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
@@ -257,6 +258,10 @@ public class GetPayment extends Fragment {
 
                                 if(PaymentDetailsHelper.insertPaymentDetailsData(getContext(), paymentTable))
                                 {
+                                    if(remaining_amount.getText().toString().equalsIgnoreCase("0"))
+                                    {
+                                        CustomerTableHelper.updateCustomerState(getActivity(),"2",customerTable.getUniqueIdValue());
+                                    }
                                     sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                                     sweetAlertDialog.setTitleText("Payment Details Added Successfully");
                                     sweetAlertDialog.setConfirmText("Ok");

@@ -137,7 +137,7 @@ public class CustomerListFragment extends Fragment {
             }
             else if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_PAYMENT))
             {
-                customerTables = CustomerTableHelper.getCustomerdataList(getContext());
+                customerTables = CustomerTableHelper.getCustomerRemainingPaymentList(getContext());
             }
 
             customerListAdapter = new CustomerListAdapter(getContext(), customerTables,openFrom);
