@@ -61,7 +61,7 @@ public class KitchenConstructionFragment extends Fragment {
     ArrayList<ConstructionTable> constructionTables;
     private RecyclerView constructionRecyclerView;
     private ConstructionListAdapter constructionListAdapter;
-    private Button add_construction,add_LocationBtn,paymentBtn;
+    private Button add_construction,add_LocationBtn,saveBtn;
     private TextView houseTypeTxt, roofTypeTxt, heightTxt;
     private ImageView place_image;
     private Toolbar kitchen_const_Toolbar;
@@ -117,12 +117,10 @@ public class KitchenConstructionFragment extends Fragment {
 
     private void onClickListeners()
     {
-        paymentBtn.setOnClickListener(new View.OnClickListener() {
+        saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                PaymentDetailsFragment paymentDetailsFragment = PaymentDetailsFragment.getInstance(customerTable,paymentTable);
-                fragmentTransaction.replace(R.id.complete_construction_frame,paymentDetailsFragment).addToBackStack(null).commit();
+                getActivity().onBackPressed();
             }
         });
     }
@@ -139,8 +137,8 @@ public class KitchenConstructionFragment extends Fragment {
             halfConstructedImageLabel.setText(getResources().getString(R.string.half_costructed_chullha_image_marathi));
             halfConstructedImageLabel.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
-            paymentBtn.setText(getResources().getString(R.string.do_payment_marathi));
-            paymentBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
+            saveBtn.setText(getResources().getString(R.string.do_payment_marathi));
+            saveBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
 
         }
         else
@@ -154,8 +152,8 @@ public class KitchenConstructionFragment extends Fragment {
             halfConstructedImageLabel.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
 
-            paymentBtn.setText(getResources().getString(R.string.do_payment_english));
-            paymentBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
+            saveBtn.setText(getResources().getString(R.string.do_payment_english));
+            saveBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
 
 
         }
@@ -176,7 +174,7 @@ public class KitchenConstructionFragment extends Fragment {
         completeConstructedImageLabel=(TextView)view.findViewById(R.id.complete_constructed_image_label);
         halfConstructedImageLabel=(TextView)view.findViewById(R.id.half_constructed_image_label);
         constructionTables= ConstructionTableHelper.getConstructionTeamListByKitchen(getContext(),kitchenTable.getKitchenUniqueIdValue());
-        paymentBtn=(Button)view.findViewById(R.id.btn_payment);
+        saveBtn=(Button)view.findViewById(R.id.btn_save);
 
 
       /*  constructionRecyclerView = (RecyclerView) view.findViewById(R.id.const_list);

@@ -68,7 +68,7 @@
                     android:textSize="16dp"
                     android:id="@+id/kitchenUniqueIdText"
                     android:layout_weight="1"
-                    android:singleLine="true"
+                    android:singleLine="false"
                     android:gravity="center|start"
                     android:textColor="@color/black"/>
 

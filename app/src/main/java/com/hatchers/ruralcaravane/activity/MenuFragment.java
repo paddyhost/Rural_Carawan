@@ -97,7 +97,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         {
             menuToolbar.setTitle(getResources().getString(R.string.customer_agreement));
 
-            kitchen_linear.setText(getResources().getString(R.string.house_survey));
+            kitchen_linear.setText(getResources().getString(R.string.house_survey_marathi));
             kitchen_linear.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
             payment_linear.setText(getResources().getString(R.string.do_payment_marathi));
@@ -112,7 +112,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         {
             menuToolbar.setTitle(getResources().getString(R.string.customer_agreement1));
 
-            kitchen_linear.setText(getResources().getString(R.string.house_survey1));
+            kitchen_linear.setText(getResources().getString(R.string.house_survey_english));
             kitchen_linear.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
             payment_linear.setText(getResources().getString(R.string.do_payment_english));
