@@ -681,6 +681,7 @@ public class AddCustomerFragment extends Fragment {
         customer_table.setAddedDateValue(getCurrentDateTime());
         customer_table.setUpload_statusValue("0");
         customer_table.setAddedByIdValue(new PrefManager(getActivity()).getUserId());
+        customer_table.setCustomerState("0");
     }
 
     public void setGender()

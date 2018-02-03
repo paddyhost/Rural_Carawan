@@ -20,18 +20,19 @@ public class CustomerTable implements Parcelable {
             CUSTOMER_GENDER="customer_gender",UPLOAD_STATUS="upload_status",
             UNIQUE_ID="unique_id",IMAGE_PATH="image_path",AADHAR_ID="aadhar_id",
             VILLAGE_ID="village_id",ADDED_DATE="added_date",CITY_ID="city_id",
-            ADDED_BY_ID="added_by_id",UPLOAD_DATE="upload_date",UPDATE_DATE="update_date";
+            ADDED_BY_ID="added_by_id",UPLOAD_DATE="upload_date",UPDATE_DATE="update_date",
+            CUSTOMER_STATE="customer_state";
 
     public static final String CREATE_CUSTOMER_TABLE="CREATE TABLE " + CUSTOMER_TABLE+
             "("+CUSTOMER_ID+" int PRIMARY KEY ,"+CUSTOMER_NAME+" TEXT,"+CUSTOMER_ADDRESS+" TEXT,"
             +CUSTOMER_AGE+" TEXT,"+CUSTOMER_GENDER+" TEXT,"+CUSTOMER_MOBILENO+" TEXT,"+VILLAGE_NAME+" TEXT,"
-            +UPLOAD_STATUS+" TEXT, "+UNIQUE_ID+" TEXT, "+IMAGE_PATH+" TEXT, "+AADHAR_ID+" TEXT, "
+            +CUSTOMER_STATE+" TEXT, "+UPLOAD_STATUS+" TEXT, "+UNIQUE_ID+" TEXT, "+IMAGE_PATH+" TEXT, "+AADHAR_ID+" TEXT, "
             +VILLAGE_ID+" TEXT, "+CITY_ID+" TEXT, "+ADDED_DATE+" TEXT, "+ADDED_BY_ID+" TEXT, "+UPLOAD_DATE+" TEXT, "+UPDATE_DATE+" TEXT )";
 
     private String customerIdValue,customerNameValue,villageNameValue,customerAddressValue,
             customerMobilenoValue,customerAgeValue,customerGenderValue,upload_statusValue,
             uniqueIdValue,imagePathValue,aadharIdValue,villageIdValue,addedDateValue,cityId,
-            addedByIdValue,uploadDateValue,updateDateValue;
+            addedByIdValue,uploadDateValue,updateDateValue,customerState;
 
 
     public CustomerTable() {
@@ -44,7 +45,8 @@ public class CustomerTable implements Parcelable {
                          String customerGenderValue,String upload_statusValue,
                          String uniqueIdValue,String imagePathValue,String aadharIdValue,
                          String villageIdValue,String addedDateValue,
-                         String cityId,String addedByIdValue,String uploadDateValue,String updateDateValue)
+                         String cityId,String addedByIdValue,String uploadDateValue,
+                         String updateDateValue,String customerState)
     {
         this.customerIdValue = customerIdValue;
         this.customerNameValue = customerNameValue;
@@ -63,6 +65,7 @@ public class CustomerTable implements Parcelable {
         this.addedByIdValue=addedByIdValue;
         this.uploadDateValue=uploadDateValue;
         this.updateDateValue=updateDateValue;
+        this.customerState = customerState;
     }
 
     protected CustomerTable(Parcel in) {
@@ -82,6 +85,7 @@ public class CustomerTable implements Parcelable {
         addedByIdValue=in.readString();;
         uploadDateValue=in.readString();
         updateDateValue=in.readString();
+        customerState=in.readString();
     }
 
     @Override
@@ -102,6 +106,7 @@ public class CustomerTable implements Parcelable {
         dest.writeString(addedByIdValue);
         dest.writeString(uploadDateValue);
         dest.writeString(updateDateValue);
+        dest.writeString(customerState);
     }
 
     @Override
@@ -314,4 +319,11 @@ public class CustomerTable implements Parcelable {
         }
     }
 
+    public String getCustomerState() {
+        return customerState;
+    }
+
+    public void setCustomerState(String customerState) {
+        this.customerState = customerState;
+    }
 }
