@@ -89,10 +89,29 @@ public class CompleteConstructionActivity extends AppCompatActivity{
             else
             {
                 btnAddKitchen.setVisibility(View.GONE);
+                
             }
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        kitchenTableArrayList=KitchenTableHelper.getKitchenDataList(CompleteConstructionActivity.this,customerTable);
+
+        if (kitchenTableArrayList != null)
+        {
+            if(kitchenTableArrayList.size()<=0)
+            {
+                btnAddKitchen.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                btnAddKitchen.setVisibility(View.GONE);
+            }
+        }
+
+    }
 
     private void addKitchenClickListener()
     {
