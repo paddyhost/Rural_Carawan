@@ -247,7 +247,7 @@ public class PaymentDetailsFragment extends Fragment {
                                         payment_amount.setText("");
                                         paid_amount.setText("");
                                         remaining_amount.setText("");
-                                        receiptImageView.setImageResource(R.mipmap.receipt);
+                                        receiptImageView.setImageResource(R.drawable.capture_area);
                                         payBitmap=null;
 
 

@@ -49,7 +49,7 @@
     <string name="chullaha_construction_marathi">चूल बांधणी </string>
     <string name="remaining_payment">उर्वरीत पैसे रक्कम टाका</string>
     <string name="save">जतन करा</string>
-    <string name="house_survey">गृह आढावा</string>
+    <string name="house_survey_marathi">गृह आढावा</string>
     <string name="select_customer">ग्राहक निवडा</string>
     <string name="complete_remaining_construction_marathi">उर्वरीत बांधणी पूर्ण करा</string>
     <string name="kitchen_information">चुलीची माहिती</string>
@@ -109,7 +109,7 @@
     <string name="menu_english">Menus</string>
     <string name="customer_list_english">Customer List</string>
     <string name="no_customer_english">No Customer</string>
-    <string name="house_survey1">House type survey</string>
+    <string name="house_survey_english">House type survey</string>
     <string name="customer_agreement1">Customer Agreement</string>
     <string name="scan_by_id_card1">Scan By ID Card</string>
     <string name="construction_team_information_english">बांधणी गट माहिती</string>

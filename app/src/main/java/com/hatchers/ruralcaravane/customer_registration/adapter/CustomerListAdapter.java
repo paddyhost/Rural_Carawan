@@ -9,12 +9,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.activity.CompleteConstructionActivity;
 import com.hatchers.ruralcaravane.customer_registration.CustomerListFragment;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
+import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
+import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
+import com.hatchers.ruralcaravane.payment_details.GetPayment;
 import com.hatchers.ruralcaravane.payment_details.PaymentDetailsFragment;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
 
@@ -71,12 +75,26 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
                     Intent intent = new Intent(context, CompleteConstructionActivity.class);
                     intent.putExtra(CustomerTable.CUSTOMER_TABLE, customerTable);
                     context.startActivity(intent);
+
                 }
                 else if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_PAYMENT))
                 {
-                    fragmentTransaction =((AppCompatActivity)context).getSupportFragmentManager().beginTransaction();
-                    PaymentDetailsFragment paymentDetailsFragment = PaymentDetailsFragment.getInstance(customerTable,paymentTable);
-                    fragmentTransaction.replace(R.id.frame_layout, paymentDetailsFragment).addToBackStack(null).commit();
+                    ArrayList<KitchenTable> kitchenTableArrayList= KitchenTableHelper.getKitchenDataList(context,customerTable);
+
+                    if (kitchenTableArrayList != null)
+                    {
+                        if(kitchenTableArrayList.size()<=0)
+                        {
+                            Toast.makeText(context,"Add Kitchen First",Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            fragmentTransaction =((AppCompatActivity)context).getSupportFragmentManager().beginTransaction();
+                            GetPayment getPayment = GetPayment.newInstance(customerTable);
+                            fragmentTransaction.replace(R.id.frame_layout, getPayment).addToBackStack(null).commit();
+                        }
+                    }
+
 
                 }
 

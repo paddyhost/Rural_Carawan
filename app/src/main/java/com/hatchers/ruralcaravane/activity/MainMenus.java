@@ -57,11 +57,11 @@ public class MainMenus extends AppCompatActivity
             mainMenusToolbar.setTitle(getResources().getString(R.string.customer_agreement));
 
             btnNewCustomer.setText(getResources().getString(R.string.new_customer));
-            btnNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,20));
+            btnNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,15));
             btnCollectCash.setText(getResources().getString(R.string.do_payment_marathi));
-            btnCollectCash.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,20));
+            btnCollectCash.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,15));
             btnConsturctChulha.setText(getResources().getString(R.string.chullaha_construction_marathi));
-            btnConsturctChulha.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,20));
+            btnConsturctChulha.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,15));
         }
         else
         {

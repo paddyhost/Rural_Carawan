@@ -1,6 +1,5 @@
 package com.hatchers.ruralcaravane.customer_registration;
 
-
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.AlertDialog;
@@ -72,8 +71,6 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.hatchers.ruralcaravane.constants.AppConstants.CUSTOMER_PREFIX;
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
-
-
 
 public class AddCustomerFragment extends Fragment {
 
@@ -432,6 +429,7 @@ public class AddCustomerFragment extends Fragment {
                                 }
                                 AddKitchenSuitabilityFragment addKitchenSuitabilityFragment = AddKitchenSuitabilityFragment.getInstance(customer_table);
                                 fragmentTransaction.replace(R.id.frame_layout, addKitchenSuitabilityFragment).addToBackStack(null).commit();
+
                             }
                         });
 

@@ -253,9 +253,9 @@
             android:layout_marginBottom="20dp"
             android:textColor="@color/colorWhite"
             android:textStyle="bold"
-            android:id="@+id/btn_payment"
+            android:id="@+id/btn_save"
             android:background="@color/colorPrimary"
-            android:text="@string/do_payment_marathi"/>
+            android:text="@string/save" />
 
         </LinearLayout>
     </ScrollView>

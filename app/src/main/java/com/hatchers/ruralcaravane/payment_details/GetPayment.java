@@ -23,16 +23,19 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.hatchers.ruralcaravane.R;
+import com.hatchers.ruralcaravane.activity.CompleteConstructionActivity;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
+import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentDetailsHelper;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -54,7 +57,6 @@ public class GetPayment extends Fragment {
     private Button savePayment;
     private String paymentUniqueIdTxt;
     PaymentTable paymentTable;
-
     PaymentTable oldPaymentTable;
     CustomerTable customerTable;
     KitchenTable kitchen;
@@ -92,6 +94,7 @@ public class GetPayment extends Fragment {
         initializations(view);
         onClickListeners();
         addTextListner();
+
         if(kitchen.getCostOfChullhaValue()!=null&&totalcost>=0)
         {
             paid_amount.setText("0");
@@ -177,7 +180,7 @@ public class GetPayment extends Fragment {
                                             payment_amount.setText("");
                                             paid_amount.setText("");
                                             remaining_amount.setText("");
-                                            receiptImageView.setImageResource(R.mipmap.receipt);
+                                            receiptImageView.setImageResource(R.drawable.capture_area);
                                             payBitmap=null;
                                             getActivity().onBackPressed();
                                         }

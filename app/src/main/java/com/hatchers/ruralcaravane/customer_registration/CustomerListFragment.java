@@ -65,8 +65,8 @@ public class CustomerListFragment extends Fragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_customer__list, container, false);
 
@@ -130,7 +130,16 @@ public class CustomerListFragment extends Fragment {
     {
         try
         {
-            customerTables = CustomerTableHelper.getCustomerdataList(getContext());
+            if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_CONSTRUCTION))
+            {
+                customerTables = CustomerTableHelper.getCustomerRemainingConstructionList(getContext());
+
+            }
+            else if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_PAYMENT))
+            {
+                customerTables = CustomerTableHelper.getCustomerdataList(getContext());
+            }
+
             customerListAdapter = new CustomerListAdapter(getContext(), customerTables,openFrom);
             customerRecyclerView.setAdapter(customerListAdapter);
             if(!(customerTables.size() >0))

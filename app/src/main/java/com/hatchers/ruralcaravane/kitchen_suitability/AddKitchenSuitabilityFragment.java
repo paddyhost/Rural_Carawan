@@ -77,8 +77,8 @@ import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateT
 
 
 public class AddKitchenSuitabilityFragment extends Fragment implements
-        AdapterView.OnItemSelectedListener, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener
+        AdapterView.OnItemSelectedListener/*, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener*/
 {
     private int CAMERA = 1;
     Bitmap kitBitmap;
@@ -93,13 +93,14 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
     private Button btnGetLocation;
     private CustomerTable customertable;
 
-    private double lattitude, longitude;
+   /* private double lattitude, longitude;
     //get current location
     LocationManager locationManager;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private LocationListener locationListener;
     public static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 99;
+   */
     private PrefManager prefManager;
     private FragmentTransaction fragmentTransaction;
     private PaymentTable paymentTable;
@@ -142,7 +143,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         setLanguageToUI();
         toolbarClickListener();
         placeImageClickListener();
-        getLocationClickListener();
+       // getLocationClickListener();
         saveKitchenClickListener();
         generateUniqueId();
 
@@ -213,7 +214,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
 
     private void initializations(View view)
     {
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+      //  locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         kitchen_table = new KitchenTable();
 
         fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -239,7 +240,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         }
     }
 
-    private void getCurrentLocation()
+   /* private void getCurrentLocation()
     {
         checkLocationPermission();
 
@@ -247,7 +248,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
 
         setLocationListner();
     }
-
+*/
     private void setHouseTypeSpinner(int houseTypeArray)
     {
         house_type.setOnItemSelectedListener(this);
@@ -284,15 +285,15 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
             @Override
             public void onClick(View v) {
 
-                showPictureDialog();
-                    /*File image = FileHelper.createfile(Folders.CHULHAFOLDER, KITCHEN_PREFIX + kitchen_table.getKitchenUniqueIdValue(), FileType.PNG);
+               // showPictureDialog();
+                    File image = FileHelper.createfile(Folders.CHULHAFOLDER, KITCHEN_PREFIX + kitchen_table.getKitchenUniqueIdValue(), FileType.PNG);
                     if (image != null) {
                         if (!image.exists()) {
                             showPictureDialog();
                         } else {
                             Toast.makeText(getActivity(), "Planned Area Image Already Uploaded", Toast.LENGTH_SHORT).show();
                         }
-                    }*/
+                    }
             }
         });
 
@@ -332,17 +333,18 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
                                         house_type.setAdapter(null);
                                         roof_type.setAdapter(null);
                                         kitchen_height.setText("");
-                                        place_image.setImageResource(R.mipmap.chullha);
+                                        place_image.setImageResource(R.drawable.capture_area);
                                         kitBitmap=null;
 
                                        /*Intent intent=new Intent(getActivity(), MainMenus.class);
                                        startActivity(intent);
-*/
+                                       */
+                                       getActivity().onBackPressed();
 
-                                        FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+
+                                       /* FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                                         PaymentDetailsFragment paymentDetailsFragment = PaymentDetailsFragment.getInstance(customertable,paymentTable);
-                                        fragmentTransaction.replace(R.id.frame_layout,paymentDetailsFragment).addToBackStack(null).commit();
-
+                                        fragmentTransaction.replace(R.id.frame_layout,paymentDetailsFragment).addToBackStack(null).commit();*/
                                         //getActivity().onBackPressed();
 
                                         /*if(RuntimePermissions.isNetworkConnectionAvailable(getActivity())) {
@@ -402,7 +404,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
 
     }
 
-    private void getLocationClickListener()
+   /* private void getLocationClickListener()
     {
         btnGetLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -442,11 +444,13 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
                     });
 
                     Toast.makeText(getContext(), "Lattitude : " + String.valueOf(lattitude) + "\nLongitude : " + String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+                    btnGetLocation.setBackgroundColor(getResources().getColor(R.color.DarkGrey));
+                    btnGetLocation.setClickable(false);
                 }
             }
         });
     }
-
+*/
     private void setKitchenData()
     {
         kitchen_table.setHouse_typeValue(house_type.getSelectedItem().toString());
@@ -576,10 +580,14 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         Date dNow = new Date();
         SimpleDateFormat ft = new SimpleDateFormat("yyMMddhhmmssMs");
         String datetime = ft.format(dNow);
-        kitchenUniqueIdText.setText(KITCHEN_PREFIX+datetime);
+        String randomNumber= String.valueOf(Utility.generateRandomNumber(getActivity()));
+
+        kitchenUniqueIdText.setText(KITCHEN_PREFIX+datetime+"_"+randomNumber);
+
+
     }
 
-    public void toggleGPSUpdates()
+   /* public void toggleGPSUpdates()
     {
         if (checkLocation())
         {
@@ -668,9 +676,9 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         };
     }
 
-    /*
+    *//*
     * onStart : Called when the activity is becoming visible to the user.
-    * */
+    * *//*
     @Override
     public void onStart()
     {
@@ -686,8 +694,8 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
     }
 
 
-    /* * onStop : Called when the activity is no longer visible to the user
-        * */
+    *//* * onStop : Called when the activity is no longer visible to the user
+        * *//*
     @Override
     public void onStop()
     {
@@ -696,13 +704,13 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         //Disconnect the google client api connection.
         if (mGoogleApiClient != null) {
             stopLocationUpdates();
-            mGoogleApiClient.disconnect();
+           // mGoogleApiClient.disconnect();
         }
     }
 
-    /*
+    *//*
     * onPause : Called when the system is about to start resuming a previous activity.
-    * */
+    * *//*
     @Override
     public void onPause()
     {
@@ -710,9 +718,9 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
 
             super.onPause();
 
-            /*
+            *//*
             * Stop retrieving locations when we go out of the application.
-            * */
+            * *//*
             if (mGoogleApiClient != null) {
                 stopLocationUpdates();
             }
@@ -796,7 +804,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
     public String getAddress(double lat, double lng)
     {
         try {
-            Geocoder geocoder = new Geocoder(getActivity().getApplicationContext(), Locale.getDefault());
+            Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
             List<Address> addresses = geocoder.getFromLocation(lat, lng, 1);
 
             String add = "";
@@ -822,6 +830,6 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         }
 
     }
-
+*/
 
 }

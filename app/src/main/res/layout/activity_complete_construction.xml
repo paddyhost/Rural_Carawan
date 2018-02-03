@@ -23,18 +23,33 @@
         android:orientation="vertical"
         android:gravity="center">
 
-    <Button
+
+        <Button
+            android:id="@+id/btn_add_kitchen"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/house_survey_marathi"
+            android:textColor="@color/colorWhite"
+            android:textSize="30dp" />
+
+        <Button
         android:id="@+id/make_construction_team"
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"
-        android:layout_marginTop="90dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+            android:layout_marginTop="25dp"
         android:background="@color/colorPrimary"
         android:text="@string/make_construction_team_marathi"
         android:textColor="@color/colorWhite"
-        android:textSize="30dp"
-        android:textStyle="bold" />
+        android:textSize="30dp" />
 
     <Button
         android:id="@+id/upload_chullaha_photos"
@@ -44,10 +59,11 @@
         android:layout_marginRight="50dp"
         android:layout_marginTop="25dp"
         android:textSize="30dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:background="@color/colorPrimary"
         android:text="@string/upload_kitchen_photo_marathi"
-        android:textColor="@color/colorWhite"
-        android:textStyle="bold" />
+        android:textColor="@color/colorWhite"/>
 
     <Button
         android:layout_marginLeft="50dp"
@@ -60,7 +76,8 @@
         android:id="@+id/do_payment"
         android:textColor="@color/colorWhite"
         android:background="@color/colorPrimary"
-        android:text="@string/do_payment_marathi"/>
+        android:text="@string/do_payment_marathi"
+        android:visibility="gone"/>
 
     </LinearLayout>
 
