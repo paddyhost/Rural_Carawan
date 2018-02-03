@@ -89,7 +89,6 @@ public class CompleteConstructionActivity extends AppCompatActivity{
             else
             {
                 btnAddKitchen.setVisibility(View.GONE);
-                
             }
         }
     }
