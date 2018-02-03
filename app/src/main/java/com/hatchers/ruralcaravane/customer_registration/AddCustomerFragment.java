@@ -427,6 +427,7 @@ public class AddCustomerFragment extends Fragment {
                                     ((CustomerRegistrationActivity)getActivity()).customerListFragment.setData();
 
                                 }
+
                                 AddKitchenSuitabilityFragment addKitchenSuitabilityFragment = AddKitchenSuitabilityFragment.getInstance(customer_table);
                                 fragmentTransaction.replace(R.id.frame_layout, addKitchenSuitabilityFragment).addToBackStack(null).commit();
 
