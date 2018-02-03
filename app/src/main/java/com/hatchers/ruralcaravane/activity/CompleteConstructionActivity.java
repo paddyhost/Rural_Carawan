@@ -88,39 +88,37 @@ public class CompleteConstructionActivity extends AppCompatActivity{
             }
             else
             {
-                btnAddKitchen.setVisibility(View.GONE);
-                
+                btnAddKitchen.setBackgroundColor(getResources().getColor(R.color.gray_btn_bg_color));
             }
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        kitchenTableArrayList=KitchenTableHelper.getKitchenDataList(CompleteConstructionActivity.this,customerTable);
-
-        if (kitchenTableArrayList != null)
-        {
-            if(kitchenTableArrayList.size()<=0)
-            {
-                btnAddKitchen.setVisibility(View.VISIBLE);
-            }
-            else
-            {
-                btnAddKitchen.setVisibility(View.GONE);
-            }
-        }
-
-    }
 
     private void addKitchenClickListener()
     {
         btnAddKitchen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                AddKitchenSuitabilityFragment addKitchenSuitabilityFragment = AddKitchenSuitabilityFragment.getInstance(customerTable);
-                fragmentTransaction.replace(R.id.complete_construction_frame, addKitchenSuitabilityFragment).addToBackStack(null).commit();
+
+                kitchenTableArrayList=KitchenTableHelper.getKitchenDataList(CompleteConstructionActivity.this,customerTable);
+
+                if (kitchenTableArrayList != null)
+                {
+                    if(kitchenTableArrayList.size()<=0)
+                    {
+                        fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                        AddKitchenSuitabilityFragment addKitchenSuitabilityFragment = AddKitchenSuitabilityFragment.getInstance(customerTable);
+                        fragmentTransaction.replace(R.id.complete_construction_frame, addKitchenSuitabilityFragment).addToBackStack(null).commit();
+                        btnAddKitchen.setBackgroundColor(getResources().getColor(R.color.gray_btn_bg_color));
+                    }
+                    else
+                    {
+                        btnAddKitchen.setBackgroundColor(getResources().getColor(R.color.gray_btn_bg_color));
+                        Toast.makeText(CompleteConstructionActivity.this,"Already added kitchen",Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+
             }
         });
     }

@@ -702,7 +702,7 @@ public class AddCustomerFragment extends Fragment {
     {
         boolean response = true;
 
-        if (aadhar_id.getText().toString().trim().length() == 0) {
+        if (aadhar_id.getText().toString().trim().length() == 0 && aadhar_id.getText().toString().trim().length()<=12) {
             aadhar_id.setError("Please Enter Aadhar Number");
             response = false;
         } else {
