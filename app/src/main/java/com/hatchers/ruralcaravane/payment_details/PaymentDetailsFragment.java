@@ -123,23 +123,23 @@ public class PaymentDetailsFragment extends Fragment {
         {
             payment_toolbar.setTitle(getResources().getString(R.string.do_payment_marathi));
 
-            receipt_number.setHint(getResources().getString(R.string.receipt_number));
+            receipt_number.setHint(getResources().getString(R.string.receipt_number_marathi));
             receipt_number.setHintTextColor(getResources().getColor(R.color.DarkGrey));
             receipt_number.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
-            payment_amount.setHint(getResources().getString(R.string.cost_of_chullaha));
+            payment_amount.setHint(getResources().getString(R.string.cost_of_chullaha_marathi));
             payment_amount.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
             payment_amount.setHintTextColor(getResources().getColor(R.color.DarkGrey));
 
-            paid_amount.setHint(getResources().getString(R.string.paid_amount));
+            paid_amount.setHint(getResources().getString(R.string.paid_amount_marathi));
             paid_amount.setHintTextColor(getResources().getColor(R.color.DarkGrey));
             paid_amount.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
-            remaining_amount.setText(getResources().getString(R.string.remaining_payment));
+            remaining_amount.setText(getResources().getString(R.string.remaining_payment_marathi));
             remaining_amount.setHintTextColor(getResources().getColor(R.color.DarkGrey));
             remaining_amount.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
-            text1.setText(getResources().getString(R.string.upload_payment_receipt));
+            text1.setText(getResources().getString(R.string.upload_payment_receipt_marathi));
             text1.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
             savePayment.setText(getResources().getString(R.string.save));
@@ -151,23 +151,23 @@ public class PaymentDetailsFragment extends Fragment {
         {
             payment_toolbar.setTitle(getResources().getString(R.string.do_payment_english));
 
-            receipt_number.setHint(getResources().getString(R.string.receipt_number1));
+            receipt_number.setHint(getResources().getString(R.string.receipt_number_english));
             receipt_number.setHintTextColor(getResources().getColor(R.color.DarkGrey));
             receipt_number.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
-            payment_amount.setText(getResources().getString(R.string.cost_of_chullaha1));
+            payment_amount.setText(getResources().getString(R.string.cost_of_chullaha_english));
             payment_amount.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
             payment_amount.setHintTextColor(getResources().getColor(R.color.DarkGrey));
 
-            paid_amount.setHint(getResources().getString(R.string.paid_amount1));
+            paid_amount.setHint(getResources().getString(R.string.paid_amount_english));
             paid_amount.setHintTextColor(getResources().getColor(R.color.DarkGrey));
             paid_amount.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
-            remaining_amount.setText(getResources().getString(R.string.remaining_payment1));
+            remaining_amount.setText(getResources().getString(R.string.remaining_payment_english));
             remaining_amount.setHintTextColor(getResources().getColor(R.color.DarkGrey));
             remaining_amount.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
-            text1.setText(getResources().getString(R.string.upload_payment_receipt1));
+            text1.setText(getResources().getString(R.string.upload_payment_receipt_english));
             text1.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
             savePayment.setText(getResources().getString(R.string.save1));

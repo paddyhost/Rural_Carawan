@@ -169,7 +169,7 @@ public class GetPayment extends Fragment {
             paid_amount.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
             paid_amount.setHintTextColor(getResources().getColor(R.color.DarkGrey));
 
-            remaining_amount.setHint(getResources().getString(R.string.remaining_payment_marathi));
+            remaining_amount.setHint(getResources().getString(R.string.balance_payment_marathi));
             remaining_amount.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
             remaining_amount.setHintTextColor(getResources().getColor(R.color.DarkGrey));
 

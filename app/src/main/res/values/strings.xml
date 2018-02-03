@@ -48,6 +48,8 @@
     <string name="new_customer">नवीन ग्राहक</string>
     <string name="chullaha_construction_marathi">चूल बांधणी </string>
     <string name="remaining_payment_marathi">उर्वरीत रक्कम टाका</string>
+    <string name="balance_payment_marathi">शिल्लक रक्कम </string>
+
     <string name="save">जतन करा</string>
     <string name="house_survey_marathi">गृह आढावा</string>
     <string name="select_customer">ग्राहक निवडा</string>
