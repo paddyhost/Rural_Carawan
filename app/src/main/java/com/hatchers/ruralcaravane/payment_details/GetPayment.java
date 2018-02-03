@@ -100,6 +100,7 @@ public class GetPayment extends Fragment {
         initializations(view);
         setLanguageToUI();
         onClickListeners();
+        
         addTextListner();
 
         if(kitchen.getCostOfChullhaValue()!=null&&totalcost>=0)
