@@ -106,6 +106,7 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
             @Override
             public void onClick(View v) {
 
+                
             }
         });
 
