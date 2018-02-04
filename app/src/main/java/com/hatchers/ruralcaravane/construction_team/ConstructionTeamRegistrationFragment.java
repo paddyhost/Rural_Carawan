@@ -37,6 +37,7 @@ import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.scaner.AdharScanner;
 import com.hatchers.ruralcaravane.utils.Utility;
+import com.hatchers.ruralcaravane.utils.validations.Validations;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -350,10 +351,13 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
             construction_member_address.setError(null);
         }
 
-        if (construction_member_mobileno.getText().toString().trim().length() == 0) {
+        if(!Validations.isValidPhoneNumber(construction_member_mobileno.getText().toString()))
+        {
             construction_member_mobileno.setError("Please Enter Construction Member Mobile Number");
             response = false;
-        } else {
+        }
+        else
+        {
             construction_member_mobileno.setError(null);
         }
 

@@ -23,42 +23,97 @@
         android:gravity="center"
         android:orientation="vertical">
 
-    <Button
+
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+
+    <ImageView
+        android:layout_width="80dp"
         android:layout_height="80dp"
-        android:layout_marginRight="40dp"
+        android:layout_gravity="center"
         android:layout_marginLeft="40dp"
-        android:text="@string/new_customer"
-        android:id="@+id/btn_add_new_cust"
-        android:textSize="30dp"
-        android:textColor="@color/white"
-        android:background="@color/colorPrimary"/>
+        android:layout_weight="0.1"
+        android:src="@mipmap/newuser"/>
+
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_marginTop="30dp"
         android:layout_marginRight="40dp"
-        android:layout_marginLeft="40dp"
+        android:text="@string/new_customer"
+        android:id="@+id/btn_add_new_cust"
+        android:textSize="30dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="start|center"
+        android:textColor="@color/colorPrimary"
+        android:background="@null"/>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:weightSum="2">
+
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp"
+            android:layout_weight="0.1"
+            android:src="@mipmap/chullha"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
         android:text="@string/chullaha_construction_marathi"
         android:textSize="30dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="start|center"
         android:id="@+id/btn_const_chulha"
-        android:textColor="@color/white"
-        android:background="@color/colorPrimary"/>
+        android:textColor="@color/colorPrimary"
+        android:background="@null"/>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:weightSum="2">
+
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp"
+            android:layout_weight="0.1"
+            android:src="@mipmap/payment"/>
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginLeft="40dp"
             android:text="@string/do_payment_marathi"
             android:textSize="30dp"
+            android:layout_marginLeft="20dp"
+            android:gravity="start|center"
             android:id="@+id/btn_collect_cash"
-            android:textColor="@color/white"
-            android:background="@color/colorPrimary"/>
+            android:textColor="@color/colorPrimary"
+            android:background="@null"/>
 
-
+    </LinearLayout>
     </LinearLayout>
 
     <FrameLayout
