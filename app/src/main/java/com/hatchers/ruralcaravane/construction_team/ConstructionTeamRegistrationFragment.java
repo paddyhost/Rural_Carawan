@@ -356,6 +356,8 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
             construction_member_mobileno.setError("Please Enter Construction Member Mobile Number");
             response = false;
         }
+
+        
         else
         {
             construction_member_mobileno.setError(null);
