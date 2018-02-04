@@ -29,6 +29,12 @@ public class CustomerTable implements Parcelable {
             +CUSTOMER_STATE+" TEXT, "+UPLOAD_STATUS+" TEXT, "+UNIQUE_ID+" TEXT, "+IMAGE_PATH+" TEXT, "+AADHAR_ID+" TEXT, "
             +VILLAGE_ID+" TEXT, "+CITY_ID+" TEXT, "+ADDED_DATE+" TEXT, "+ADDED_BY_ID+" TEXT, "+UPLOAD_DATE+" TEXT, "+UPDATE_DATE+" TEXT )";
 
+
+    public static final int CUSTOMER_ADDED_L = 0, CUSTOMER_UPLOADED_S = 1, KITCHEN_ADDED_L = 2,
+                            KITCHEN_UPLOADED_S = 3, TEAM_ADDED_L = 4, TEAM_UPLOADED = 5,
+                            CHULHA_PHOTO_ADDED_L = 6, CHULHA_PHOTO_UPLOADED_S = 7, PAYMENT_ADDED_L = 8,
+                            PAYMENT_COMPLETED_L = 9, PAYMENT_UPLOADED_S = 10;
+
     private String customerIdValue,customerNameValue,villageNameValue,customerAddressValue,
             customerMobilenoValue,customerAgeValue,customerGenderValue,upload_statusValue,
             uniqueIdValue,imagePathValue,aadharIdValue,villageIdValue,addedDateValue,cityId,

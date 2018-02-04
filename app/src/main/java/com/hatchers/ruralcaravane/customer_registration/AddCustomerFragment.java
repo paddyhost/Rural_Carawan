@@ -194,7 +194,8 @@ public class AddCustomerFragment extends Fragment {
             txt_customerRegistration.setTextSize(Utility.getConvertFloatToDP(getActivity(),15));
 
             ScanByAadhar.setText(getResources().getString(R.string.scan_aadhar_card1));
-            ScanByAadhar.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
+            ScanByAadhar.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+
 
             uniqueIdText.setText(getResources().getString(R.string.unique_id1));
             uniqueIdText.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
@@ -679,7 +680,7 @@ public class AddCustomerFragment extends Fragment {
         customer_table.setVillageIdValue(villageId);
         customer_table.setVillageNameValue(villageSpinner.getSelectedItem().toString());
         customer_table.setAddedDateValue(getCurrentDateTime());
-        customer_table.setUpload_statusValue("0");
+        customer_table.setUpload_statusValue(String.valueOf(CustomerTable.CUSTOMER_ADDED_L));
         customer_table.setAddedByIdValue(new PrefManager(getActivity()).getUserId());
         customer_table.setCustomerState("0");
     }

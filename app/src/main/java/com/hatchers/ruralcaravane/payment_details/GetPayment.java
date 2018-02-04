@@ -133,6 +133,7 @@ public class GetPayment extends Fragment {
         savePayment = (Button) view.findViewById(R.id.savePayment);
         allpaid_amount= (TextInputEditText) view.findViewById(R.id.allpaid_amount);
         labelUploadReceipt=(TextView)view.findViewById(R.id.label_upload_receipt);
+        remaining_amount.setFocusable(false);
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
             Window window =getActivity().getWindow();
@@ -205,7 +206,7 @@ public class GetPayment extends Fragment {
             paid_amount.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
             paid_amount.setHintTextColor(getResources().getColor(R.color.DarkGrey));
 
-            remaining_amount.setHint(getResources().getString(R.string.remaining_payment_english));
+            remaining_amount.setHint(getResources().getString(R.string.balance_amount_english));
             remaining_amount.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
             remaining_amount.setHintTextColor(getResources().getColor(R.color.DarkGrey));
 
@@ -316,6 +317,7 @@ public class GetPayment extends Fragment {
         });
 
     }
+
     private void showPictureDialog()
     {
         final CharSequence[] options = {"Take Photo", "Cancel"};
@@ -341,11 +343,13 @@ public class GetPayment extends Fragment {
         alert.setCanceledOnTouchOutside(false);
         alert.show();
     }
+
     private void takePhotoFromCamera()
     {
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(intent, CAMERA);
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
@@ -361,6 +365,7 @@ public class GetPayment extends Fragment {
 
         }
     }
+
     private void addTextListner()
     {
         payment_amount.addTextChangedListener(new TextWatcher() {
@@ -502,6 +507,7 @@ public class GetPayment extends Fragment {
         paymentTable.setPaymentTypeValue("Cash");
 
     }
+
     private boolean checkValidation()
     {
         boolean response = true;
