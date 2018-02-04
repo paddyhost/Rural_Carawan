@@ -69,19 +69,21 @@ public class KitchenConstructionFragment extends Fragment {
     private ImageView half_constructed_image,complete_constructed_image;
     private int HALF_IMAGE = 1, FULL_IMAGE = 2,PLACE_IMAGE=3;
     Bitmap conBitmap,conBitmap1,placeBitmap;
-    private CustomerTable customerTable;
     private TextView statusTxt,completeConstructedImageLabel,halfConstructedImageLabel;
     private PrefManager prefManager;
+    private CustomerTable customerTable;
 
     public KitchenConstructionFragment()
     {
         // Required empty public constructor
     }
 
-    public static KitchenConstructionFragment getInstance(KitchenTable kitchenTable) {
+    public static KitchenConstructionFragment getInstance(KitchenTable kitchenTable,CustomerTable customerTable)
+    {
         KitchenConstructionFragment fragment = new KitchenConstructionFragment();
         Bundle args = new Bundle();
         args.putParcelable(KitchenTable.KITCHEN_TABLE, kitchenTable);
+        args.putParcelable(CustomerTable.CUSTOMER_TABLE, customerTable);
         fragment.setArguments(args);
         return fragment;
     }
@@ -91,6 +93,7 @@ public class KitchenConstructionFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             kitchenTable = getArguments().getParcelable(KitchenTable.KITCHEN_TABLE);
+            customerTable = getArguments().getParcelable(CustomerTable.CUSTOMER_TABLE);
         }
     }
 
@@ -260,7 +263,7 @@ public class KitchenConstructionFragment extends Fragment {
             });
     }
 
-    private void addTeamClickListener() {
+    /*private void addTeamClickListener() {
         add_construction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -271,7 +274,7 @@ public class KitchenConstructionFragment extends Fragment {
                         if(kitchenTable.getUpload_statusValue().equalsIgnoreCase("1"))
                         {
                             FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                            ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment = ConstructionTeamRegistrationFragment.getInstance(kitchenTable);
+                            ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment = ConstructionTeamRegistrationFragment.getInstance(kitchenTable,customerTable);
                             fragmentTransaction.replace(R.id.frame_layout, constructionTeamRegistrationFragment).addToBackStack(null).commit();
                         }
                         else
@@ -280,7 +283,7 @@ public class KitchenConstructionFragment extends Fragment {
                         }
 
                         FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                        ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment = ConstructionTeamRegistrationFragment.getInstance(kitchenTable);
+                        ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment = ConstructionTeamRegistrationFragment.getInstance(kitchenTable,customerTable);
                         fragmentTransaction.replace(R.id.frame_layout, constructionTeamRegistrationFragment).addToBackStack(null).commit();
                     } else
                     {
@@ -292,7 +295,7 @@ public class KitchenConstructionFragment extends Fragment {
         });
 
     }
-
+*/
     private void addStep1ImageClickListener() {
         half_constructed_image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -501,7 +504,9 @@ public class KitchenConstructionFragment extends Fragment {
                         sweetAlertDialog.dismissWithAnimation();
                         complete_constructed_image.setImageBitmap(conBitmap1);
                         add_construction.setBackgroundColor(getActivity().getResources().getColor(R.color.colorDarkgray));
-                        CustomerTableHelper.updateCustomerState(getActivity(),"1",kitchenTable.getCustomer_idValue());
+                        customerTable.setUpload_statusValue(CustomerTable.CHULHA_PHOTO_ADDED_L);
+                        customerTable.setCustomerState("1");
+                        CustomerTableHelper.updateCustomerData(getActivity(),customerTable);
                     }
                 });
 

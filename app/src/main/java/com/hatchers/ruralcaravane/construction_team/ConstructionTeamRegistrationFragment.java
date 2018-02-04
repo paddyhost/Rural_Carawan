@@ -31,6 +31,7 @@ import com.hatchers.ruralcaravane.construction_team.database.ConstructionTable;
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTableHelper;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
+import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
@@ -53,11 +54,9 @@ import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateT
 
 public class ConstructionTeamRegistrationFragment extends Fragment {
 
-    private CustomerTable customerTable;
     private KitchenTable kitchenTable;
     private  FragmentTransaction fragmentTransaction;
     private Toolbar constructionTeamToolbar;
-    private ImageButton construction_btnBack;
     private Button saveBtn,register_Byscanid;
     private TextInputEditText construction_member_name, construction_member_address,
             construction_member_mobileno, construction_member_age;
@@ -68,14 +67,15 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
     private TextView constructionUniqueIdText,constructionRegistrationTxt;
     ConstructionTable constructionTable;
     private int SCAN_ID=4;
-    ImageView backImg;
+    CustomerTable customerTable;
 
 
-    public static ConstructionTeamRegistrationFragment getInstance(KitchenTable kitchenTable)
+    public static ConstructionTeamRegistrationFragment getInstance(KitchenTable kitchenTable,CustomerTable customerTable)
     {
         ConstructionTeamRegistrationFragment fragment = new ConstructionTeamRegistrationFragment();
         Bundle args = new Bundle();
         args.putParcelable(KitchenTable.KITCHEN_TABLE, kitchenTable);
+        args.putParcelable(CustomerTable.CUSTOMER_TABLE,customerTable);
         fragment.setArguments(args);
         return fragment;
     }
@@ -87,6 +87,7 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             kitchenTable = getArguments().getParcelable(KitchenTable.KITCHEN_TABLE);
+            customerTable=getArguments().getParcelable(CustomerTable.CUSTOMER_TABLE);
         }
     }
 
@@ -250,6 +251,10 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
                                 construction_member_age.setText("");
                                 male.setChecked(false);
                                 female.setChecked(false);
+
+                                customerTable.setUpload_statusValue(CustomerTable.TEAM_ADDED_L);
+                                CustomerTableHelper.updateCustomerData(getContext(),customerTable);
+
                                 getActivity().onBackPressed();
 
                             }
@@ -356,9 +361,6 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
             construction_member_mobileno.setError("Please Enter Construction Member Mobile Number");
             response = false;
         }
-
-
-        
         else
         {
             construction_member_mobileno.setError(null);

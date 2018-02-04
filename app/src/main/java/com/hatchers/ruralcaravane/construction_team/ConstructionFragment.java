@@ -140,7 +140,7 @@ public class ConstructionFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
-                ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment = ConstructionTeamRegistrationFragment.getInstance(kitchenTable);
+                ConstructionTeamRegistrationFragment constructionTeamRegistrationFragment = ConstructionTeamRegistrationFragment.getInstance(kitchenTable,customerTable);
                 fragmentTransaction.replace(R.id.complete_construction_frame,constructionTeamRegistrationFragment).addToBackStack(null).commit();
             }
         });

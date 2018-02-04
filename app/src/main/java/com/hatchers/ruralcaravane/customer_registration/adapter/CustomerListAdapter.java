@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,12 +31,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapter.ViewHolder> {
 
     private Context context;
-    CustomerTable customerTable;
-    PaymentTable paymentTable;
     private ArrayList<CustomerTable> customerTableArrayList;
     private FragmentTransaction fragmentTransaction;
-    public static final String OPEN_FROM = "open_from";
-    public static final String FROM_CONSTRUCTION = "from_construction";
     private String openFrom;
 
     public CustomerListAdapter(Context context, ArrayList<CustomerTable> customerTableArrayList,String openFrom) {
@@ -94,10 +91,20 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
                             fragmentTransaction.replace(R.id.frame_layout, getPayment).addToBackStack(null).commit();
                         }
                     }
-
-
                 }
+            }
+        });
 
+        holder.uploadChulha.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        holder.uploadKichen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
             }
         });
@@ -114,10 +121,12 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
 
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder
+    {
 
         TextView customer_name,address,mobile,age,uploadStatus;
         CircleImageView user_profile;
+        Button uploadChulha, uploadKichen;
 
         View itemView;
 
@@ -130,6 +139,8 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
             age = (TextView) itemView.findViewById(R.id.customer_age);
             user_profile=(CircleImageView)itemView.findViewById(R.id.customer_image);
             uploadStatus=(TextView)itemView.findViewById(R.id.upload_status);
+            uploadChulha = (Button)itemView.findViewById(R.id.upload_Chulha);
+            uploadKichen = (Button)itemView.findViewById(R.id.upload_kitchen);
 
             this.itemView = itemView;
         }
