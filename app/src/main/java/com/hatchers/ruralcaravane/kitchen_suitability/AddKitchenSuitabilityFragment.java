@@ -49,6 +49,7 @@ import com.hatchers.ruralcaravane.activity.MainMenus;
 import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.customer_registration.CustomerListFragment;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
+import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
@@ -339,6 +340,8 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
                                        /*Intent intent=new Intent(getActivity(), MainMenus.class);
                                        startActivity(intent);
                                        */
+                                        customertable.setUpload_statusValue(CustomerTable.KITCHEN_ADDED_L);
+                                        CustomerTableHelper.updateCustomerData(getContext(),customertable);
                                        getActivity().onBackPressed();
 
 
