@@ -147,13 +147,13 @@ public class CompleteConstructionActivity extends AppCompatActivity{
             completeConstructionToolbar.setTitle(getResources().getString(R.string.complete_remaining_construction_english));
 
             btn_makeConstructionTeam.setText(getResources().getString(R.string.make_construction_team_english));
-            btn_makeConstructionTeam.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,12));
+            btn_makeConstructionTeam.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,10));
 
             btn_uploadChullahaPhotos.setText(getResources().getString(R.string.upload_kitchen_photo_english));
-            btn_makeConstructionTeam.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,12));
+            btn_uploadChullahaPhotos.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,12));
 
             btn_doPayment.setText(getResources().getString(R.string.do_payment_english));
-            btn_makeConstructionTeam.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,12));
+            btn_doPayment.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,12));
 
             btnAddKitchen.setText(getResources().getString(R.string.house_survey_english));
             btnAddKitchen.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,12));

@@ -95,10 +95,10 @@ public class ConstructionFragment extends Fragment {
             constructionToolbar.setTitle(R.string.construction_team_english);
 
             addConstructionMember.setText(getResources().getString(R.string.add_new_construction_team_member_english));
-            addConstructionMember.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
+            addConstructionMember.setTextSize(Utility.getConvertFloatToDP(getActivity(),10));
 
             constructionLabel.setText(getResources().getString(R.string.construction_team_member_english));
-            constructionLabel.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
+            constructionLabel.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
         }
     }

@@ -132,12 +132,12 @@ public class CustomerListFragment extends Fragment {
         {
             if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_CONSTRUCTION))
             {
-                customerTables = CustomerTableHelper.getCustomerRemainingConstructionList(getContext());
+                customerTables = CustomerTableHelper.getCustomerAddedList(getContext());
 
             }
             else if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_PAYMENT))
             {
-                customerTables = CustomerTableHelper.getCustomerRemainingPaymentList(getContext());
+                customerTables = CustomerTableHelper.getCustomerWithCompleteConstructionList(getContext());
             }
 
             customerListAdapter = new CustomerListAdapter(getContext(), customerTables,openFrom);

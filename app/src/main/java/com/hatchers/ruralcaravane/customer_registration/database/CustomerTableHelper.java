@@ -28,7 +28,7 @@ public class CustomerTableHelper {
                 values.put(CustomerTable.VILLAGE_NAME,customer_table.getVillageNameValue());
                 values.put(CustomerTable.CUSTOMER_ADDRESS,customer_table.getCustomerAddressValue());
                 values.put(CustomerTable.CUSTOMER_GENDER,customer_table.getCustomerGenderValue());
-                values.put(CustomerTable.UPLOAD_STATUS,"0");
+                values.put(CustomerTable.UPLOAD_STATUS,String.valueOf(CustomerTable.CUSTOMER_ADDED_L));
                 values.put(CustomerTable.UNIQUE_ID,customer_table.getUniqueIdValue());
                 values.put(CustomerTable.IMAGE_PATH,customer_table.getImagePathValue());
                 values.put(CustomerTable.AADHAR_ID,customer_table.getAadharIdValue());
@@ -210,12 +210,101 @@ public class CustomerTableHelper {
         }
     }
 
+    public static ArrayList<CustomerTable> getCustomerAddedList(Context context)
+    {
+        ArrayList<CustomerTable> customerTableArrayList = new ArrayList<CustomerTable>();
+        SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
+        // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE+" WHERE "+CustomerTable.CUSTOMER_STATE+"=='0'"+" ORDER BY "+CustomerTable.ADDED_DATE + " DESC",null);
+        try
+        {
+            cursor.moveToFirst();
+            while (cursor.isAfterLast() == false)
+            {
+                CustomerTable customer = new CustomerTable();
+
+                customer.setCustomerIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_ID)));
+                customer.setCustomerNameValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_NAME)));
+                customer.setCustomerAddressValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_ADDRESS)));
+                customer.setCustomerMobilenoValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_MOBILENO)));
+                customer.setCustomerAgeValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_AGE)));
+                customer.setCustomerGenderValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_GENDER)));
+                customer.setVillageNameValue(cursor.getString(cursor.getColumnIndex(CustomerTable.VILLAGE_NAME)));
+                customer.setUpload_statusValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPLOAD_STATUS)));
+                customer.setUniqueIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UNIQUE_ID)));
+                customer.setImagePathValue(cursor.getString(cursor.getColumnIndex(CustomerTable.IMAGE_PATH)));
+                customer.setAadharIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.AADHAR_ID)));
+                customer.setVillageIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.VILLAGE_ID)));
+                customer.setAddedDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.ADDED_DATE)));
+                customer.setCityId(cursor.getString(cursor.getColumnIndex(CustomerTable.CITY_ID)));
+                customer.setAddedByIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.ADDED_BY_ID)));
+                customer.setUploadDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPLOAD_DATE)));
+                customer.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPDATE_DATE)));
+                customer.setCustomerState(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_STATE)));
+
+                customerTableArrayList.add(customer);
+                cursor.moveToNext();
+            }
+            return customerTableArrayList;
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+
+    public static ArrayList<CustomerTable> getCustomerWithCompleteConstructionList(Context context)
+    {
+        ArrayList<CustomerTable> customerTableArrayList = new ArrayList<CustomerTable>();
+        SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
+        // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE+" WHERE "+CustomerTable.CUSTOMER_STATE+"=='7'"+" ORDER BY "+CustomerTable.ADDED_DATE + " DESC",null);
+        try
+        {
+            cursor.moveToFirst();
+            while (cursor.isAfterLast() == false)
+            {
+                CustomerTable customer = new CustomerTable();
+
+                customer.setCustomerIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_ID)));
+                customer.setCustomerNameValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_NAME)));
+                customer.setCustomerAddressValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_ADDRESS)));
+                customer.setCustomerMobilenoValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_MOBILENO)));
+                customer.setCustomerAgeValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_AGE)));
+                customer.setCustomerGenderValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_GENDER)));
+                customer.setVillageNameValue(cursor.getString(cursor.getColumnIndex(CustomerTable.VILLAGE_NAME)));
+                customer.setUpload_statusValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPLOAD_STATUS)));
+                customer.setUniqueIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UNIQUE_ID)));
+                customer.setImagePathValue(cursor.getString(cursor.getColumnIndex(CustomerTable.IMAGE_PATH)));
+                customer.setAadharIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.AADHAR_ID)));
+                customer.setVillageIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.VILLAGE_ID)));
+                customer.setAddedDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.ADDED_DATE)));
+                customer.setCityId(cursor.getString(cursor.getColumnIndex(CustomerTable.CITY_ID)));
+                customer.setAddedByIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.ADDED_BY_ID)));
+                customer.setUploadDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPLOAD_DATE)));
+                customer.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPDATE_DATE)));
+                customer.setCustomerState(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_STATE)));
+
+                customerTableArrayList.add(customer);
+                cursor.moveToNext();
+            }
+            return customerTableArrayList;
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+
+
+
+/*
     public static ArrayList<CustomerTable> getCustomerRemainingConstructionList(Context context)
     {
         ArrayList<CustomerTable> customerTableArrayList = new ArrayList<CustomerTable>();
         SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE+" WHERE "+CustomerTable.CUSTOMER_STATE+"!='1'"+" ORDER BY "+CustomerTable.ADDED_DATE + " DESC",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE+" WHERE "+CustomerTable.CUSTOMER_STATE+"='0'"+" AND "+CustomerTable.CUSTOMER_STATE+"='2'"+" ORDER BY "+CustomerTable.ADDED_DATE + " DESC",null);
         try
         {
             cursor.moveToFirst();
@@ -258,7 +347,7 @@ public class CustomerTableHelper {
         ArrayList<CustomerTable> customerTableArrayList = new ArrayList<CustomerTable>();
         SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE+" WHERE "+CustomerTable.CUSTOMER_STATE+"!='2'"+" ORDER BY "+CustomerTable.ADDED_DATE + " DESC",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE+" WHERE "+CustomerTable.CUSTOMER_STATE+"='0'"+" AND "+CustomerTable.CUSTOMER_STATE+"='1'"+" ORDER BY "+CustomerTable.ADDED_DATE + " DESC",null);
         try
         {
             cursor.moveToFirst();
@@ -295,6 +384,7 @@ public class CustomerTableHelper {
             return null;
         }
     }
+*/
 
 
 
