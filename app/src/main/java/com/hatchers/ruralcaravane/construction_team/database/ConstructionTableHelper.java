@@ -271,8 +271,8 @@ public class ConstructionTableHelper {
         SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
         Cursor cursor = db.rawQuery("SELECT * FROM "+ ConstructionTable.CONSTRUCTION_TEAM_TABLE+ " WHERE "
-                + ConstructionTable.UPLOAD_STATUS+"='0' AND "+
-                ConstructionTable.CUSTOMER_ID +"='"+customerId+"'",
+              /*  + ConstructionTable.UPLOAD_STATUS+"='0' AND "+
+*/                +ConstructionTable.CUSTOMER_ID +"='"+customerId+"'",
                 null);
         try {
 

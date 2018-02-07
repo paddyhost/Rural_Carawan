@@ -28,7 +28,7 @@ public class CustomerTableHelper {
                 values.put(CustomerTable.VILLAGE_NAME,customer_table.getVillageNameValue());
                 values.put(CustomerTable.CUSTOMER_ADDRESS,customer_table.getCustomerAddressValue());
                 values.put(CustomerTable.CUSTOMER_GENDER,customer_table.getCustomerGenderValue());
-                values.put(CustomerTable.UPLOAD_STATUS,"0");
+                values.put(CustomerTable.UPLOAD_STATUS,customer_table.getUpload_statusValue());
                 values.put(CustomerTable.UNIQUE_ID,customer_table.getUniqueIdValue());
                 values.put(CustomerTable.IMAGE_PATH,customer_table.getImagePathValue());
                 values.put(CustomerTable.AADHAR_ID,customer_table.getAadharIdValue());
