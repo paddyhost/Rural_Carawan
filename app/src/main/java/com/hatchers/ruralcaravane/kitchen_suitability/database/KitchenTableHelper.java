@@ -27,7 +27,7 @@ public class KitchenTableHelper {
                 values.put(KitchenTable.HOUSE_TYPE,kitchenTable.getHouse_typeValue());
                 values.put(KitchenTable.ROOF_TYPE,kitchenTable.getRoof_typeValue());
                 values.put(KitchenTable.KITCHEN_HEIGHT,kitchenTable.getKitchen_heightValue());
-                values.put(KitchenTable.UPLOAD_STATUS,"0");
+                values.put(KitchenTable.UPLOAD_STATUS,kitchenTable.getUpload_statusValue());
                 values.put(KitchenTable.CUSTOMER_ID,kitchenTable.getCustomer_idValue());
                 values.put(KitchenTable.PLACE_IMAGE,kitchenTable.getPlaceImageValue());
                 values.put(KitchenTable.KITCHEN_UNIQUE_ID,kitchenTable.getKitchenUniqueIdValue());

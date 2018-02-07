@@ -1,19 +1,30 @@
 package com.hatchers.ruralcaravane.kitchen_suitability;
 
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +38,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.activity.MainMenus;
 import com.hatchers.ruralcaravane.constants.AppConstants;
@@ -45,6 +62,8 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -54,8 +73,8 @@ import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateT
 
 
 public class AddKitchenSuitability extends Fragment implements
-        AdapterView.OnItemSelectedListener/*, GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener*/
+        AdapterView.OnItemSelectedListener, GoogleApiClient.ConnectionCallbacks,
+        GoogleApiClient.OnConnectionFailedListener
 {
     private int CAMERA = 1;
     Bitmap kitBitmap;
@@ -70,14 +89,14 @@ public class AddKitchenSuitability extends Fragment implements
     private Button btnGetLocation;
     private CustomerTable customertable;
 
-   /* private double lattitude, longitude;
+    private double lattitude, longitude;
     //get current location
     LocationManager locationManager;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
     private LocationListener locationListener;
     public static final int MY_PERMISSIONS_REQUEST_FINE_LOCATION = 99;
-   */
+
     private PrefManager prefManager;
     private FragmentTransaction fragmentTransaction;
     private PaymentTable paymentTable;
@@ -121,7 +140,7 @@ public class AddKitchenSuitability extends Fragment implements
         setLanguageToUI();
         toolbarClickListener();
         placeImageClickListener();
-       // getLocationClickListener();
+        getLocationClickListener();
         saveKitchenClickListener();
         generateUniqueId();
 
@@ -193,7 +212,7 @@ public class AddKitchenSuitability extends Fragment implements
 
     private void initializations(View view)
     {
-      //  locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         kitchen_table = new KitchenTable();
 
         fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
@@ -219,7 +238,7 @@ public class AddKitchenSuitability extends Fragment implements
         }
     }
 
-   /* private void getCurrentLocation()
+    private void getCurrentLocation()
     {
         checkLocationPermission();
 
@@ -227,7 +246,7 @@ public class AddKitchenSuitability extends Fragment implements
 
         setLocationListner();
     }
-*/
+
     private void setHouseTypeSpinner(int houseTypeArray)
     {
         house_type.setOnItemSelectedListener(this);
@@ -388,7 +407,7 @@ public class AddKitchenSuitability extends Fragment implements
 
     }
 
-   /* private void getLocationClickListener()
+    private void getLocationClickListener()
     {
         btnGetLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -434,7 +453,7 @@ public class AddKitchenSuitability extends Fragment implements
             }
         });
     }
-*/
+
     private void setKitchenData()
     {
         kitchen_table.setHouse_typeValue(house_type.getSelectedItem().toString());
@@ -571,7 +590,7 @@ public class AddKitchenSuitability extends Fragment implements
 
     }
 
-   /* public void toggleGPSUpdates()
+    public void toggleGPSUpdates()
     {
         if (checkLocation())
         {
@@ -655,14 +674,21 @@ public class AddKitchenSuitability extends Fragment implements
                 lattitude = location.getLatitude();
                 longitude = location.getLongitude();
                // edtAddress.setText(getAddress(lattitude,longitude));
-                kitchen_table.setGeoAddressValue(getAddress(lattitude,longitude));
+                try {
+                    kitchen_table.setGeoAddressValue(getAddress(lattitude,longitude));
+                }
+                catch (Exception e)
+                {
+                 e.printStackTrace();
+                }
+
             }
         };
     }
 
-    *//*
-    * onStart : Called when the activity is becoming visible to the user.
-    * *//*
+   // *//*
+   // * onStart : Called when the activity is becoming visible to the user.
+  //  * *//*
     @Override
     public void onStart()
     {
@@ -678,23 +704,29 @@ public class AddKitchenSuitability extends Fragment implements
     }
 
 
-    *//* * onStop : Called when the activity is no longer visible to the user
-        * *//*
+    //*//* * onStop : Called when the activity is no longer visible to the user
+    //    * *//*
     @Override
     public void onStop()
     {
         // EventBus.getDefault().unregister(this);
         super.onStop();
         //Disconnect the google client api connection.
-        if (mGoogleApiClient != null) {
-            stopLocationUpdates();
-           // mGoogleApiClient.disconnect();
+        try {
+            if (mGoogleApiClient != null) {
+                stopLocationUpdates();
+                // mGoogleApiClient.disconnect();
+            }
+        }
+        catch (Exception e)
+        {
+
         }
     }
 
-    *//*
-    * onPause : Called when the system is about to start resuming a previous activity.
-    * *//*
+   // *//*
+  //  * onPause : Called when the system is about to start resuming a previous activity.
+  //  * *//*
     @Override
     public void onPause()
     {
@@ -702,9 +734,9 @@ public class AddKitchenSuitability extends Fragment implements
 
             super.onPause();
 
-            *//*
-            * Stop retrieving locations when we go out of the application.
-            * *//*
+           // *//*
+           // * Stop retrieving locations when we go out of the application.
+           // * *//*
             if (mGoogleApiClient != null) {
                 stopLocationUpdates();
             }
@@ -806,7 +838,7 @@ public class AddKitchenSuitability extends Fragment implements
             }
             return add;
         }
-        catch (IOException e)
+        catch (Exception e)
         {
             e.printStackTrace();
             //   Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -814,6 +846,6 @@ public class AddKitchenSuitability extends Fragment implements
         }
 
     }
-*/
+
 
 }
