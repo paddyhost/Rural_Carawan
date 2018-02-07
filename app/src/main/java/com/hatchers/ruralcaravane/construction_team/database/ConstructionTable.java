@@ -23,6 +23,8 @@ public class ConstructionTable implements Parcelable {
             +CUSTOMER_ID+" TEXT, " +KITCHEN_ID+" TEXT, "+KITCHEN_UNIQUE_ID+" TEXT, "+DATETIME+" TEXT,"
             +ADDED_BY_ID+" TEXT, "+ADDED_DATE+" TEXT, "+UPDATE_DATE+" TEXT)";
 
+    public static final String TEAM_ADDED_LOCAL="0", TEAM_ADDED_SERVER="1";
+
     private  String technicianIdValue,technicianNameValue,
             technicianAddressValue,technicianMobileNoValue,
             technicianAgeValue,technicianGenderValue,

@@ -483,7 +483,7 @@ public class KitchenConstructionFragment extends Fragment {
             if(image!=null) {
                 if(image.exists()) {
                     kitchenTable.setStep2_imageValue(image.getAbsolutePath());
-                    kitchenTable.setUpload_statusValue("2");
+                    kitchenTable.setUpload_statusValue(KitchenTable.PHOTOS_ADDED_LOCAL);
                     kitchenTable.setConstructionEndDateTimeValue(getCurrentDateTime());
 
                 }
@@ -504,8 +504,10 @@ public class KitchenConstructionFragment extends Fragment {
                         sweetAlertDialog.dismissWithAnimation();
                         complete_constructed_image.setImageBitmap(conBitmap1);
                         add_construction.setBackgroundColor(getActivity().getResources().getColor(R.color.colorDarkgray));
-                        customerTable.setUpload_statusValue(CustomerTable.CHULHA_PHOTO_ADDED_L);
-                        customerTable.setCustomerState("1");
+
+                        customerTable.setUpload_statusValue("6");
+                        customerTable.setChulha_photo_added(CustomerTable.LOCAL);
+                        customerTable.setconstructionComplete(CustomerTable.LOCAL);
                         CustomerTableHelper.updateCustomerData(getActivity(),customerTable);
                     }
                 });

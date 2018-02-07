@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
@@ -41,7 +40,7 @@ import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHe
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
-import com.hatchers.ruralcaravane.kitchen_suitability.AddKitchenSuitabilityFragment;
+import com.hatchers.ruralcaravane.kitchen_suitability.AddKitchenSuitability;
 import com.hatchers.ruralcaravane.locality.database.CityTable;
 import com.hatchers.ruralcaravane.locality.database.CityTableHelper;
 import com.hatchers.ruralcaravane.locality.database.StateTable;
@@ -49,9 +48,9 @@ import com.hatchers.ruralcaravane.locality.database.StateTableHelper;
 import com.hatchers.ruralcaravane.locality.database.VillageTable;
 import com.hatchers.ruralcaravane.locality.database.VillageTableHelper;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
-import com.hatchers.ruralcaravane.runtime_permissions.RuntimePermissions;
 import com.hatchers.ruralcaravane.scaner.AdharScanner;
 import com.hatchers.ruralcaravane.utils.Utility;
+import com.hatchers.ruralcaravane.utils.validations.Validations;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -428,10 +427,10 @@ public class AddCustomerFragment extends Fragment {
                                     ((CustomerRegistrationActivity)getActivity()).customerListFragment.setData();
 
                                 }
-
-                                AddKitchenSuitabilityFragment addKitchenSuitabilityFragment = AddKitchenSuitabilityFragment.getInstance(customer_table);
-                                fragmentTransaction.replace(R.id.frame_layout, addKitchenSuitabilityFragment).addToBackStack(null).commit();
-
+                                getActivity().onBackPressed();
+                      /*          AddKitchenSuitability addKitchenSuitability = AddKitchenSuitability.getInstance(customer_table);
+                                fragmentTransaction.replace(R.id.frame_layout, addKitchenSuitability).addToBackStack(null).commit();
+*/
                             }
                         });
 
@@ -680,9 +679,17 @@ public class AddCustomerFragment extends Fragment {
         customer_table.setVillageIdValue(villageId);
         customer_table.setVillageNameValue(villageSpinner.getSelectedItem().toString());
         customer_table.setAddedDateValue(getCurrentDateTime());
-        customer_table.setUpload_statusValue(String.valueOf(CustomerTable.CUSTOMER_ADDED_L));
+        customer_table.setUpload_statusValue("0");
+        customer_table.setCustomer_added(CustomerTable.LOCAL);
         customer_table.setAddedByIdValue(new PrefManager(getActivity()).getUserId());
-        customer_table.setCustomerState("0");
+
+        customer_table.setKitchen_added(CustomerTable.NOT_ADDED);
+        customer_table.setTeam_added(CustomerTable.NOT_ADDED);
+        customer_table.setChulha_photo_added(CustomerTable.NOT_ADDED);
+        customer_table.setconstructionComplete(CustomerTable.NOT_ADDED);
+        customer_table.setPayment_added(CustomerTable.NOT_ADDED);
+        customer_table.setPayment_completed(CustomerTable.NOT_ADDED);
+
     }
 
     public void setGender()
@@ -704,24 +711,32 @@ public class AddCustomerFragment extends Fragment {
     {
         boolean response = true;
 
-        if (aadhar_id.getText().toString().trim().length() == 0 && aadhar_id.getText().toString().trim().length()<=12) {
-            aadhar_id.setError("Please Enter Aadhar Number");
+        if(!Validations.isValidAadharNumber(aadhar_id.getText().toString()))
+        {
+            aadhar_id.setError("Please Enter Valid Aadhar Number");
             response = false;
-        } else {
+        }
+        else
+        {
             aadhar_id.setError(null);
         }
 
-        if (customer_name.getText().toString().trim().length() == 0) {
-            customer_name.setError("Please Enter Customer Name");
+        /*if(!Validations.isValidName(customer_name.getText().toString()))
+        {
+            customer_name.setError("Please Enter Valid Customer Name");
             response = false;
-        } else {
-            customer_name.setError(null);
         }
+        else
+        {
+            customer_name.setError(null);
+        }*/
 
         if (customer_age.getText().toString().trim().length() == 0) {
             customer_age.setError("Please Enter Customer Age ");
             response = false;
-        } else {
+        }
+        else
+        {
             customer_age.setError(null);
         }
 
@@ -732,10 +747,14 @@ public class AddCustomerFragment extends Fragment {
             customer_address.setError(null);
         }
 
-        if (customer_mobileno.getText().toString().trim().length() == 0) {
+
+        if(!Validations.isValidPhoneNumber(customer_mobileno.getText().toString()))
+        {
             customer_mobileno.setError("Please Enter Customer Mobile Number");
             response = false;
-        } else {
+        }
+        else
+        {
             customer_mobileno.setError(null);
         }
 

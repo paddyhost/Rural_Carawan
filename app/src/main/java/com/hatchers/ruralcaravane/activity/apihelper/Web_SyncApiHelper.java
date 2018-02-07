@@ -48,7 +48,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 
 public class Web_SyncApiHelper
 {
-    public static void addNewCustomerToServer(final Activity activity, final SweetAlertDialog sweetAlertDialog,final CustomerTable customerTable)
+   /* public static void addNewCustomerToServer(final Activity activity, final SweetAlertDialog sweetAlertDialog,final CustomerTable customerTable)
     {
         //final CustomerTable customerTable =CustomerTableHelper.getUnUploadCustomerData(activity);
         if(customerTable.getUpload_statusValue().equalsIgnoreCase("0"))
@@ -1292,10 +1292,10 @@ public class Web_SyncApiHelper
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
                     Map<String, String> params = new Hashtable<String, String>();
-                /*format=json&mobile=9975294782&password=user@123&
+                *//*format=json&mobile=9975294782&password=user@123&
                 CUSTOMER_ID=2321&PAYMENT_ID=23214&AMOUNT=234124&
                 DATE_OF_PAYMENT=a&KITCHEN_ID=asadx&
-                PAYMENT_TYPE=asxasxas&RECEIPT_NO=asxasx*/
+                PAYMENT_TYPE=asxasxas&RECEIPT_NO=asxasx*//*
                     params.put("format", "json");
                     params.put("CUSTOMER_ID", paymentTable.getCustomerIdValue());
                     params.put("PAYMENT_ID", paymentTable.getPaymentUniqueIdValue());
@@ -1319,5 +1319,5 @@ public class Web_SyncApiHelper
 
     }
 
-
+*/
 }

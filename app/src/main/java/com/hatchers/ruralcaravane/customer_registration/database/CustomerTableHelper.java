@@ -28,7 +28,7 @@ public class CustomerTableHelper {
                 values.put(CustomerTable.VILLAGE_NAME,customer_table.getVillageNameValue());
                 values.put(CustomerTable.CUSTOMER_ADDRESS,customer_table.getCustomerAddressValue());
                 values.put(CustomerTable.CUSTOMER_GENDER,customer_table.getCustomerGenderValue());
-                values.put(CustomerTable.UPLOAD_STATUS,String.valueOf(CustomerTable.CUSTOMER_ADDED_L));
+                values.put(CustomerTable.UPLOAD_STATUS,"0");
                 values.put(CustomerTable.UNIQUE_ID,customer_table.getUniqueIdValue());
                 values.put(CustomerTable.IMAGE_PATH,customer_table.getImagePathValue());
                 values.put(CustomerTable.AADHAR_ID,customer_table.getAadharIdValue());
@@ -38,8 +38,14 @@ public class CustomerTableHelper {
                 values.put(CustomerTable.ADDED_BY_ID,customer_table.getAddedByIdValue());
                 values.put(CustomerTable.UPLOAD_DATE,customer_table.getUploadDateValue());
                 values.put(CustomerTable.UPDATE_DATE,customer_table.getUpdateDateValue());
-                values.put(CustomerTable.CUSTOMER_STATE,customer_table.getCustomerState());
 
+            values.put(CustomerTable.CUSTOMER_ADDED,customer_table.getCustomer_added());
+            values.put(CustomerTable.KITCHEN_ADDED,customer_table.getKitchen_added());
+            values.put(CustomerTable.TEAM_ADDED,customer_table.getTeam_added());
+            values.put(CustomerTable.CHULHA_PHOTO_ADDED,customer_table.getChulha_photo_added());
+            values.put(CustomerTable.CONSTRUCTION_COMPLETE,customer_table.getconstructionComplete());
+            values.put(CustomerTable.PAYMENT_ADDED,customer_table.getPayment_added());
+            values.put(CustomerTable.PAYMENT_COMPLETED,customer_table.getPayment_completed());
 
             if (db.insert(CustomerTable.CUSTOMER_TABLE, null, values) > 0)
             {
@@ -72,10 +78,17 @@ public class CustomerTableHelper {
             values.put(CustomerTable.CUSTOMER_ID,customer_table.getCustomerIdValue());
             values.put(CustomerTable.UPLOAD_STATUS,customer_table.getUpload_statusValue());
 
+            values.put(CustomerTable.CUSTOMER_ADDED,customer_table.getCustomer_added());
+            values.put(CustomerTable.KITCHEN_ADDED,customer_table.getKitchen_added());
+            values.put(CustomerTable.TEAM_ADDED,customer_table.getTeam_added());
+            values.put(CustomerTable.CHULHA_PHOTO_ADDED,customer_table.getChulha_photo_added());
+            values.put(CustomerTable.CONSTRUCTION_COMPLETE,customer_table.getconstructionComplete());
+            values.put(CustomerTable.PAYMENT_ADDED,customer_table.getPayment_added());
+            values.put(CustomerTable.PAYMENT_COMPLETED,customer_table.getPayment_completed());
+
+
             values.put(CustomerTable.UPLOAD_DATE,getCurrentDateTime());
             values.put(CustomerTable.UPDATE_DATE,getCurrentDateTime());
-            values.put(CustomerTable.CUSTOMER_STATE,customer_table.getCustomerState());
-
 
             // upadating Row
             int i =db.update(CustomerTable.CUSTOMER_TABLE, values, CustomerTable.UNIQUE_ID+"='"+customer_table.getUniqueIdValue()+"'", null);
@@ -97,17 +110,24 @@ public class CustomerTableHelper {
         }
     }
 
-   /* public static boolean updateCustomerState(Context context,String state, String uniqueId)
+    public static boolean updateCustomerStatus(Context context, CustomerTable customer_table)
     {
         try {
             SQLiteDatabase db = new DatabaseHandler(context).getWritableDatabase();
             ContentValues values = new ContentValues();
 
-            values.put(CustomerTable.CUSTOMER_STATE,state);
+            values.put(CustomerTable.UPLOAD_STATUS,customer_table.getUpload_statusValue());
+            values.put(CustomerTable.CUSTOMER_ADDED,customer_table.getCustomer_added());
+            values.put(CustomerTable.KITCHEN_ADDED,customer_table.getKitchen_added());
+            values.put(CustomerTable.TEAM_ADDED,customer_table.getTeam_added());
+            values.put(CustomerTable.CHULHA_PHOTO_ADDED,customer_table.getChulha_photo_added());
+            values.put(CustomerTable.CONSTRUCTION_COMPLETE,customer_table.getconstructionComplete());
+            values.put(CustomerTable.PAYMENT_ADDED,customer_table.getPayment_added());
+            values.put(CustomerTable.PAYMENT_COMPLETED,customer_table.getPayment_completed());
 
 
             // upadating Row
-            int i =db.update(CustomerTable.CUSTOMER_TABLE, values, CustomerTable.UNIQUE_ID+"='"+uniqueId+"'", null);
+            int i =db.update(CustomerTable.CUSTOMER_TABLE, values, CustomerTable.UNIQUE_ID+"='"+customer_table.getUniqueIdValue()+"'", null);
             if(i>0)
             {
                 db.close();
@@ -124,7 +144,7 @@ public class CustomerTableHelper {
             return false;
         }
     }
-*/
+
 
     public static CustomerTable getUnUploadCustomerData(Context context)
     {
@@ -139,24 +159,33 @@ public class CustomerTableHelper {
             customer.setCustomerIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_ID)));
             customer.setCustomerNameValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_NAME)));
             customer.setCustomerAddressValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_ADDRESS)));
-                customer.setCustomerMobilenoValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_MOBILENO)));
-                customer.setCustomerAgeValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_AGE)));
-                customer.setCustomerGenderValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_GENDER)));
-                customer.setVillageNameValue(cursor.getString(cursor.getColumnIndex(CustomerTable.VILLAGE_NAME)));
-                customer.setUpload_statusValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPLOAD_STATUS)));
-                customer.setUniqueIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UNIQUE_ID)));
-                customer.setImagePathValue(cursor.getString(cursor.getColumnIndex(CustomerTable.IMAGE_PATH)));
-                customer.setAadharIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.AADHAR_ID)));
-                customer.setVillageIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.VILLAGE_ID)));
-                customer.setAddedDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.ADDED_DATE)));
-                customer.setCityId(cursor.getString(cursor.getColumnIndex(CustomerTable.CITY_ID)));
-                customer.setAddedByIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.ADDED_BY_ID)));
-                customer.setUploadDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPLOAD_DATE)));
-                customer.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPDATE_DATE)));
-                customer.setCustomerState(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_STATE)));
+            customer.setCustomerMobilenoValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_MOBILENO)));
+            customer.setCustomerAgeValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_AGE)));
+            customer.setCustomerGenderValue(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_GENDER)));
+            customer.setVillageNameValue(cursor.getString(cursor.getColumnIndex(CustomerTable.VILLAGE_NAME)));
+            customer.setUpload_statusValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPLOAD_STATUS)));
+            customer.setUniqueIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UNIQUE_ID)));
+            customer.setImagePathValue(cursor.getString(cursor.getColumnIndex(CustomerTable.IMAGE_PATH)));
+            customer.setAadharIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.AADHAR_ID)));
+            customer.setVillageIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.VILLAGE_ID)));
+            customer.setAddedDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.ADDED_DATE)));
+            customer.setCityId(cursor.getString(cursor.getColumnIndex(CustomerTable.CITY_ID)));
+            customer.setAddedByIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.ADDED_BY_ID)));
+            customer.setUploadDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPLOAD_DATE)));
+            customer.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPDATE_DATE)));
+
+            customer.setCustomer_added(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_ADDED)));
+            customer.setKitchen_added(cursor.getString(cursor.getColumnIndex(CustomerTable.KITCHEN_ADDED)));
+            customer.setTeam_added(cursor.getString(cursor.getColumnIndex(CustomerTable.TEAM_ADDED)));
+            customer.setChulha_photo_added(cursor.getString(cursor.getColumnIndex(CustomerTable.CHULHA_PHOTO_ADDED)));
+            customer.setconstructionComplete(cursor.getString(cursor.getColumnIndex(CustomerTable.CONSTRUCTION_COMPLETE)));
+            customer.setPayment_added(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_ADDED)));
+            customer.setPayment_completed(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_COMPLETED)));
 
 
-                return  customer;
+
+
+            return  customer;
 
 
         }
@@ -194,8 +223,14 @@ public class CustomerTableHelper {
             customer.setAddedByIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.ADDED_BY_ID)));
             customer.setUploadDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPLOAD_DATE)));
             customer.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPDATE_DATE)));
-            customer.setCustomerState(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_STATE)));
 
+            customer.setCustomer_added(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_ADDED)));
+            customer.setKitchen_added(cursor.getString(cursor.getColumnIndex(CustomerTable.KITCHEN_ADDED)));
+            customer.setTeam_added(cursor.getString(cursor.getColumnIndex(CustomerTable.TEAM_ADDED)));
+            customer.setChulha_photo_added(cursor.getString(cursor.getColumnIndex(CustomerTable.CHULHA_PHOTO_ADDED)));
+            customer.setconstructionComplete(cursor.getString(cursor.getColumnIndex(CustomerTable.CONSTRUCTION_COMPLETE)));
+            customer.setPayment_added(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_ADDED)));
+            customer.setPayment_completed(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_COMPLETED)));
 
             return  customer;
 
@@ -238,7 +273,14 @@ public class CustomerTableHelper {
                 customer.setAddedByIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.ADDED_BY_ID)));
                 customer.setUploadDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPLOAD_DATE)));
                 customer.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPDATE_DATE)));
-                customer.setCustomerState(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_STATE)));
+
+                customer.setCustomer_added(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_ADDED)));
+                customer.setKitchen_added(cursor.getString(cursor.getColumnIndex(CustomerTable.KITCHEN_ADDED)));
+                customer.setTeam_added(cursor.getString(cursor.getColumnIndex(CustomerTable.TEAM_ADDED)));
+                customer.setChulha_photo_added(cursor.getString(cursor.getColumnIndex(CustomerTable.CHULHA_PHOTO_ADDED)));
+                customer.setconstructionComplete(cursor.getString(cursor.getColumnIndex(CustomerTable.CONSTRUCTION_COMPLETE)));
+                customer.setPayment_added(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_ADDED)));
+                customer.setPayment_completed(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_COMPLETED)));
 
                 customerTableArrayList.add(customer);
                 cursor.moveToNext();
@@ -256,7 +298,9 @@ public class CustomerTableHelper {
         ArrayList<CustomerTable> customerTableArrayList = new ArrayList<CustomerTable>();
         SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE+" WHERE "+CustomerTable.CUSTOMER_STATE+"=='0'"+" ORDER BY "+CustomerTable.ADDED_DATE + " DESC",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE+
+                " WHERE "+CustomerTable.UPLOAD_STATUS+"!='7'"+
+                " ORDER BY "+CustomerTable.ADDED_DATE + " DESC",null);
         try
         {
             cursor.moveToFirst();
@@ -281,7 +325,14 @@ public class CustomerTableHelper {
                 customer.setAddedByIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.ADDED_BY_ID)));
                 customer.setUploadDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPLOAD_DATE)));
                 customer.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPDATE_DATE)));
-                customer.setCustomerState(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_STATE)));
+
+                customer.setCustomer_added(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_ADDED)));
+                customer.setKitchen_added(cursor.getString(cursor.getColumnIndex(CustomerTable.KITCHEN_ADDED)));
+                customer.setTeam_added(cursor.getString(cursor.getColumnIndex(CustomerTable.TEAM_ADDED)));
+                customer.setChulha_photo_added(cursor.getString(cursor.getColumnIndex(CustomerTable.CHULHA_PHOTO_ADDED)));
+                customer.setconstructionComplete(cursor.getString(cursor.getColumnIndex(CustomerTable.CONSTRUCTION_COMPLETE)));
+                customer.setPayment_added(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_ADDED)));
+                customer.setPayment_completed(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_COMPLETED)));
 
                 customerTableArrayList.add(customer);
                 cursor.moveToNext();
@@ -299,7 +350,9 @@ public class CustomerTableHelper {
         ArrayList<CustomerTable> customerTableArrayList = new ArrayList<CustomerTable>();
         SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE+" WHERE "+CustomerTable.CUSTOMER_STATE+"=='7'"+" ORDER BY "+CustomerTable.ADDED_DATE + " DESC",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE+
+                " WHERE "+CustomerTable.UPLOAD_STATUS+"!='11'"
+                +" ORDER BY "+CustomerTable.ADDED_DATE + " DESC",null);
         try
         {
             cursor.moveToFirst();
@@ -324,7 +377,14 @@ public class CustomerTableHelper {
                 customer.setAddedByIdValue(cursor.getString(cursor.getColumnIndex(CustomerTable.ADDED_BY_ID)));
                 customer.setUploadDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPLOAD_DATE)));
                 customer.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(CustomerTable.UPDATE_DATE)));
-                customer.setCustomerState(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_STATE)));
+
+                customer.setCustomer_added(cursor.getString(cursor.getColumnIndex(CustomerTable.CUSTOMER_ADDED)));
+                customer.setKitchen_added(cursor.getString(cursor.getColumnIndex(CustomerTable.KITCHEN_ADDED)));
+                customer.setTeam_added(cursor.getString(cursor.getColumnIndex(CustomerTable.TEAM_ADDED)));
+                customer.setChulha_photo_added(cursor.getString(cursor.getColumnIndex(CustomerTable.CHULHA_PHOTO_ADDED)));
+                customer.setconstructionComplete(cursor.getString(cursor.getColumnIndex(CustomerTable.CONSTRUCTION_COMPLETE)));
+                customer.setPayment_added(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_ADDED)));
+                customer.setPayment_completed(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_COMPLETED)));
 
                 customerTableArrayList.add(customer);
                 cursor.moveToNext();

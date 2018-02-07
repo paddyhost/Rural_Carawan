@@ -36,7 +36,7 @@ public class Payment_WebApiHelper {
     public static boolean uploadPaymentDataToServer(final Activity activity, final SweetAlertDialog sweetAlertDialog)
     {
 
-        final PaymentTable paymentTable = PaymentDetailsHelper.getUnUploadPaymentData(activity);
+       /* final PaymentTable paymentTable = PaymentDetailsHelper.getUnUploadPaymentData(activity);
         if(paymentTable==null)
         {
             sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
@@ -225,10 +225,10 @@ public class Payment_WebApiHelper {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new Hashtable<String, String>();
-                /*format=json&mobile=9975294782&password=user@123&
+                *//*format=json&mobile=9975294782&password=user@123&
                 CUSTOMER_ID=2321&PAYMENT_ID=23214&AMOUNT=234124&
                 DATE_OF_PAYMENT=a&KITCHEN_ID=asadx&
-                PAYMENT_TYPE=asxasxas&RECEIPT_NO=asxasx*/
+                PAYMENT_TYPE=asxasxas&RECEIPT_NO=asxasx*//*
                 params.put("format","json");
                 params.put("CUSTOMER_ID",paymentTable.getCustomerIdValue());
                 params.put("PAYMENT_ID",paymentTable.getPaymentUniqueIdValue());
@@ -248,6 +248,6 @@ public class Payment_WebApiHelper {
         };
 
         MyApplication.getInstance().addToRequestQueue(strReq);
-        return true;
+       */ return true;
     }
 }

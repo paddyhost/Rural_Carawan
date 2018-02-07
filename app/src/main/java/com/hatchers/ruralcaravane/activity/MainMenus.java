@@ -4,17 +4,15 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.customer_registration.AddCustomerFragment;
 import com.hatchers.ruralcaravane.customer_registration.CustomerListFragment;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
-import com.hatchers.ruralcaravane.kitchen_suitability.AddKitchenSuitabilityFragment;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.utils.Utility;
 
@@ -22,7 +20,8 @@ import java.util.ArrayList;
 
 public class MainMenus extends AppCompatActivity
 {
-    private Button btnNewCustomer, btnConsturctChulha, btnCollectCash;
+    private TextView txtCollectCash, txtConstChulha, txtAddNewCustomer;
+    private LinearLayout addCustomer_layout,constructChulha_layout,payment_layout;
     private PrefManager prefManager;
     private Toolbar mainMenusToolbar;
     private ArrayList<CustomerTable> customerTableArrayList;
@@ -45,9 +44,12 @@ public class MainMenus extends AppCompatActivity
     {
         mainMenusToolbar=(Toolbar)findViewById(R.id.mainMenus_toolbar);
         prefManager = new PrefManager(MainMenus.this);
-        btnNewCustomer = (Button)findViewById(R.id.btn_add_new_cust);
-        btnConsturctChulha = (Button)findViewById(R.id.btn_const_chulha);
-        btnCollectCash = (Button)findViewById(R.id.btn_collect_cash);
+        txtAddNewCustomer = (TextView) findViewById(R.id.txt_add_new_customer);
+        txtConstChulha = (TextView)findViewById(R.id.txt_const_chulha);
+        txtCollectCash = (TextView)findViewById(R.id.txt_collect_cash);
+        addCustomer_layout=(LinearLayout)findViewById(R.id.addCustomerLayout);
+        constructChulha_layout=(LinearLayout)findViewById(R.id.constructChulhaLayout);
+        payment_layout=(LinearLayout)findViewById(R.id.paymentLayout);
     }
 
     private void setLanguageToUI()
@@ -56,29 +58,29 @@ public class MainMenus extends AppCompatActivity
         {
             mainMenusToolbar.setTitle(getResources().getString(R.string.customer_agreement));
 
-            btnNewCustomer.setText(getResources().getString(R.string.new_customer));
-            btnNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,15));
-            btnCollectCash.setText(getResources().getString(R.string.do_payment_marathi));
-            btnCollectCash.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,15));
-            btnConsturctChulha.setText(getResources().getString(R.string.chullaha_construction_marathi));
-            btnConsturctChulha.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,15));
+            txtAddNewCustomer.setText(getResources().getString(R.string.new_customer));
+            txtAddNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,15));
+            txtCollectCash.setText(getResources().getString(R.string.do_payment_marathi));
+            txtCollectCash.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,15));
+            txtConstChulha.setText(getResources().getString(R.string.chullaha_construction_marathi));
+            txtConstChulha.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,15));
         }
         else
         {
             mainMenusToolbar.setTitle(getResources().getString(R.string.menu_english));
 
-            btnNewCustomer.setText("New Customer");
-            btnNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,12));
-            btnCollectCash.setText("Collect Cash");
-            btnCollectCash.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,12));
-            btnConsturctChulha.setText("Construct Chulha");
-            btnConsturctChulha.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,12));
+            txtAddNewCustomer.setText("New Customer");
+            txtAddNewCustomer.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,12));
+            txtCollectCash.setText("Collect Cash");
+            txtCollectCash.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,12));
+            txtConstChulha.setText("Construct Chulha");
+            txtConstChulha.setTextSize(Utility.getConvertFloatToDP(MainMenus.this,12));
         }
     }
 
     private void clickListner()
     {
-        btnNewCustomer.setOnClickListener(new View.OnClickListener() {
+        addCustomer_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
@@ -88,7 +90,7 @@ public class MainMenus extends AppCompatActivity
             }
         });
 
-        btnConsturctChulha.setOnClickListener(new View.OnClickListener() {
+        constructChulha_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {
@@ -99,7 +101,7 @@ public class MainMenus extends AppCompatActivity
             }
         });
 
-        btnCollectCash.setOnClickListener(new View.OnClickListener() {
+        payment_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view)
             {

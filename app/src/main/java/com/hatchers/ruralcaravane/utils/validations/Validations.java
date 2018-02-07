@@ -19,4 +19,9 @@ public class Validations {
         Matcher ms = ps.matcher(name);
         return ms.matches();
     }
+
+    public static boolean isValidAadharNumber(String aadhar_number) {
+        String regEx = "^[0-9]{12}$";
+        return aadhar_number.matches(regEx);
+    }
 }

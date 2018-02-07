@@ -32,6 +32,9 @@ public class KitchenTable implements Parcelable{
             +ADDED_BY_ID+" TEXT, "+UPDATE_DATE+" TEXT, "+CONSTRUCTION_START_DATETIME+" TEXT, "
             +KITCHEN_STATE+" TEXT, "+CONSTRUCTION_END_DATETIME+" TEXT)";
 
+    public static final String KITCHEN_ADDED_LOCAL="0", KITCHEN_UPLOADED_SERVER="1",TEAM_ADDED_LOCAL="2",
+                                TEAM_ADDED_SERVER="3", PHOTOS_ADDED_LOCAL="4", PHOTOS_ADDED_SERVER="5";
+
     private String kitchen_idValue,house_typeValue,roof_typeValue,kitchen_heightValue,
             upload_statusValue,customer_idValue,placeImageValue,kitchenUniqueIdValue,
             latitudeValue,longitudeValue,uploadDateValue,geoAddressValue,costOfChullhaValue,

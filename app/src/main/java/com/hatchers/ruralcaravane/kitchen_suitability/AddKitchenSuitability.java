@@ -1,27 +1,19 @@
 package com.hatchers.ruralcaravane.kitchen_suitability;
 
 
-import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,20 +26,10 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.location.Location;
-import android.location.LocationManager;
 
-import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationListener;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.activity.MainMenus;
 import com.hatchers.ruralcaravane.constants.AppConstants;
-import com.hatchers.ruralcaravane.customer_registration.CustomerListFragment;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHelper;
 import com.hatchers.ruralcaravane.file.FileHelper;
@@ -55,20 +37,14 @@ import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
-import com.hatchers.ruralcaravane.payment_details.PaymentDetailsFragment;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.utils.Utility;
 
-import org.w3c.dom.Text;
-
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
-import java.util.Locale;
 
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -77,7 +53,7 @@ import static com.hatchers.ruralcaravane.constants.AppConstants.KITCHEN_PREFIX;
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
 
 
-public class AddKitchenSuitabilityFragment extends Fragment implements
+public class AddKitchenSuitability extends Fragment implements
         AdapterView.OnItemSelectedListener/*, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener*/
 {
@@ -107,14 +83,14 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
     private PaymentTable paymentTable;
     private ArrayList<KitchenTable> kitchenTableArrayList;
 
-    public AddKitchenSuitabilityFragment()
+    public AddKitchenSuitability()
     {
         // Required empty public constructor
     }
 
-    public static AddKitchenSuitabilityFragment getInstance(CustomerTable customertable)
+    public static AddKitchenSuitability getInstance(CustomerTable customertable)
     {
-        AddKitchenSuitabilityFragment fragment = new AddKitchenSuitabilityFragment();
+        AddKitchenSuitability fragment = new AddKitchenSuitability();
         Bundle args = new Bundle();
         args.putParcelable(CustomerTable.CUSTOMER_TABLE, customertable);
         fragment.setArguments(args);
@@ -134,6 +110,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
     }
 
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -150,6 +127,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
 
         return view;
     }
+
 
 
     private void setLanguageToUI()
@@ -340,10 +318,13 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
                                        /*Intent intent=new Intent(getActivity(), MainMenus.class);
                                        startActivity(intent);
                                        */
-                                        customertable.setUpload_statusValue(CustomerTable.KITCHEN_ADDED_L);
+                                        customertable.setUpload_statusValue("2");
+                                        customertable.setKitchen_added(CustomerTable.LOCAL);
                                         CustomerTableHelper.updateCustomerData(getContext(),customertable);
-                                       getActivity().onBackPressed();
 
+                                        Intent intent=new Intent(getActivity(), MainMenus.class);
+                                        startActivity(intent);
+                                        getActivity().finish();
 
                                        /* FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                                         PaymentDetailsFragment paymentDetailsFragment = PaymentDetailsFragment.getInstance(customertable,paymentTable);
@@ -462,7 +443,7 @@ public class AddKitchenSuitabilityFragment extends Fragment implements
         kitchen_table.setKitchenUniqueIdValue(kitchenUniqueIdText.getText().toString());
         kitchen_table.setCustomer_idValue(customertable.getUniqueIdValue());
         kitchen_table.setAddedDateValue(getCurrentDateTime());
-        kitchen_table.setUpload_statusValue("0");
+        kitchen_table.setUpload_statusValue(KitchenTable.KITCHEN_ADDED_LOCAL);
         Date date=new Date();
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         kitchen_table.setUploadDateValue(formatter.format(date));
