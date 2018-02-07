@@ -19,6 +19,9 @@ public class PaymentTable implements Parcelable{
             +RECEIPT_IMAGE+" TEXT, "+CUSTOMER_ID+" TEXT, "+DATE_OF_PAYMENT+" TEXT, "+KITCHEN_ID+" TEXT , "+RECEIPT_NO+" TEXT, "
             +PAYMENT_UNIQUE_ID+" TEXT, "+PAYMENT_TYPE+" TEXT, "+UPLOAD_DATE+" TEXT)";
 
+    public static final String PAYMENT_ADDED_LOCAL="0", PAYMENT_ADDED_SERVER="1", PAYMENT_COMPLETED_LOCAL="2",
+                                PAYMENT_COMPLETED_SERVER="3";
+
     private String payment_idValue,amountValue,totalPaidValue,balanceValue,upload_statusValue,customerIdValue,receiptImageValue,dateOfPaymentValue,kitchenIdValue,receiptNoValue,paymentUniqueIdValue,paymentTypeValue,uploadDateValue;
 
     public PaymentTable(String payment_idValue, String amountValue, String totalPaidValue, String balanceValue, String upload_statusValue,String customerIdValue,String receiptImageValue,String dateOfPaymentValue,String kitchenIdValue,String receiptNoValue,String paymentUniqueIdValue ,String paymentTypeValue,String uploadDateValue) {

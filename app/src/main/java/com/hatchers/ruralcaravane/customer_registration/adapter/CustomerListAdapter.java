@@ -22,9 +22,11 @@ import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelpe
 import com.hatchers.ruralcaravane.payment_details.GetPayment;
 import com.hatchers.ruralcaravane.payment_details.PaymentDetailsFragment;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
+import com.hatchers.ruralcaravane.sync.Web_SyncApi_Helper;
 
 import java.util.ArrayList;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 
@@ -64,6 +66,15 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
                     .error(R.drawable.user_profile)
                     .into(holder.user_profile);
 
+            if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_CONSTRUCTION))
+            {
+                holder.uploadPayment.setVisibility(View.GONE);
+            }
+            else if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_PAYMENT))
+            {
+                holder.uploadKichen.setVisibility(View.GONE);
+            }
+
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -95,10 +106,17 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
             }
         });
 
-        holder.uploadChulha.setOnClickListener(new View.OnClickListener() {
+        holder.uploadPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(context,SweetAlertDialog.PROGRESS_TYPE)
+                        .setTitleText("Please wait...")
+                        .setContentText("wait uploading data");
+                sweetAlertDialog.setCancelable(false);
+                sweetAlertDialog.show();
+
+                Web_SyncApi_Helper.UploadPaymentsOfCustomerToServer(((AppCompatActivity)context),sweetAlertDialog,customerTable);
             }
         });
 
@@ -106,7 +124,13 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
             @Override
             public void onClick(View v) {
 
-                
+                SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(context,SweetAlertDialog.PROGRESS_TYPE)
+                        .setTitleText("Please wait...")
+                        .setContentText("wait uploading data");
+                sweetAlertDialog.setCancelable(false);
+                sweetAlertDialog.show();
+
+                Web_SyncApi_Helper.UploadCustomerAndCompletedKitchenDataToServer(((AppCompatActivity)context),sweetAlertDialog,customerTable);
             }
         });
 
@@ -127,7 +151,7 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
 
         TextView customer_name,address,mobile,age,uploadStatus;
         CircleImageView user_profile;
-        Button uploadChulha, uploadKichen;
+        Button uploadPayment, uploadKichen;
 
         View itemView;
 
@@ -140,7 +164,7 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
             age = (TextView) itemView.findViewById(R.id.customer_age);
             user_profile=(CircleImageView)itemView.findViewById(R.id.customer_image);
             uploadStatus=(TextView)itemView.findViewById(R.id.upload_status);
-            uploadChulha = (Button)itemView.findViewById(R.id.upload_Chulha);
+            uploadPayment = (Button)itemView.findViewById(R.id.upload_payment);
             uploadKichen = (Button)itemView.findViewById(R.id.upload_kitchen);
 
             this.itemView = itemView;

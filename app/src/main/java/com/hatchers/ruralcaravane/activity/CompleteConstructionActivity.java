@@ -12,14 +12,13 @@ import android.widget.Toast;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.construction_team.ConstructionFragment;
-import com.hatchers.ruralcaravane.construction_team.ConstructionTeamRegistrationFragment;
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTable;
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTableHelper;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
-import com.hatchers.ruralcaravane.kitchen_suitability.AddKitchenSuitabilityFragment;
+import com.hatchers.ruralcaravane.kitchen_suitability.AddKitchenSuitability;
 import com.hatchers.ruralcaravane.kitchen_suitability.KitchenConstructionFragment;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
@@ -32,7 +31,6 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static com.hatchers.ruralcaravane.constants.AppConstants.STEP2_PREFIX;
-import static com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper.getKitchenDetailsData;
 
 public class CompleteConstructionActivity extends AppCompatActivity{
 
@@ -56,9 +54,11 @@ public class CompleteConstructionActivity extends AppCompatActivity{
         kitchenTable=KitchenTableHelper.getKitchenDetailsData(this,customerTable.getUniqueIdValue());
         initializations();
         setLanguageToUI();
-        onClickListeners();
-        addKitchenClickListener();
 
+        addKitchenClickListener();
+        doPaymentClickListener();
+        chulhaPhotosClickListener();
+        makeConstructionTeamClickListener();
 
         completeConstructionToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +93,6 @@ public class CompleteConstructionActivity extends AppCompatActivity{
         }
     }
 
-
     private void addKitchenClickListener()
     {
         btnAddKitchen.setOnClickListener(new View.OnClickListener() {
@@ -107,8 +106,8 @@ public class CompleteConstructionActivity extends AppCompatActivity{
                     if(kitchenTableArrayList.size()<=0)
                     {
                         fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                        AddKitchenSuitabilityFragment addKitchenSuitabilityFragment = AddKitchenSuitabilityFragment.getInstance(customerTable);
-                        fragmentTransaction.replace(R.id.complete_construction_frame, addKitchenSuitabilityFragment).addToBackStack(null).commit();
+                        AddKitchenSuitability addKitchenSuitability = AddKitchenSuitability.getInstance(customerTable);
+                        fragmentTransaction.replace(R.id.complete_construction_frame, addKitchenSuitability).addToBackStack(null).commit();
                         btnAddKitchen.setBackgroundColor(getResources().getColor(R.color.gray_btn_bg_color));
                     }
                     else
@@ -160,7 +159,7 @@ public class CompleteConstructionActivity extends AppCompatActivity{
         }
     }
 
-    private void onClickListeners()
+    private void doPaymentClickListener()
     {
         btn_doPayment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,8 +169,10 @@ public class CompleteConstructionActivity extends AppCompatActivity{
                 fragmentTransaction.replace(R.id.complete_construction_frame, paymentDetailsFragment).addToBackStack(null).commit();
             }
         });
+    }
 
-
+    private void chulhaPhotosClickListener()
+    {
         btn_uploadChullahaPhotos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -179,7 +180,7 @@ public class CompleteConstructionActivity extends AppCompatActivity{
                 if (ConstructionTableHelper.getConstructionTeamList(CompleteConstructionActivity.this,customerTable).size()>0) {
 
                     fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    KitchenConstructionFragment kitchenConstructionFragment = KitchenConstructionFragment.getInstance(kitchenTable);
+                    KitchenConstructionFragment kitchenConstructionFragment = KitchenConstructionFragment.getInstance(kitchenTable,customerTable);
                     fragmentTransaction.replace(R.id.complete_construction_frame, kitchenConstructionFragment).addToBackStack(null).commit();
                 }
                 else
@@ -192,7 +193,7 @@ public class CompleteConstructionActivity extends AppCompatActivity{
 
                     if (kitchenTableArrayList != null) {
                         if (kitchenTableArrayList == null) {
-                            //AddKitchenSuitabilityFragment addKitchenSuitabilityFragment = AddKitchenSuitabilityFragment.getInstance(customertable);
+                            //AddKitchenSuitability addKitchenSuitabilityFragment = AddKitchenSuitability.getInstance(customertable);
                             //fragmentTransaction.replace(R.id.frame_layout, addKitchenSuitabilityFragment).addToBackStack(null).commit();
                        } else {
 
@@ -206,7 +207,10 @@ public class CompleteConstructionActivity extends AppCompatActivity{
             }
         });
 
+    }
 
+    private void makeConstructionTeamClickListener()
+    {
         btn_makeConstructionTeam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

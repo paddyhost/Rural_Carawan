@@ -183,13 +183,16 @@ public class ConstructionTableHelper {
         }
     }
 
-    public static ConstructionTable getConstructionTeamByKitchenId(Context context, String kitchenUniqueId)
+    public static ConstructionTable getConstructionTeamByKitchenAndCustomerId(Context context, String kitchenUniqueId,String customerId)
     {
         ConstructionTable constructionTable = new ConstructionTable();
 
         SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ ConstructionTable.CONSTRUCTION_TEAM_TABLE + " WHERE "+ ConstructionTable.KITCHEN_UNIQUE_ID +"='"+kitchenUniqueId+"'",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ ConstructionTable.CONSTRUCTION_TEAM_TABLE +
+                " WHERE "+ ConstructionTable.KITCHEN_UNIQUE_ID +"='"+kitchenUniqueId+"' AND "
+                        + ConstructionTable.CUSTOMER_ID +"='"+customerId+"'",
+                null);
         try
         {
             cursor.moveToFirst();
@@ -262,12 +265,15 @@ public class ConstructionTableHelper {
         }
     }
 
-    public static ConstructionTable getUnUploadConstructionData(Context context)
+    public static ConstructionTable getUnUploadConstructionData(Context context, String customerId)
     {
 
         SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
-        Cursor cursor = db.rawQuery("SELECT * FROM "+ ConstructionTable.CONSTRUCTION_TEAM_TABLE+" WHERE "+ ConstructionTable.UPLOAD_STATUS+"='0'",null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ ConstructionTable.CONSTRUCTION_TEAM_TABLE+ " WHERE "
+                + ConstructionTable.UPLOAD_STATUS+"='0' AND "+
+                ConstructionTable.CUSTOMER_ID +"='"+customerId+"'",
+                null);
         try {
 
             cursor.moveToFirst();

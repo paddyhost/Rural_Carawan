@@ -41,7 +41,7 @@ public class Construction_WebApiHelper {
     public static boolean uploadConstructionDataToServer(final Activity activity, final SweetAlertDialog sweetAlertDialog)
     {
 
-        final ConstructionTable constructionTable =ConstructionTableHelper.getUnUploadConstructionData(activity);
+       /* final ConstructionTable constructionTable =ConstructionTableHelper.getUnUploadConstructionData(activity);
         if(constructionTable==null)
         {
 
@@ -283,7 +283,7 @@ public class Construction_WebApiHelper {
 
         };
 
-        MyApplication.getInstance().addToRequestQueue(strReq);
+        MyApplication.getInstance().addToRequestQueue(strReq);*/
         return true;
     }
 

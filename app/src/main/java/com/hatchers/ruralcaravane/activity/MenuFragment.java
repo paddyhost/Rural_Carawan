@@ -1,7 +1,6 @@
 package com.hatchers.ruralcaravane.activity;
 
 
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -18,24 +17,17 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.hatchers.ruralcaravane.R;
-import com.hatchers.ruralcaravane.activity.apihelper.Web_SyncApiHelper;
 import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
-import com.hatchers.ruralcaravane.file.FileHelper;
-import com.hatchers.ruralcaravane.file.FileType;
-import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.KitchenConstructionFragment;
-import com.hatchers.ruralcaravane.kitchen_suitability.AddKitchenSuitabilityFragment;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 import com.hatchers.ruralcaravane.payment_details.PaymentDetailsListFragment;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.utils.Utility;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper.getKitchenDetailsData;
@@ -181,13 +173,13 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
                 {
                     if(kitchenTableArrayList.size()<=0)
                     {
-                        //AddKitchenSuitabilityFragment addKitchenSuitabilityFragment = AddKitchenSuitabilityFragment.getInstance(customertable);
+                        //AddKitchenSuitability addKitchenSuitabilityFragment = AddKitchenSuitability.getInstance(customertable);
                         //fragmentTransaction.replace(R.id.frame_layout, addKitchenSuitabilityFragment).addToBackStack(null).commit();
                     }
                     else
                     {
                         kitchenTable = KitchenTableHelper.getKitchenDetailsData(getActivity(), customertable.getUniqueIdValue());
-                        KitchenConstructionFragment kitchenConstructionFragment = KitchenConstructionFragment.getInstance(kitchenTable);
+                        KitchenConstructionFragment kitchenConstructionFragment = KitchenConstructionFragment.getInstance(kitchenTable,customertable);
                         fragmentTransaction.replace(R.id.frame_layout, kitchenConstructionFragment).addToBackStack(null).commit();
                     }
                 }

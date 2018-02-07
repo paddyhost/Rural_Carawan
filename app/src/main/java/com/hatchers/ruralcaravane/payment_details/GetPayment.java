@@ -257,12 +257,30 @@ public class GetPayment extends Fragment {
 
                                 sweetAlertDialog.show();
 
-                                if(PaymentDetailsHelper.insertPaymentDetailsData(getContext(), paymentTable))
+                                if(remaining_amount.getText().toString().equalsIgnoreCase("0"))
+                                {
+                                   paymentTable.setUpload_statusValue(PaymentTable.PAYMENT_COMPLETED_LOCAL);
+                                }
+                                else
+                                {
+                                    paymentTable.setUpload_statusValue(PaymentTable.PAYMENT_ADDED_LOCAL);
+                                }
+
+                                    if(PaymentDetailsHelper.insertPaymentDetailsData(getContext(), paymentTable))
                                 {
                                     if(remaining_amount.getText().toString().equalsIgnoreCase("0"))
                                     {
-                                        CustomerTableHelper.updateCustomerState(getActivity(),"2",customerTable.getUniqueIdValue());
+                                        customerTable.setUpload_statusValue("8");
+                                        customerTable.setPayment_added(CustomerTable.LOCAL);
+                                        CustomerTableHelper.updateCustomerData(getActivity(),customerTable);
                                     }
+                                    else
+                                    {
+                                        customerTable.setUpload_statusValue("10");
+                                        customerTable.setPayment_completed(CustomerTable.LOCAL);
+                                        CustomerTableHelper.updateCustomerData(getActivity(),customerTable);
+                                    }
+
                                     sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                                     sweetAlertDialog.setTitleText("Payment Details Added Successfully");
                                     sweetAlertDialog.setConfirmText("Ok");
@@ -498,7 +516,7 @@ public class GetPayment extends Fragment {
         paymentTable.setBalanceValue(remaining_amount.getText().toString());
         paymentTable.setCustomerIdValue(customerTable.getUniqueIdValue());
         paymentTable.setDateOfPaymentValue(getCurrentDateTime());
-        paymentTable.setUpload_statusValue("0");
+        paymentTable.setUpload_statusValue(PaymentTable.PAYMENT_ADDED_LOCAL);
         paymentTable.setPaymentUniqueIdValue(PAYMENT_PREFIX+generateUniqueId());
         paymentTable.setReceiptNoValue(receipt_number.getText().toString());
         paymentTable.setPaymentTypeValue(paymentTable.getPaymentTypeValue());

@@ -35,6 +35,7 @@ import com.hatchers.ruralcaravane.customer_registration.database.CustomerTableHe
 import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
+import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.scaner.AdharScanner;
 import com.hatchers.ruralcaravane.utils.Utility;
@@ -237,6 +238,8 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
                     sweetAlertDialog.show();
                     if(ConstructionTableHelper.insertConstructionTeamData(getContext(), constructionTable))
                     {
+                        kitchenTable.setUpload_statusValue(KitchenTable.TEAM_ADDED_LOCAL);
+                        KitchenTableHelper.updateKitchenData(getActivity(),kitchenTable);
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                         sweetAlertDialog.setTitleText("Construction Team Data Added Successfully");
                         sweetAlertDialog.setConfirmText("Ok");
@@ -252,7 +255,8 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
                                 male.setChecked(false);
                                 female.setChecked(false);
 
-                                customerTable.setUpload_statusValue(CustomerTable.TEAM_ADDED_L);
+                                customerTable.setUpload_statusValue("4");
+                                customerTable.setTeam_added(CustomerTable.LOCAL);
                                 CustomerTableHelper.updateCustomerData(getContext(),customerTable);
 
                                 getActivity().onBackPressed();
@@ -301,7 +305,7 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
         constructionTable.setKitchentUniqueId(kitchenTable.getKitchenUniqueIdValue());
         constructionTable.setKitchenIdValue(kitchenTable.getKitchen_idValue());
         constructionTable.setCustomerIdValue(kitchenTable.getCustomer_idValue());
-        constructionTable.setUploadStatusValue("0");
+        constructionTable.setUploadStatusValue(ConstructionTable.TEAM_ADDED_LOCAL);
         constructionTable.setTechnicianUniqueIdValue(generateUniqueId());
         constructionTable.setAddedByIdValue(new PrefManager(getActivity()).getUserId());
     }
@@ -358,9 +362,10 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
 
         if(!Validations.isValidPhoneNumber(construction_member_mobileno.getText().toString()))
         {
-            construction_member_mobileno.setError("Please Enter Construction Member Mobile Number");
+            construction_member_mobileno.setError("Please Enter valid Mobile Number");
             response = false;
         }
+
         else
         {
             construction_member_mobileno.setError(null);
