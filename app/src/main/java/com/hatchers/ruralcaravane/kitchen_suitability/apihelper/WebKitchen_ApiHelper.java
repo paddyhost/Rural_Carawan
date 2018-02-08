@@ -112,7 +112,7 @@ public class WebKitchen_ApiHelper
 
                             if(KitchenTableHelper.updateKitchenData(activity,kitchenTable))
                             {
-                                Toast.makeText(activity,"Kitchen Succefully uploaded",Toast.LENGTH_SHORT).show();
+                                Toast.makeText(activity,"Kitchen Successfully uploaded",Toast.LENGTH_SHORT).show();
                                 sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                                 sweetAlertDialog.setTitleText("Successfully uploaded");
                                 sweetAlertDialog.setConfirmText("Ok");

@@ -725,7 +725,7 @@ public class AddCustomerFragment extends Fragment {
             aadhar_id.setError(null);
         }
 
-        /*if(!Validations.isValidName(customer_name.getText().toString()))
+        if(!Validations.isValidName(customer_name.getText().toString()))
         {
             customer_name.setError("Please Enter Valid Customer Name");
             response = false;
@@ -733,7 +733,7 @@ public class AddCustomerFragment extends Fragment {
         else
         {
             customer_name.setError(null);
-        }*/
+        }
 
         if (customer_age.getText().toString().trim().length() == 0) {
             customer_age.setError("Please Enter Customer Age ");

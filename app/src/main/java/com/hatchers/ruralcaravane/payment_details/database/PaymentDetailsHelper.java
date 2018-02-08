@@ -80,7 +80,7 @@ public class PaymentDetailsHelper {
             // upadating Row
             if(db.update(PaymentTable.PAYMENT_TABLE, values, PaymentTable.PAYMENT_UNIQUE_ID+"='"+paymentTable.getPaymentUniqueIdValue()+"'", null)>0)
             {
-                Toast.makeText(context,"Payment deatails updated",Toast.LENGTH_LONG).show();
+                Toast.makeText(context,"Payment details updated",Toast.LENGTH_LONG).show();
                 db.close();
                 return true;
             }
