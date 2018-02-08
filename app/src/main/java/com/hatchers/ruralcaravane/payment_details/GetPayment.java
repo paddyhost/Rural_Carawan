@@ -270,14 +270,14 @@ public class GetPayment extends Fragment {
                                 {
                                     if(remaining_amount.getText().toString().equalsIgnoreCase("0"))
                                     {
-                                        customerTable.setUpload_statusValue("8");
-                                        customerTable.setPayment_added(CustomerTable.LOCAL);
+                                        customerTable.setUpload_statusValue("10");
+                                        customerTable.setPayment_completed(CustomerTable.LOCAL);
                                         CustomerTableHelper.updateCustomerData(getActivity(),customerTable);
                                     }
                                     else
                                     {
-                                        customerTable.setUpload_statusValue("10");
-                                        customerTable.setPayment_completed(CustomerTable.LOCAL);
+                                        customerTable.setUpload_statusValue("8");
+                                        customerTable.setPayment_added(CustomerTable.LOCAL);
                                         CustomerTableHelper.updateCustomerData(getActivity(),customerTable);
                                     }
 

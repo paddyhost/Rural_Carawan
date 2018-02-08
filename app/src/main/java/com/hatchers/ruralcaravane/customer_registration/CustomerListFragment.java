@@ -24,9 +24,9 @@ import com.hatchers.ruralcaravane.utils.Utility;
 
 import java.util.ArrayList;
 
-public class CustomerListFragment extends Fragment {
-
-    CustomerListAdapter customerListAdapter;
+public class CustomerListFragment extends Fragment
+{
+    private CustomerListAdapter customerListAdapter;
     private RecyclerView customerRecyclerView;
     private TextView no_cust_txt;
     public static final String OPEN_FROM = "open_from";
@@ -35,7 +35,8 @@ public class CustomerListFragment extends Fragment {
     private String openFrom;
     private PrefManager prefManager;
     private Toolbar customerListToolbar;
-    ArrayList<CustomerTable> customerTables;
+    private ArrayList<CustomerTable> customerTableArrayList;
+    private TextView remaingTxt;
 
     public CustomerListFragment()
     {
@@ -73,14 +74,9 @@ public class CustomerListFragment extends Fragment {
         initializations(view);
         setLanguageToUI();
         setData();
+        backClickListener();
 
-        customerListToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
-            }
-        });
-    return view;
+        return view;
     }
 
     private void setLanguageToUI()
@@ -92,6 +88,16 @@ public class CustomerListFragment extends Fragment {
             no_cust_txt.setText(getResources().getString(R.string.no_customer_marathi));
             no_cust_txt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
+            if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_CONSTRUCTION))
+            {
+                remaingTxt.setText(getResources().getString(R.string.remaing_chulha_customer_marathi));
+                remaingTxt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            }
+            else if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_PAYMENT))
+            {
+                remaingTxt.setText(getResources().getString(R.string.remaing_payment_customer_marathi));
+                remaingTxt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            }
         }
         else
         {
@@ -100,6 +106,16 @@ public class CustomerListFragment extends Fragment {
             no_cust_txt.setText(getResources().getString(R.string.no_customer_english));
             no_cust_txt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
+            if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_CONSTRUCTION))
+            {
+                remaingTxt.setText(getResources().getString(R.string.remaing_chulha_customer_english));
+                remaingTxt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            }
+            else if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_PAYMENT))
+            {
+                remaingTxt.setText(getResources().getString(R.string.remaing_payment_customer_english));
+                remaingTxt.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            }
         }
     }
 
@@ -108,13 +124,13 @@ public class CustomerListFragment extends Fragment {
         prefManager=new PrefManager(getActivity());
         customerListToolbar=(Toolbar)view.findViewById(R.id.customer_list_toolbar);
         no_cust_txt=(TextView)view.findViewById(R.id.no_cust_txt);
+        remaingTxt = (TextView)view.findViewById(R.id.remaing_list_txt);
         customerRecyclerView = (RecyclerView) view.findViewById(R.id.customerRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         customerRecyclerView.setLayoutManager(layoutManager);
 
         customerRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
         customerRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        setData();
 
 
         if (android.os.Build.VERSION.SDK_INT >= 21) {
@@ -126,23 +142,52 @@ public class CustomerListFragment extends Fragment {
 
     }
 
+    private void backClickListener()
+    {
+        customerListToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+    }
+
     public  void setData()
     {
         try
         {
             if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_CONSTRUCTION))
             {
-                customerTables = CustomerTableHelper.getCustomerAddedList(getContext());
+                customerTableArrayList = CustomerTableHelper.getCustomerAddedList(getContext());
 
+                if (customerTableArrayList != null) {
+                    for (CustomerTable customerTable:customerTableArrayList)
+                    {
+                        if(customerTable.getChulha_photo_added().equalsIgnoreCase(CustomerTable.SERVER))
+                        {
+                            customerTableArrayList.remove(customerTable);
+                        }
+                    }
+                }
             }
             else if(openFrom.equalsIgnoreCase(CustomerListFragment.FROM_PAYMENT))
             {
-                customerTables = CustomerTableHelper.getCustomerWithCompleteConstructionList(getContext());
+                customerTableArrayList = CustomerTableHelper.getCustomerWithCompleteConstructionList(getContext());
+
+                if (customerTableArrayList != null) {
+                    for (CustomerTable customerTable:customerTableArrayList)
+                    {
+                        if(customerTable.getPayment_completed().equalsIgnoreCase(CustomerTable.SERVER))
+                        {
+                            customerTableArrayList.remove(customerTable);
+                        }
+                    }
+                }
             }
 
-            customerListAdapter = new CustomerListAdapter(getContext(), customerTables,openFrom);
+            customerListAdapter = new CustomerListAdapter(getContext(), customerTableArrayList,openFrom);
             customerRecyclerView.setAdapter(customerListAdapter);
-            if(!(customerTables.size() >0))
+            if(!(customerTableArrayList.size() >0))
             {
                 customerRecyclerView.setVisibility(View.GONE);
                 no_cust_txt.setVisibility(View.VISIBLE);

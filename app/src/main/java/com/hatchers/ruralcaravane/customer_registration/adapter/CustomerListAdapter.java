@@ -22,6 +22,7 @@ import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 import com.hatchers.ruralcaravane.payment_details.GetPayment;
 import com.hatchers.ruralcaravane.payment_details.PaymentDetailsFragment;
+import com.hatchers.ruralcaravane.payment_details.PaymentDetailsListFragment;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.sync.Web_SyncApi_Helper;
@@ -101,8 +102,8 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
                         else
                         {
                             fragmentTransaction =((AppCompatActivity)context).getSupportFragmentManager().beginTransaction();
-                            GetPayment getPayment = GetPayment.newInstance(customerTable);
-                            fragmentTransaction.replace(R.id.frame_layout, getPayment).addToBackStack(null).commit();
+                            PaymentDetailsListFragment detailsListFragment = PaymentDetailsListFragment.getInstance(customerTable);
+                            fragmentTransaction.replace(R.id.frame_layout, detailsListFragment).addToBackStack(null).commit();
                         }
                     }
                 }

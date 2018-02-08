@@ -18,9 +18,11 @@
     </android.support.v7.widget.Toolbar>
 
     <android.support.v7.widget.RecyclerView
-        android:layout_below="@+id/customer_list_toolbar"
+        android:layout_below="@+id/remaing_list_txt"
         android:id="@+id/customerRecyclerView"
         android:scrollbars="vertical"
+        android:visibility="visible"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
@@ -28,11 +30,25 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="No Customers"
+        android:layout_below="@+id/remaing_list_txt"
         android:textSize="20dp"
         android:id="@+id/no_cust_txt"
         android:visibility="gone"
         android:textStyle="bold"
         android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Remaing Customers"
+        android:layout_below="@+id/customer_list_toolbar"
+        android:textSize="20dp"
+        android:layout_marginTop="20dp"
+        android:id="@+id/remaing_list_txt"
+        android:visibility="visible"
+        android:textStyle="bold"
+        android:gravity="top|center"/>
+
 
 
 </RelativeLayout>
