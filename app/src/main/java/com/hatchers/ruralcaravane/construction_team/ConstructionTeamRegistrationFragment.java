@@ -157,7 +157,7 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
             constructionTeamToolbar.setTitle(R.string.construction_team_information_english);
 
             register_Byscanid.setText(getResources().getString(R.string.scan_by_id_card1));
-            register_Byscanid.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
+            register_Byscanid.setTextSize(Utility.getConvertFloatToDP(getActivity(),10));
 
             construction_member_name.setHint(getResources().getString(R.string.construction_team_member_name1));
             construction_member_name.setHintTextColor(getResources().getColor(R.color.DarkGrey));
@@ -182,7 +182,7 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
             female.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
 
             saveBtn.setText(getResources().getString(R.string.save1));
-            saveBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),8));
+            saveBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),10));
 
         }
     }

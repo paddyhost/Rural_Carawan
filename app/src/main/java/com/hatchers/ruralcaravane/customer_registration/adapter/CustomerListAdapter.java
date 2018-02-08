@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.activity.CompleteConstructionActivity;
+import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.customer_registration.CustomerListFragment;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
@@ -22,7 +23,9 @@ import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelpe
 import com.hatchers.ruralcaravane.payment_details.GetPayment;
 import com.hatchers.ruralcaravane.payment_details.PaymentDetailsFragment;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
+import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 import com.hatchers.ruralcaravane.sync.Web_SyncApi_Helper;
+import com.hatchers.ruralcaravane.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -134,6 +137,8 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
             }
         });
 
+
+
     }
 
     @Override
@@ -146,12 +151,16 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
 
     }
 
+
+
+
     public class ViewHolder extends RecyclerView.ViewHolder
     {
 
         TextView customer_name,address,mobile,age,uploadStatus;
         CircleImageView user_profile;
         Button uploadPayment, uploadKichen;
+
 
         View itemView;
 
@@ -169,6 +178,7 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
 
             this.itemView = itemView;
         }
+
     }
 
 }

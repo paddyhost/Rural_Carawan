@@ -105,16 +105,20 @@
     <string name="no_customer_marathi">एकही ग्राहक उपलब्ध नाही </string>
     <string name="customer_list_marathi">ग्राहकाची यादी</string>
     <string name="menu_marathi">मेनू </string>
+    <string name="upload_kitchen_marathi">चुलीची माहिती अपलोड करा</string>
+    <string name="upload_payment_marathi">पैसे भरलेली माहिती अपलोड करा </string>
 
     <!--English Strings-->
 
+    <string name="upload_payment_english">Upload Payment Information</string>
+    <string name="upload_kitchen_english">Upload Kitchen Information</string>
     <string name="menu_english">Menus</string>
     <string name="customer_list_english">Customer List</string>
     <string name="no_customer_english">No Customer</string>
     <string name="house_survey_english">House type survey</string>
     <string name="customer_agreement1">Customer Agreement</string>
     <string name="scan_by_id_card1">Scan By ID Card</string>
-    <string name="construction_team_information_english">बांधणी गट माहिती</string>
+    <string name="construction_team_information_english">Construction Team Information</string>
     <string name="kitchen_height1">Kitchen Height(in feet)</string>
     <string name="language_selection1">Select Language</string>
     <string name="marathi1">Marathi</string>

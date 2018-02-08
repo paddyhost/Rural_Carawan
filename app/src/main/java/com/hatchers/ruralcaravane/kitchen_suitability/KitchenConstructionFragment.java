@@ -157,7 +157,7 @@ public class KitchenConstructionFragment extends Fragment {
 
 
             saveBtn.setText(getResources().getString(R.string.save1));
-            saveBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),12));
+            saveBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),10));
 
 
         }

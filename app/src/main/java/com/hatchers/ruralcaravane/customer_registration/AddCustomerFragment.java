@@ -477,7 +477,11 @@ public class AddCustomerFragment extends Fragment {
         SimpleDateFormat ft = new SimpleDateFormat("yyMMddhhmmssMs");
         String datetime = ft.format(dNow);
         uniqueIdTxt.setText(CUSTOMER_PREFIX+datetime);
+        String randomNumber= String.valueOf(Utility.generateRandomNumber(getActivity()));
+
+        uniqueIdTxt.setText(CUSTOMER_PREFIX+datetime+"_"+randomNumber);
     }
+
 
     private void showPictureDialog()
     {
