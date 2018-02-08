@@ -47,12 +47,24 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding="10dp"
+        android:background="@color/colorAccent"
+        android:text="Make Payment"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/paymentListToolbar"
+        android:id="@+id/payment_btn"
+        android:layout_margin="20dp"/>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/paymentListToolbar"
+        android:layout_below="@+id/payment_btn"
         android:background="@color/colorGray">
 
         <android.support.v7.widget.RecyclerView
@@ -67,6 +79,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
+            android:visibility="gone"
             android:layout_below="@+id/kitchenRecyclerView"
             android:layout_gravity="bottom|end"
             android:layout_marginBottom="20dp"

@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 
 import com.hatchers.ruralcaravane.R;
@@ -33,6 +34,7 @@ public class PaymentDetailsListFragment extends Fragment {
     RecyclerView paymentRecyclerView;
     ImageView backImg;
     PaymentListAdapter paymentListAdapter;
+    Button paymentBtn;
 
     ArrayList<PaymentTable> paymentTableArrayList;
 
@@ -79,6 +81,7 @@ public class PaymentDetailsListFragment extends Fragment {
         paymentListToolbar=(Toolbar)view.findViewById(R.id.paymentListToolbar);
         paymentListBtn=(FloatingActionButton)view.findViewById(R.id.paymentListBtn);
         backImg = (ImageView)view.findViewById(R.id.back_paymt_list);
+        paymentBtn = (Button)view.findViewById(R.id.payment_btn);
 
         paymentRecyclerView = (RecyclerView) view.findViewById(R.id.paymentRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -129,6 +132,15 @@ public class PaymentDetailsListFragment extends Fragment {
                     fragmentTransaction.replace(R.id.frame_layout, paymentDetailsFragment).addToBackStack(null).commit();
                 /*}*/
 
+            }
+        });
+
+        paymentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                GetPayment paymentDetailsFragment = GetPayment.newInstance(customertable);
+                fragmentTransaction.replace(R.id.frame_layout, paymentDetailsFragment).addToBackStack(null).commit();
             }
         });
     }

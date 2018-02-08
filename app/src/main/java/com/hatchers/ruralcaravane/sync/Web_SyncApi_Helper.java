@@ -39,6 +39,7 @@ import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -115,7 +116,24 @@ public class Web_SyncApi_Helper
                 }
                 else if(customerTable.getUpload_statusValue().equalsIgnoreCase("5"))
                 {
-                    checkNUploadKitchenData( activity, kitchenDetailsData,  customerTable,  sweetAlertDialog);
+
+                    if (customerTable.getCustomer_added().equalsIgnoreCase(CustomerTable.LOCAL))
+                    {
+                        addCustomerToServer(activity,sweetAlertDialog,customerTable);
+                    }
+                    else
+                    {
+                        sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                        sweetAlertDialog.setTitleText("Add Chullha photos");
+                        sweetAlertDialog.setConfirmText("Ok");
+                        sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                sweetAlertDialog.dismissWithAnimation();
+                            }
+                        });
+
+                    }
                 }
 
                 else if(customerTable.getUpload_statusValue().equalsIgnoreCase("6"))
@@ -216,7 +234,7 @@ public class Web_SyncApi_Helper
                                 //customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_SUCCESS);
                                 //  addNewCustomerToServer(activity,sweetAlertDialog);
                                 sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                sweetAlertDialog.setTitleText("Successfully Uploaded Customer");
+                                sweetAlertDialog.setTitleText(" Uploaded Customer");
                                 sweetAlertDialog.setConfirmText("Ok");
                                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
@@ -446,9 +464,9 @@ public class Web_SyncApi_Helper
                 if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.KITCHEN_ADDED_LOCAL)) {
                     addKitchenToServer(activity, sweetAlertDialog, kitchenDetailsData, customerTable);
                 } else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.KITCHEN_UPLOADED_SERVER)) {
-                    uploadConstructionDataToServer(activity,kitchenDetailsData, sweetAlertDialog, customerTable);
+                    uploadConstructionDataToServer(activity, sweetAlertDialog, customerTable);
                 } else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.TEAM_ADDED_LOCAL)) {
-                    uploadConstructionDataToServer(activity,kitchenDetailsData, sweetAlertDialog, customerTable);
+                    uploadConstructionDataToServer(activity, sweetAlertDialog, customerTable);
                 } else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.TEAM_ADDED_SERVER)) {
                     updateKitchenToServer(activity, sweetAlertDialog, kitchenDetailsData, customerTable);
                 } else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.PHOTOS_ADDED_LOCAL)) {
@@ -463,7 +481,7 @@ public class Web_SyncApi_Helper
                             sweetAlertDialog.dismissWithAnimation();
                         }
                     });
-                } else {
+                } /*else {
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
                     sweetAlertDialog.setTitleText("Kitchen Not Added");
                     sweetAlertDialog.setContentText("Please add kitchen.");
@@ -474,7 +492,7 @@ public class Web_SyncApi_Helper
                             sweetAlertDialog.dismissWithAnimation();
                         }
                     });
-                }
+                }*/
             }
             else
             {
@@ -784,56 +802,11 @@ public class Web_SyncApi_Helper
 
     }
 
-    private static void uploadConstructionDataToServer(final Activity activity, final KitchenTable kitchenTable, final SweetAlertDialog sweetAlertDialog, final CustomerTable customerTable)
+    private static void uploadConstructionDataToServer(final Activity activity, final SweetAlertDialog sweetAlertDialog, final CustomerTable customerTable)
     {
         final ConstructionTable constructionTable = ConstructionTableHelper.getUnUploadConstructionData(activity,customerTable.getUniqueIdValue());
 
-        if (!(ConstructionTableHelper.getConstructionTeamList(activity,customerTable).size()>0))
-        {
-            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-            sweetAlertDialog.setTitleText("Team not added");
-            sweetAlertDialog.setContentText("Please add team");
-            sweetAlertDialog.setConfirmText("Ok");
-            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    sweetAlertDialog.dismissWithAnimation();
-                }
-            });
-        }
-
-        if(constructionTable==null)
-        {
-            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-            sweetAlertDialog.setTitleText("Team not added");
-            sweetAlertDialog.setContentText("Please add team");
-            sweetAlertDialog.setConfirmText("Ok");
-            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    sweetAlertDialog.dismissWithAnimation();
-                }
-            });
-        }
-        else if(constructionTable.getUploadStatusValue().equalsIgnoreCase(ConstructionTable.TEAM_ADDED_SERVER))
-        {
-            File image = FileHelper.createfile(Folders.CHULHAFOLDER, STEP2_PREFIX + kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
-            if (image != null) {
-                if (!image.exists()) {
-                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    sweetAlertDialog.setTitleText("Add Chulha photos");
-                    sweetAlertDialog.setConfirmText("Ok");
-                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                        @Override
-                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                            sweetAlertDialog.dismissWithAnimation();
-                        }
-                    });
-
-                }
-            }
-        }
-       else if(constructionTable.getUploadStatusValue().equalsIgnoreCase(ConstructionTable.TEAM_ADDED_LOCAL))
+        if(constructionTable!=null)
         {
         StringRequest strReq = new StringRequest(Request.Method.POST, WebServiceUrls.urlUploadConstruction, new Response.Listener<String>() {
                 @Override
@@ -842,7 +815,6 @@ public class Web_SyncApi_Helper
                         JSONObject responce = new JSONObject(response);
                         if (responce.getString("status").equalsIgnoreCase("success")) {
                             if (responce.getString("message").equalsIgnoreCase("Cuntruction Details added successfully")) {
-
 
                                 JSONObject jsonObject = responce.getJSONObject("result");
 
@@ -859,7 +831,7 @@ public class Web_SyncApi_Helper
 
                                     Toast.makeText(activity, "Construction Data Updated Successfully..", Toast.LENGTH_SHORT).show();
 
-                                    uploadConstructionDataToServer(activity,kitchenTable, sweetAlertDialog, customerTable);
+                                    uploadConstructionDataToServer(activity, sweetAlertDialog, customerTable);
 
                                 } else {
 
@@ -1017,6 +989,35 @@ public class Web_SyncApi_Helper
 
             MyApplication.getInstance().addToRequestQueue(strReq);
         }
+        else
+        {
+            if(ConstructionTableHelper.getConstructionTeamList(activity,customerTable).size()>0)
+            {
+                sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                sweetAlertDialog.setTitleText("Team Added");
+                sweetAlertDialog.setConfirmText("Ok");
+                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+            }
+            else
+            {
+                sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                sweetAlertDialog.setTitleText("Team not Added");
+                sweetAlertDialog.setContentText("Please add team");
+                sweetAlertDialog.setConfirmText("Ok");
+                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+            }
+
+        }
 
     }
 
@@ -1056,6 +1057,8 @@ public class Web_SyncApi_Helper
 
                                     if (KitchenTableHelper.updateKitchenData(activity, kitchenTable)) {
                                         customerTable.setUpload_statusValue("7");
+                                        customerTable.setChulha_photo_added(CustomerTable.SERVER);
+
                                         CustomerTableHelper.updateCustomerStatus(activity, customerTable);
                                         Toast.makeText(activity, "Kitchen Succefully Updated", Toast.LENGTH_SHORT).show();
                                         sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
@@ -1399,6 +1402,7 @@ public class Web_SyncApi_Helper
             {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
                 sweetAlertDialog.setTitleText("Half Payment Completed");
+                sweetAlertDialog.setContentText("complete remaining payment");
                 sweetAlertDialog.setConfirmText("Ok");
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
@@ -1443,18 +1447,17 @@ public class Web_SyncApi_Helper
 
     private static void uploadHalfPaymentDataToServer(final Activity activity, final SweetAlertDialog sweetAlertDialog, final CustomerTable customerTable)
     {
-        final PaymentTable paymentTable= PaymentDetailsHelper.getAllPaymentData(activity,customerTable.getUniqueIdValue());
+        final PaymentTable paymentTable= PaymentDetailsHelper.getUnUploadPaymentData(activity,customerTable.getUniqueIdValue());
 
         if(paymentTable!=null)
         {
-            if(paymentTable.getUpload_statusValue().equalsIgnoreCase(PaymentTable.PAYMENT_ADDED_LOCAL))
-            {
                 StringRequest strReq = new StringRequest(Request.Method.POST, WebServiceUrls.urlUploadPayment, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
                             JSONObject responce = new JSONObject(response);
-                            if (responce.getString("status").equalsIgnoreCase("success")) {
+                            if (responce.getString("status").equalsIgnoreCase("success"))
+                            {
                                 if (responce.getString("message").equalsIgnoreCase("Payment Details added successfully")) {
 
                                     JSONObject jsonObject = responce.getJSONObject("result");
@@ -1474,6 +1477,7 @@ public class Web_SyncApi_Helper
 
                                     if (PaymentDetailsHelper.updatePaymentDetailsData(activity, paymentTable)) {
                                         customerTable.setUpload_statusValue("9");
+                                        customerTable.setPayment_added(CustomerTable.SERVER);
                                         CustomerTableHelper.updateCustomerStatus(activity,customerTable);
                                         Toast.makeText(activity, "Payment Data Updated Successfully..", Toast.LENGTH_SHORT).show();
                                         uploadHalfPaymentDataToServer(activity, sweetAlertDialog,customerTable);
@@ -1633,41 +1637,11 @@ public class Web_SyncApi_Helper
 
                 MyApplication.getInstance().addToRequestQueue(strReq);
 
-            }
-            else if(paymentTable.getUpload_statusValue().equalsIgnoreCase(PaymentTable.PAYMENT_ADDED_SERVER))
-            {
-                sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                sweetAlertDialog.setTitleText("Half Payment Added");
-                sweetAlertDialog.setConfirmText("Ok");
-                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-            }
-            else if(paymentTable.getUpload_statusValue().equalsIgnoreCase(PaymentTable.PAYMENT_COMPLETED_LOCAL))
-            {
-                uploadCompletePaymentDataToServer(activity,sweetAlertDialog,customerTable);
-            }
-            else if(paymentTable.getUpload_statusValue().equalsIgnoreCase(PaymentTable.PAYMENT_COMPLETED_SERVER))
-            {
-                sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                sweetAlertDialog.setTitleText("Full Payment Added");
-                sweetAlertDialog.setConfirmText("Ok");
-                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-            }
-
         }
         else
         {
-            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-            sweetAlertDialog.setTitleText("Payment not added");
+            sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+            sweetAlertDialog.setTitleText("Payment half added");
             sweetAlertDialog.setConfirmText("Ok");
             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
@@ -1682,29 +1656,10 @@ public class Web_SyncApi_Helper
 
     private static void uploadCompletePaymentDataToServer(final Activity activity, final SweetAlertDialog sweetAlertDialog, final CustomerTable customerTable)
     {
-        final PaymentTable paymentTable= PaymentDetailsHelper.getAllPaymentData(activity,customerTable.getUniqueIdValue());
+        final PaymentTable paymentTable= PaymentDetailsHelper.getCompletePaymentData(activity,customerTable.getUniqueIdValue());
 
         if(paymentTable!=null)
         {
-            if(paymentTable.getUpload_statusValue().equalsIgnoreCase(PaymentTable.PAYMENT_ADDED_LOCAL))
-            {
-                uploadHalfPaymentDataToServer(activity,sweetAlertDialog,customerTable);
-            }
-            else if(paymentTable.getUpload_statusValue().equalsIgnoreCase(PaymentTable.PAYMENT_ADDED_SERVER))
-            {
-                sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                sweetAlertDialog.setTitleText("Half Payment Added");
-                sweetAlertDialog.setConfirmText("Ok");
-                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-
-            }
-            else if(paymentTable.getUpload_statusValue().equalsIgnoreCase(PaymentTable.PAYMENT_COMPLETED_LOCAL))
-            {
                 StringRequest strReq = new StringRequest(Request.Method.POST, WebServiceUrls.urlUploadPayment, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
@@ -1730,6 +1685,7 @@ public class Web_SyncApi_Helper
 
                                     if (PaymentDetailsHelper.updatePaymentDetailsData(activity, paymentTable)) {
                                         customerTable.setUpload_statusValue("11");
+                                        customerTable.setPayment_completed(CustomerTable.SERVER);
                                         CustomerTableHelper.updateCustomerStatus(activity,customerTable);
                                         Toast.makeText(activity, "Payment Data Updated Successfully..", Toast.LENGTH_SHORT).show();
                                         sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
@@ -1898,25 +1854,11 @@ public class Web_SyncApi_Helper
 
                 MyApplication.getInstance().addToRequestQueue(strReq);
 
-            }
-            else if(paymentTable.getUpload_statusValue().equalsIgnoreCase(PaymentTable.PAYMENT_COMPLETED_SERVER))
-            {
-                sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                sweetAlertDialog.setTitleText("Full Payment Completed");
-                sweetAlertDialog.setConfirmText("Ok");
-                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-
-            }
         }
         else
         {
-            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-            sweetAlertDialog.setTitleText("Payment not Completed");
+            sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+            sweetAlertDialog.setTitleText("Complete Payment Added");
             sweetAlertDialog.setConfirmText("Ok");
             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override

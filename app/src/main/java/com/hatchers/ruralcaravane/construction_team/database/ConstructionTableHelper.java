@@ -271,8 +271,7 @@ public class ConstructionTableHelper {
         SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
         Cursor cursor = db.rawQuery("SELECT * FROM "+ ConstructionTable.CONSTRUCTION_TEAM_TABLE+ " WHERE "
-              /*  + ConstructionTable.UPLOAD_STATUS+"='0' AND "+
-*/                +ConstructionTable.CUSTOMER_ID +"='"+customerId+"'",
+                + ConstructionTable.UPLOAD_STATUS+"='0' AND " +ConstructionTable.CUSTOMER_ID +"='"+customerId+"'",
                 null);
         try {
 
@@ -303,4 +302,48 @@ public class ConstructionTableHelper {
         }
 
     }
+
+    public static ArrayList<ConstructionTable> getUnUploadedConstructionTeamList(Context context, CustomerTable customerTable)
+    {
+        ArrayList<ConstructionTable> constructionTableArrayList = new ArrayList<ConstructionTable>();
+        SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
+        // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
+        Cursor cursor = db.rawQuery("SELECT * FROM "+ ConstructionTable.CONSTRUCTION_TEAM_TABLE+
+                " WHERE "+ ConstructionTable.CUSTOMER_ID+"='"+customerTable.getUniqueIdValue()+"' AND "
+                + ConstructionTable.UPLOAD_STATUS+"='"+ConstructionTable.TEAM_ADDED_LOCAL+"'",null);
+        try
+        {
+            cursor.moveToFirst();
+            while (cursor.isAfterLast() == false)
+            {
+                ConstructionTable constructionTable = new ConstructionTable();
+
+                constructionTable.setTechnicianIdValue(cursor.getString(cursor.getColumnIndex(ConstructionTable.TECHNICIAN_ID)));
+                constructionTable.setTechnicianNameValue(cursor.getString(cursor.getColumnIndex(ConstructionTable.TECHNICIAN_NAME)));
+                constructionTable.setTechnicianMobileNoValue(cursor.getString(cursor.getColumnIndex(ConstructionTable.TECHNICIAN_MOBILENO)));
+                constructionTable.setTechnicianAgeValue(cursor.getString(cursor.getColumnIndex(ConstructionTable.TECHNICIAN_AGE)));
+                constructionTable.setTechnicianAddressValue(cursor.getString(cursor.getColumnIndex(ConstructionTable.TECHNICIAN_ADDRESS)));
+                constructionTable.setTechnicianUniqueIdValue(cursor.getString(cursor.getColumnIndex(ConstructionTable.TECHNICIAN_UNIQUE_ID)));
+                constructionTable.setCustomerIdValue(cursor.getString(cursor.getColumnIndex(ConstructionTable.CUSTOMER_ID)));
+                constructionTable.setKitchenIdValue(cursor.getString(cursor.getColumnIndex(ConstructionTable.KITCHEN_ID)));
+                constructionTable.setDateTimeValue(cursor.getString(cursor.getColumnIndex(ConstructionTable.DATETIME)));
+                constructionTable.setUploadStatusValue(cursor.getString(cursor.getColumnIndex(ConstructionTable.UPLOAD_STATUS)));
+                constructionTable.setTechnicianGenderValue(cursor.getString(cursor.getColumnIndex(ConstructionTable.TECHNICIAN_GENDER)));
+                constructionTable.setKitchentUniqueId(cursor.getString(cursor.getColumnIndex(ConstructionTable.KITCHEN_UNIQUE_ID)));
+                constructionTable.setAddedByIdValue(cursor.getString(cursor.getColumnIndex(ConstructionTable.ADDED_BY_ID)));
+                constructionTable.setAddedDateValue(cursor.getString(cursor.getColumnIndex(ConstructionTable.ADDED_DATE)));
+                constructionTable.setUpdateDateValue(cursor.getString(cursor.getColumnIndex(ConstructionTable.UPDATE_DATE)));
+
+
+                constructionTableArrayList.add(constructionTable);
+                cursor.moveToNext();
+            }
+            return constructionTableArrayList;
+        }
+        catch (Exception e)
+        {
+            return null;
+        }
+    }
+
 }
