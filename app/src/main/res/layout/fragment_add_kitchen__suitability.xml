@@ -182,6 +182,7 @@
                     android:paddingRight="30dp"
                     android:paddingLeft="30dp"
                     android:text="Get Location"
+                    android:textAllCaps="false"
                     android:id="@+id/get_location"/>
 
 

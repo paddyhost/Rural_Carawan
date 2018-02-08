@@ -24,46 +24,111 @@
         android:gravity="center">
 
 
-        <Button
-            android:id="@+id/btn_add_kitchen"
+    <LinearLayout
+        android:background="@drawable/onclick_background"
+        android:id="@+id/house_survey_layout"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+
+        <ImageView
+            android:padding="5dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.1"
+            android:src="@mipmap/village"/>
+
+        <TextView
+            android:id="@+id/txt_add_kitchen"
             android:layout_width="match_parent"
             android:layout_height="80dp"
-            android:layout_marginLeft="50dp"
-            android:layout_marginRight="50dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:background="@color/colorPrimary"
             android:text="@string/house_survey_marathi"
-            android:textColor="@color/colorWhite"
+            android:gravity="center|start"
+            android:layout_weight="3"
+            android:textColor="@color/colorPrimary"
+            android:textSize="30dp"
+            android:layout_marginLeft="10dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/add_construction_team_layout"
+        android:background="@drawable/onclick_background"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+
+        <ImageView
+            android:padding="5dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.1"
+            android:src="@mipmap/addconstructionteam"/>
+
+        <TextView
+            android:layout_marginLeft="10dp"
+            android:layout_weight="2"
+            android:id="@+id/txt_make_construction_team"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:text="@string/make_construction_team_marathi"
+            android:gravity="center|start"
+            android:textColor="@color/colorPrimary"
             android:textSize="30dp" />
 
-        <Button
-        android:id="@+id/make_construction_team"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-            android:layout_marginTop="25dp"
-        android:background="@color/colorPrimary"
-        android:text="@string/make_construction_team_marathi"
-        android:textColor="@color/colorWhite"
-        android:textSize="30dp" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/upload_chullaha_photos"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"
+
+
+    <LinearLayout
+        android:background="@drawable/onclick_background"
+        android:id="@+id/upload_chullha_photos_layout"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginTop="25dp"
-        android:textSize="30dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:background="@color/colorPrimary"
-        android:text="@string/upload_kitchen_photo_marathi"
-        android:textColor="@color/colorWhite"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+
+        <ImageView
+            android:padding="5dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="0.1"
+            android:src="@mipmap/chullha"/>
+
+
+        <TextView
+            android:layout_weight="2"
+            android:id="@+id/txt_upload_chullaha_photos"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:textSize="30dp"
+            android:layout_marginLeft="10dp"
+            android:gravity="center|start"
+            android:text="@string/upload_kitchen_photo_marathi"
+            android:textColor="@color/colorPrimary"/>
+
+
+    </LinearLayout>
+
 
     <Button
         android:layout_marginLeft="50dp"
