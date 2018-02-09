@@ -6,9 +6,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import com.hatchers.ruralcaravane.R;
+import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.database.DatabaseHandler;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
+import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 
 import java.util.ArrayList;
 
@@ -80,7 +83,14 @@ public class PaymentDetailsHelper {
             // upadating Row
             if(db.update(PaymentTable.PAYMENT_TABLE, values, PaymentTable.PAYMENT_UNIQUE_ID+"='"+paymentTable.getPaymentUniqueIdValue()+"'", null)>0)
             {
-                Toast.makeText(context,"Payment details updated",Toast.LENGTH_LONG).show();
+                PrefManager prefManager=new PrefManager(context);
+                if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                    Toast.makeText(context, context.getResources().getString(R.string.payment_details_updated_marathi), Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(context, context.getResources().getString(R.string.payment_details_updated_english), Toast.LENGTH_LONG).show();
+                }
                 db.close();
                 return true;
             }

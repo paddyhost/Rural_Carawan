@@ -69,6 +69,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.hatchers.ruralcaravane.constants.AppConstants.CUSTOMER_PREFIX;
+import static com.hatchers.ruralcaravane.constants.AppConstants.MARATHI;
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
 
 public class AddCustomerFragment extends Fragment {
@@ -385,7 +386,6 @@ public class AddCustomerFragment extends Fragment {
             public void onClick(View v) {
 
                 setCustomerData();
-
                 File image =FileHelper.savePNGImage(Folders.CUSTOMERFOLDER,custBitmap,CUSTOMER_PREFIX+customer_table.getUniqueIdValue());
                 FileHelper.createfile(Folders.CUSTOMERFOLDER, CUSTOMER_PREFIX+customer_table.getUniqueIdValue(), FileType.PNG);
 
@@ -396,15 +396,31 @@ public class AddCustomerFragment extends Fragment {
 
                 if(checkValidation())
                 {
-                    SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
-                            .setTitleText("Please wait");
+                    SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                        sweetAlertDialog.setTitleText(getResources().getString(R.string.please_wait_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(getResources().getString(R.string.please_wait_english));
+                    }
                     sweetAlertDialog.show();
 
                     if(CustomerTableHelper.insertCustomerData(getContext(), customer_table))
                     {
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                        sweetAlertDialog.setTitleText("Customer Data Added Successfully");
-                        sweetAlertDialog.setConfirmText("Ok");
+
+                        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            sweetAlertDialog.setTitleText(getResources().getString(R.string.customer_added_successfully_marathi));
+                            sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                        }
+                        else
+                        {
+                            sweetAlertDialog.setTitleText(getResources().getString(R.string.customer_added_successfully_english));
+                            sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                        }
+
                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
                             @Override
@@ -438,8 +454,17 @@ public class AddCustomerFragment extends Fragment {
                     else
                     {
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        sweetAlertDialog.setTitleText("Customer Data Add Failed");
-                        sweetAlertDialog.setConfirmText("Ok");
+
+                        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            sweetAlertDialog.setTitleText(getResources().getString(R.string.customer_data_add_failed_marathi));
+                            sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                        }
+
+                        else
+                        {
+                            sweetAlertDialog.setTitleText(getResources().getString(R.string.customer_data_add_failed_english));
+                            sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                        }
                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -485,11 +510,14 @@ public class AddCustomerFragment extends Fragment {
 
     private void showPictureDialog()
     {
-        final CharSequence[] options = {"Take Photo","Choose Photo from Gallery", "Cancel"};
+        //final CharSequence[] options = {"Take Photo","Choose Photo from Gallery", "Cancel"};
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Add Photo!");
-        builder.setItems(options,
+        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+            final CharSequence[] options = {getResources().getString(R.string.take_photo_marathi), getResources().getString(R.string.choose_photo_from_gallery_marathi),getResources().getString(R.string.cancel_marathi)};
+            builder.setTitle(getResources().getString(R.string.add_photo_marathi));
+
+            builder.setItems(options,
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -507,6 +535,33 @@ public class AddCustomerFragment extends Fragment {
                         }
                     }
                 });
+
+        }
+        else
+        {
+            final CharSequence[] options = {getResources().getString(R.string.take_photo_english), getResources().getString(R.string.choose_photo_from_gallery_english),getResources().getString(R.string.cancel_english)};
+            builder.setTitle(getResources().getString(R.string.add_photo_english));
+
+            builder.setItems(options,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    takePhotoFromCamera();
+                                    break;
+
+                                case 1:
+                                    choosePhotoFromGallary();
+                                    break;
+
+                                case 2:
+                                    dialog.dismiss();
+                            }
+                        }
+                    });
+
+        }
         AlertDialog alert=builder.create();
         alert.setCancelable(false);
         alert.setCanceledOnTouchOutside(false);
@@ -717,7 +772,14 @@ public class AddCustomerFragment extends Fragment {
 
         if(!Validations.isValidAadharNumber(aadhar_id.getText().toString()))
         {
-            aadhar_id.setError("Please Enter Valid Aadhar Number");
+            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                aadhar_id.setError(getResources().getString(R.string.please_enter_valid_aadhar_number_marathi));
+            }
+            else
+            {
+                aadhar_id.setError(getResources().getString(R.string.please_enter_valid_aadhar_number_english));
+            }
             response = false;
         }
         else
@@ -727,7 +789,14 @@ public class AddCustomerFragment extends Fragment {
 
         if(!Validations.isValidName(customer_name.getText().toString()))
         {
-            customer_name.setError("Please Enter Valid Customer Name");
+            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI))
+            {
+                customer_name.setError(getResources().getString(R.string.please_enter_customer_name_marathi));
+            }
+            else
+            {
+                customer_name.setError(getResources().getString(R.string.please_enter_customer_name_english));
+            }
             response = false;
         }
         else
@@ -736,8 +805,15 @@ public class AddCustomerFragment extends Fragment {
         }
 
         if (customer_age.getText().toString().trim().length() == 0) {
-            customer_age.setError("Please Enter Customer Age ");
-            response = false;
+
+            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                customer_age.setError(getResources().getString(R.string.please_enter_customer_age_marathi));
+            }
+            else
+            {
+                customer_age.setError(getResources().getString(R.string.please_enter_customer_age_english));
+            }
+                response = false;
         }
         else
         {
@@ -745,7 +821,14 @@ public class AddCustomerFragment extends Fragment {
         }
 
         if (customer_address.getText().toString().trim().length() == 0) {
-            customer_address.setError("Please Enter Customer Address ");
+
+            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                customer_age.setError(getResources().getString(R.string.please_enter_customer_address_marathi));
+            }
+            else
+            {
+                customer_age.setError(getResources().getString(R.string.please_enter_customer_address_english));
+            }
             response = false;
         } else {
             customer_address.setError(null);
@@ -754,7 +837,14 @@ public class AddCustomerFragment extends Fragment {
 
         if(!Validations.isValidPhoneNumber(customer_mobileno.getText().toString()))
         {
-            customer_mobileno.setError("Please Enter Customer Mobile Number");
+            //customer_mobileno.setError("Please Enter Customer Mobile Number");
+            if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                customer_mobileno.setError(getResources().getString(R.string.please_enter_valid_mobile_number_marathi));
+            }
+            else
+            {
+                customer_mobileno.setError(getResources().getString(R.string.please_enter_valid_mobile_number_english));
+            }
             response = false;
         }
         else
@@ -763,7 +853,14 @@ public class AddCustomerFragment extends Fragment {
         }
 
         if (radioGroupGender.getCheckedRadioButtonId() == -1) {
-            Toast.makeText(getActivity(), "Please Select Gender", Toast.LENGTH_SHORT).show();
+            if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                Toast.makeText(getActivity(),getResources().getString(R.string.please_select_customer_gender_marathi), Toast.LENGTH_SHORT).show();
+            }
+
+            else
+            {
+                Toast.makeText(getActivity(),getResources().getString(R.string.please_select_customer_gender_english), Toast.LENGTH_SHORT).show();
+            }
             response = false;
             // no radio buttons are checked
         } else {

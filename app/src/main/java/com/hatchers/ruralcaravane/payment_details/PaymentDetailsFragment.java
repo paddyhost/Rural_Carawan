@@ -44,6 +44,7 @@ import java.util.Date;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.hatchers.ruralcaravane.constants.AppConstants.MARATHI;
 import static com.hatchers.ruralcaravane.constants.AppConstants.PAYMENT_PREFIX;
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
 
@@ -229,16 +230,28 @@ public class PaymentDetailsFragment extends Fragment {
 
                         if(image.exists())
                         {
-                            SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
-                                    .setTitleText("Please wait");
-
+                            SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+                            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(getResources().getString(R.string.please_wait_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(getResources().getString(R.string.please_wait_english));
+                            }
                             sweetAlertDialog.show();
 
                             if(PaymentDetailsHelper.insertPaymentDetailsData(getContext(), paymentTable))
                             {
                                 sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                sweetAlertDialog.setTitleText("Payment Details Added Successfully");
-                                sweetAlertDialog.setConfirmText("Ok");
+                                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    sweetAlertDialog.setTitleText(getResources().getString(R.string.payment_details_added_successfully_marathi));
+                                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                                }
+                                else
+                                {
+                                    sweetAlertDialog.setTitleText(getResources().getString(R.string.payment_details_added_successfully_english));
+                                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                                }
                                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -258,8 +271,15 @@ public class PaymentDetailsFragment extends Fragment {
                             {
 
                                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                sweetAlertDialog.setTitleText("Payment Details Add Failed");
-                                sweetAlertDialog.setConfirmText("Ok");
+                                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    sweetAlertDialog.setTitleText(getResources().getString(R.string.payment_details_add_failed_marathi));
+                                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                                }
+                                else
+                                {
+                                    sweetAlertDialog.setTitleText(getResources().getString(R.string.payment_details_add_failed_marathi));
+                                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                                }
                                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -272,13 +292,25 @@ public class PaymentDetailsFragment extends Fragment {
 
                         else
                         {
-                            Toast.makeText(getActivity(), "Please Upload Receipt Image....!", Toast.LENGTH_SHORT).show();
+                            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                Toast.makeText(getActivity(), getResources().getString(R.string.please_upload_receipt_image_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(getActivity(), getResources().getString(R.string.please_upload_receipt_image_english), Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
 
                     else
                     {
-                        Toast.makeText(getActivity(), "Please Upload Receipt Area Image....!", Toast.LENGTH_SHORT).show();
+                        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.please_upload_receipt_image_marathi), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.please_upload_receipt_image_english), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                 }
@@ -288,24 +320,45 @@ public class PaymentDetailsFragment extends Fragment {
 
     private void showPictureDialog()
     {
-        final CharSequence[] options = {"Take Photo", "Cancel"};
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Add Photo!");
-        builder.setItems(options,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                takePhotoFromCamera();
-                                break;
 
-                            case 2:
-                                dialog.dismiss();
+        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+            final CharSequence[] options = {getResources().getString(R.string.take_photo_marathi), getResources().getString(R.string.cancel_marathi)};
+            builder.setTitle(getResources().getString(R.string.add_photo_marathi));
+            builder.setItems(options,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    takePhotoFromCamera();
+                                    break;
+
+                                case 2:
+                                    dialog.dismiss();
+                            }
                         }
-                    }
-                });
+                    });
+        }
+        else
+        {
+            final CharSequence[] options = {getResources().getString(R.string.take_photo_english), getResources().getString(R.string.cancel_english)};
+            builder.setTitle(getResources().getString(R.string.add_photo_english));
+            builder.setItems(options,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    takePhotoFromCamera();
+                                    break;
+
+                                case 2:
+                                    dialog.dismiss();
+                            }
+                        }
+                    });
+        }
         AlertDialog alert=builder.create();
         alert.setCancelable(false);
         alert.setCanceledOnTouchOutside(false);
@@ -368,7 +421,13 @@ public class PaymentDetailsFragment extends Fragment {
                     remainingAmount = Integer.parseInt(payment_amount.getText().toString()) - Integer.parseInt(paid_amount.getText().toString());
                     if(remainingAmount<0)
                     {
-                        paid_amount.setError("Amount must be less than total amount.");
+                        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            paid_amount.setError(getResources().getString(R.string.amount_must_be_less_than_total_amount_marathi));
+                        }
+                        else
+                        {
+                            paid_amount.setError(getResources().getString(R.string.amount_must_be_less_than_total_amount_english));
+                        }
                     }
                     else
                     {
@@ -414,7 +473,13 @@ public class PaymentDetailsFragment extends Fragment {
 
                 if(count>totalcost)
                 {
-                  paid_amount.setError("Amount must be less than total cost.");
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        paid_amount.setError(getResources().getString(R.string.amount_must_be_less_than_total_amount_marathi));
+                    }
+                    else
+                    {
+                        paid_amount.setError(getResources().getString(R.string.amount_must_be_less_than_total_amount_english));
+                    }
                 }
                 else
                 {
@@ -438,7 +503,13 @@ public class PaymentDetailsFragment extends Fragment {
 
                 if(count>totalcost)
                 {
-                    paid_amount.setError("Amount must be less than total cost.");
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        paid_amount.setError(getResources().getString(R.string.amount_must_be_less_than_total_amount_marathi));
+                    }
+                    else
+                    {
+                        paid_amount.setError(getResources().getString(R.string.amount_must_be_less_than_total_amount_english));
+                    }
                 }
                 else
                 {
@@ -472,21 +543,40 @@ public class PaymentDetailsFragment extends Fragment {
         boolean response = true;
 
         if (payment_amount.getText().toString().trim().length() == 0) {
-            payment_amount.setError("Please Enter Payment Amount");
+            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                payment_amount.setError(getResources().getString(R.string.cost_of_chullaha_marathi));
+            }
+            else
+            {
+                payment_amount.setError(getResources().getString(R.string.cost_of_chullaha_english));
+            }
+
             response = false;
         } else {
             payment_amount.setError(null);
         }
 
         if (paid_amount.getText().toString().trim().length() == 0) {
-            paid_amount.setError("Please Enter Advance Amount");
+            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                paid_amount.setError(getResources().getString(R.string.please_enter_advance_amount_marathi));
+            }
+            else
+            {
+                paid_amount.setError(getResources().getString(R.string.please_enter_advance_amount_english));
+            }
             response = false;
         } else {
             paid_amount.setError(null);
         }
 
         if (remaining_amount.getText().toString().trim().length() == 0) {
-            remaining_amount.setError("Please Enter Remaining Amount");
+            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                remaining_amount.setError(getResources().getString(R.string.remaining_payment_marathi));
+            }
+            else
+            {
+                remaining_amount.setError(getResources().getString(R.string.remaining_payment_english));
+            }
             response = false;
         } else {
             remaining_amount.setError(null);

@@ -112,9 +112,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (checkValidation()) {
                     setUserInfo();
-                    sweetAlertDialog =new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE)
-                            .setTitleText("Please wait");
-
+                    sweetAlertDialog =new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+                    if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                        sweetAlertDialog.setTitleText(getResources().getString(R.string.please_wait_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(getResources().getString(R.string.please_wait_english));
+                    }
                     sweetAlertDialog.show();
                     LoginUser loginUser = new LoginUser();
                     Login_ApiHelper.userLoginApi(LoginActivity.this,loginUser);
@@ -134,12 +139,24 @@ public class LoginActivity extends AppCompatActivity {
     {
         if (edtName.getText().toString().equalsIgnoreCase(""))
         {
-            Toast.makeText(getApplicationContext(), "Please Enter Username", Toast.LENGTH_LONG).show();
+            if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.please_enter_username_marathi), Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.please_enter_username_english), Toast.LENGTH_LONG).show();
+            }
             return false;
         }
         else if( edtPassword.getText().toString().equalsIgnoreCase(""))
         {
-            Toast.makeText(getApplicationContext(), "Please Enter Password", Toast.LENGTH_LONG).show();
+            if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.please_enter_password_marathi), Toast.LENGTH_LONG).show();
+            }
+            else
+            {
+                Toast.makeText(getApplicationContext(), getResources().getString(R.string.please_enter_password_english), Toast.LENGTH_LONG).show();
+            }
             return false;
         }
         else
@@ -155,13 +172,26 @@ public class LoginActivity extends AppCompatActivity {
             public void onLogin_Success()
             {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                sweetAlertDialog.setTitleText("Login Successfully");
-                sweetAlertDialog.setConfirmText("Ok");
+                if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.login_successfully_marathi));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.login_successfully_english));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        localityDialog =new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE)
-                                .setTitleText("Please wait");
+                        localityDialog =new SweetAlertDialog(LoginActivity.this, SweetAlertDialog.PROGRESS_TYPE);
+                        if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                            localityDialog.setTitleText(getResources().getString(R.string.please_wait_marathi));
+                        }
+                        else
+                        {
+                            localityDialog.setTitleText(getResources().getString(R.string.please_wait_english));
+                        }
                         localityDialog.show();
 
                         //call city list api

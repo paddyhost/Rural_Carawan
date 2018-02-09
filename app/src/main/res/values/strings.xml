@@ -49,7 +49,7 @@
     <string name="chullaha_construction_marathi">चूल बांधणी </string>
     <string name="remaining_payment_marathi">उर्वरीत रक्कम टाका</string>
     <string name="balance_payment_marathi">शिल्लक रक्कम </string>
-
+    <string name="please_enter_username_marathi">कृपया युजरनेम टाका </string>
     <string name="save">जतन करा</string>
     <string name="house_survey_marathi">गृह आढावा</string>
     <string name="select_customer">ग्राहक निवडा</string>
@@ -109,7 +109,6 @@
     <string name="upload_payment_marathi">पैसे भरलेली माहिती अपलोड करा </string>
     <string name="remaing_chulha_customer_marathi">चुल बांधणी बाकी असलेले ग्राहक </string>
     <string name="remaing_payment_customer_marathi">पैसे बाकी असलेले ग्राहक </string>
-
     <string name="already_added_kitchen_marathi">चुलीची माहिती आधीच भरलेली आहे</string>
     <string name="please_add_atleast_one_team_member_marathi">कृपया आधी बांधणी गट सदस्यांची माहिती भरा</string>
     <string name="process_completed_cannot_add_team_member_marathi">प्रक्रिया पूर्ण झाली आहे. बांधणी गट सदस्यांची माहिती आता भरता येणार नाही  </string>
@@ -166,9 +165,33 @@
     <string name="amount_must_be_less_than_total_amount_marathi">रक्कम हि पूर्ण रक्कमेपेक्षा कमी हवी</string>
     <string name="login_successfully_marathi">लॉगिन यशस्वी</string>
     <string name="login_failed_marathi">लॉगिन अयशस्वी</string>
+    <string name="customer_data_add_failed_marathi">ग्राहकाची माहिती भरली गेली नाही</string>
+    <string name="success_marathi">यशस्वी</string>
+    <string name="latitude_marathi">अक्षांश</string>
+    <string name="longitude_marathi">रेखांश</string>
+    <string name="location_marathi">तुमचे स्थान मिळवण्यासाठी कृपया स्थान सेवा चालू करा </string>
+    <string name="setting_marathi">सेटिंग</string>
+    <string name="permission_denied_marathi">परवानगी नाकारली</string>
+    <string name="payment_details_updated_marathi">पैसे जमा केलेली माहिती बदली आहे </string>
+    <string name="please_enter_advance_amount_marathi">जमा करणारी रक्कम टाका</string>
+    <string name="please_enter_password_marathi">कृपया युपासवर्ड टाका</string>
+
+
+
 
     <!--English Strings-->
-
+    <string name="please_enter_password_english">Please Enter Password</string>
+    <string name="please_enter_username_english">Please Enter Username</string>
+    <string name="please_enter_advance_amount_english">Please enter advance amount</string>
+    <string name="payment_details_updated_english">"Payment details updated</string>
+    <string name="process_completed_canot_upload_step2_image_english">Process Completed Can\'t Upload Step2 Image</string>
+    <string name="permission_denied_english">Permission Denied</string>
+    <string name="setting_english">Settings</string>
+    <string name="location_english">Your Location is disabled. Please Enable Location Services.</string>
+    <string name="latitude_english">Latitude</string>
+    <string name="longitude_english">Longitude</string>
+    <string name="success_english">Success</string>
+    <string name="customer_data_add_failed_english">Customer Data Add Failed</string>
     <string name="login_failed_english">Login Failed</string>
     <string name="login_successfully_english">Login Successfully</string>
     <string name="amount_must_be_less_than_total_amount_english">Amount must be less than total amount</string>
@@ -178,7 +201,6 @@
     <string name="image_upload_failed_english">Image Upload Failed</string>
     <string name="image_uploaded_successfully_english">Image Uploaded Successfully</string>
     <string name="planned_area_image_already_uploaded_english">Planned Area Image Already Uploaded</string>
-  <!--  <string name="process_completed_canot_upload_step2_image_english">Process Completed. Can\'t upload step2 image</string>-->
     <string name="please_upload_step1_image_first_english">Please upload step 1 image first</string>
     <string name="already_uploaded_step1_image_english">Already uploaded step 1 image</string>
     <string name="unable_to_get_location_english">Unable to get Location</string>
@@ -221,7 +243,7 @@
     <string name="please_wait_english">Please wait</string>
     <string name="please_add_kitchen_details_english">Please add kitchen Details</string>
     <string name="add_kitchen_first_english">Add kitchen first</string>
-    <string name="process_completed_cannot_add_team_member_english">Process Completed.\Can't add team member</string>
+    <string name="process_completed_cannot_add_team_member_english">Process Completed.Can\'t add team member</string>
     <string name="please_add_atleast_one_team_member_english">Please add atleast 1 team member</string>
     <string name="already_added_kitchen_english">Already Added Kitchen</string>
     <string name="upload_payment_english">Upload Payment Information</string>
