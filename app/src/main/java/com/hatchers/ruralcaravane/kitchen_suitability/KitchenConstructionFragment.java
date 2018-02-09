@@ -51,6 +51,7 @@ import java.util.ArrayList;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.hatchers.ruralcaravane.constants.AppConstants.KITCHEN_PREFIX;
+import static com.hatchers.ruralcaravane.constants.AppConstants.MARATHI;
 import static com.hatchers.ruralcaravane.constants.AppConstants.STEP1_PREFIX;
 import static com.hatchers.ruralcaravane.constants.AppConstants.STEP2_PREFIX;
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
@@ -308,14 +309,33 @@ public class KitchenConstructionFragment extends Fragment {
                             showPictureDialog(half_constructed_image);
 
                         } else {
-                            Toast.makeText(getActivity(), "Already uploaded step 1 image", Toast.LENGTH_SHORT).show();
+                            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                Toast.makeText(getActivity(), getResources().getString(R.string.already_uploaded_step1_image_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(getActivity(), getResources().getString(R.string.already_uploaded_step1_image_english), Toast.LENGTH_SHORT).show();
+                            }
+
                         }
                     } else {
-                        Toast.makeText(getActivity(), "Already uploaded step 1 image ", Toast.LENGTH_SHORT).show();
+                        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.already_uploaded_step1_image_marathi), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.already_uploaded_step1_image_english), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                 } else {
-                    Toast.makeText(getActivity(), "Please add atleast 1 team member", Toast.LENGTH_SHORT).show();
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.please_add_atleast_one_team_member_marathi), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.please_add_atleast_one_team_member_english), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -329,20 +349,38 @@ public class KitchenConstructionFragment extends Fragment {
                 if (image != null) {
                     if (!image.exists()) {
 
-                        Toast.makeText(getActivity(), "Please upload step 1 image first", Toast.LENGTH_SHORT).show();
+                        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.please_upload_step1_image_first_marathi), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(), getResources().getString(R.string.please_upload_step1_image_first_english), Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         File image1 = FileHelper.createfile(Folders.CHULHAFOLDER, STEP2_PREFIX + kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
                         if (image1 != null) {
                             if (!image1.exists()) {
                                 showPictureDialog(complete_constructed_image);
                             } else {
-                                Toast.makeText(getActivity(), "Process Completed. Can't upload step2 image", Toast.LENGTH_SHORT).show();
+                                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    Toast.makeText(getActivity(), getResources().getString(R.string.process_completed_canot_upload_step2_image_marathi), Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(getActivity(), getResources().getString(R.string.process_completed_canot_upload_step2_image_english), Toast.LENGTH_SHORT).show();
+                                }
                                 add_construction.setBackgroundColor(getActivity().getResources().getColor(R.color.colorDarkgray));
                             }
                         }
                     }
                 } else {
-                    Toast.makeText(getActivity(), "Please upload step 1 image first", Toast.LENGTH_SHORT).show();
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.please_upload_step1_image_first_marathi), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.please_upload_step1_image_first_english), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -372,24 +410,44 @@ public class KitchenConstructionFragment extends Fragment {
 
     private void showPictureDialog(final ImageView imageView)
     {
-        final CharSequence[] options = {"Take Photo", "Cancel"};
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Add Photo!");
-        builder.setItems(options,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                takePhotoFromCamera(imageView);
-                                break;
+        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+            final CharSequence[] options = {getResources().getString(R.string.take_photo_marathi),getResources().getString(R.string.cancel_marathi)};
+            builder.setTitle(getResources().getString(R.string.add_photo_marathi));
+            builder.setItems(options,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    takePhotoFromCamera(imageView);
+                                    break;
 
-                            case 2:
-                                dialog.dismiss();
+                                case 2:
+                                    dialog.dismiss();
+                            }
                         }
-                    }
-                });
+                    });
+        }
+        else
+        {
+            final CharSequence[] options = {getResources().getString(R.string.take_photo_english),getResources().getString(R.string.cancel_english)};
+            builder.setTitle(getResources().getString(R.string.add_photo_english));
+            builder.setItems(options,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    takePhotoFromCamera(imageView);
+                                    break;
+
+                                case 2:
+                                    dialog.dismiss();
+                            }
+                        }
+                    });
+        }
         AlertDialog alert=builder.create();
         alert.setCancelable(false);
         alert.setCanceledOnTouchOutside(false);
@@ -440,15 +498,28 @@ public class KitchenConstructionFragment extends Fragment {
                 kitchenTable.setConstructionStartDateTimeValue(getCurrentDateTime());
             }
 
-            SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
-                    .setTitleText("Please wait");
+            SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                sweetAlertDialog.setTitleText(getResources().getString(R.string.please_wait_marathi));
+            }
+            else
+            {
+                sweetAlertDialog.setTitleText(getResources().getString(R.string.please_wait_english));
+            }
             sweetAlertDialog.show();
 
             if(KitchenTableHelper.updateKitchenData(getActivity(),kitchenTable))
             {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                sweetAlertDialog.setTitleText("Image Uploaded Successfully");
-                sweetAlertDialog.setConfirmText("Ok");
+                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.image_uploaded_successfully_marathi));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.image_uploaded_successfully_english));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -462,8 +533,16 @@ public class KitchenConstructionFragment extends Fragment {
             else
             {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                sweetAlertDialog.setTitleText("Image Upload Failed");
-                sweetAlertDialog.setConfirmText("Ok");
+
+                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.image_upload_failed_marathi));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.image_upload_failed_english));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -488,16 +567,30 @@ public class KitchenConstructionFragment extends Fragment {
 
                 }
             }
-            SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
-                    .setTitleText("Please wait");
+            SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                sweetAlertDialog.setTitleText(getResources().getString(R.string.please_wait_marathi));
+            }
+            else
+            {
+                sweetAlertDialog.setTitleText(getResources().getString(R.string.please_wait_english));
+            }
 
             sweetAlertDialog.show();
 
             if(KitchenTableHelper.updateKitchenData(getActivity(),kitchenTable))
             {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                sweetAlertDialog.setTitleText("Image Uploaded Successfully");
-                sweetAlertDialog.setConfirmText("Ok");
+                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.image_uploaded_successfully_marathi));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.image_uploaded_successfully_english));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                }
+
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -517,8 +610,15 @@ public class KitchenConstructionFragment extends Fragment {
             else
             {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                sweetAlertDialog.setTitleText("Image Upload Failed");
-                sweetAlertDialog.setConfirmText("Ok");
+                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.image_upload_failed_marathi));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.image_upload_failed_english));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {

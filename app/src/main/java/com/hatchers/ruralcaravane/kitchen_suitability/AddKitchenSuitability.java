@@ -69,6 +69,7 @@ import java.util.Locale;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.hatchers.ruralcaravane.constants.AppConstants.KITCHEN_PREFIX;
+import static com.hatchers.ruralcaravane.constants.AppConstants.MARATHI;
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
 
 
@@ -289,7 +290,13 @@ public class AddKitchenSuitability extends Fragment implements
                         if (!image.exists()) {
                             showPictureDialog();
                         } else {
-                            Toast.makeText(getActivity(), "Planned Area Image Already Uploaded", Toast.LENGTH_SHORT).show();
+                            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                Toast.makeText(getActivity(),getResources().getString(R.string.planned_area_image_already_uploaded_marathi) , Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(getActivity(),getResources().getString(R.string.planned_area_image_already_uploaded_english) , Toast.LENGTH_SHORT).show();
+                            }
                         }
                     }
             }
@@ -314,15 +321,28 @@ public class AddKitchenSuitability extends Fragment implements
 
                         if(image.exists())
                         {
-                            SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
-                                    .setTitleText("Please wait");
+                            SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+                            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(getResources().getString(R.string.please_wait_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(getResources().getString(R.string.please_wait_english));
+                            }
                             sweetAlertDialog.show();
 
                             if(KitchenTableHelper.insertKitchenData(getContext(), kitchen_table))
                             {
                                 sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                sweetAlertDialog.setTitleText("Kitchen Data Added Successfully");
-                                sweetAlertDialog.setConfirmText("Ok");
+                                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    sweetAlertDialog.setTitleText(getResources().getString(R.string.kitchen_data_added_successfully_marathi));
+                                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                                }
+                                else
+                                {
+                                    sweetAlertDialog.setTitleText(getResources().getString(R.string.kitchen_data_added_successfully_english));
+                                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                                }
                                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -379,8 +399,16 @@ public class AddKitchenSuitability extends Fragment implements
                             else
                             {
                                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                sweetAlertDialog.setTitleText("Kitchen Data Add Failed");
-                                sweetAlertDialog.setConfirmText("Ok");
+                                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    sweetAlertDialog.setTitleText(getResources().getString(R.string.kitchen_data_add_failed_marathi));
+                                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                                }
+
+                                else
+                                {
+                                    sweetAlertDialog.setTitleText(getResources().getString(R.string.kitchen_data_add_failed_english));
+                                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                                }
                                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -391,13 +419,25 @@ public class AddKitchenSuitability extends Fragment implements
                         }
                         else
                         {
-                            Toast.makeText(getActivity(), "Please Upload Planned Area Image....!", Toast.LENGTH_SHORT).show();
+                            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                Toast.makeText(getActivity(),getResources().getString(R.string.please_upload_planned_area_image_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(getActivity(),getResources().getString(R.string.please_upload_planned_area_image_english), Toast.LENGTH_SHORT).show();
+                            }
 
                         }
                     }
                    else
                     {
-                        Toast.makeText(getActivity(), "Please Upload Planned Area Image....!", Toast.LENGTH_SHORT).show();
+                        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            Toast.makeText(getActivity(),getResources().getString(R.string.please_upload_planned_area_image_marathi), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(getActivity(),getResources().getString(R.string.please_upload_planned_area_image_english), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                 }
@@ -418,9 +458,14 @@ public class AddKitchenSuitability extends Fragment implements
                 SweetAlertDialog locationDialog;
                 if(lattitude==0.0 || longitude ==0.0)
                 {
-                    locationDialog =new SweetAlertDialog(getActivity(),SweetAlertDialog.ERROR_TYPE)
-                            .setTitleText("Couldn't get Location")
-                            .setContentText("Please try again...!");
+                    locationDialog =new SweetAlertDialog(getActivity(),SweetAlertDialog.ERROR_TYPE);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        locationDialog.setTitleText(getResources().getString(R.string.couldnot_get_location_marathi)).setContentText(getResources().getString(R.string.please_try_again_marathi));
+                    }
+                    else
+                    {
+                        locationDialog.setTitleText(getResources().getString(R.string.couldnot_get_location_english)).setContentText(getResources().getString(R.string.please_try_again_english));
+                    }
                     locationDialog.setCancelable(false);
                     locationDialog.show();
                     locationDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -432,9 +477,15 @@ public class AddKitchenSuitability extends Fragment implements
                 }
                 else
                 {
-                    locationDialog=new SweetAlertDialog(getActivity(),SweetAlertDialog.SUCCESS_TYPE)
-                            .setTitleText("Success")
-                            .setContentText("Got location successfully !");
+                    locationDialog=new SweetAlertDialog(getActivity(),SweetAlertDialog.SUCCESS_TYPE);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        locationDialog.setTitleText(getResources().getString(R.string.success_marathi)).setContentText(getResources().getString(R.string.got_location_successfully_marathi));
+                    }
+                    else
+                    {
+                        locationDialog.setTitleText(getResources().getString(R.string.success_english)).setContentText(getResources().getString(R.string.got_location_successfully_english));
+                    }
+
                     locationDialog.setCancelable(false);
                     locationDialog.show();
                     locationDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
@@ -446,7 +497,13 @@ public class AddKitchenSuitability extends Fragment implements
                         }
                     });
 
-                    Toast.makeText(getContext(), "Lattitude : " + String.valueOf(lattitude) + "\nLongitude : " + String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(getContext(), getResources().getString(R.string.latitude_marathi)+ String.valueOf(lattitude) + getResources().getString(R.string.longitude_marathi) + String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(), getResources().getString(R.string.latitude_english)+ String.valueOf(lattitude) + getResources().getString(R.string.longitude_english) + String.valueOf(longitude), Toast.LENGTH_SHORT).show();
+                    }
                     btnGetLocation.setBackgroundColor(getResources().getColor(R.color.DarkGrey));
                     btnGetLocation.setClickable(false);
                 }
@@ -471,24 +528,45 @@ public class AddKitchenSuitability extends Fragment implements
 
     private void showPictureDialog()
     {
-        final CharSequence[] options = {"Take Photo", "Cancel"};
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Add Photo!");
-        builder.setItems(options,
-                new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0:
-                                takePhotoFromCamera();
-                                break;
+        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+            final CharSequence[] options = {getResources().getString(R.string.take_photo_marathi),getResources().getString(R.string.cancel_marathi)};
+            builder.setTitle(getResources().getString(R.string.add_photo_marathi));
+            builder.setItems(options,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    takePhotoFromCamera();
+                                    break;
 
-                            case 2:
-                                dialog.dismiss();
+                                case 2:
+                                    dialog.dismiss();
+                            }
                         }
-                    }
-                });
+                    });
+        }
+        else
+        {
+            final CharSequence[] options = {getResources().getString(R.string.take_photo_english),getResources().getString(R.string.cancel_english)};
+            builder.setTitle(getResources().getString(R.string.add_photo_english));
+            builder.setItems(options,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case 0:
+                                    takePhotoFromCamera();
+                                    break;
+
+                                case 2:
+                                    dialog.dismiss();
+                            }
+                        }
+                    });
+
+        }
         AlertDialog alert = builder.create();
         alert.setCancelable(false);
         alert.setCanceledOnTouchOutside(false);
@@ -535,36 +613,63 @@ public class AddKitchenSuitability extends Fragment implements
         boolean response = true;
 
         if (kitchen_height.getText().toString().trim().length() == 0) {
-            kitchen_height.setError("Please Enter Kitchen Height");
+            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                kitchen_height.setError(getResources().getString(R.string.please_enter_kitchen_height_marathi));
+            }
+            else
+            {
+                kitchen_height.setError(getResources().getString(R.string.please_enter_kitchen_height_english));
+            }
             response = false;
         } else {
             kitchen_height.setError(null);
         }
 
-        if (house_type.getSelectedItem().toString().trim().equalsIgnoreCase("Please Select House Type")) {
+        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+            if (house_type.getSelectedItem().toString().trim().equalsIgnoreCase(getResources().getString(R.string.please_select_house_type_marathi))) {
 
-            View selectedView = house_type.getSelectedView();
-            if (selectedView != null && selectedView instanceof TextView) {
-                TextView selectedTextView = (TextView) selectedView;
-                if (house_type.getSelectedItemPosition() == 0) {
-                    String errorString = "Please Select House Type";
-                    selectedTextView.setError(errorString);
+                View selectedView = house_type.getSelectedView();
+                if (selectedView != null && selectedView instanceof TextView) {
+                    TextView selectedTextView = (TextView) selectedView;
+                    if (house_type.getSelectedItemPosition() == 0) {
+                        String errorString =getResources().getString(R.string.please_select_house_type_marathi);
+                        selectedTextView.setError(errorString);
 
-                } else {
-                    selectedTextView.setError(null);
+                    } else {
+                        selectedTextView.setError(null);
+                    }
                 }
+                response = false;
             }
-            response = false;
+        }
+        else
+        {
+            if (house_type.getSelectedItem().toString().trim().equalsIgnoreCase(getResources().getString(R.string.please_select_house_type_english))) {
+
+                View selectedView = house_type.getSelectedView();
+                if (selectedView != null && selectedView instanceof TextView) {
+                    TextView selectedTextView = (TextView) selectedView;
+                    if (house_type.getSelectedItemPosition() == 0) {
+                        String errorString =getResources().getString(R.string.please_select_house_type_english);
+                        selectedTextView.setError(errorString);
+
+                    } else {
+                        selectedTextView.setError(null);
+                    }
+                }
+                response = false;
+            }
+
         }
 
+        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+            if (roof_type.getSelectedItem().toString().trim().equalsIgnoreCase(getResources().getString(R.string.please_select_roof_type_marathi))) {
 
-            if (roof_type.getSelectedItem().toString().trim().equalsIgnoreCase("Please Enter Roof Type")) {
-
-               View selectedView1 = roof_type.getSelectedView();
+                View selectedView1 = roof_type.getSelectedView();
                 if (selectedView1 != null && selectedView1 instanceof TextView) {
                     TextView selectedTextView = (TextView) selectedView1;
                     if (roof_type.getSelectedItemPosition() == 0) {
-                        String errorString = "Please Enter Roof Type";
+                        String errorString = getResources().getString(R.string.please_select_roof_type_marathi);
                         selectedTextView.setError(errorString);
 
                     } else {
@@ -574,6 +679,26 @@ public class AddKitchenSuitability extends Fragment implements
 
                 response = false;
             }
+        }
+        else
+        {
+            if (roof_type.getSelectedItem().toString().trim().equalsIgnoreCase(getResources().getString(R.string.please_select_roof_type_english))) {
+
+                View selectedView1 = roof_type.getSelectedView();
+                if (selectedView1 != null && selectedView1 instanceof TextView) {
+                    TextView selectedTextView = (TextView) selectedView1;
+                    if (roof_type.getSelectedItemPosition() == 0) {
+                        String errorString = getResources().getString(R.string.please_select_roof_type_english);
+                        selectedTextView.setError(errorString);
+
+                    } else {
+                        selectedTextView.setError(null);
+                    }
+                }
+
+                response = false;
+            }
+        }
 
         return response;
     }
@@ -608,16 +733,29 @@ public class AddKitchenSuitability extends Fragment implements
     private void showAlert()
     {
         final AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-        dialog.setTitle("Unable to get Location")
-                .setMessage("Your Location is disabled. Please Enable Location Services.")
-                .setPositiveButton("Settings", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface paramDialogInterface, int paramInt) {
-                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(myIntent);
-                    }
-                });
-
+        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+            dialog.setTitle(getResources().getString(R.string.unable_to_get_location_marathi))
+                    .setMessage(getResources().getString(R.string.longitude_marathi))
+                    .setPositiveButton(getResources().getString(R.string.setting_marathi), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(myIntent);
+                        }
+                    });
+        }
+        else
+        {
+            dialog.setTitle(getResources().getString(R.string.unable_to_get_location_english))
+                    .setMessage(getResources().getString(R.string.longitude_english))
+                    .setPositiveButton(getResources().getString(R.string.setting_english), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface paramDialogInterface, int paramInt) {
+                            Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                            startActivity(myIntent);
+                        }
+                    });
+        }
         dialog.show();
     }
 
@@ -806,9 +944,16 @@ public class AddKitchenSuitability extends Fragment implements
 
                 } else {
 
-                    // Permission denied, Disable the functionality that depends on this permission.
-                    Toast.makeText(getActivity(), "permission denied", Toast.LENGTH_LONG).show();
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        // Permission denied, Disable the functionality that depends on this permission.
+                        Toast.makeText(getActivity(), getResources().getString(R.string.permission_denied_marathi), Toast.LENGTH_LONG).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(getActivity(), getResources().getString(R.string.permission_denied_english), Toast.LENGTH_LONG).show();
+                    }
                 }
+
                 return;
             }
 

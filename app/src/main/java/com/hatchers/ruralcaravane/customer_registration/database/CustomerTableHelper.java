@@ -6,7 +6,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.widget.Toast;
 
+import com.hatchers.ruralcaravane.R;
+import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.database.DatabaseHandler;
+import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 
 import java.util.ArrayList;
 
@@ -94,7 +97,14 @@ public class CustomerTableHelper {
             int i =db.update(CustomerTable.CUSTOMER_TABLE, values, CustomerTable.UNIQUE_ID+"='"+customer_table.getUniqueIdValue()+"'", null);
             if(i>0)
             {
-                Toast.makeText(context,"Customer data updated"+i,Toast.LENGTH_LONG).show();
+               PrefManager prefManager=new PrefManager(context);
+                if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                    Toast.makeText(context,context.getResources().getString(R.string.customer_data_updated_marathi) + i, Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(context,context.getResources().getString(R.string.customer_data_updated_english) + i, Toast.LENGTH_LONG).show();
+                }
                 db.close();
                 return true;
             }

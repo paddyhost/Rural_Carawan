@@ -40,6 +40,7 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
     private ArrayList<CustomerTable> customerTableArrayList;
     private FragmentTransaction fragmentTransaction;
     private String openFrom;
+    private PrefManager prefManager;
 
     public CustomerListAdapter(Context context, ArrayList<CustomerTable> customerTableArrayList,String openFrom) {
         this.context = context;
@@ -53,6 +54,7 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.customer_list_row, viewGroup, false);
         CustomerListAdapter.ViewHolder viewHolder = new CustomerListAdapter.ViewHolder(v);
         context = viewGroup.getContext();
+        prefManager=new PrefManager(context);
         return viewHolder;
     }
 
@@ -97,7 +99,13 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
                     {
                         if(kitchenTableArrayList.size()<=0)
                         {
-                            Toast.makeText(context,"Add Kitchen First",Toast.LENGTH_SHORT).show();
+                            if (prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                                Toast.makeText(context, context.getResources().getString(R.string.add_kitchen_first_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(context, context.getResources().getString(R.string.add_kitchen_first_english), Toast.LENGTH_SHORT).show();
+                            }
                         }
                         else
                         {
@@ -110,7 +118,23 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
             }
         });
 
-        holder.uploadPayment.setOnClickListener(new View.OnClickListener() {
+        if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+            holder.uploadKichen.setText(context.getResources().getString(R.string.upload_kitchen_marathi));
+            holder.uploadKichen.setTextSize(Utility.getConvertFloatToDP((AppCompatActivity)context,10));
+
+            holder.uploadPayment.setText(context.getResources().getString(R.string.upload_payment_marathi));
+            holder.uploadPayment.setTextSize(Utility.getConvertFloatToDP((AppCompatActivity)context,10));
+        }
+        else
+        {
+            holder.uploadKichen.setText(context.getResources().getString(R.string.upload_kitchen_english));
+            holder.uploadKichen.setTextSize(Utility.getConvertFloatToDP((AppCompatActivity)context,8));
+
+            holder.uploadPayment.setText(context.getResources().getString(R.string.upload_payment_english));
+            holder.uploadPayment.setTextSize(Utility.getConvertFloatToDP((AppCompatActivity)context,8));
+        }
+
+            holder.uploadPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -128,9 +152,14 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
             @Override
             public void onClick(View v) {
 
-                SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(context,SweetAlertDialog.PROGRESS_TYPE)
-                        .setTitleText("Please wait...")
-                        .setContentText("wait uploading data");
+                SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(context,SweetAlertDialog.PROGRESS_TYPE);
+                if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                    sweetAlertDialog.setTitleText(context.getResources().getString(R.string.please_wait_marathi)).setContentText(context.getResources().getString(R.string.wait_uploading_data_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(context.getResources().getString(R.string.please_wait_english)).setContentText(context.getResources().getString(R.string.wait_uploading_data_english));
+                }
                 sweetAlertDialog.setCancelable(false);
                 sweetAlertDialog.show();
 
