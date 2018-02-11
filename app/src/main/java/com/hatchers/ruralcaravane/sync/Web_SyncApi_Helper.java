@@ -46,6 +46,7 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.hatchers.ruralcaravane.constants.AppConstants.FIRE_PREFIX;
 import static com.hatchers.ruralcaravane.constants.AppConstants.STEP2_PREFIX;
 
 /**
@@ -202,6 +203,29 @@ public class Web_SyncApi_Helper
                         checkNUploadKitchenData( activity, kitchenDetailsData,  customerTable,  sweetAlertDialog);
                     }
                 }
+                else if(customerTable.getUpload_statusValue().equalsIgnoreCase("12"))
+                {
+                    if (customerTable.getCustomer_added().equalsIgnoreCase(CustomerTable.LOCAL))
+                    {
+                        addCustomerToServer(activity,sweetAlertDialog,customerTable);
+                    }
+                    else
+                    {
+                        checkNUploadKitchenData( activity, kitchenDetailsData,  customerTable,  sweetAlertDialog);
+                    }
+                }
+                else if(customerTable.getUpload_statusValue().equalsIgnoreCase("13"))
+                {
+                    if (customerTable.getCustomer_added().equalsIgnoreCase(CustomerTable.LOCAL))
+                    {
+                        addCustomerToServer(activity,sweetAlertDialog,customerTable);
+                    }
+                    else
+                    {
+                        checkNUploadKitchenData( activity, kitchenDetailsData,  customerTable,  sweetAlertDialog);
+                    }
+                }
+
     }
 
     private static void addCustomerToServer(final Activity activity, final SweetAlertDialog sweetAlertDialog, final CustomerTable customerTable)
@@ -472,8 +496,15 @@ public class Web_SyncApi_Helper
                 } else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.PHOTOS_ADDED_LOCAL)) {
                     updateKitchenToServer(activity, sweetAlertDialog, kitchenDetailsData, customerTable);
                 } else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.PHOTOS_ADDED_SERVER)) {
+                    updateFiredChulhaToServer(activity, sweetAlertDialog, kitchenDetailsData, customerTable);
+                }  else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.FIRED_CHULHA_PHOTO_ADD_LOCAL))
+                {
+                    updateFiredChulhaToServer(activity, sweetAlertDialog, kitchenDetailsData, customerTable);
+                }
+                else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.FIRED_CHULHA_PHOTO_UPLOADED_SERVER))
+                {
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                    sweetAlertDialog.setTitleText("Photo already Uploaded");
+                    sweetAlertDialog.setTitleText("Fired Photo already Uploaded");
                     sweetAlertDialog.setConfirmText("Ok");
                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
@@ -481,7 +512,9 @@ public class Web_SyncApi_Helper
                             sweetAlertDialog.dismissWithAnimation();
                         }
                     });
-                } /*else {
+                }
+
+                /*else {
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
                     sweetAlertDialog.setTitleText("Kitchen Not Added");
                     sweetAlertDialog.setContentText("Please add kitchen.");
@@ -1296,6 +1329,283 @@ public class Web_SyncApi_Helper
         }
     }
 
+    //api required
+    private static void updateFiredChulhaToServer(final Activity activity, final SweetAlertDialog sweetAlertDialog, final KitchenTable kitchenTable, final CustomerTable customerTable)
+    {
+        File image = FileHelper.createfile(Folders.CHULHAFOLDER, FIRE_PREFIX + kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
+        if (image != null) {
+            if (!image.exists()) {
+                sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                sweetAlertDialog.setTitleText("Add Fired Chulha photo");
+                sweetAlertDialog.setConfirmText("Ok");
+                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                        sweetAlertDialog.dismissWithAnimation();
+                    }
+                });
+
+            } else {
+                /*VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, WebServiceUrls.urlUpdateKitchenToServer, new Response.Listener<NetworkResponse>() {
+                    @Override
+                    public void onResponse(NetworkResponse response) {
+                        String resultResponse = new String(response.data);
+                        Log.d("Result", resultResponse);
+
+                        try {
+                            JSONObject responce = new JSONObject(resultResponse);
+                            if (responce.getString("status").equalsIgnoreCase("success")) {
+
+                                if (responce.getString("message").equalsIgnoreCase("Kitchen Suitability updated successfully")) {
+                                    // JSONArray resultArray = responce.getJSONArray("result");
+                                    JSONObject result = responce.getJSONObject("result");
+                                    kitchenTable.setKitchen_idValue(result.getString("id"));
+                                    kitchenTable.setKitchenState(result.getString("state"));
+                                    kitchenTable.setUpdateDateValue(result.getString("updatedate"));
+                                    kitchenTable.setUpload_statusValue(KitchenTable.FIRED_CHULHA_PHOTO_UPLOADED_SERVER);
+
+                                    if (KitchenTableHelper.updateKitchenData(activity, kitchenTable)) {
+                                        customerTable.setUpload_statusValue("13");
+                                        customerTable.setFiredPhotoAdded(CustomerTable.SERVER);
+
+                                        CustomerTableHelper.updateCustomerStatus(activity, customerTable);
+                                        Toast.makeText(activity, "Kitchen Succefully Updated", Toast.LENGTH_SHORT).show();
+                                        sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+                                        sweetAlertDialog.setTitleText("Kitchen Successfully Updated");
+                                        sweetAlertDialog.setConfirmText("Ok");
+                                        sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                sweetAlertDialog.dismissWithAnimation();
+                                            }
+                                        });
+
+                                        //kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_SUCCESS);
+                                    } else {
+                                        Toast.makeText(activity, "update failed", Toast.LENGTH_SHORT).show();
+                                        sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                        sweetAlertDialog.setTitleText("Update failed");
+                                        sweetAlertDialog.setConfirmText("Ok");
+                                        sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                            @Override
+                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                                sweetAlertDialog.dismissWithAnimation();
+                                            }
+                                        });
+
+                                        //kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_FAILED);
+                                    }
+                                    // customerTable.setImagePathValue(result.getString("imagepath"));
+
+                                } else {
+                                    //group.setCreatestatus(group.BROADCASTERROR);
+                                    //  EventBus.getDefault().post(group);
+                                    Toast.makeText(activity, "upload failed", Toast.LENGTH_SHORT).show();
+                                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                    sweetAlertDialog.setTitleText("Update failed");
+                                    sweetAlertDialog.setConfirmText("Ok");
+                                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            sweetAlertDialog.dismissWithAnimation();
+                                        }
+                                    });
+
+                                    //  kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_FAILED);
+                                }
+                            } else {
+                                Toast.makeText(activity, " response failed", Toast.LENGTH_SHORT).show();
+                                sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                                sweetAlertDialog.setTitleText("Response failed");
+                                sweetAlertDialog.setConfirmText("Ok");
+                                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                    @Override
+                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                        sweetAlertDialog.dismissWithAnimation();
+                                    }
+                                });
+
+                                //kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_RESPONSE_FAILED);
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(activity, "Json error", Toast.LENGTH_SHORT).show();
+                            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                            sweetAlertDialog.setTitleText("Json Error");
+                            sweetAlertDialog.setConfirmText("Ok");
+                            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                }
+                            });
+
+                            //   kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_JSON_ERROR);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //   Toast.makeText(activity,"Volley error",Toast.LENGTH_SHORT).show();
+                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
+                            Toast.makeText(activity, "No connection error", Toast.LENGTH_SHORT).show();
+                            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                            sweetAlertDialog.setTitleText("Check internet connection");
+                            sweetAlertDialog.setConfirmText("Ok");
+                            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                }
+                            });
+
+                            // kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_NO_CONNECTION_ERROR);
+                        } else if (error instanceof ServerError) {
+                            Toast.makeText(activity, "Server error", Toast.LENGTH_SHORT).show();
+                            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                            sweetAlertDialog.setTitleText("Server Error");
+                            sweetAlertDialog.setConfirmText("Ok");
+                            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                }
+                            });
+
+                            // kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_SERVER_ERROR);
+                        } else if (error instanceof NetworkError) {
+                            Toast.makeText(activity, "Network error", Toast.LENGTH_SHORT).show();
+                            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                            sweetAlertDialog.setTitleText("Network Error");
+                            sweetAlertDialog.setConfirmText("Ok");
+                            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                }
+                            });
+
+                            // kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_NEWORK_ERROR);
+                        } else if (error instanceof ParseError) {
+                            Toast.makeText(activity, "Parse error", Toast.LENGTH_SHORT).show();
+                            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                            sweetAlertDialog.setTitleText("Parse Error");
+                            sweetAlertDialog.setConfirmText("Ok");
+                            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                }
+                            });
+
+                            //  kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_PARSE_ERROR);
+                        } else {
+                            Toast.makeText(activity, "Unknown error", Toast.LENGTH_SHORT).show();
+                            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+                            sweetAlertDialog.setTitleText("Update failed");
+                            sweetAlertDialog.setConfirmText("Ok");
+                            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                    sweetAlertDialog.dismissWithAnimation();
+                                }
+                            });
+
+                            //  kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_UNKNOWN_ERROR);
+                        }
+
+                    }
+                }) {
+                    @Override
+                    protected Map<String, String> getParams() {
+                        Map<String, String> params = new HashMap<>();
+//http://www.hatchers.in/caravan/index.php/api/V1/addKitchenSuitability?format=json&kitchen_id=180120052626126&customerid=180120052514114&stime=2018-01-20%2017:27:32&endtime=2018-01-20%2017:27:43&state=C&mobile=9975294782&password=user@123
+                        //http://hatchers.in/caravan/index.php/api/V1/updateKitchenSuitability?customerid=adfdfafddsd&kitchen_id=11111
+                        // &state=C&format=json&mobile=9975294782&password=user@123&stime=2018-01-16%2018:31:58&endtime=2018-01-16%2018:31:58
+                        params.put("format", "json");
+                        params.put("kitchen_id", kitchenTable.getKitchenUniqueIdValue());
+                        params.put("customerid", kitchenTable.getCustomer_idValue());
+                        params.put("stime", kitchenTable.getConstructionStartDateTimeValue());
+                        params.put("endtime", kitchenTable.getConstructionEndDateTimeValue());
+                        params.put("state", KitchenTable.STATE_C);
+                        params.put("mobile", new PrefManager(activity).getMobile());
+                        params.put("password", new PrefManager(activity).getPassword());
+                        return params;
+                    }
+
+                    @Override
+                    protected Map<String, DataPart> getByteData() {
+                        Map<String, DataPart> params = new HashMap<>();
+                        // file name could found file base or direct access from real path
+                        // for now just get bitmap data from ImageView
+                        try {
+
+                            byte[] byteArray = null;
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            if (kitchenTable.getStep1_imageValue() != null) {
+                                File image = new File(kitchenTable.getStep1_imageValue());
+
+                                Bitmap mBitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), Uri.fromFile(image));
+                                mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                byteArray = stream.toByteArray();
+
+                                String name = kitchenTable.getStep1_imageValue().substring(kitchenTable.getStep1_imageValue().lastIndexOf("/") + 1);
+                                if (name.indexOf(".") > 0)
+                                    name = name.substring(0, name.lastIndexOf("."));
+                                //not added kitchen image api
+                                params.put("ufile", new DataPart(name + ".jpg", byteArray, "image/jpeg"));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(activity, "step 1 Error", Toast.LENGTH_SHORT).show();
+                        }
+
+                        try {
+                            byte[] byteArray = null;
+                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                            if (kitchenTable.getStep2_imageValue() != null) {
+                                File image = new File(kitchenTable.getStep2_imageValue());
+
+                                Bitmap mBitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), Uri.fromFile(image));
+                                mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                                byteArray = stream.toByteArray();
+
+                                String name = kitchenTable.getStep2_imageValue().substring(kitchenTable.getStep2_imageValue().lastIndexOf("/") + 1);
+                                if (name.indexOf(".") > 0)
+                                    name = name.substring(0, name.lastIndexOf("."));
+                                //not added kitchen image api
+                                params.put("ufile2", new DataPart(name + ".jpg", byteArray, "image/jpeg"));
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Toast.makeText(activity, "step 2 Error", Toast.LENGTH_SHORT).show();
+                        }
+
+                        return params;
+                    }
+                };
+
+                MyApplication.getInstance().addToRequestQueue(multipartRequest);
+*/
+            }
+        }
+        else
+        {
+            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
+            sweetAlertDialog.setTitleText("Add Fired Chulha photo");
+            sweetAlertDialog.setConfirmText("Ok");
+            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                @Override
+                public void onClick(SweetAlertDialog sweetAlertDialog) {
+                    sweetAlertDialog.dismissWithAnimation();
+                }
+            });
+
+        }
+    }
+
+
 
 
 
@@ -1375,6 +1685,15 @@ public class Web_SyncApi_Helper
             });
 
         }
+        else if(customerTable.getUpload_statusValue().equalsIgnoreCase("12"))
+        {
+            checkNUploadPayments(activity, sweetAlertDialog, customerTable);
+        }
+        else if(customerTable.getUpload_statusValue().equalsIgnoreCase("13"))
+        {
+            checkNUploadPayments(activity, sweetAlertDialog, customerTable);
+        }
+
         else
         {
             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);

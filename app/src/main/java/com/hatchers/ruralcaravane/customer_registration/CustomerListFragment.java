@@ -163,7 +163,7 @@ public class CustomerListFragment extends Fragment
                 if (customerTableArrayList != null) {
                     for (CustomerTable customerTable:customerTableArrayList)
                     {
-                        if(customerTable.getChulha_photo_added().equalsIgnoreCase(CustomerTable.SERVER))
+                        if(customerTable.getFiredPhotoAdded().equalsIgnoreCase(CustomerTable.SERVER))
                         {
                             customerTableArrayList.remove(customerTable);
                         }

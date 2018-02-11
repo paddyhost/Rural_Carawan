@@ -21,7 +21,8 @@ public class KitchenTable implements Parcelable{
                                STEP1_IMAGE="step1_image",STEP2_IMAGE="step2_image",ADDED_DATE="added_date",
                                USER_UNIQUE_ID="user_unique_id",ADDED_BY_ID="added_by_id", UPDATE_DATE="update_date",
                                CONSTRUCTION_START_DATETIME="construction_start_datetime",
-                               CONSTRUCTION_END_DATETIME="construction_end_datetime", KITCHEN_STATE ="kitchen_state";
+                               CONSTRUCTION_END_DATETIME="construction_end_datetime", KITCHEN_STATE ="kitchen_state",
+                               FIRED_CHULHA_IMAGE ="fired_chulha_img";
 
     public static final String CREATE_KITCHEN_TABLE="CREATE TABLE " + KITCHEN_TABLE +
             "("+KITCHEN_ID+" int PRIMARY KEY ,"+HOUSE_TYPE+" TEXT,"+ROOF_TYPE+" TEXT,"
@@ -30,16 +31,18 @@ public class KitchenTable implements Parcelable{
             +LONGITUDE+" TEXT, "+GEO_ADDRESS+" TEXT, "+UPLOAD_DATE+" TEXT, "+STEP1_IMAGE+" TEXT, "
             +STEP2_IMAGE+" TEXT, " +COST_OF_CHULLHA+" TEXT, "+ADDED_DATE+" TEXT, "+USER_UNIQUE_ID+" TEXT, "
             +ADDED_BY_ID+" TEXT, "+UPDATE_DATE+" TEXT, "+CONSTRUCTION_START_DATETIME+" TEXT, "
-            +KITCHEN_STATE+" TEXT, "+CONSTRUCTION_END_DATETIME+" TEXT)";
+            +KITCHEN_STATE+" TEXT, "+FIRED_CHULHA_IMAGE+" TEXT, "+CONSTRUCTION_END_DATETIME+" TEXT)";
 
     public static final String KITCHEN_ADDED_LOCAL="0", KITCHEN_UPLOADED_SERVER="1",TEAM_ADDED_LOCAL="2",
-                                TEAM_ADDED_SERVER="3", PHOTOS_ADDED_LOCAL="4", PHOTOS_ADDED_SERVER="5";
+                                TEAM_ADDED_SERVER="3", PHOTOS_ADDED_LOCAL="4", PHOTOS_ADDED_SERVER="5",
+                                FIRED_CHULHA_PHOTO_ADD_LOCAL="6",FIRED_CHULHA_PHOTO_UPLOADED_SERVER="7";
 
     private String kitchen_idValue,house_typeValue,roof_typeValue,kitchen_heightValue,
             upload_statusValue,customer_idValue,placeImageValue,kitchenUniqueIdValue,
             latitudeValue,longitudeValue,uploadDateValue,geoAddressValue,costOfChullhaValue,
             step1_imageValue,step2_imageValue,addedDateValue,userUniqueIdValue,addedByIdValue,
-            updateDateValue,constructionStartDateTimeValue,constructionEndDateTimeValue,kitchenState;
+            updateDateValue,constructionStartDateTimeValue,constructionEndDateTimeValue,kitchenState,
+            firedChulhaPhotoValue;
 
     public static final String STATE_A="A", STATE_C="C", STATE_N="N", STATE_P="P";
 
@@ -52,7 +55,7 @@ public class KitchenTable implements Parcelable{
                         String latitudeValue,String longitudeValue,String uploadDateValue,String step1_imageValue,
                         String step2_imageValue,String addedDateValue,String userUniqueIdValue,String addedByIdValue,
                         String updateDateValue,String constructionStartDateTimeValue,String constructionEndDateTimeValue,
-                        String kitchenState)
+                        String kitchenState,String firedChulhaPhotoValue)
     {
         this.kitchen_idValue = kitchen_idValue;
         this.house_typeValue = house_typeValue;
@@ -76,6 +79,7 @@ public class KitchenTable implements Parcelable{
         this.constructionStartDateTimeValue=constructionStartDateTimeValue;
         this.constructionEndDateTimeValue=constructionEndDateTimeValue;
         this.kitchenState=kitchenState;
+        this.firedChulhaPhotoValue=firedChulhaPhotoValue;
     }
 
     protected KitchenTable(Parcel in) {
@@ -100,6 +104,7 @@ public class KitchenTable implements Parcelable{
         updateDateValue=in.readString();
         constructionStartDateTimeValue=in.readString();
         constructionEndDateTimeValue=in.readString();
+        firedChulhaPhotoValue=in.readString();
     }
 
 
@@ -126,7 +131,7 @@ public class KitchenTable implements Parcelable{
         dest.writeString(updateDateValue);
         dest.writeString(constructionStartDateTimeValue);
         dest.writeString(constructionEndDateTimeValue);
-
+        dest.writeString(firedChulhaPhotoValue);
     }
 
     @Override
@@ -377,6 +382,14 @@ public class KitchenTable implements Parcelable{
 
     public void setKitchenState(String kitchenState) {
         this.kitchenState = kitchenState;
+    }
+
+    public String getFiredChulhaPhotoValue() {
+        return firedChulhaPhotoValue;
+    }
+
+    public void setFiredChulhaPhotoValue(String firedChulhaPhotoValue) {
+        this.firedChulhaPhotoValue = firedChulhaPhotoValue;
     }
 }
 

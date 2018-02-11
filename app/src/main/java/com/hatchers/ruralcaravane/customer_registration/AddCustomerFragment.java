@@ -745,6 +745,7 @@ public class AddCustomerFragment extends Fragment {
         customer_table.setKitchen_added(CustomerTable.NOT_ADDED);
         customer_table.setTeam_added(CustomerTable.NOT_ADDED);
         customer_table.setChulha_photo_added(CustomerTable.NOT_ADDED);
+        customer_table.setFiredPhotoAdded(CustomerTable.NOT_ADDED);
         customer_table.setconstructionComplete(CustomerTable.NOT_ADDED);
         customer_table.setPayment_added(CustomerTable.NOT_ADDED);
         customer_table.setPayment_completed(CustomerTable.NOT_ADDED);

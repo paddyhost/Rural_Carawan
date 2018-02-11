@@ -52,7 +52,7 @@
         android:layout_height="60dp"
         android:padding="10dp"
         android:background="@color/colorAccent"
-        android:text="Make Payment"
+        android:text="Do Payment"
         android:textColor="@color/white"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/paymentListToolbar"

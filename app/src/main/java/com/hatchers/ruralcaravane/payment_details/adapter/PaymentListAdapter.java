@@ -11,10 +11,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hatchers.ruralcaravane.R;
+import com.hatchers.ruralcaravane.constants.AppConstants;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
 import com.hatchers.ruralcaravane.payment_details.PaymentDetailsFragment;
 import com.hatchers.ruralcaravane.payment_details.database.PaymentTable;
+import com.hatchers.ruralcaravane.pref_manager.PrefManager;
+import com.hatchers.ruralcaravane.utils.Utility;
 
 import java.util.ArrayList;
 
@@ -41,10 +44,22 @@ public class PaymentListAdapter  extends RecyclerView.Adapter<PaymentListAdapter
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         final PaymentTable paymentTable = paymentTableArrayList.get(position);
-        KitchenTable kitchenTable = KitchenTableHelper.getKitchenDetalBuUniqId(context,paymentTable.getKitchenIdValue());
-        holder.totalCost.setText(String.valueOf(context.getResources().getString(R.string.Rs)+" "+paymentTable.getAmountValue()+"/-"));
-        holder.paitAmount.setText(String.valueOf("Paid : "+context.getResources().getString(R.string.Rs)+" "+paymentTable.getTotalPaidValue()+"/-"));
-        holder.remainAmunt.setText(String.valueOf("Balance : "+context.getResources().getString(R.string.Rs)+" "+paymentTable.getBalanceValue()+"/-"));
+
+        if(new PrefManager(context).getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
+        {
+            holder.totalCost.setText(String.valueOf(context.getResources().getString(R.string.costofchulha_marathi)+" "+context.getResources().getString(R.string.Rs)+" "+paymentTable.getAmountValue()+"/-"));
+            holder.totalCost.setTextSize(Utility.getConvertFloatToDP(((AppCompatActivity)context),9));
+            holder.paitAmount.setText(String.valueOf(context.getResources().getString(R.string.paid_marathi)+" "+context.getResources().getString(R.string.Rs)+" "+paymentTable.getTotalPaidValue()+"/-"));
+            holder.paitAmount.setTextSize(Utility.getConvertFloatToDP(((AppCompatActivity)context),7));
+            holder.remainAmunt.setText(String.valueOf(context.getResources().getString(R.string.baki_paise)+" "+context.getResources().getString(R.string.Rs)+" "+paymentTable.getBalanceValue()+"/-"));
+            holder.remainAmunt.setTextSize(Utility.getConvertFloatToDP(((AppCompatActivity)context),7));
+        }
+        else
+        {
+            holder.totalCost.setText(String.valueOf("Total chullha cost : "+context.getResources().getString(R.string.Rs)+" "+paymentTable.getAmountValue()+"/-"));
+            holder.paitAmount.setText(String.valueOf("Paid : "+context.getResources().getString(R.string.Rs)+" "+paymentTable.getTotalPaidValue()+"/-"));
+            holder.remainAmunt.setText(String.valueOf("Balance : "+context.getResources().getString(R.string.Rs)+" "+paymentTable.getBalanceValue()+"/-"));
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,7 +92,7 @@ public class PaymentListAdapter  extends RecyclerView.Adapter<PaymentListAdapter
         ViewHolder(View itemView) {
             super(itemView);
 
-            totalCost = (TextView)itemView.findViewById(R.id.cost_of_chullha_);
+            totalCost = (TextView)itemView.findViewById(R.id.cost_of_chullha_label);
             paitAmount= (TextView)itemView.findViewById(R.id.total_paid);
             remainAmunt=(TextView)itemView.findViewById(R.id.remaining_amount);
             this.itemView = itemView;
