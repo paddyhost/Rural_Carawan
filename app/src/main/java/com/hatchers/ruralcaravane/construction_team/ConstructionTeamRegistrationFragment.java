@@ -50,6 +50,7 @@ import java.util.Date;
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.hatchers.ruralcaravane.constants.AppConstants.CONSTRUCT_PREFIX;
+import static com.hatchers.ruralcaravane.constants.AppConstants.MARATHI;
 import static com.hatchers.ruralcaravane.current_date_time_function.CurrentDateTime.getCurrentDateTime;
 
 
@@ -232,17 +233,29 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
             public void onClick(View v) {
                 setConstructionTeamData();
                 if (checkValidation()) {
-                    SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE)
-                            .setTitleText("Please wait");
-
+                    SweetAlertDialog sweetAlertDialog =new SweetAlertDialog(getActivity(), SweetAlertDialog.PROGRESS_TYPE);
+                    if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        sweetAlertDialog.setTitleText(getResources().getString(R.string.please_wait_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(getResources().getString(R.string.please_wait_english));
+                    }
                     sweetAlertDialog.show();
                     if(ConstructionTableHelper.insertConstructionTeamData(getContext(), constructionTable))
                     {
                         kitchenTable.setUpload_statusValue(KitchenTable.TEAM_ADDED_LOCAL);
                         KitchenTableHelper.updateKitchenData(getActivity(),kitchenTable);
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                        sweetAlertDialog.setTitleText("Construction Team Data Added Successfully");
-                        sweetAlertDialog.setConfirmText("Ok");
+                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            sweetAlertDialog.setTitleText(getResources().getString(R.string.construction_team_data_added_successfully_marathi));
+                            sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                        }
+                        else
+                        {
+                            sweetAlertDialog.setTitleText(getResources().getString(R.string.construction_team_data_added_successfully_english));
+                            sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                        }
                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -268,8 +281,15 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
                     else
                     {
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        sweetAlertDialog.setTitleText("Construction Team Data Failed");
-                        sweetAlertDialog.setConfirmText("Ok");
+                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            sweetAlertDialog.setTitleText(getResources().getString(R.string.construction_team_data_failed_marathi));
+                            sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                        }
+                        else
+                        {
+                            sweetAlertDialog.setTitleText(getResources().getString(R.string.construction_team_data_failed_english));
+                            sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                        }
                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -340,21 +360,39 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
         boolean response = true;
 
         if (construction_member_name.getText().toString().trim().length() == 0) {
-            construction_member_name.setError("Please Enter Construction Member Name");
+            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                construction_member_name.setError(getResources().getString(R.string.please_enter_construction_member_name_marathi));
+            }
+            else
+            {
+                construction_member_name.setError(getResources().getString(R.string.please_enter_construction_member_name_english));
+            }
             response = false;
         } else {
             construction_member_name.setError(null);
         }
 
         if (construction_member_age.getText().toString().trim().length() == 0) {
-            construction_member_age.setError("Please Enter Construction Member Age ");
+            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                construction_member_age.setError(getResources().getString(R.string.please_enter_construction_member_age_marathi));
+            }
+            else
+            {
+                construction_member_age.setError(getResources().getString(R.string.please_enter_construction_member_age_english));
+            }
             response = false;
         } else {
             construction_member_age.setError(null);
         }
 
         if (construction_member_address.getText().toString().trim().length() == 0) {
-            construction_member_address.setError("Please Enter Construction Member Address ");
+            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                construction_member_address.setError(getResources().getString(R.string.please_enter_construction_member_address_marathi));
+            }
+            else
+            {
+                construction_member_address.setError(getResources().getString(R.string.please_enter_construction_member_address_english));
+            }
             response = false;
         } else {
             construction_member_address.setError(null);
@@ -362,7 +400,13 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
 
         if(!Validations.isValidPhoneNumber(construction_member_mobileno.getText().toString()))
         {
-            construction_member_mobileno.setError("Please Enter valid Mobile Number");
+            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                construction_member_mobileno.setError(getResources().getString(R.string.please_enter_valid_mobile_number_marathi));
+            }
+            else
+            {
+                construction_member_mobileno.setError(getResources().getString(R.string.please_enter_valid_mobile_number_english));
+            }
             response = false;
         }
 
@@ -372,7 +416,13 @@ public class ConstructionTeamRegistrationFragment extends Fragment {
         }
 
         if (radioGroupGender.getCheckedRadioButtonId() == -1) {
-            Toast.makeText(getActivity(), "Please Select Gender", Toast.LENGTH_SHORT).show();
+            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                Toast.makeText(getActivity(), getResources().getString(R.string.please_select_gender_marathi), Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                Toast.makeText(getActivity(), getResources().getString(R.string.please_select_gender_marathi), Toast.LENGTH_SHORT).show();
+            }
             response = false;
             // no radio buttons are checked
         } else {

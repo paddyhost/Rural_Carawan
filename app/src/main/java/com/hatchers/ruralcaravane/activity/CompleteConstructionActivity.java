@@ -33,6 +33,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import static com.hatchers.ruralcaravane.constants.AppConstants.FIRE_PREFIX;
+import static com.hatchers.ruralcaravane.constants.AppConstants.MARATHI;
 import static com.hatchers.ruralcaravane.constants.AppConstants.STEP2_PREFIX;
 
 public class CompleteConstructionActivity extends AppCompatActivity{
@@ -128,7 +129,13 @@ public class CompleteConstructionActivity extends AppCompatActivity{
                     else
                     {
                         houseSurveyLayout.setBackgroundColor(getResources().getColor(R.color.gray_btn_bg_color));
-                        Toast.makeText(CompleteConstructionActivity.this,"Already added kitchen",Toast.LENGTH_SHORT).show();
+                        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            Toast.makeText(CompleteConstructionActivity.this, getResources().getString(R.string.already_added_kitchen_marathi), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(CompleteConstructionActivity.this, getResources().getString(R.string.already_added_kitchen_english), Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
 
@@ -139,7 +146,7 @@ public class CompleteConstructionActivity extends AppCompatActivity{
 
     private void setLanguageToUI()
     {
-        if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
+        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI))
         {
             completeConstructionToolbar.setTitle(getResources().getString(R.string.complete_remaining_construction_marathi));
 
@@ -189,7 +196,13 @@ public class CompleteConstructionActivity extends AppCompatActivity{
                 }
                 else
                 {
-                    Toast.makeText(CompleteConstructionActivity.this, "Please add atleast 1 team member", Toast.LENGTH_SHORT).show();
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(CompleteConstructionActivity.this, getResources().getString(R.string.please_add_atleast_one_team_member_marathi), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(CompleteConstructionActivity.this, getResources().getString(R.string.please_add_atleast_one_team_member_english), Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 /*if (constructionTableArrayList!=null && constructionTableArrayList.size() > 0) {
@@ -222,7 +235,13 @@ public class CompleteConstructionActivity extends AppCompatActivity{
                 {
                     if(kitchenTableArrayList.size()<=0)
                     {
-                        Toast.makeText(CompleteConstructionActivity.this,"Add kitchen first",Toast.LENGTH_SHORT).show();
+                        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            Toast.makeText(CompleteConstructionActivity.this, getResources().getString(R.string.add_kitchen_first_marathi), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(CompleteConstructionActivity.this, getResources().getString(R.string.add_kitchen_first_english), Toast.LENGTH_SHORT).show();
+                        }
                     }
                     else
                     {
@@ -235,7 +254,14 @@ public class CompleteConstructionActivity extends AppCompatActivity{
 
                             } else
                             {
-                                Toast.makeText(CompleteConstructionActivity.this, "Process Completed. Can't add team member ", Toast.LENGTH_SHORT).show();
+                                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    Toast.makeText(CompleteConstructionActivity.this, getResources().getString(R.string.process_completed_cannot_add_team_member_marathi), Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(CompleteConstructionActivity.this, getResources().getString(R.string.process_completed_cannot_add_team_member_english), Toast.LENGTH_SHORT).show();
+                                }
+
                                 addConstructionTeamLayout.setBackgroundColor(getResources().getColor(R.color.colorDarkgray));
                             }
                         }
@@ -245,6 +271,8 @@ public class CompleteConstructionActivity extends AppCompatActivity{
             }
         });
     }
+
+
 
     private void firedChulhaPhotoClickListener()
     {
@@ -267,7 +295,7 @@ public class CompleteConstructionActivity extends AppCompatActivity{
                         }
                     }
 
-                 }
+                }
                 else
                 {
                     Toast.makeText(CompleteConstructionActivity.this, "Please add atleast 1 team member", Toast.LENGTH_SHORT).show();

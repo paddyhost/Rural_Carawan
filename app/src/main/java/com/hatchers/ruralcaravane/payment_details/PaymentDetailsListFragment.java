@@ -35,7 +35,7 @@ import java.util.ArrayList;
 public class PaymentDetailsListFragment extends Fragment {
 
     RecyclerView paymentRecyclerView;
-    ImageView backImg;
+    //ImageView backImg;
     PaymentListAdapter paymentListAdapter;
     Button paymentBtn;
     private CustomerTable customertable;
@@ -81,11 +81,13 @@ public class PaymentDetailsListFragment extends Fragment {
     {
         if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
         {
+            paymentListToolbar.setTitle(R.string.do_payment_marathi);
             paymentBtn.setText(getResources().getString(R.string.take_payment));
             paymentBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),15));
         }
         else
         {
+            paymentListToolbar.setTitle(R.string.do_payment_english);
             paymentBtn.setText(getResources().getString(R.string.make_payment_english));
             paymentBtn.setTextSize(Utility.getConvertFloatToDP(getActivity(),15));
         }
@@ -96,9 +98,9 @@ public class PaymentDetailsListFragment extends Fragment {
     {
         prefManager = new PrefManager(getActivity());
         ((AppCompatActivity)getActivity()).setSupportActionBar(paymentListToolbar);
-        paymentListToolbar=(Toolbar)view.findViewById(R.id.paymentListToolbar);
+        paymentListToolbar=(Toolbar)view.findViewById(R.id.paymentToolbar);
         paymentListBtn=(FloatingActionButton)view.findViewById(R.id.paymentListBtn);
-        backImg = (ImageView)view.findViewById(R.id.back_paymt_list);
+        //backImg = (ImageView)view.findViewById(R.id.back_paymt_list);
         paymentBtn = (Button)view.findViewById(R.id.payment_btn);
 
         paymentRecyclerView = (RecyclerView) view.findViewById(R.id.paymentRecyclerView);
@@ -125,7 +127,7 @@ public class PaymentDetailsListFragment extends Fragment {
 
     private void onClickListeners()
     {
-        backImg.setOnClickListener(new View.OnClickListener() {
+        paymentListToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();

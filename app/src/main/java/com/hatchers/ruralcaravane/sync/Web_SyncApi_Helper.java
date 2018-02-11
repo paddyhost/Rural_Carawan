@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.app.MyApplication;
 import com.hatchers.ruralcaravane.constants.WebServiceUrls;
 import com.hatchers.ruralcaravane.construction_team.database.ConstructionTable;
@@ -46,6 +48,7 @@ import java.util.Map;
 
 import cn.pedant.SweetAlert.SweetAlertDialog;
 
+import static com.hatchers.ruralcaravane.constants.AppConstants.MARATHI;
 import static com.hatchers.ruralcaravane.constants.AppConstants.FIRE_PREFIX;
 import static com.hatchers.ruralcaravane.constants.AppConstants.STEP2_PREFIX;
 
@@ -125,8 +128,16 @@ public class Web_SyncApi_Helper
                     else
                     {
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        sweetAlertDialog.setTitleText("Add Chullha photos");
-                        sweetAlertDialog.setConfirmText("Ok");
+                        PrefManager prefManager=new PrefManager(activity);
+                        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.add_photo_marathi));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                        }
+                        else
+                        {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.add_photo_english));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                        }
                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -254,12 +265,28 @@ public class Web_SyncApi_Helper
                             customerTable.setCustomer_added(CustomerTable.SERVER);
                             if(CustomerTableHelper.updateCustomerData(activity,customerTable))
                             {
-                                Toast.makeText(activity,"Succefully uploaded customer",Toast.LENGTH_SHORT).show();
+                                PrefManager prefManager=new PrefManager(activity);
+                                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    Toast.makeText(activity, activity.getResources().getString(R.string.succefully_uploaded_customer_marathi), Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(activity, activity.getResources().getString(R.string.succefully_uploaded_customer_english), Toast.LENGTH_SHORT).show();
+                                }
                                 //customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_SUCCESS);
                                 //  addNewCustomerToServer(activity,sweetAlertDialog);
                                 sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                sweetAlertDialog.setTitleText(" Uploaded Customer");
-                                sweetAlertDialog.setConfirmText("Ok");
+
+                                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.uploaded_customer_marathi));
+                                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                }
+                                else
+                                {
+                                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.uploaded_customer_english));
+                                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                                }
                                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -269,11 +296,25 @@ public class Web_SyncApi_Helper
                             }
                             else
                             {
-                                Toast.makeText(activity,"upload failed",Toast.LENGTH_SHORT).show();
+                                PrefManager prefManager=new PrefManager(activity);
+                                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    Toast.makeText(activity,activity.getResources().getString(R.string.upload_failed_marathi) , Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(activity,activity.getResources().getString(R.string.upload_failed_english) , Toast.LENGTH_SHORT).show();
+                                }
                                 //  customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_FAILED);
                                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                sweetAlertDialog.setTitleText("update Failed");
-                                sweetAlertDialog.setConfirmText("Ok");
+                                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_marathi));
+                                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                }
+                                else
+                                {
+                                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_english));
+                                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                                }
                                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -287,11 +328,29 @@ public class Web_SyncApi_Helper
                         {
                             //group.setCreatestatus(group.BROADCASTERROR);
                             //  EventBus.getDefault().post(group);
-                            Toast.makeText(activity,"upload failed",Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                Toast.makeText(activity,activity.getResources().getString(R.string.upload_failed_marathi) , Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity,activity.getResources().getString(R.string.upload_failed_english) , Toast.LENGTH_SHORT).show();
+                            }
+
                             //customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_FAILED);
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("upload Failed");
-                            sweetAlertDialog.setConfirmText("Ok");
+
+                            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.upload_failed_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.upload_failed_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
+
+
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -303,11 +362,26 @@ public class Web_SyncApi_Helper
                     }
                     else
                     {
-                        Toast.makeText(activity," response failed",Toast.LENGTH_SHORT).show();
+                        PrefManager prefManager=new PrefManager(activity);
+                        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_marathi), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_english), Toast.LENGTH_SHORT).show();
+                        }
                         //  customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_RESPONSE_FAILED);
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        sweetAlertDialog.setTitleText("upload Failed");
-                        sweetAlertDialog.setConfirmText("Ok");
+                        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.upload_failed_marathi));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                        }
+                        else
+                        {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.upload_failed_english));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                        }
+
                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -319,11 +393,25 @@ public class Web_SyncApi_Helper
                 }
                 catch (Exception e)
                 {
-                    Toast.makeText(activity,"Json error",Toast.LENGTH_SHORT).show();
+                    PrefManager prefManager=new PrefManager(activity);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.json_error_marathi), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.json_error_english), Toast.LENGTH_SHORT).show();
+                    }
                     //  customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_JSON_ERROR);
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    sweetAlertDialog.setTitleText("Json error");
-                    sweetAlertDialog.setConfirmText("Ok");
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.json_error_marathi));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.json_error_english));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                    }
                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -338,11 +426,26 @@ public class Web_SyncApi_Helper
             public void onErrorResponse(VolleyError error) {
                 //   Toast.makeText(activity,"Volley error",Toast.LENGTH_SHORT).show();
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    Toast.makeText(activity,"No connection error",Toast.LENGTH_SHORT).show();
+
+                    PrefManager prefManager=new PrefManager(activity);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(activity,activity.getResources().getString(R.string.no_connection_error_marathi) , Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(activity,activity.getResources().getString(R.string.no_connection_error_english) , Toast.LENGTH_SHORT).show();
+                    }
                     // customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_NO_CONNECTION_ERROR);
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    sweetAlertDialog.setTitleText("Check interner connection");
-                    sweetAlertDialog.setConfirmText("Ok");
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.check_internet_connection_marathi));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.check_internet_connection_english));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                    }
                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -353,11 +456,25 @@ public class Web_SyncApi_Helper
                 }
                 else if (error instanceof ServerError)
                 {
-                    Toast.makeText(activity,"Server error",Toast.LENGTH_SHORT).show();
+                    PrefManager prefManager=new PrefManager(activity);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.server_error_marathi), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.server_error_english), Toast.LENGTH_SHORT).show();
+                    }
                     //  customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_SERVER_ERROR);
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    sweetAlertDialog.setTitleText("Server error");
-                    sweetAlertDialog.setConfirmText("Ok");
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.server_error_marathi));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.server_error_english));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                    }
                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -368,11 +485,25 @@ public class Web_SyncApi_Helper
                 }
                 else if (error instanceof NetworkError)
                 {
-                    Toast.makeText(activity,"Network error",Toast.LENGTH_SHORT).show();
+                    PrefManager prefManager=new PrefManager(activity);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(activity,activity.getResources().getString(R.string.network_error_marathi) , Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(activity,activity.getResources().getString(R.string.network_error_english) , Toast.LENGTH_SHORT).show();
+                    }
                     // customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_NEWORK_ERROR);
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    sweetAlertDialog.setTitleText("Network Error");
-                    sweetAlertDialog.setConfirmText("Ok");
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.network_error_marathi));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.network_error_english));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                    }
                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -383,11 +514,25 @@ public class Web_SyncApi_Helper
                 }
                 else if (error instanceof ParseError)
                 {
-                    Toast.makeText(activity,"Parse error",Toast.LENGTH_SHORT).show();
+                    PrefManager prefManager=new PrefManager(activity);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(activity,activity.getResources().getString(R.string.parse_error_marathi) , Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(activity,activity.getResources().getString(R.string.parse_error_english) , Toast.LENGTH_SHORT).show();
+                    }
                     //customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_PARSE_ERROR);
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    sweetAlertDialog.setTitleText("Parse Error");
-                    sweetAlertDialog.setConfirmText("Ok");
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.parse_error_marathi));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.parse_error_english));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                    }
                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -398,11 +543,25 @@ public class Web_SyncApi_Helper
                 }
                 else
                 {
-                    Toast.makeText(activity,"Unknown error",Toast.LENGTH_SHORT).show();
+                    PrefManager prefManager=new PrefManager(activity);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.unknown_error_marathi), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.unknown_error_english), Toast.LENGTH_SHORT).show();
+                    }
                     // customerTable.fireOnCustomerEvent(CustomerTable.CUSTOMER_ADD_UNKNOWN_ERROR);
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    sweetAlertDialog.setTitleText("Unknown Error");
-                    sweetAlertDialog.setConfirmText("Ok");
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.unknown_error_marathi));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.unknown_error_english));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                    }
                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -466,7 +625,14 @@ public class Web_SyncApi_Helper
                 }
                 catch(Exception e){
                     e.printStackTrace();
-                    Toast.makeText(activity, "Error", Toast.LENGTH_SHORT).show();
+                    PrefManager prefManager=new PrefManager(activity);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.error_marathi), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.error_english), Toast.LENGTH_SHORT).show();
+                    }
                 }
 
 
@@ -496,16 +662,26 @@ public class Web_SyncApi_Helper
                 } else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.PHOTOS_ADDED_LOCAL)) {
                     updateKitchenToServer(activity, sweetAlertDialog, kitchenDetailsData, customerTable);
                 } else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.PHOTOS_ADDED_SERVER)) {
-                    updateFiredChulhaToServer(activity, sweetAlertDialog, kitchenDetailsData, customerTable);
+                    //updateFiredChulhaToServer(activity, sweetAlertDialog, kitchenDetailsData, customerTable);
                 }  else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.FIRED_CHULHA_PHOTO_ADD_LOCAL))
                 {
-                    updateFiredChulhaToServer(activity, sweetAlertDialog, kitchenDetailsData, customerTable);
+                    //updateFiredChulhaToServer(activity, sweetAlertDialog, kitchenDetailsData, customerTable);
                 }
                 else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.FIRED_CHULHA_PHOTO_UPLOADED_SERVER))
                 {
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                    sweetAlertDialog.setTitleText("Fired Photo already Uploaded");
-                    sweetAlertDialog.setConfirmText("Ok");
+
+                    PrefManager prefManager=new PrefManager(activity);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.photo_already_uploaded_marathi));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.photo_already_uploaded_english));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                    }
                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -530,9 +706,18 @@ public class Web_SyncApi_Helper
             else
             {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                sweetAlertDialog.setTitleText("Kitchen Not Added");
-                sweetAlertDialog.setContentText("Please add kitchen.");
-                sweetAlertDialog.setConfirmText("Ok");
+                PrefManager prefManager=new PrefManager(activity);
+                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.kitchen_not_added_marathi));
+                    sweetAlertDialog.setContentText(activity.getResources().getString(R.string.please_add_kitchen_marathi));
+                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.kitchen_not_added_english));
+                    sweetAlertDialog.setContentText(activity.getResources().getString(R.string.please_add_kitchen_english));
+                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -545,9 +730,18 @@ public class Web_SyncApi_Helper
         else
         {
             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-            sweetAlertDialog.setTitleText("Kitchen Not Added");
-            sweetAlertDialog.setContentText("Please add kitchen.");
-            sweetAlertDialog.setConfirmText("Ok");
+            PrefManager prefManager=new PrefManager(activity);
+            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.kitchen_not_added_marathi));
+                sweetAlertDialog.setContentText(activity.getResources().getString(R.string.please_add_kitchen_marathi));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+            }
+            else
+            {
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.kitchen_not_added_english));
+                sweetAlertDialog.setContentText(activity.getResources().getString(R.string.please_add_kitchen_english));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+            }
             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -587,10 +781,24 @@ public class Web_SyncApi_Helper
                             {
                                 customerTable.setUpload_statusValue("3");
                                 CustomerTableHelper.updateCustomerStatus(activity,customerTable);
-                                Toast.makeText(activity,"Kitchen Succefully uploaded",Toast.LENGTH_SHORT).show();
+                                PrefManager prefManager=new PrefManager(activity);
+                                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    Toast.makeText(activity, activity.getResources().getString(R.string.kitchen_data_added_successfully_marathi), Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(activity, activity.getResources().getString(R.string.kitchen_data_added_successfully_english), Toast.LENGTH_SHORT).show();
+                                }
                                 sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                sweetAlertDialog.setTitleText("Successfully uploaded");
-                                sweetAlertDialog.setConfirmText("Ok");
+                                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.successfully_uploaded_marathi));
+                                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                }
+                                else
+                                {
+                                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.successfully_uploaded_english));
+                                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                                }
                                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -598,16 +806,28 @@ public class Web_SyncApi_Helper
                                     }
                                 });
 
-
-
                                 kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_SUCCESS);
                             }
                             else
                             {
-                                Toast.makeText(activity,"update failed",Toast.LENGTH_SHORT).show();
+                                PrefManager prefManager=new PrefManager(activity);
+                                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    Toast.makeText(activity, activity.getResources().getString(R.string.update_failed_marathi), Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(activity, activity.getResources().getString(R.string.update_failed_english), Toast.LENGTH_SHORT).show();
+                                }
                                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                sweetAlertDialog.setTitleText("update Failed");
-                                sweetAlertDialog.setConfirmText("Ok");
+                                if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_marathi));
+                                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                }
+                                else
+                                {
+                                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_english));
+                                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                                }
                                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -624,10 +844,26 @@ public class Web_SyncApi_Helper
                         {
                             //group.setCreatestatus(group.BROADCASTERROR);
                             //  EventBus.getDefault().post(group);
-                            Toast.makeText(activity,"upload failed",Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.update_failed_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.update_failed_english), Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("update Failed");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
+
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -640,10 +876,24 @@ public class Web_SyncApi_Helper
                     }
                     else
                     {
-                        Toast.makeText(activity," response failed",Toast.LENGTH_SHORT).show();
+                        PrefManager prefManager=new PrefManager(activity);
+                        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_marathi), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_english), Toast.LENGTH_SHORT).show();
+                        }
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        sweetAlertDialog.setTitleText(" Failed");
-                        sweetAlertDialog.setConfirmText("Ok");
+                        if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.failed_marathi));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                        }
+                        else
+                        {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.failed_english));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                        }
                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -656,10 +906,24 @@ public class Web_SyncApi_Helper
                 }
                 catch (Exception e)
                 {
-                    Toast.makeText(activity,"Json error",Toast.LENGTH_SHORT).show();
+                    PrefManager prefManager=new PrefManager(activity);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.json_error_marathi), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.json_error_english), Toast.LENGTH_SHORT).show();
+                    }
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    sweetAlertDialog.setTitleText("Json Error");
-                    sweetAlertDialog.setConfirmText("Ok");
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.json_error_marathi));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.json_error_english));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                    }
                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -675,10 +939,24 @@ public class Web_SyncApi_Helper
             public void onErrorResponse(VolleyError error) {
                 //   Toast.makeText(activity,"Volley error",Toast.LENGTH_SHORT).show();
                 if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                    Toast.makeText(activity,"No connection error",Toast.LENGTH_SHORT).show();
+                    PrefManager prefManager=new PrefManager(activity);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.no_connection_error_marathi), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.no_connection_error_english), Toast.LENGTH_SHORT).show();
+                    }
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    sweetAlertDialog.setTitleText("Check internet Connection");
-                    sweetAlertDialog.setConfirmText("Ok");
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.check_internet_connection_marathi));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.check_internet_connection_english));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                    }
                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -691,10 +969,25 @@ public class Web_SyncApi_Helper
                 else if (error instanceof ServerError)
                 {
                     //http://www.hatchers.in/caravan/index.php/api/V1/addKitchenSuitability?format=json&housetype=Brick%20Stacked&addeddate=2018-01-22%2022:41:49&roofType=Asbestos%20Sheet&longitude=75.3615486&hieght=57&latitude=19.885418&geoaddress=N5-65-12,Aurangabad,%20Maharashtra,431003&kitchen_id=KIT_180122104110110&customerid=CU_180122103956156&costofculha=&state=N&mobile=9975294782&password=user@123
-                    Toast.makeText(activity,"Server error",Toast.LENGTH_SHORT).show();
+                    PrefManager prefManager=new PrefManager(activity);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                        Toast.makeText(activity, activity.getResources().getString(R.string.server_error_marathi), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.server_error_english), Toast.LENGTH_SHORT).show();
+                    }
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    sweetAlertDialog.setTitleText("Server Error");
-                    sweetAlertDialog.setConfirmText("Ok");
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.server_error_marathi));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.server_error_english));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                    }
                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -706,10 +999,24 @@ public class Web_SyncApi_Helper
                 }
                 else if (error instanceof NetworkError)
                 {
-                    Toast.makeText(activity,"Network error",Toast.LENGTH_SHORT).show();
+                    PrefManager prefManager=new PrefManager(activity);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.network_error_marathi), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.network_error_english), Toast.LENGTH_SHORT).show();
+                    }
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    sweetAlertDialog.setTitleText("Check internet Connection");
-                    sweetAlertDialog.setConfirmText("Ok");
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.check_internet_connection_marathi));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.check_internet_connection_english));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                    }
                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -721,10 +1028,24 @@ public class Web_SyncApi_Helper
                 }
                 else if (error instanceof ParseError)
                 {
-                    Toast.makeText(activity,"Parse error",Toast.LENGTH_SHORT).show();
+                    PrefManager prefManager=new PrefManager(activity);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.parse_error_marathi), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.parse_error_english), Toast.LENGTH_SHORT).show();
+                    }
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    sweetAlertDialog.setTitleText("Parse Eroor");
-                    sweetAlertDialog.setConfirmText("Ok");
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.parse_error_marathi));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.parse_error_english));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                    }
                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -734,12 +1055,28 @@ public class Web_SyncApi_Helper
 
                     kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_PARSE_ERROR);
                 }
+
                 else
                 {
-                    Toast.makeText(activity,"Unknown error",Toast.LENGTH_SHORT).show();
+                    PrefManager prefManager=new PrefManager(activity);
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                        Toast.makeText(activity, activity.getResources().getString(R.string.unknown_error_marathi), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(activity, activity.getResources().getString(R.string.unknown_error_english), Toast.LENGTH_SHORT).show();
+                    }
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                    sweetAlertDialog.setTitleText("Unknown Error");
-                    sweetAlertDialog.setConfirmText("Ok");
+                    if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.unknown_error_marathi));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                    }
+                    else
+                    {
+                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.unknown_error_english));
+                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                    }
                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                         @Override
                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -824,7 +1161,15 @@ public class Web_SyncApi_Helper
 
                 } catch (Exception e) {
                     e.printStackTrace();
-                    Toast.makeText(activity,"Error", Toast.LENGTH_SHORT).show();
+                    PrefManager prefManager=new PrefManager(activity);
+                    if (prefManager.getLanguage().equalsIgnoreCase(MARATHI))
+                    {
+                        Toast.makeText(activity,activity.getResources().getString(R.string.error_marathi), Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Toast.makeText(activity,activity.getResources().getString(R.string.error_english), Toast.LENGTH_SHORT).show();
+                    }
                 }
 
                 return params;
@@ -868,10 +1213,24 @@ public class Web_SyncApi_Helper
 
                                 } else {
 
-                                    Toast.makeText(activity, "Construction Data Updation Failed ", Toast.LENGTH_SHORT).show();
+                                    PrefManager prefManager=new PrefManager(activity);
+                                    if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                        Toast.makeText(activity, activity.getResources().getString(R.string.construction_data_updation_failed_marathi), Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(activity, activity.getResources().getString(R.string.construction_data_updation_failed_english), Toast.LENGTH_SHORT).show();
+                                    }
                                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                    sweetAlertDialog.setTitleText("Update failed");
-                                    sweetAlertDialog.setConfirmText("Ok");
+                                    if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_marathi));
+                                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                    }
+                                    else
+                                    {
+                                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_english));
+                                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                                    }
                                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -883,10 +1242,24 @@ public class Web_SyncApi_Helper
 
 
                             } else {
-                                Toast.makeText(activity, "Response Failed ", Toast.LENGTH_SHORT).show();
+                                PrefManager prefManager=new PrefManager(activity);
+                                if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_marathi), Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_english), Toast.LENGTH_SHORT).show();
+                                }
                                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                sweetAlertDialog.setTitleText("Upload failed");
-                                sweetAlertDialog.setConfirmText("Ok");
+                                if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    sweetAlertDialog.setTitleText( activity.getResources().getString(R.string.upload_failed_marathi));
+                                    sweetAlertDialog.setConfirmText( activity.getResources().getString(R.string.ok_marathi));
+                                }
+                                else
+                                {
+                                    sweetAlertDialog.setTitleText( activity.getResources().getString(R.string.upload_failed_english));
+                                    sweetAlertDialog.setConfirmText( activity.getResources().getString(R.string.ok_english));
+                                }
                                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -897,10 +1270,26 @@ public class Web_SyncApi_Helper
                             }
 
                         } else {
-                            Toast.makeText(activity, "Response Failed ", Toast.LENGTH_SHORT).show();
+
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_english), Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Upload failed");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText( activity.getResources().getString(R.string.upload_failed_marathi));
+                                sweetAlertDialog.setConfirmText( activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText( activity.getResources().getString(R.string.upload_failed_english));
+                                sweetAlertDialog.setConfirmText( activity.getResources().getString(R.string.ok_english));
+                            }
+
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -910,10 +1299,24 @@ public class Web_SyncApi_Helper
 
                         }
                     } catch (JSONException e) {
-                        Toast.makeText(activity, "JSON Error ", Toast.LENGTH_SHORT).show();
+                        PrefManager prefManager=new PrefManager(activity);
+                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            Toast.makeText(activity, activity.getResources().getString(R.string.json_error_marathi), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(activity, activity.getResources().getString(R.string.json_error_english), Toast.LENGTH_SHORT).show();
+                        }
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        sweetAlertDialog.setTitleText("JSON Error");
-                        sweetAlertDialog.setConfirmText("Ok");
+                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.json_error_marathi));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                        }
+                        else
+                        {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.json_error_english));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                        }
                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -931,10 +1334,24 @@ public class Web_SyncApi_Helper
                 public void onErrorResponse(VolleyError error) {
 
                     if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                        Toast.makeText(activity, "Timeout Error ", Toast.LENGTH_SHORT).show();
+                        PrefManager prefManager=new PrefManager(activity);
+                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            Toast.makeText(activity, activity.getResources().getString(R.string.timeout_error_marathi), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(activity, activity.getResources().getString(R.string.timeout_error_english), Toast.LENGTH_SHORT).show();
+                        }
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        sweetAlertDialog.setTitleText("Check internet connection");
-                        sweetAlertDialog.setConfirmText("Ok");
+                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.check_internet_connection_marathi));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                        }
+                        else
+                        {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.check_internet_connection_english));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                        }
                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -943,10 +1360,25 @@ public class Web_SyncApi_Helper
                         });
 
                     } else if (error instanceof ServerError) {
-                        Toast.makeText(activity, "Server Error ", Toast.LENGTH_SHORT).show();
+                        PrefManager prefManager=new PrefManager(activity);
+                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                            Toast.makeText(activity, activity.getResources().getString(R.string.server_error_marathi), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(activity, activity.getResources().getString(R.string.server_error_english), Toast.LENGTH_SHORT).show();
+                        }
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        sweetAlertDialog.setTitleText("Server Error");
-                        sweetAlertDialog.setConfirmText("Ok");
+                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.server_error_marathi));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                        }
+                        else
+                        {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.server_error_english));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                        }
                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -955,10 +1387,24 @@ public class Web_SyncApi_Helper
                         });
 
                     } else if (error instanceof NetworkError) {
-                        Toast.makeText(activity, "Network Error", Toast.LENGTH_SHORT).show();
+                        PrefManager prefManager=new PrefManager(activity);
+                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            Toast.makeText(activity, activity.getResources().getString(R.string.network_error_marathi), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(activity, activity.getResources().getString(R.string.network_error_english), Toast.LENGTH_SHORT).show();
+                        }
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        sweetAlertDialog.setTitleText("Network Error");
-                        sweetAlertDialog.setConfirmText("Ok");
+                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.network_error_marathi));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                        }
+                        else
+                        {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.network_error_english));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                        }
                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -967,10 +1413,25 @@ public class Web_SyncApi_Helper
                         });
 
                     } else if (error instanceof ParseError) {
-                        Toast.makeText(activity, "Parse Error", Toast.LENGTH_SHORT).show();
+                        PrefManager prefManager=new PrefManager(activity);
+                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                            Toast.makeText(activity,activity.getResources().getString(R.string.parse_error_marathi) , Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(activity,activity.getResources().getString(R.string.parse_error_english) , Toast.LENGTH_SHORT).show();
+                        }
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        sweetAlertDialog.setTitleText("Parse Error");
-                        sweetAlertDialog.setConfirmText("Ok");
+                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.parse_error_marathi));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                        }
+                        else
+                        {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.parse_error_english));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                        }
                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -979,10 +1440,25 @@ public class Web_SyncApi_Helper
                         });
 
                     } else {
-                        Toast.makeText(activity, "Unknown Error", Toast.LENGTH_SHORT).show();
+                        PrefManager prefManager=new PrefManager(activity);
+                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                            Toast.makeText(activity, activity.getResources().getString(R.string.unknown_error_marathi), Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Toast.makeText(activity, activity.getResources().getString(R.string.unknown_error_english), Toast.LENGTH_SHORT).show();
+                        }
                         sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                        sweetAlertDialog.setTitleText("Unkonwn error");
-                        sweetAlertDialog.setConfirmText("Ok");
+                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.unknown_error_marathi));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                        }
+                        else
+                        {
+                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.unknown_error_english));
+                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                        }
                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1027,8 +1503,17 @@ public class Web_SyncApi_Helper
             if(ConstructionTableHelper.getConstructionTeamList(activity,customerTable).size()>0)
             {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                sweetAlertDialog.setTitleText("Team Added");
-                sweetAlertDialog.setConfirmText("Ok");
+                PrefManager prefManager=new PrefManager(activity);
+                if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.construction_team_data_added_successfully_marathi));
+                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.construction_team_data_added_successfully_english));
+                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1039,9 +1524,19 @@ public class Web_SyncApi_Helper
             else
             {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                sweetAlertDialog.setTitleText("Team not Added");
-                sweetAlertDialog.setContentText("Please add team");
-                sweetAlertDialog.setConfirmText("Ok");
+                PrefManager prefManager=new PrefManager(activity);
+                if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.team_not_added_marathi));
+                    sweetAlertDialog.setContentText(activity.getResources().getString(R.string.please_add_team_marathi));
+                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.team_not_added_english));
+                    sweetAlertDialog.setContentText(activity.getResources().getString(R.string.please_add_team_english));
+                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1060,8 +1555,17 @@ public class Web_SyncApi_Helper
         if (image != null) {
             if (!image.exists()) {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                sweetAlertDialog.setTitleText("Add Chulha photos");
-                sweetAlertDialog.setConfirmText("Ok");
+                PrefManager prefManager=new PrefManager(activity);
+                if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.add_chullha_photos_marathi));
+                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.add_chullha_photos_english));
+                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1093,10 +1597,25 @@ public class Web_SyncApi_Helper
                                         customerTable.setChulha_photo_added(CustomerTable.SERVER);
 
                                         CustomerTableHelper.updateCustomerStatus(activity, customerTable);
-                                        Toast.makeText(activity, "Kitchen Succefully Updated", Toast.LENGTH_SHORT).show();
+                                        PrefManager prefManager=new PrefManager(activity);
+                                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                            Toast.makeText(activity, activity.getResources().getString(R.string.kitchen_data_updated_marathi), Toast.LENGTH_SHORT).show();
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(activity, activity.getResources().getString(R.string.kitchen_data_updated_english), Toast.LENGTH_SHORT).show();
+                                        }
                                         sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                        sweetAlertDialog.setTitleText("Kitchen Successfully Updated");
-                                        sweetAlertDialog.setConfirmText("Ok");
+                                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.kitchen_data_updated_marathi));
+                                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                        }
+                                        else
+                                        {
+                                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.kitchen_data_updated_english));
+                                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                                        }
                                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1106,10 +1625,25 @@ public class Web_SyncApi_Helper
 
                                         //kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_SUCCESS);
                                     } else {
-                                        Toast.makeText(activity, "update failed", Toast.LENGTH_SHORT).show();
+                                        PrefManager prefManager=new PrefManager(activity);
+                                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                            Toast.makeText(activity, activity.getResources().getString(R.string.update_failed_marathi), Toast.LENGTH_SHORT).show();
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(activity, activity.getResources().getString(R.string.update_failed_english), Toast.LENGTH_SHORT).show();
+                                        }
                                         sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                        sweetAlertDialog.setTitleText("Update failed");
-                                        sweetAlertDialog.setConfirmText("Ok");
+                                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_marathi));
+                                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                        }
+                                        else
+                                        {
+                                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_english));
+                                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                                        }
                                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1124,10 +1658,25 @@ public class Web_SyncApi_Helper
                                 } else {
                                     //group.setCreatestatus(group.BROADCASTERROR);
                                     //  EventBus.getDefault().post(group);
-                                    Toast.makeText(activity, "upload failed", Toast.LENGTH_SHORT).show();
+                                    PrefManager prefManager=new PrefManager(activity);
+                                    if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                        Toast.makeText(activity, activity.getResources().getString(R.string.upload_failed_marathi), Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(activity, activity.getResources().getString(R.string.upload_failed_english), Toast.LENGTH_SHORT).show();
+                                    }
                                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                    sweetAlertDialog.setTitleText("Update failed");
-                                    sweetAlertDialog.setConfirmText("Ok");
+                                    if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_marathi));
+                                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                    }
+                                    else
+                                    {
+                                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_english));
+                                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                                    }
                                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1138,10 +1687,25 @@ public class Web_SyncApi_Helper
                                     //  kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_FAILED);
                                 }
                             } else {
-                                Toast.makeText(activity, " response failed", Toast.LENGTH_SHORT).show();
+                                PrefManager prefManager=new PrefManager(activity);
+                                if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                    Toast.makeText(activity,activity.getResources().getString(R.string.response_failed_marathi) , Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(activity,activity.getResources().getString(R.string.response_failed_english) , Toast.LENGTH_SHORT).show();
+                                }
                                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                sweetAlertDialog.setTitleText("Response failed");
-                                sweetAlertDialog.setConfirmText("Ok");
+                                if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.response_failed_marathi));
+                                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                }
+                                else
+                                {
+                                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.response_failed_english));
+                                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                                }
                                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1152,10 +1716,25 @@ public class Web_SyncApi_Helper
                                 //kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_RESPONSE_FAILED);
                             }
                         } catch (Exception e) {
-                            Toast.makeText(activity, "Json error", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.json_error_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.json_error_english), Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Json Error");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.json_error_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.json_error_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1171,10 +1750,25 @@ public class Web_SyncApi_Helper
                     public void onErrorResponse(VolleyError error) {
                         //   Toast.makeText(activity,"Volley error",Toast.LENGTH_SHORT).show();
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(activity, "No connection error", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.no_connection_error_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.no_connection_error_english), Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Check internet connection");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.check_internet_connection_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.check_internet_connection_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1184,10 +1778,25 @@ public class Web_SyncApi_Helper
 
                             // kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_NO_CONNECTION_ERROR);
                         } else if (error instanceof ServerError) {
-                            Toast.makeText(activity, "Server error", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.server_error_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.server_error_english), Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Server Error");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.server_error_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.server_error_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1197,10 +1806,26 @@ public class Web_SyncApi_Helper
 
                             // kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_SERVER_ERROR);
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(activity, "Network error", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.network_error_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.network_error_english), Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Network Error");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.network_error_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.network_error_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
+
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1210,10 +1835,25 @@ public class Web_SyncApi_Helper
 
                             // kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_NEWORK_ERROR);
                         } else if (error instanceof ParseError) {
-                            Toast.makeText(activity, "Parse error", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.parse_error_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.parse_error_english), Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Parse Error");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.parse_error_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.parse_error_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1223,10 +1863,25 @@ public class Web_SyncApi_Helper
 
                             //  kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_PARSE_ERROR);
                         } else {
-                            Toast.makeText(activity, "Unknown error", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity,activity.getResources().getString(R.string.unknown_error_marathi) , Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity,activity.getResources().getString(R.string.unknown_error_english) , Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Update failed");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1281,7 +1936,15 @@ public class Web_SyncApi_Helper
 
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(activity, "step 1 Error", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.half_costructed_chullha_image_error_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.half_costructed_chullha_image_error_english), Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         try {
@@ -1303,7 +1966,15 @@ public class Web_SyncApi_Helper
 
                         } catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(activity, "step 2 Error", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity,activity.getResources().getString(R.string.full_costructed_chullha_image_error_marathi) , Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity,activity.getResources().getString(R.string.full_costructed_chullha_image_error_english) , Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         return params;
@@ -1317,284 +1988,17 @@ public class Web_SyncApi_Helper
         else
         {
             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-            sweetAlertDialog.setTitleText("Add Chulha photos");
-            sweetAlertDialog.setConfirmText("Ok");
-            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                @Override
-                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                    sweetAlertDialog.dismissWithAnimation();
-                }
-            });
+            PrefManager prefManager=new PrefManager(activity);
+            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
 
-        }
-    }
-
-    //api required
-    private static void updateFiredChulhaToServer(final Activity activity, final SweetAlertDialog sweetAlertDialog, final KitchenTable kitchenTable, final CustomerTable customerTable)
-    {
-        File image = FileHelper.createfile(Folders.CHULHAFOLDER, FIRE_PREFIX + kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
-        if (image != null) {
-            if (!image.exists()) {
-                sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                sweetAlertDialog.setTitleText("Add Fired Chulha photo");
-                sweetAlertDialog.setConfirmText("Ok");
-                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
-
-            } else {
-                /*VolleyMultipartRequest multipartRequest = new VolleyMultipartRequest(Request.Method.POST, WebServiceUrls.urlUpdateKitchenToServer, new Response.Listener<NetworkResponse>() {
-                    @Override
-                    public void onResponse(NetworkResponse response) {
-                        String resultResponse = new String(response.data);
-                        Log.d("Result", resultResponse);
-
-                        try {
-                            JSONObject responce = new JSONObject(resultResponse);
-                            if (responce.getString("status").equalsIgnoreCase("success")) {
-
-                                if (responce.getString("message").equalsIgnoreCase("Kitchen Suitability updated successfully")) {
-                                    // JSONArray resultArray = responce.getJSONArray("result");
-                                    JSONObject result = responce.getJSONObject("result");
-                                    kitchenTable.setKitchen_idValue(result.getString("id"));
-                                    kitchenTable.setKitchenState(result.getString("state"));
-                                    kitchenTable.setUpdateDateValue(result.getString("updatedate"));
-                                    kitchenTable.setUpload_statusValue(KitchenTable.FIRED_CHULHA_PHOTO_UPLOADED_SERVER);
-
-                                    if (KitchenTableHelper.updateKitchenData(activity, kitchenTable)) {
-                                        customerTable.setUpload_statusValue("13");
-                                        customerTable.setFiredPhotoAdded(CustomerTable.SERVER);
-
-                                        CustomerTableHelper.updateCustomerStatus(activity, customerTable);
-                                        Toast.makeText(activity, "Kitchen Succefully Updated", Toast.LENGTH_SHORT).show();
-                                        sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                        sweetAlertDialog.setTitleText("Kitchen Successfully Updated");
-                                        sweetAlertDialog.setConfirmText("Ok");
-                                        sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                            @Override
-                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                sweetAlertDialog.dismissWithAnimation();
-                                            }
-                                        });
-
-                                        //kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_SUCCESS);
-                                    } else {
-                                        Toast.makeText(activity, "update failed", Toast.LENGTH_SHORT).show();
-                                        sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                        sweetAlertDialog.setTitleText("Update failed");
-                                        sweetAlertDialog.setConfirmText("Ok");
-                                        sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                            @Override
-                                            public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                                sweetAlertDialog.dismissWithAnimation();
-                                            }
-                                        });
-
-                                        //kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_FAILED);
-                                    }
-                                    // customerTable.setImagePathValue(result.getString("imagepath"));
-
-                                } else {
-                                    //group.setCreatestatus(group.BROADCASTERROR);
-                                    //  EventBus.getDefault().post(group);
-                                    Toast.makeText(activity, "upload failed", Toast.LENGTH_SHORT).show();
-                                    sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                    sweetAlertDialog.setTitleText("Update failed");
-                                    sweetAlertDialog.setConfirmText("Ok");
-                                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                        @Override
-                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                            sweetAlertDialog.dismissWithAnimation();
-                                        }
-                                    });
-
-                                    //  kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_FAILED);
-                                }
-                            } else {
-                                Toast.makeText(activity, " response failed", Toast.LENGTH_SHORT).show();
-                                sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                sweetAlertDialog.setTitleText("Response failed");
-                                sweetAlertDialog.setConfirmText("Ok");
-                                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                        sweetAlertDialog.dismissWithAnimation();
-                                    }
-                                });
-
-                                //kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_RESPONSE_FAILED);
-                            }
-                        } catch (Exception e) {
-                            Toast.makeText(activity, "Json error", Toast.LENGTH_SHORT).show();
-                            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Json Error");
-                            sweetAlertDialog.setConfirmText("Ok");
-                            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismissWithAnimation();
-                                }
-                            });
-
-                            //   kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_JSON_ERROR);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        //   Toast.makeText(activity,"Volley error",Toast.LENGTH_SHORT).show();
-                        if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(activity, "No connection error", Toast.LENGTH_SHORT).show();
-                            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Check internet connection");
-                            sweetAlertDialog.setConfirmText("Ok");
-                            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismissWithAnimation();
-                                }
-                            });
-
-                            // kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_NO_CONNECTION_ERROR);
-                        } else if (error instanceof ServerError) {
-                            Toast.makeText(activity, "Server error", Toast.LENGTH_SHORT).show();
-                            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Server Error");
-                            sweetAlertDialog.setConfirmText("Ok");
-                            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismissWithAnimation();
-                                }
-                            });
-
-                            // kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_SERVER_ERROR);
-                        } else if (error instanceof NetworkError) {
-                            Toast.makeText(activity, "Network error", Toast.LENGTH_SHORT).show();
-                            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Network Error");
-                            sweetAlertDialog.setConfirmText("Ok");
-                            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismissWithAnimation();
-                                }
-                            });
-
-                            // kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_NEWORK_ERROR);
-                        } else if (error instanceof ParseError) {
-                            Toast.makeText(activity, "Parse error", Toast.LENGTH_SHORT).show();
-                            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Parse Error");
-                            sweetAlertDialog.setConfirmText("Ok");
-                            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismissWithAnimation();
-                                }
-                            });
-
-                            //  kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_PARSE_ERROR);
-                        } else {
-                            Toast.makeText(activity, "Unknown error", Toast.LENGTH_SHORT).show();
-                            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Update failed");
-                            sweetAlertDialog.setConfirmText("Ok");
-                            sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                @Override
-                                public void onClick(SweetAlertDialog sweetAlertDialog) {
-                                    sweetAlertDialog.dismissWithAnimation();
-                                }
-                            });
-
-                            //  kitchenTable.fireOnKitchenEvent(KitchenTable.KITCHEN_ADD_UNKNOWN_ERROR);
-                        }
-
-                    }
-                }) {
-                    @Override
-                    protected Map<String, String> getParams() {
-                        Map<String, String> params = new HashMap<>();
-//http://www.hatchers.in/caravan/index.php/api/V1/addKitchenSuitability?format=json&kitchen_id=180120052626126&customerid=180120052514114&stime=2018-01-20%2017:27:32&endtime=2018-01-20%2017:27:43&state=C&mobile=9975294782&password=user@123
-                        //http://hatchers.in/caravan/index.php/api/V1/updateKitchenSuitability?customerid=adfdfafddsd&kitchen_id=11111
-                        // &state=C&format=json&mobile=9975294782&password=user@123&stime=2018-01-16%2018:31:58&endtime=2018-01-16%2018:31:58
-                        params.put("format", "json");
-                        params.put("kitchen_id", kitchenTable.getKitchenUniqueIdValue());
-                        params.put("customerid", kitchenTable.getCustomer_idValue());
-                        params.put("stime", kitchenTable.getConstructionStartDateTimeValue());
-                        params.put("endtime", kitchenTable.getConstructionEndDateTimeValue());
-                        params.put("state", KitchenTable.STATE_C);
-                        params.put("mobile", new PrefManager(activity).getMobile());
-                        params.put("password", new PrefManager(activity).getPassword());
-                        return params;
-                    }
-
-                    @Override
-                    protected Map<String, DataPart> getByteData() {
-                        Map<String, DataPart> params = new HashMap<>();
-                        // file name could found file base or direct access from real path
-                        // for now just get bitmap data from ImageView
-                        try {
-
-                            byte[] byteArray = null;
-                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            if (kitchenTable.getStep1_imageValue() != null) {
-                                File image = new File(kitchenTable.getStep1_imageValue());
-
-                                Bitmap mBitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), Uri.fromFile(image));
-                                mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                byteArray = stream.toByteArray();
-
-                                String name = kitchenTable.getStep1_imageValue().substring(kitchenTable.getStep1_imageValue().lastIndexOf("/") + 1);
-                                if (name.indexOf(".") > 0)
-                                    name = name.substring(0, name.lastIndexOf("."));
-                                //not added kitchen image api
-                                params.put("ufile", new DataPart(name + ".jpg", byteArray, "image/jpeg"));
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Toast.makeText(activity, "step 1 Error", Toast.LENGTH_SHORT).show();
-                        }
-
-                        try {
-                            byte[] byteArray = null;
-                            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-                            if (kitchenTable.getStep2_imageValue() != null) {
-                                File image = new File(kitchenTable.getStep2_imageValue());
-
-                                Bitmap mBitmap = MediaStore.Images.Media.getBitmap(activity.getContentResolver(), Uri.fromFile(image));
-                                mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                                byteArray = stream.toByteArray();
-
-                                String name = kitchenTable.getStep2_imageValue().substring(kitchenTable.getStep2_imageValue().lastIndexOf("/") + 1);
-                                if (name.indexOf(".") > 0)
-                                    name = name.substring(0, name.lastIndexOf("."));
-                                //not added kitchen image api
-                                params.put("ufile2", new DataPart(name + ".jpg", byteArray, "image/jpeg"));
-                            }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            Toast.makeText(activity, "step 2 Error", Toast.LENGTH_SHORT).show();
-                        }
-
-                        return params;
-                    }
-                };
-
-                MyApplication.getInstance().addToRequestQueue(multipartRequest);
-*/
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.add_chullha_photos_marathi));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
             }
-        }
-        else
-        {
-            sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-            sweetAlertDialog.setTitleText("Add Fired Chulha photo");
-            sweetAlertDialog.setConfirmText("Ok");
+            else
+            {
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.add_chullha_photos_english));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+            }
             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1658,8 +2062,17 @@ public class Web_SyncApi_Helper
         else if (customerTable.getUpload_statusValue().equalsIgnoreCase("9"))
         {
             sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-            sweetAlertDialog.setTitleText("Half Payment Completed");
-            sweetAlertDialog.setConfirmText("Ok");
+            PrefManager prefManager=new PrefManager(activity);
+            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.half_payment_completed_marathi));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+            }
+            else
+            {
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.half_payment_completed_english));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+            }
             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1675,8 +2088,17 @@ public class Web_SyncApi_Helper
         else if (customerTable.getUpload_statusValue().equalsIgnoreCase("11"))
         {
             sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-            sweetAlertDialog.setTitleText("Payment Completed");
-            sweetAlertDialog.setConfirmText("Ok");
+            PrefManager prefManager=new PrefManager(activity);
+            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.payment_completed_marathi));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+            }
+            else
+            {
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.payment_completed_english));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+            }
             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1697,8 +2119,17 @@ public class Web_SyncApi_Helper
         else
         {
             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-            sweetAlertDialog.setTitleText("Payment not added");
-            sweetAlertDialog.setConfirmText("Ok");
+            PrefManager prefManager=new PrefManager(activity);
+            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.payment_not_added_marathi));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+            }
+            else
+            {
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.payment_not_added_english));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+            }
             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1720,9 +2151,19 @@ public class Web_SyncApi_Helper
             else if(paymentTable.getUpload_statusValue().equalsIgnoreCase(PaymentTable.PAYMENT_ADDED_SERVER))
             {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                sweetAlertDialog.setTitleText("Half Payment Completed");
-                sweetAlertDialog.setContentText("complete remaining payment");
-                sweetAlertDialog.setConfirmText("Ok");
+                PrefManager prefManager=new PrefManager(activity);
+                if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.half_payment_completed_marathi));
+                    sweetAlertDialog.setContentText(activity.getResources().getString(R.string.complete_remaining_payment_marathi));
+                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.half_payment_completed_english));
+                    sweetAlertDialog.setContentText(activity.getResources().getString(R.string.complete_remaining_payment_english));
+                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1737,8 +2178,17 @@ public class Web_SyncApi_Helper
             else if(paymentTable.getUpload_statusValue().equalsIgnoreCase(PaymentTable.PAYMENT_COMPLETED_SERVER))
             {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                sweetAlertDialog.setTitleText("Payment Completed");
-                sweetAlertDialog.setConfirmText("Ok");
+                PrefManager prefManager=new PrefManager(activity);
+                if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.payment_completed_marathi));
+                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.payment_completed_english));
+                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1751,9 +2201,19 @@ public class Web_SyncApi_Helper
         else
         {
             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-            sweetAlertDialog.setTitleText("Payment not added");
-            sweetAlertDialog.setContentText("Please add payment");
-            sweetAlertDialog.setConfirmText("Ok");
+            PrefManager prefManager=new PrefManager(activity);
+            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.payment_not_added_marathi));
+                sweetAlertDialog.setContentText(activity.getResources().getString(R.string.please_add_payment_marathi));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+            }
+            else
+            {
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.payment_not_added_english));
+                sweetAlertDialog.setContentText(activity.getResources().getString(R.string.please_add_payment_english));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+            }
             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1798,14 +2258,35 @@ public class Web_SyncApi_Helper
                                         customerTable.setUpload_statusValue("9");
                                         customerTable.setPayment_added(CustomerTable.SERVER);
                                         CustomerTableHelper.updateCustomerStatus(activity,customerTable);
-                                        Toast.makeText(activity, "Payment Data Updated Successfully..", Toast.LENGTH_SHORT).show();
+                                        PrefManager prefManager=new PrefManager(activity);
+                                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                            Toast.makeText(activity, activity.getResources().getString(R.string.payment_data_updated_successfully_marathi), Toast.LENGTH_SHORT).show();
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(activity, activity.getResources().getString(R.string.payment_data_updated_successfully_english), Toast.LENGTH_SHORT).show();
+                                        }
                                         uploadHalfPaymentDataToServer(activity, sweetAlertDialog,customerTable);
                                     } else {
-
-                                        Toast.makeText(activity, "Payment Data Updation Failed ", Toast.LENGTH_SHORT).show();
+                                        PrefManager prefManager=new PrefManager(activity);
+                                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                            Toast.makeText(activity,activity.getResources().getString(R.string.payment_data_updated_failed_marathi) , Toast.LENGTH_SHORT).show();
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(activity,activity.getResources().getString(R.string.payment_data_updated_failed_english) , Toast.LENGTH_SHORT).show();
+                                        }
                                         sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                        sweetAlertDialog.setTitleText("Update failed");
-                                        sweetAlertDialog.setConfirmText("Ok");
+                                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_marathi));
+                                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                        }
+                                        else
+                                        {
+                                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_english));
+                                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                                        }
                                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1817,10 +2298,25 @@ public class Web_SyncApi_Helper
 
 
                                 } else {
-                                    Toast.makeText(activity, "Response Failed ", Toast.LENGTH_SHORT).show();
+                                    PrefManager prefManager=new PrefManager(activity);
+                                    if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                        Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_marathi), Toast.LENGTH_SHORT).show();
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_english), Toast.LENGTH_SHORT).show();
+                                    }
                                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                    sweetAlertDialog.setTitleText("Response failed");
-                                    sweetAlertDialog.setConfirmText("Ok");
+                                    if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.response_failed_marathi));
+                                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                    }
+                                    else
+                                    {
+                                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.response_failed_english));
+                                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                                    }
                                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1831,10 +2327,27 @@ public class Web_SyncApi_Helper
                                 }
 
                             } else {
-                                Toast.makeText(activity, "Response Failed ", Toast.LENGTH_SHORT).show();
+                                PrefManager prefManager=new PrefManager(activity);
+                                if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                    Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_marathi), Toast.LENGTH_SHORT).show();
+
+                                }
+                                else
+                                {
+                                    Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_english), Toast.LENGTH_SHORT).show();
+                                }
                                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                sweetAlertDialog.setTitleText("Response failed");
-                                sweetAlertDialog.setConfirmText("Ok");
+                                if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.response_failed_marathi));
+                                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                }
+                                else
+                                {
+                                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.response_failed_english));
+                                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+
+                                }
                                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1844,11 +2357,27 @@ public class Web_SyncApi_Helper
 
                             }
                         } catch (JSONException e) {
-                            Toast.makeText(activity, "JSON Error ", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.json_error_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.json_error_english), Toast.LENGTH_SHORT).show();
+                            }
                             e.printStackTrace();
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("JSON Error");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.json_error_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.json_error_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1865,10 +2394,25 @@ public class Web_SyncApi_Helper
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(activity, "Timeout Error ", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.timeout_error_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.timeout_error_english), Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Check internet connection");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.check_internet_connection_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.check_internet_connection_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1878,8 +2422,17 @@ public class Web_SyncApi_Helper
 
                         } else if (error instanceof ServerError) {
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Server Error");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.server_error_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.server_error_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1888,10 +2441,25 @@ public class Web_SyncApi_Helper
                             });
 
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(activity, "Network Error", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity,activity.getResources().getString(R.string.network_error_marathi) , Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity,activity.getResources().getString(R.string.network_error_english) , Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Network Error");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.network_error_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.network_error_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1900,10 +2468,25 @@ public class Web_SyncApi_Helper
                             });
 
                         } else if (error instanceof ParseError) {
-                            Toast.makeText(activity, "Parse Error", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.parse_error_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.parse_error_english), Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Parse Error");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.parse_error_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.parse_error_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1912,10 +2495,25 @@ public class Web_SyncApi_Helper
                             });
 
                         } else {
-                            Toast.makeText(activity, "Unknown Error", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.unknown_error_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.unknown_error_english), Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Unkonwn error");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.unknown_error_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.unknown_error_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1960,8 +2558,17 @@ public class Web_SyncApi_Helper
         else
         {
             sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-            sweetAlertDialog.setTitleText("Payment half added");
-            sweetAlertDialog.setConfirmText("Ok");
+            PrefManager prefManager=new PrefManager(activity);
+            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.half_payment_completed_marathi));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+            }
+            else
+            {
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.half_payment_completed_english));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+            }
             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -1979,7 +2586,7 @@ public class Web_SyncApi_Helper
 
         if(paymentTable!=null)
         {
-                StringRequest strReq = new StringRequest(Request.Method.POST, WebServiceUrls.urlUploadPayment, new Response.Listener<String>() {
+                final StringRequest strReq = new StringRequest(Request.Method.POST, WebServiceUrls.urlUploadPayment, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
                         try {
@@ -2006,10 +2613,25 @@ public class Web_SyncApi_Helper
                                         customerTable.setUpload_statusValue("11");
                                         customerTable.setPayment_completed(CustomerTable.SERVER);
                                         CustomerTableHelper.updateCustomerStatus(activity,customerTable);
-                                        Toast.makeText(activity, "Payment Data Updated Successfully..", Toast.LENGTH_SHORT).show();
+                                        PrefManager prefManager=new PrefManager(activity);
+                                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                            Toast.makeText(activity, activity.getResources().getString(R.string.payment_data_updated_successfully_marathi), Toast.LENGTH_SHORT).show();
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(activity, activity.getResources().getString(R.string.payment_data_updated_successfully_english), Toast.LENGTH_SHORT).show();
+                                        }
                                         sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                        sweetAlertDialog.setTitleText("Process Completed");
-                                        sweetAlertDialog.setConfirmText("Ok");
+                                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.process_completed_marathi));
+                                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                        }
+                                        else
+                                        {
+                                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.process_completed_english));
+                                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                                        }
                                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -2018,11 +2640,25 @@ public class Web_SyncApi_Helper
                                         });
 
                                     } else {
+                                        PrefManager prefManager=new PrefManager(activity);
+                                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
 
-                                        Toast.makeText(activity, "Payment Data Updation Failed ", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(activity, activity.getResources().getString(R.string.payment_data_updated_failed_marathi), Toast.LENGTH_SHORT).show();
+                                        }
+                                        else
+                                        {
+                                            Toast.makeText(activity, activity.getResources().getString(R.string.payment_data_updated_failed_english), Toast.LENGTH_SHORT).show();
+                                        }
                                         sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                        sweetAlertDialog.setTitleText("Update failed");
-                                        sweetAlertDialog.setConfirmText("Ok");
+                                        if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_marathi));
+                                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                        }
+                                        else
+                                        {
+                                            sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.update_failed_english));
+                                            sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                                        }
                                         sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                             @Override
                                             public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -2034,10 +2670,26 @@ public class Web_SyncApi_Helper
 
 
                                 } else {
-                                    Toast.makeText(activity, "Response Failed ", Toast.LENGTH_SHORT).show();
+                                    PrefManager prefManager=new PrefManager(activity);
+                                    if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                        Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_marathi), Toast.LENGTH_SHORT).show();
+
+                                    }
+                                    else
+                                    {
+                                        Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_english), Toast.LENGTH_SHORT).show();
+                                    }
                                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                    sweetAlertDialog.setTitleText("Response failed");
-                                    sweetAlertDialog.setConfirmText("Ok");
+                                    if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.response_failed_marathi));
+                                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                    }
+                                    else
+                                    {
+                                        sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.response_failed_english));
+                                        sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                                    }
                                     sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -2048,10 +2700,26 @@ public class Web_SyncApi_Helper
                                 }
 
                             } else {
-                                Toast.makeText(activity, "Response Failed ", Toast.LENGTH_SHORT).show();
+                                PrefManager prefManager=new PrefManager(activity);
+                                if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                    Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_marathi), Toast.LENGTH_SHORT).show();
+                                }
+                                else
+                                {
+                                    Toast.makeText(activity, activity.getResources().getString(R.string.response_failed_english), Toast.LENGTH_SHORT).show();
+                                }
                                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                                sweetAlertDialog.setTitleText("Response failed");
-                                sweetAlertDialog.setConfirmText("Ok");
+                                if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.response_failed_marathi));
+                                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                                }
+                                else
+                                {
+                                    sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.response_failed_english));
+                                    sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+
+                                }
                                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                     @Override
                                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -2061,11 +2729,26 @@ public class Web_SyncApi_Helper
 
                             }
                         } catch (JSONException e) {
-                            Toast.makeText(activity, "JSON Error ", Toast.LENGTH_SHORT).show();
-                            e.printStackTrace();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity,activity.getResources().getString(R.string.json_error_marathi) , Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity,activity.getResources().getString(R.string.json_error_english) , Toast.LENGTH_SHORT).show();
+                            }
+                                e.printStackTrace();
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("JSON Error");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.json_error_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.json_error_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -2082,10 +2765,25 @@ public class Web_SyncApi_Helper
                     public void onErrorResponse(VolleyError error) {
 
                         if (error instanceof TimeoutError || error instanceof NoConnectionError) {
-                            Toast.makeText(activity, "Timeout Error ", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.timeout_error_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.timeout_error_english), Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Check internet connection");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.check_internet_connection_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.check_internet_connection_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -2095,8 +2793,18 @@ public class Web_SyncApi_Helper
 
                         } else if (error instanceof ServerError) {
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Server Error");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.server_error_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.server_error_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
+
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -2105,10 +2813,25 @@ public class Web_SyncApi_Helper
                             });
 
                         } else if (error instanceof NetworkError) {
-                            Toast.makeText(activity, "Network Error", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.network_error_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.network_error_english), Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Network Error");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.network_error_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.network_error_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -2117,10 +2840,25 @@ public class Web_SyncApi_Helper
                             });
 
                         } else if (error instanceof ParseError) {
-                            Toast.makeText(activity, "Parse Error", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.parse_error_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.parse_error_english), Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Parse Error");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.parse_error_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.parse_error_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -2129,10 +2867,25 @@ public class Web_SyncApi_Helper
                             });
 
                         } else {
-                            Toast.makeText(activity, "Unknown Error", Toast.LENGTH_SHORT).show();
+                            PrefManager prefManager=new PrefManager(activity);
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                                Toast.makeText(activity, activity.getResources().getString(R.string.unknown_error_marathi), Toast.LENGTH_SHORT).show();
+                            }
+                            else
+                            {
+                                Toast.makeText(activity, activity.getResources().getString(R.string.unknown_error_english), Toast.LENGTH_SHORT).show();
+                            }
                             sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                            sweetAlertDialog.setTitleText("Unkonwn error");
-                            sweetAlertDialog.setConfirmText("Ok");
+                            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.unknown_error_marathi));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+                            }
+                            else
+                            {
+                                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.unknown_error_english));
+                                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+                            }
                             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                                 @Override
                                 public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -2177,8 +2930,17 @@ public class Web_SyncApi_Helper
         else
         {
             sweetAlertDialog.changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-            sweetAlertDialog.setTitleText("Complete Payment Added");
-            sweetAlertDialog.setConfirmText("Ok");
+            PrefManager prefManager=new PrefManager(activity);
+            if (prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
+
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.payment_completed_marathi));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_marathi));
+            }
+            else
+            {
+                sweetAlertDialog.setTitleText(activity.getResources().getString(R.string.payment_completed_english));
+                sweetAlertDialog.setConfirmText(activity.getResources().getString(R.string.ok_english));
+            }
             sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                 @Override
                 public void onClick(SweetAlertDialog sweetAlertDialog) {

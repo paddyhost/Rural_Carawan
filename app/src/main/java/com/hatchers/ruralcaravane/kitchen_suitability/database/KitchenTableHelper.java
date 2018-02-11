@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 
@@ -302,7 +303,14 @@ public class KitchenTableHelper {
             // upadating Row
             if(db.update(KitchenTable.KITCHEN_TABLE, values, KitchenTable.KITCHEN_UNIQUE_ID+"='"+kitchen_id+"'", null)>0)
             {
-                Toast.makeText(context,"Kitchen cost updated",Toast.LENGTH_LONG).show();
+                PrefManager prefManager=new PrefManager(context);
+                if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                    Toast.makeText(context, context.getResources().getString(R.string.kitchen_cost_updated_marathi), Toast.LENGTH_LONG).show();
+                }
+                else
+                {
+                    Toast.makeText(context, context.getResources().getString(R.string.kitchen_cost_updated_english), Toast.LENGTH_LONG).show();
+                }
                 db.close();
                 return true;
             }

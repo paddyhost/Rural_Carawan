@@ -138,9 +138,16 @@ public class CustomerListAdapter  extends RecyclerView.Adapter<CustomerListAdapt
             @Override
             public void onClick(View v) {
 
-                SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(context,SweetAlertDialog.PROGRESS_TYPE)
-                        .setTitleText("Please wait...")
-                        .setContentText("wait uploading data");
+                SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(context,SweetAlertDialog.PROGRESS_TYPE);
+                if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                    sweetAlertDialog.setTitleText(context.getResources().getString(R.string.please_wait_marathi))
+                            .setContentText(context.getResources().getString(R.string.wait_uploading_data_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(context.getResources().getString(R.string.please_wait_english))
+                            .setContentText(context.getResources().getString(R.string.wait_uploading_data_english));
+                }
                 sweetAlertDialog.setCancelable(false);
                 sweetAlertDialog.show();
 

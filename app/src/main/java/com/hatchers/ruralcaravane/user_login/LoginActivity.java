@@ -209,8 +209,16 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onLogin_Failed() {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                sweetAlertDialog.setTitleText("Invalid Login");
-                sweetAlertDialog.setConfirmText("Ok");
+                if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI))
+                {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.login_failed_marathi));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                }
+                    else{
+                        sweetAlertDialog.setTitleText(getResources().getString(R.string.login_failed_english));
+                        sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                    }
+
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -223,22 +231,41 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onLogin_Response_Failed() {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                sweetAlertDialog.setTitleText("Login Failed");
-                sweetAlertDialog.setConfirmText("Ok");
-                sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                    @Override
-                    public void onClick(SweetAlertDialog sweetAlertDialog) {
-                        sweetAlertDialog.dismissWithAnimation();
-                    }
-                });
+
+                if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.login_failed_marathi));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.login_failed_english));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+
+                }
+                    sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                            sweetAlertDialog.dismissWithAnimation();
+                        }
+                    });
 
             }
 
             @Override
             public void onLogin_Json_Error() {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                sweetAlertDialog.setTitleText("Login Error");
-                sweetAlertDialog.setConfirmText("Ok");
+                if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.login_error_marathi));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.login_error_english));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -251,8 +278,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onLogin_No_Connection_Error() {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                sweetAlertDialog.setTitleText("Check internet connection");
-                sweetAlertDialog.setConfirmText("Ok");
+                if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.check_internet_connection_marathi));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.check_internet_connection_english));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -265,8 +299,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onLogin_Server_Error() {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                sweetAlertDialog.setTitleText("Server Error");
-                sweetAlertDialog.setConfirmText("Ok");
+                if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.server_error_marathi));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.server_error_english));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -279,8 +320,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onLogin_Network_Error() {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                sweetAlertDialog.setTitleText("Network Error");
-                sweetAlertDialog.setConfirmText("Ok");
+                if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.network_error_marathi));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.network_error_english));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -293,8 +341,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onLogin_Parse_Error() {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                sweetAlertDialog.setTitleText("Parse Error");
-                sweetAlertDialog.setConfirmText("Ok");
+                if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.parse_error_marathi));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.parse_error_english));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                }
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -307,8 +362,17 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onLogin_Unknown_Error() {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
-                sweetAlertDialog.setTitleText("Unknown Error");
-                sweetAlertDialog.setConfirmText("Ok");
+
+                if(prefManager.getLanguage().equalsIgnoreCase(AppConstants.MARATHI)) {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.unknown_error_marathi));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_marathi));
+                }
+                else
+                {
+                    sweetAlertDialog.setTitleText(getResources().getString(R.string.unknown_error_english));
+                    sweetAlertDialog.setConfirmText(getResources().getString(R.string.ok_english));
+                }
+
                 sweetAlertDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sweetAlertDialog) {
@@ -478,7 +542,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onState_Add_Unknown_Error() {
-                Toast.makeText(LoginActivity.this,"Unknown Error",Toast.LENGTH_SHORT).show();
+               // Toast.makeText(LoginActivity.this,"Unknown Error",Toast.LENGTH_SHORT).show();
             }
 
         });
