@@ -8,9 +8,7 @@ import android.widget.Toast;
 
 import com.hatchers.ruralcaravane.R;
 import com.hatchers.ruralcaravane.constants.AppConstants;
-import com.hatchers.ruralcaravane.customer_registration.database.CustomerTable;
 import com.hatchers.ruralcaravane.database.DatabaseHandler;
-import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.pref_manager.PrefManager;
 
 import java.util.ArrayList;
@@ -22,7 +20,8 @@ public class PaymentDetailsHelper {
 
     public static boolean insertPaymentDetailsData(Context context, PaymentTable paymentTable)
     {
-        try {
+        try
+        {
             SQLiteDatabase db = new DatabaseHandler(context).getWritableDatabase();
             ContentValues values = new ContentValues();
 

@@ -22,7 +22,8 @@ public class CustomerTable implements Parcelable{
             VILLAGE_ID="village_id",ADDED_DATE="added_date",CITY_ID="city_id",
             ADDED_BY_ID="added_by_id",UPLOAD_DATE="upload_date",UPDATE_DATE="update_date",
             CUSTOMER_ADDED = "customer_added", KITCHEN_ADDED = "kitchen_added", TEAM_ADDED = "team_added",
-            CHULHA_PHOTO_ADDED = "chulha_photo_added", CONSTRUCTION_COMPLETE = "construction_complete",
+            CHULHA_PHOTO_ADDED = "chulha_photo_added",FIRED_PHOTO_ADDED = "fired_photo_added",
+            CONSTRUCTION_COMPLETE = "construction_complete",
             PAYMENT_ADDED = "payment_added", PAYMENT_COMPLETED = "payment_completed";
 
     public static final String CREATE_CUSTOMER_TABLE="CREATE TABLE " + CUSTOMER_TABLE+
@@ -31,8 +32,8 @@ public class CustomerTable implements Parcelable{
             +UPLOAD_STATUS+" TEXT, "+UNIQUE_ID+" TEXT, "+IMAGE_PATH+" TEXT, "+AADHAR_ID+" TEXT, "
             +VILLAGE_ID+" TEXT, "+CITY_ID+" TEXT, "+ADDED_DATE+" TEXT, "+ADDED_BY_ID+" TEXT, "
             +CUSTOMER_ADDED+" TEXT, "+KITCHEN_ADDED+" TEXT, " +TEAM_ADDED+" TEXT, "
-            +CHULHA_PHOTO_ADDED +" TEXT, " +CONSTRUCTION_COMPLETE +" TEXT, " +PAYMENT_ADDED +" TEXT, "
-            +PAYMENT_COMPLETED +" TEXT, " +UPLOAD_DATE+" TEXT, "+UPDATE_DATE+" TEXT )";
+            +CHULHA_PHOTO_ADDED +" TEXT, " +FIRED_PHOTO_ADDED +" TEXT, " +CONSTRUCTION_COMPLETE +" TEXT, "
+            +PAYMENT_ADDED +" TEXT, " +PAYMENT_COMPLETED +" TEXT, " +UPLOAD_DATE+" TEXT, "+UPDATE_DATE+" TEXT )";
 
 
     public static final String LOCAL="local", SERVER="server", NOT_ADDED="not_added";
@@ -42,7 +43,7 @@ public class CustomerTable implements Parcelable{
             uniqueIdValue,imagePathValue,aadharIdValue,villageIdValue,addedDateValue,cityId,
             addedByIdValue,uploadDateValue,updateDateValue,
             customer_added, kitchen_added, team_added, chulha_photo_added, payment_added,
-            payment_completed,constructionComplete;
+            payment_completed,constructionComplete,firedPhotoAdded;
 
         //  add customer = 0;
         //  upload customer = 1;
@@ -56,6 +57,8 @@ public class CustomerTable implements Parcelable{
         //  upload payment = 9;
         //  complete payment = 10;
         //  upload complete payment = 11;
+        //  fired photo = 12;
+        //  fired photo upload = 13;
 
     public CustomerTable() {
     }
@@ -66,7 +69,8 @@ public class CustomerTable implements Parcelable{
                          String imagePathValue,String aadharIdValue, String villageIdValue,String addedDateValue,
                          String cityId,String addedByIdValue,String uploadDateValue, String updateDateValue,
                          String customer_added, String kitchen_added, String team_added, String chulha_photo_added,
-                         String team_add_complete, String payment_added, String payment_completed)
+                         String team_add_complete, String payment_added, String payment_completed,
+                         String firedPhotoAdded)
     {
         this.customerIdValue = customerIdValue;
         this.customerNameValue = customerNameValue;
@@ -92,6 +96,7 @@ public class CustomerTable implements Parcelable{
         this.constructionComplete=team_add_complete;
         this.payment_added=payment_added;
         this.payment_completed=payment_completed;
+        this.firedPhotoAdded=firedPhotoAdded;
     }
 
     protected CustomerTable(Parcel in) {
@@ -119,6 +124,7 @@ public class CustomerTable implements Parcelable{
         constructionComplete = in.readString();
         payment_added = in.readString();
         payment_completed = in.readString();
+        firedPhotoAdded=in.readString();
     }
 
     public static final Creator<CustomerTable> CREATOR = new Creator<CustomerTable>() {
@@ -300,6 +306,7 @@ public class CustomerTable implements Parcelable{
         parcel.writeString(constructionComplete);
         parcel.writeString(payment_added);
         parcel.writeString(payment_completed);
+        parcel.writeString(firedPhotoAdded);
     }
 
     ///events
@@ -413,5 +420,13 @@ public class CustomerTable implements Parcelable{
 
     public void setPayment_completed(String payment_completed) {
         this.payment_completed = payment_completed;
+    }
+
+    public String getFiredPhotoAdded() {
+        return firedPhotoAdded;
+    }
+
+    public void setFiredPhotoAdded(String firedPhotoAdded) {
+        this.firedPhotoAdded = firedPhotoAdded;
     }
 }

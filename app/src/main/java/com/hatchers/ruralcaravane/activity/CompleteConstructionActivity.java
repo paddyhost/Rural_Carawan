@@ -20,6 +20,7 @@ import com.hatchers.ruralcaravane.file.FileHelper;
 import com.hatchers.ruralcaravane.file.FileType;
 import com.hatchers.ruralcaravane.file.Folders;
 import com.hatchers.ruralcaravane.kitchen_suitability.AddKitchenSuitability;
+import com.hatchers.ruralcaravane.kitchen_suitability.FireChullha_Fragment;
 import com.hatchers.ruralcaravane.kitchen_suitability.KitchenConstructionFragment;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTable;
 import com.hatchers.ruralcaravane.kitchen_suitability.database.KitchenTableHelper;
@@ -31,6 +32,7 @@ import com.hatchers.ruralcaravane.utils.Utility;
 import java.io.File;
 import java.util.ArrayList;
 
+import static com.hatchers.ruralcaravane.constants.AppConstants.FIRE_PREFIX;
 import static com.hatchers.ruralcaravane.constants.AppConstants.STEP2_PREFIX;
 
 public class CompleteConstructionActivity extends AppCompatActivity{
@@ -38,7 +40,7 @@ public class CompleteConstructionActivity extends AppCompatActivity{
 
     private Toolbar completeConstructionToolbar;
     private PrefManager prefManager;
-    private TextView txtMakeConstructionTeam,txtUploadChullahaPhotos,btn_doPayment,txtAddKitchen;
+    private TextView txtMakeConstructionTeam,txtUploadChullahaPhotos,txtAddKitchen;
     private KitchenTable kitchenTable;
     private PaymentTable paymentTable;
     private CustomerTable customerTable;
@@ -47,7 +49,8 @@ public class CompleteConstructionActivity extends AppCompatActivity{
     ArrayList<ConstructionTable> constructionTableArrayList;
     ArrayList<KitchenTable> kitchenTableArrayList;
     private LinearLayout houseSurveyLayout,addConstructionTeamLayout,uploadChullhaPhotosLayout;
-
+    private TextView firedChulhaTxt;
+    private LinearLayout firedChulhaPhotoLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,16 +63,10 @@ public class CompleteConstructionActivity extends AppCompatActivity{
         setLanguageToUI();
 
         addKitchenClickListener();
-        doPaymentClickListener();
         chulhaPhotosClickListener();
         makeConstructionTeamClickListener();
-
-        completeConstructionToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        firedChulhaPhotoClickListener();
+        backClickListener();
     }
 
     private void initializations()
@@ -78,12 +75,12 @@ public class CompleteConstructionActivity extends AppCompatActivity{
         prefManager=new PrefManager(this);
         txtMakeConstructionTeam=(TextView)findViewById(R.id.txt_make_construction_team);
         txtUploadChullahaPhotos=(TextView)findViewById(R.id.txt_upload_chullaha_photos);
-        btn_doPayment=(Button)findViewById(R.id.do_payment);
         txtAddKitchen=(TextView)findViewById(R.id.txt_add_kitchen);
         houseSurveyLayout=(LinearLayout)findViewById(R.id.house_survey_layout);
         addConstructionTeamLayout=(LinearLayout)findViewById(R.id.add_construction_team_layout);
         uploadChullhaPhotosLayout=(LinearLayout)findViewById(R.id.upload_chullha_photos_layout);
-
+        firedChulhaTxt = (TextView)findViewById(R.id.txt_upload_fired_chullaha_photos);
+        firedChulhaPhotoLayout = (LinearLayout)findViewById(R.id.upload_fired_chullha_photos_layout);
 
         kitchenTableArrayList=KitchenTableHelper.getKitchenDataList(CompleteConstructionActivity.this,customerTable);
 
@@ -98,6 +95,16 @@ public class CompleteConstructionActivity extends AppCompatActivity{
                 houseSurveyLayout.setBackgroundColor(getResources().getColor(R.color.gray_btn_bg_color));
             }
         }
+    }
+
+    private void backClickListener()
+    {
+        completeConstructionToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
     }
 
     private void addKitchenClickListener()
@@ -142,11 +149,11 @@ public class CompleteConstructionActivity extends AppCompatActivity{
             txtUploadChullahaPhotos.setText(getResources().getString(R.string.upload_kitchen_photo_marathi));
             txtUploadChullahaPhotos.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,15));
 
-            btn_doPayment.setText(getResources().getString(R.string.do_payment_marathi));
-            btn_doPayment.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,15));
-
             txtAddKitchen.setText(getResources().getString(R.string.house_survey_marathi));
             txtAddKitchen.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,15));
+
+            firedChulhaTxt.setText(getResources().getString(R.string.uploadfired_chulaphoto_marathi));
+            firedChulhaTxt.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,15));
 
         }
         else
@@ -159,92 +166,13 @@ public class CompleteConstructionActivity extends AppCompatActivity{
             txtUploadChullahaPhotos.setText(getResources().getString(R.string.upload_kitchen_photo_english));
             txtUploadChullahaPhotos.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,12));
 
-            btn_doPayment.setText(getResources().getString(R.string.do_payment_english));
-            btn_doPayment.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,12));
-
             txtAddKitchen.setText(getResources().getString(R.string.house_survey_english));
             txtAddKitchen.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,12));
+
+            firedChulhaTxt.setText(getResources().getString(R.string.upload_firel_chuloha_phto_english));
+            firedChulhaTxt.setTextSize(Utility.getConvertFloatToDP(CompleteConstructionActivity.this,15));
+
         }
-    }
-
-    private void doPaymentClickListener()
-    {
-        btn_doPayment.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                PaymentDetailsFragment paymentDetailsFragment = PaymentDetailsFragment.getInstance(customerTable,paymentTable);
-                fragmentTransaction.replace(R.id.complete_construction_frame, paymentDetailsFragment).addToBackStack(null).commit();
-            }
-        });
-
-
-        uploadChullhaPhotosLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                if (ConstructionTableHelper.getConstructionTeamList(CompleteConstructionActivity.this,customerTable).size()>0) {
-
-                    fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                    KitchenConstructionFragment kitchenConstructionFragment = KitchenConstructionFragment.getInstance(kitchenTable,customerTable);
-                    fragmentTransaction.replace(R.id.complete_construction_frame, kitchenConstructionFragment).addToBackStack(null).commit();
-                }
-                else
-                {
-                    Toast.makeText(CompleteConstructionActivity.this, "Please add atleast 1 team member", Toast.LENGTH_SHORT).show();
-                }
-
-                /*if (constructionTableArrayList!=null && constructionTableArrayList.size() > 0) {
-                    KitchenTable kitchenTableArrayList = KitchenTableHelper.getKitchenDetailsData(CompleteConstructionActivity.this, customerTable.getUniqueIdValue());
-
-                    if (kitchenTableArrayList != null) {
-                        if (kitchenTableArrayList == null) {
-                            //AddKitchenSuitability addKitchenSuitabilityFragment = AddKitchenSuitability.getInstance(customertable);
-                            //fragmentTransaction.replace(R.id.frame_layout, addKitchenSuitabilityFragment).addToBackStack(null).commit();
-                       } else {
-
-                        }
-                    }
-                }
-                else
-                {
-                    Toast.makeText(CompleteConstructionActivity.this, "Please add atleast 1 team member", Toast.LENGTH_SHORT).show();
-                }*/
-            }
-        });
-
-
-        addConstructionTeamLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                if (kitchenTableArrayList != null)
-                {
-                    if(kitchenTableArrayList.size()<=0)
-                    {
-                        Toast.makeText(CompleteConstructionActivity.this,"Add kitchen first",Toast.LENGTH_SHORT).show();
-                    }
-                    else
-                    {
-                        File image = FileHelper.createfile(Folders.CHULHAFOLDER, STEP2_PREFIX + kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
-                        if (image != null) {
-                            if (!image.exists()) {
-                                fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                                ConstructionFragment constructionFragment = ConstructionFragment.getInstance(kitchenTable,customerTable);
-                                fragmentTransaction.replace(R.id.complete_construction_frame, constructionFragment).addToBackStack(null).commit();
-
-                            } else
-                            {
-                                Toast.makeText(CompleteConstructionActivity.this, "Process Completed. Can't add team member ", Toast.LENGTH_SHORT).show();
-                                addConstructionTeamLayout.setBackgroundColor(getResources().getColor(R.color.colorDarkgray));
-                            }
-                        }
-                    }
-                }
-
-            }
-        });
     }
 
     private void chulhaPhotosClickListener()
@@ -318,4 +246,34 @@ public class CompleteConstructionActivity extends AppCompatActivity{
         });
     }
 
+    private void firedChulhaPhotoClickListener()
+    {
+        firedChulhaPhotoLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (ConstructionTableHelper.getConstructionTeamList(CompleteConstructionActivity.this,customerTable).size()>0) {
+
+                    File image = FileHelper.createfile(Folders.CHULHAFOLDER, FIRE_PREFIX + kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
+                    if (image != null) {
+                        if (!image.exists()) {
+                            fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                            FireChullha_Fragment fireChullha_fragment = FireChullha_Fragment.newInstance(kitchenTable,customerTable);
+                            fragmentTransaction.replace(R.id.complete_construction_frame, fireChullha_fragment).addToBackStack(null).commit();
+
+                        } else
+                        {
+                            Toast.makeText(CompleteConstructionActivity.this, "Process Completed. Can't upload chulha photo ", Toast.LENGTH_SHORT).show();
+                            addConstructionTeamLayout.setBackgroundColor(getResources().getColor(R.color.colorDarkgray));
+                        }
+                    }
+
+                 }
+                else
+                {
+                    Toast.makeText(CompleteConstructionActivity.this, "Please add atleast 1 team member", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+    }
 }

@@ -144,6 +144,7 @@ public class AddKitchenSuitability extends Fragment implements
         getLocationClickListener();
         saveKitchenClickListener();
         generateUniqueId();
+        getCurrentLocation();
 
         return view;
     }

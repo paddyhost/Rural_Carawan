@@ -49,6 +49,7 @@ public class CustomerTableHelper {
             values.put(CustomerTable.CONSTRUCTION_COMPLETE,customer_table.getconstructionComplete());
             values.put(CustomerTable.PAYMENT_ADDED,customer_table.getPayment_added());
             values.put(CustomerTable.PAYMENT_COMPLETED,customer_table.getPayment_completed());
+            values.put(CustomerTable.FIRED_PHOTO_ADDED,customer_table.getFiredPhotoAdded());
 
             if (db.insert(CustomerTable.CUSTOMER_TABLE, null, values) > 0)
             {
@@ -88,6 +89,7 @@ public class CustomerTableHelper {
             values.put(CustomerTable.CONSTRUCTION_COMPLETE,customer_table.getconstructionComplete());
             values.put(CustomerTable.PAYMENT_ADDED,customer_table.getPayment_added());
             values.put(CustomerTable.PAYMENT_COMPLETED,customer_table.getPayment_completed());
+            values.put(CustomerTable.FIRED_PHOTO_ADDED,customer_table.getFiredPhotoAdded());
 
 
             values.put(CustomerTable.UPLOAD_DATE,getCurrentDateTime());
@@ -134,6 +136,7 @@ public class CustomerTableHelper {
             values.put(CustomerTable.CONSTRUCTION_COMPLETE,customer_table.getconstructionComplete());
             values.put(CustomerTable.PAYMENT_ADDED,customer_table.getPayment_added());
             values.put(CustomerTable.PAYMENT_COMPLETED,customer_table.getPayment_completed());
+            values.put(CustomerTable.FIRED_PHOTO_ADDED,customer_table.getFiredPhotoAdded());
 
 
             // upadating Row
@@ -191,6 +194,7 @@ public class CustomerTableHelper {
             customer.setconstructionComplete(cursor.getString(cursor.getColumnIndex(CustomerTable.CONSTRUCTION_COMPLETE)));
             customer.setPayment_added(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_ADDED)));
             customer.setPayment_completed(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_COMPLETED)));
+            customer.setFiredPhotoAdded(cursor.getString(cursor.getColumnIndex(CustomerTable.FIRED_PHOTO_ADDED)));
 
 
 
@@ -241,6 +245,7 @@ public class CustomerTableHelper {
             customer.setconstructionComplete(cursor.getString(cursor.getColumnIndex(CustomerTable.CONSTRUCTION_COMPLETE)));
             customer.setPayment_added(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_ADDED)));
             customer.setPayment_completed(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_COMPLETED)));
+            customer.setFiredPhotoAdded(cursor.getString(cursor.getColumnIndex(CustomerTable.FIRED_PHOTO_ADDED)));
 
             return  customer;
 
@@ -291,6 +296,7 @@ public class CustomerTableHelper {
                 customer.setconstructionComplete(cursor.getString(cursor.getColumnIndex(CustomerTable.CONSTRUCTION_COMPLETE)));
                 customer.setPayment_added(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_ADDED)));
                 customer.setPayment_completed(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_COMPLETED)));
+                customer.setFiredPhotoAdded(cursor.getString(cursor.getColumnIndex(CustomerTable.FIRED_PHOTO_ADDED)));
 
                 customerTableArrayList.add(customer);
                 cursor.moveToNext();
@@ -309,7 +315,7 @@ public class CustomerTableHelper {
         SQLiteDatabase db =  new DatabaseHandler(context).getWritableDatabase();
         // Cursor cursor = db.rawQuery("SELECT * FROM " + Message_Table.TABLE_MESSAGE, null);
         Cursor cursor = db.rawQuery("SELECT * FROM "+ CustomerTable.CUSTOMER_TABLE+
-                " WHERE "+CustomerTable.UPLOAD_STATUS+"!='7'"+
+                " WHERE "+CustomerTable.UPLOAD_STATUS+"!='13'"+
                 " ORDER BY "+CustomerTable.ADDED_DATE + " DESC",null);
         try
         {
@@ -343,6 +349,7 @@ public class CustomerTableHelper {
                 customer.setconstructionComplete(cursor.getString(cursor.getColumnIndex(CustomerTable.CONSTRUCTION_COMPLETE)));
                 customer.setPayment_added(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_ADDED)));
                 customer.setPayment_completed(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_COMPLETED)));
+                customer.setFiredPhotoAdded(cursor.getString(cursor.getColumnIndex(CustomerTable.FIRED_PHOTO_ADDED)));
 
                 customerTableArrayList.add(customer);
                 cursor.moveToNext();
@@ -395,6 +402,7 @@ public class CustomerTableHelper {
                 customer.setconstructionComplete(cursor.getString(cursor.getColumnIndex(CustomerTable.CONSTRUCTION_COMPLETE)));
                 customer.setPayment_added(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_ADDED)));
                 customer.setPayment_completed(cursor.getString(cursor.getColumnIndex(CustomerTable.PAYMENT_COMPLETED)));
+                customer.setFiredPhotoAdded(cursor.getString(cursor.getColumnIndex(CustomerTable.FIRED_PHOTO_ADDED)));
 
                 customerTableArrayList.add(customer);
                 cursor.moveToNext();

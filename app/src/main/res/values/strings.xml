@@ -52,6 +52,7 @@
     <string name="please_enter_username_marathi">कृपया युजरनेम टाका </string>
     <string name="save">जतन करा</string>
     <string name="house_survey_marathi">गृह आढावा</string>
+    <string name="uploadfired_chulaphoto_marathi">पेटवलेल्या चुलीचा फोटो अपलोड करा </string>
     <string name="select_customer">ग्राहक निवडा</string>
     <string name="complete_remaining_construction_marathi">उर्वरीत बांधणी पूर्ण करा</string>
     <string name="kitchen_information">चुलीची माहिती</string>
@@ -71,7 +72,11 @@
     <string name="kitchen_construction">चूल बांधणी</string>
     <string name="half_costructed_chullha_image_marathi">अर्ध्या बांधलेल्या चुलीचा फोटो अपलोड करा</string>
     <string name="complete_costructed_chullha_image_marathi">पूर्ण बांधलेल्या चुलीचा फोटो अपलोड करा</string>
+    <string name="fired_chullha_image_marathi">पेटवलेल्या चुलीचा फोटो अपलोड करू शकत नाही</string>
     <string name="take_payment">पैसे घ्या</string>
+    <string name="costofchulha_marathi">चुलीची किंमत : </string>
+    <string name="paid_marathi">भरले : </string>
+    <string name="baki_paise">बाकी : </string>
     <string name="scan_aadhar_card">स्कॅन आधार कार्ड</string>
     <string name="unique_id">विशेष आयडी : </string>
     <string name="state">राज्य</string>
@@ -156,6 +161,8 @@
     <string name="already_uploaded_step1_image_marathi">अर्ध्या बांधलेल्या चुलीचा फोटो आधीच अपलोड केलेला आहे</string>
     <string name="please_upload_step1_image_first_marathi">कृपया अर्ध्या बांधलेल्या चुलीचा फोटो आधी अपलोड करा  </string>
     <string name="process_completed_canot_upload_step2_image_marathi">प्रक्रिया पूर्ण झालेली आहे.पूर्ण  बांधलेल्या चुलीचा फोटो  अपलोड करू शकत नाही</string>
+    <string name="upload_step2_image_marathi">पूर्ण बांधलेल्या चुलीचा फोटो अपलोड करा</string>
+
     <string name="planned_area_image_already_uploaded_marathi">नियोजित चूल क्षेत्राचा फोटो आधीच अपलोड केलेला आहे </string>
     <string name="image_uploaded_successfully_marathi">फोटो अपलोड झालेला आहे </string>
     <string name="image_upload_failed_marathi">फोटो अपलोड झालेला नाही</string>
@@ -177,14 +184,13 @@
     <string name="please_enter_password_marathi">कृपया युपासवर्ड टाका</string>
 
 
-
-
     <!--English Strings-->
     <string name="please_enter_password_english">Please Enter Password</string>
     <string name="please_enter_username_english">Please Enter Username</string>
     <string name="please_enter_advance_amount_english">Please enter advance amount</string>
     <string name="payment_details_updated_english">"Payment details updated</string>
     <string name="process_completed_canot_upload_step2_image_english">Process Completed Can\'t Upload Step2 Image</string>
+    <string name="upload_step2_image_english">Please Upload Step2 Image</string>
     <string name="permission_denied_english">Permission Denied</string>
     <string name="setting_english">Settings</string>
     <string name="location_english">Your Location is disabled. Please Enable Location Services.</string>
@@ -252,6 +258,7 @@
     <string name="customer_list_english">Customer List</string>
     <string name="no_customer_english">No Customer</string>
     <string name="house_survey_english">House type survey</string>
+    <string name="upload_firel_chuloha_phto_english">House type survey</string>
     <string name="customer_agreement1">Customer Agreement</string>
     <string name="scan_by_id_card1">Scan By ID Card</string>
     <string name="construction_team_information_english">Construction Team Information</string>
@@ -275,6 +282,7 @@
     <string name="upload_kitchen_photo_english">Upload Chullaha Photos</string>
     <string name="construction_team_english">Construction Team</string>
     <string name="do_payment_english">Payment</string>
+    <string name="make_payment_english">Do Payment</string>
     <string name="complete_construction_team1">Complete Add Construction Team</string>
     <string name="add_new_construction_team_member_english">Add New Construction Team Member</string>
     <string name="construction_team_member_english">Construction Team Member</string>
@@ -282,6 +290,7 @@
     <string name="kitchen_construction1">Chullaha Construction</string>
     <string name="half_costructed_chullha_image_english">Upload Half Constructed Chullaha Photo</string>
     <string name="complete_costructed_chullha_image_english">Upload Complete Constructed Chullaha Photo</string>
+    <string name="fired_chullha_image_english">Already uploaded. Can\"t Upload Fired Chullaha Photo</string>
     <string name="take_payment1">Take Payment</string>
     <string name="scan_aadhar_card1">Scan Aadhar Card</string>
     <string name="unique_id1">Unique_id</string>

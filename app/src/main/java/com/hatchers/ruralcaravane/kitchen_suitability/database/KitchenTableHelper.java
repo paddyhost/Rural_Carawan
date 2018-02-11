@@ -48,6 +48,7 @@ public class KitchenTableHelper {
                 values.put(KitchenTable.CONSTRUCTION_END_DATETIME,kitchenTable.getConstructionEndDateTimeValue());
                 values.put(KitchenTable.KITCHEN_STATE,kitchenTable.getKitchenState());
                 values.put(KitchenTable.KITCHEN_ID,kitchenTable.getKitchen_idValue());
+                values.put(KitchenTable.FIRED_CHULHA_IMAGE,kitchenTable.getFiredChulhaPhotoValue());
 
             long i=   db.insert(KitchenTable.KITCHEN_TABLE, null, values);
             if ( i> 0)
@@ -99,7 +100,7 @@ public class KitchenTableHelper {
             values.put(KitchenTable.CONSTRUCTION_END_DATETIME,kitchen_table.getConstructionEndDateTimeValue());
             values.put(KitchenTable.KITCHEN_STATE,kitchen_table.getKitchenState());
             values.put(KitchenTable.KITCHEN_ID,kitchen_table.getKitchen_idValue());
-
+            values.put(KitchenTable.FIRED_CHULHA_IMAGE,kitchen_table.getFiredChulhaPhotoValue());
             // upadating Row
             if(db.update(KitchenTable.KITCHEN_TABLE, values, KitchenTable.KITCHEN_UNIQUE_ID+"='"+kitchen_table.getKitchenUniqueIdValue()+"'", null)>0)
             {
@@ -207,6 +208,7 @@ public class KitchenTableHelper {
                 kitchen_table.setConstructionStartDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_START_DATETIME)));
                 kitchen_table.setConstructionEndDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_END_DATETIME)));
                 kitchen_table.setKitchenState(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_STATE)));
+                kitchen_table.setFiredChulhaPhotoValue(cursor.getString(cursor.getColumnIndex(KitchenTable.FIRED_CHULHA_IMAGE)));
 
                 cursor.moveToNext();
                 return  kitchen_table;
@@ -347,6 +349,7 @@ public class KitchenTableHelper {
             kitchenTable.setConstructionStartDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_START_DATETIME)));
             kitchenTable.setConstructionEndDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_END_DATETIME)));
             kitchenTable.setKitchenState(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_STATE)));
+            kitchenTable.setFiredChulhaPhotoValue(cursor.getString(cursor.getColumnIndex(KitchenTable.FIRED_CHULHA_IMAGE)));
 
 
             return kitchenTable;
@@ -483,6 +486,7 @@ public class KitchenTableHelper {
             kitchenTable.setConstructionStartDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_START_DATETIME)));
             kitchenTable.setConstructionEndDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_END_DATETIME)));
             kitchenTable.setKitchenState(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_STATE)));
+            kitchenTable.setFiredChulhaPhotoValue(cursor.getString(cursor.getColumnIndex(KitchenTable.FIRED_CHULHA_IMAGE)));
 
 
             return kitchenTable;
@@ -528,6 +532,7 @@ public class KitchenTableHelper {
             kitchenTable.setConstructionStartDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_START_DATETIME)));
             kitchenTable.setConstructionEndDateTimeValue(cursor.getString(cursor.getColumnIndex(KitchenTable.CONSTRUCTION_END_DATETIME)));
             kitchenTable.setKitchenState(cursor.getString(cursor.getColumnIndex(KitchenTable.KITCHEN_STATE)));
+            kitchenTable.setFiredChulhaPhotoValue(cursor.getString(cursor.getColumnIndex(KitchenTable.FIRED_CHULHA_IMAGE)));
 
 
             return kitchenTable;
