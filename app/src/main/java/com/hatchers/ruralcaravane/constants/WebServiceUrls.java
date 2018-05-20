@@ -16,6 +16,7 @@ public class WebServiceUrls
     public static final String urlUpdateKitchenToServer = "http://hatchers.in/caravan/index.php/api/V1/updateKitchenSuitability";
     public static final String urlUploadConstruction ="http://hatchers.in/caravan/index.php/api/V1/addCuntructionDetails";
     public static final String urlUploadPayment ="http://hatchers.in/caravan/index.php/api/V1/addPaymentDetails";
+    public static final String urlUpdateEnquiry="http://hatchers.in/caravan/index.php/api/V1/updateEnqury";
 
 
     //http://www.hatchers.in/caravan/index.php/api/v1/getVillageList?city_id=1&format=json

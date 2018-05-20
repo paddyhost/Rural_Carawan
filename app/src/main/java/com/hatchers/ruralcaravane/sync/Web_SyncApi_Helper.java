@@ -51,6 +51,7 @@ import cn.pedant.SweetAlert.SweetAlertDialog;
 import static com.hatchers.ruralcaravane.constants.AppConstants.MARATHI;
 import static com.hatchers.ruralcaravane.constants.AppConstants.FIRE_PREFIX;
 import static com.hatchers.ruralcaravane.constants.AppConstants.STEP2_PREFIX;
+import static com.hatchers.ruralcaravane.kitchen_suitability.apihelper.UpdateEnquiry_ApiHelper.updateKitchenFiredAPi;
 
 /**
  * Created by Ashwin on 04-Feb-18.
@@ -661,11 +662,18 @@ public class Web_SyncApi_Helper
                     updateKitchenToServer(activity, sweetAlertDialog, kitchenDetailsData, customerTable);
                 } else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.PHOTOS_ADDED_LOCAL)) {
                     updateKitchenToServer(activity, sweetAlertDialog, kitchenDetailsData, customerTable);
-                } else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.PHOTOS_ADDED_SERVER)) {
-                    //updateFiredChulhaToServer(activity, sweetAlertDialog, kitchenDetailsData, customerTable);
-                }  else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.FIRED_CHULHA_PHOTO_ADD_LOCAL))
+                } else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.PHOTOS_ADDED_SERVER))
                 {
                     //updateFiredChulhaToServer(activity, sweetAlertDialog, kitchenDetailsData, customerTable);
+                    updateKitchenFiredAPi(activity,kitchenDetailsData,customerTable,"F",sweetAlertDialog);
+
+                }  else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.FIRED_CHULHA_PHOTO_ADD_LOCAL))
+                {
+                    updateKitchenFiredAPi(activity,kitchenDetailsData,customerTable,"F",sweetAlertDialog);
+
+
+
+
                 }
                 else if (kitchenDetailsData.getUpload_statusValue().equalsIgnoreCase(KitchenTable.FIRED_CHULHA_PHOTO_UPLOADED_SERVER))
                 {
@@ -688,9 +696,11 @@ public class Web_SyncApi_Helper
                             sweetAlertDialog.dismissWithAnimation();
                         }
                     });
-                }
+                    customerTable.setFiredPhotoAdded(CustomerTable.SERVER);
+                    CustomerTableHelper.updateCustomerStatus(activity,customerTable);
 
-                /*else {
+                }
+                else {
                     sweetAlertDialog.changeAlertType(SweetAlertDialog.ERROR_TYPE);
                     sweetAlertDialog.setTitleText("Kitchen Not Added");
                     sweetAlertDialog.setContentText("Please add kitchen.");
@@ -701,7 +711,7 @@ public class Web_SyncApi_Helper
                             sweetAlertDialog.dismissWithAnimation();
                         }
                     });
-                }*/
+                }
             }
             else
             {

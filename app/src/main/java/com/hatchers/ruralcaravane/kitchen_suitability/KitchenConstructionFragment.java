@@ -301,7 +301,8 @@ public class KitchenConstructionFragment extends Fragment {
         half_constructed_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (constructionTables!=null && constructionTables.size() > 0) {
+                if (constructionTables!=null && constructionTables.size() > 0)
+                {
                     File image = FileHelper.createfile(Folders.CHULHAFOLDER, STEP1_PREFIX + kitchenTable.getKitchenUniqueIdValue(), FileType.PNG);
                     if (image != null) {
                         if (!image.exists()) {
@@ -328,7 +329,8 @@ public class KitchenConstructionFragment extends Fragment {
                         }
                     }
 
-                } else {
+                }
+                else {
                     if(prefManager.getLanguage().equalsIgnoreCase(MARATHI)) {
                         Toast.makeText(getActivity(), getResources().getString(R.string.please_add_atleast_one_team_member_marathi), Toast.LENGTH_SHORT).show();
                     }
